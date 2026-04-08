@@ -1,12 +1,12 @@
 import pytest
 import os
 from unittest.mock import MagicMock, patch
-from src.analysis.gemini_sentiment import analyze_sentiment
+from trading_mvp.analysis.gemini_sentiment import analyze_sentiment
 
 def test_analyze_sentiment_mocked():
     """Verify that analyze_sentiment calls Gemini API correctly and returns sentiment/summary."""
     with patch.dict(os.environ, {"GEMINI_API_KEY": "fake_key"}):
-        with patch("src.analysis.gemini_sentiment.Client") as MockClient:
+        with patch("trading_mvp.analysis.gemini_sentiment.Client") as MockClient:
             mock_client = MockClient.return_value
             
             # Mock Gemini response
@@ -29,7 +29,7 @@ def test_analyze_sentiment_mocked():
 def test_analyze_sentiment_markdown_json():
     """Verify that analyze_sentiment can handle markdown JSON blocks."""
     with patch.dict(os.environ, {"GEMINI_API_KEY": "fake_key"}):
-        with patch("src.analysis.gemini_sentiment.Client") as MockClient:
+        with patch("trading_mvp.analysis.gemini_sentiment.Client") as MockClient:
             mock_client = MockClient.return_value
             mock_response = MagicMock()
             mock_response.text = '```json\n{"sentiment": -0.5, "summary": "Bad news"}\n```'
@@ -42,7 +42,7 @@ def test_analyze_sentiment_markdown_json():
 def test_analyze_sentiment_exception():
     """Verify that analyze_sentiment handles exceptions gracefully."""
     with patch.dict(os.environ, {"GEMINI_API_KEY": "fake_key"}):
-        with patch("src.analysis.gemini_sentiment.Client") as MockClient:
+        with patch("trading_mvp.analysis.gemini_sentiment.Client") as MockClient:
             mock_client = MockClient.return_value
             mock_client.models.generate_content.side_effect = Exception("API error")
             

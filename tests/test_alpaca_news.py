@@ -1,12 +1,12 @@
 import pytest
 import os
 from unittest.mock import MagicMock, patch
-from src.news.alpaca_news import fetch_news
+from trading_mvp.news.alpaca_news import fetch_news
 
 def test_fetch_news_mocked():
     """Verify that fetch_news calls the Alpaca API correctly."""
     with patch.dict(os.environ, {"ALPACA_PAPER_API_KEY": "fake_key", "PAPER_API_SECRET": "fake_secret"}):
-        with patch("src.news.alpaca_news.NewsClient") as MockClient:
+        with patch("trading_mvp.news.alpaca_news.NewsClient") as MockClient:
             mock_client = MockClient.return_value
             # Mock the news response
             mock_news = MagicMock()

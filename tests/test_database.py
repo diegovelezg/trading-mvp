@@ -1,9 +1,9 @@
 import os
 import sqlite3
 import pytest
-from src.core import db_manager
+from trading_mvp.core import db_manager
 
-DB_PATH = "trading.db"
+DB_PATH = "data/trading.db"
 
 def test_database_tables():
     """Verify that the required tables exist in the database."""

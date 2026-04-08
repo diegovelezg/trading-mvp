@@ -1,6 +1,6 @@
 import sqlite3
 import pytest
-from src.core import db_manager
+from trading_mvp.core import db_manager
 
 def test_explorations_table_exists():
     """Verify that the explorations table exists in the database."""

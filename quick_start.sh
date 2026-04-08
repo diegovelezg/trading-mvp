@@ -1,0 +1,47 @@
+#!/bin/bash
+# Script de inicio rápido para Trading MVP
+
+echo "🚀 Trading MVP - Estructura Autocontenida"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+echo ""
+echo "📁 ESTRUCTURA DE SUBAGENTES:"
+echo ""
+echo "✅ .claude/subagents/explorer/"
+echo "   ├── explorer.md     (Configuración)"
+echo "   ├── agent.py        (Script principal)"
+echo "   └── __init__.py     (API)"
+echo ""
+echo "✅ .claude/subagents/macro_analyst/"
+echo "   ├── macro_analyst.md (Configuración)"
+echo "   ├── agent.py        (Script principal)"
+echo "   └── __init__.py     (API)"
+echo ""
+
+echo "🚀 EJECUTAR SUBAGENTES DIRECTAMENTE:"
+echo ""
+echo "🔍 Explorer Agent:"
+echo "   python .claude/subagents/explorer/agent.py 'temática aquí'"
+echo ""
+echo "📊 Macro Analyst:"
+echo "   python .claude/subagents/macro_analyst/agent.py --symbols 'AAPL,TSLA'"
+echo ""
+
+echo "💡 VENTAJAS:"
+echo ""
+echo "✅ Todo junto: Config + Código en una sola carpeta"
+echo "✅ Autocontenido: Cada subagente es independiente"
+echo "✅ Predecible: Siempre sabes dónde encontrar todo"
+echo "✅ Escalable: Añadir subagente = crear carpeta nueva"
+echo ""
+
+echo "📖 DOCUMENTACIÓN:"
+echo ""
+echo "   STRUCTURE.md - Diagrama completo de la estructura"
+echo "   README.md    - Descripción del proyecto"
+echo "   SETUP.md     - Guía de instalación"
+echo ""
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "✅ ¡ESTRUCTURA AUTOCONTENIDA LISTA PARA USAR!"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

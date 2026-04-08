@@ -1,13 +1,13 @@
 import pytest
 from unittest.mock import MagicMock, patch
-from src.agents.macro_analyst import ingest_and_analyze
+from claude.subagents.macro_analyst.agent import ingest_and_analyze
 
 def test_ingest_and_analyze_flow():
     """Verify the integrated flow: fetch news -> analyze sentiment -> store in DB."""
-    with patch("src.agents.macro_analyst.fetch_news") as mock_fetch:
-        with patch("src.agents.macro_analyst.analyze_sentiment") as mock_analyze:
-            with patch("src.agents.macro_analyst.insert_news") as mock_insert_news:
-                with patch("src.agents.macro_analyst.insert_sentiment") as mock_insert_sentiment:
+    with patch("claude.subagents.macro_analyst.agent.fetch_news") as mock_fetch:
+        with patch("claude.subagents.macro_analyst.agent.analyze_sentiment") as mock_analyze:
+            with patch("claude.subagents.macro_analyst.agent.insert_news") as mock_insert_news:
+                with patch("claude.subagents.macro_analyst.agent.insert_sentiment") as mock_insert_sentiment:
                     
                     # Mock data
                     mock_fetch.return_value = [{

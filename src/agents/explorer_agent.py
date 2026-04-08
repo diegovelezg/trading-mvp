@@ -5,8 +5,8 @@ import argparse
 from typing import List, Optional
 from dotenv import load_dotenv
 from google.genai import Client
-from db_manager import insert_exploration
-from macro_analyst import ingest_and_analyze
+from src.core.db_manager import insert_exploration
+from src.agents.macro_analyst import ingest_and_analyze
 
 # Load environment variables
 load_dotenv()

@@ -1,7 +1,7 @@
 import os
 import sqlite3
 import pytest
-import db_manager
+from src.core import db_manager
 
 DB_PATH = "trading.db"
 

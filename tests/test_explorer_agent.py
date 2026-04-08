@@ -1,13 +1,13 @@
 import pytest
 import os
 from unittest.mock import MagicMock, patch
-from explorer_agent import discover_tickers
+from src.agents.explorer_agent import discover_tickers
 
 def test_discover_tickers_mocked():
     """Verify that discover_tickers calls Gemini API correctly and returns a list of symbols."""
     with patch.dict(os.environ, {"GEMINI_API_KEY": "fake_key"}):
-        with patch("explorer_agent.Client") as MockClient:
-            with patch("explorer_agent.insert_exploration") as mock_insert:
+        with patch("src.agents.explorer_agent.Client") as MockClient:
+            with patch("src.agents.explorer_agent.insert_exploration") as mock_insert:
                 mock_client = MockClient.return_value
                 
                 # Mock Gemini response
@@ -30,17 +30,17 @@ def test_discover_tickers_mocked():
 def test_explorer_cli():
     """Verify that explorer_agent.py can be run from CLI with a prompt."""
     with patch("sys.argv", ["explorer_agent.py", "tech companies"]):
-        with patch("explorer_agent.discover_tickers") as mock_discover:
+        with patch("src.agents.explorer_agent.discover_tickers") as mock_discover:
             mock_discover.return_value = ["AAPL", "MSFT"]
-            import explorer_agent
+            from src.agents import explorer_agent
             explorer_agent.main()
             mock_discover.assert_called_once_with("tech companies")
 
 def test_discover_tickers_thematic_structure():
     """Verify that discover_tickers returns a list of strings for various themes."""
     with patch.dict(os.environ, {"GEMINI_API_KEY": "fake_key"}):
-        with patch("explorer_agent.Client") as MockClient:
-            with patch("explorer_agent.insert_exploration"):
+        with patch("src.agents.explorer_agent.Client") as MockClient:
+            with patch("src.agents.explorer_agent.insert_exploration"):
                 mock_client = MockClient.return_value
                 mock_response = MagicMock()
                 mock_response.text = '{"tickers": ["T1", "T2"], "reasoning": "test"}'
@@ -54,8 +54,8 @@ def test_discover_tickers_thematic_structure():
 
 def test_handover_to_analyst():
     """Verify that handover_to_analyst calls macro_analyst correctly."""
-    with patch("explorer_agent.ingest_and_analyze") as mock_ingest:
-        from explorer_agent import handover_to_analyst
+    with patch("src.agents.explorer_agent.ingest_and_analyze") as mock_ingest:
+        from src.agents.explorer_agent import handover_to_analyst
         tickers = ["AAPL", "TSLA"]
         handover_to_analyst(tickers)
         mock_ingest.assert_called_once_with(tickers)
@@ -63,8 +63,8 @@ def test_handover_to_analyst():
 def test_discover_tickers_markdown_json():
     """Verify that discover_tickers handles markdown JSON blocks."""
     with patch.dict(os.environ, {"GEMINI_API_KEY": "fake_key"}):
-        with patch("explorer_agent.Client") as MockClient:
-            with patch("explorer_agent.insert_exploration") as mock_insert:
+        with patch("src.agents.explorer_agent.Client") as MockClient:
+            with patch("src.agents.explorer_agent.insert_exploration") as mock_insert:
                 mock_client = MockClient.return_value
                 mock_response = MagicMock()
                 mock_response.text = '```json\n{"tickers": ["X", "Y"], "reasoning": "Markdown test"}\n```'
@@ -77,7 +77,7 @@ def test_discover_tickers_markdown_json():
 def test_discover_tickers_exception():
     """Verify that discover_tickers handles exceptions gracefully."""
     with patch.dict(os.environ, {"GEMINI_API_KEY": "fake_key"}):
-        with patch("explorer_agent.Client") as MockClient:
+        with patch("src.agents.explorer_agent.Client") as MockClient:
             mock_client = MockClient.return_value
             mock_client.models.generate_content.side_effect = Exception("Discovery failed")
             

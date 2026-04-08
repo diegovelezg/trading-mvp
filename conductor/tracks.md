@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [x] **Track: Explorer/Scout Agent**
-  *Link: [./tracks/explorer_scout_20260407/](./tracks/explorer_scout_20260407/)*
+- [~] **Track: Architectural Reboot (Claude-Native)**
+  *Link: [./tracks/arch_reboot_20260407/](./tracks/arch_reboot_20260407/)*

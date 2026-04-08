@@ -1,8 +1,9 @@
 import logging
+import argparse
 from typing import List
-from alpaca_news import fetch_news
-from gemini_sentiment import analyze_sentiment
-from db_manager import insert_news, insert_sentiment
+from src.news.alpaca_news import fetch_news
+from src.analysis.gemini_sentiment import analyze_sentiment
+from src.core.db_manager import insert_news, insert_sentiment
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
@@ -50,7 +51,18 @@ def ingest_and_analyze(symbols: List[str]) -> None:
 
 def main() -> None:
     """Main execution point for the macro analyst script."""
-    ingest_and_analyze(["AAPL", "TSLA", "MSFT"])
+    parser = argparse.ArgumentParser(description="Ingest news and analyze sentiment for stock tickers.")
+    parser.add_argument("--symbols", type=str, help="Comma-separated list of ticker symbols.")
+    
+    args = parser.parse_args()
+    
+    if args.symbols:
+        symbols = [s.strip().upper() for s in args.symbols.split(",")]
+    else:
+        # Default watchlist if no symbols provided
+        symbols = ["AAPL", "TSLA", "MSFT"]
+        
+    ingest_and_analyze(symbols)
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,6 @@
 import sqlite3
 import pytest
-import db_manager
+from src.core import db_manager
 
 def test_explorations_table_exists():
     """Verify that the explorations table exists in the database."""

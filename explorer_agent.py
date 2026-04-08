@@ -1,9 +1,11 @@
 import os
 import json
 import logging
+import argparse
 from typing import List, Optional
 from dotenv import load_dotenv
 from google.genai import Client
+from db_manager import insert_exploration
 
 # Load environment variables
 load_dotenv()
@@ -60,6 +62,9 @@ def discover_tickers(prompt: str) -> List[str]:
         # Clean up tickers (remove non-alphanumeric just in case)
         cleaned_tickers = [str(t).strip().upper() for t in tickers if t]
         
+        # Save to database
+        insert_exploration(prompt, json.dumps({"tickers": cleaned_tickers, "reasoning": result.get("reasoning", "")}))
+        
         logger.info(f"Discovered {len(cleaned_tickers)} tickers for theme: {prompt}")
         return cleaned_tickers
         
@@ -67,8 +72,20 @@ def discover_tickers(prompt: str) -> List[str]:
         logger.error(f"Error discovering tickers: {e}")
         return []
 
+def main() -> None:
+    """Main entry point for the Explorer Agent CLI."""
+    parser = argparse.ArgumentParser(description="Discover stock tickers based on a thematic prompt.")
+    parser.add_argument("prompt", type=str, help="The thematic prompt to explore.")
+    
+    args = parser.parse_args()
+    
+    discovered = discover_tickers(args.prompt)
+    if discovered:
+        print(f"\nDiscovered Tickers for '{args.prompt}':")
+        for ticker in discovered:
+            print(f"- {ticker}")
+    else:
+        print(f"\nNo tickers discovered for '{args.prompt}'.")
+
 if __name__ == "__main__":
-    # Quick test
-    test_prompt = "Small caps in gas and nuclear energy"
-    discovered = discover_tickers(test_prompt)
-    print(f"Discovered tickers: {discovered}")
+    main()

@@ -15,7 +15,7 @@
 - [x] Task: Test Discovery Quality (ede59fa)
     - [ ] Write tests to verify the agent's ability to find relevant tickers for specific themes.
 
-## Phase 3: Integration & Handover [checkpoint: ]
+## Phase 3: Integration & Handover [checkpoint: 4141c5f]
 - [x] Task: Explorer-Analyst Handover (94afe73)
     - [ ] Implement a function to automatically trigger `macro_analyst.py` with the discovered tickers.
-- [~] Task: Conductor - User Manual Verification 'Explorer/Scout' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Explorer/Scout' (Protocol in workflow.md) (4141c5f)

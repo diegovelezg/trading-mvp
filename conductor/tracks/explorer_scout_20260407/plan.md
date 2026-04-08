@@ -9,10 +9,10 @@
     - [ ] Implement web search or financial data lookup (if needed) for validation.
 
 ## Phase 2: Core Explorer Implementation [checkpoint: ]
-- [ ] Task: Explorer Command Line Interface
+- [x] Task: Explorer Command Line Interface (ee63282)
     - [ ] Add CLI arguments to `explorer_agent.py` for thematic prompts.
     - [ ] Implement the core discovery loop and results extraction.
-- [ ] Task: Test Discovery Quality
+- [~] Task: Test Discovery Quality
     - [ ] Write tests to verify the agent's ability to find relevant tickers for specific themes.
 
 ## Phase 3: Integration & Handover [checkpoint: ]

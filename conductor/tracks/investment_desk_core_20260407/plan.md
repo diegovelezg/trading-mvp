@@ -17,3 +17,6 @@
 - [x] Task: Integrated Ingestion Flow (a3baa98)
     - [ ] Connect news fetching, sentiment analysis, and database storage into a single "Macro Analyst" workflow.
 - [x] Task: Conductor - User Manual Verification 'News Ingestion & Analysis' (Protocol in workflow.md) (d188d3a)
+
+## Phase: Review Fixes
+- [x] Task: Apply review suggestions (68eec67)

@@ -4,7 +4,7 @@
 - [x] Task: Exploration Schema (a54fe08)
     - [ ] Create `explorations` table in `trading.db` to store prompts and results.
     - [ ] Update `db_manager.py` with insertion helpers for explorations.
-- [~] Task: Ticker Discovery Logic
+- [x] Task: Ticker Discovery Logic (4a7375f)
     - [ ] Implement `explorer_agent.py` to use Gemini for company/ticker brainstorming.
     - [ ] Implement web search or financial data lookup (if needed) for validation.
 

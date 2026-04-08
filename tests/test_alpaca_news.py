@@ -5,20 +5,23 @@ from src.news.alpaca_news import fetch_news
 
 def test_fetch_news_mocked():
     """Verify that fetch_news calls the Alpaca API correctly."""
-    with patch.dict(os.environ, {"ALPACA_API_KEY_ID": "fake_key", "ALPACA_API_SECRET_KEY": "fake_secret"}):
+    with patch.dict(os.environ, {"ALPACA_PAPER_API_KEY": "fake_key", "PAPER_API_SECRET": "fake_secret"}):
         with patch("src.news.alpaca_news.NewsClient") as MockClient:
             mock_client = MockClient.return_value
             # Mock the news response
             mock_news = MagicMock()
-            mock_news.title = "Test News"
+            mock_news.headline = "Test News"
             mock_news.author = "Test Author"
-            mock_news.content = "Test Content"
+            mock_news.summary = "Test Content"
             mock_news.url = "http://test.com"
             mock_news.id = "123"
             mock_news.created_at = "2026-04-07T12:00:00Z"
             
             # Configure the mock to return a list with one news item
-            mock_client.get_news.return_value = MagicMock(news=[mock_news])
+            # The code expects response.data['news']
+            mock_response = MagicMock()
+            mock_response.data = {'news': [mock_news]}
+            mock_client.get_news.return_value = mock_response
             
             # Call the function
             news_items = fetch_news(symbols=["AAPL"])

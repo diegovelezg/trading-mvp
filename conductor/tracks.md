@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [~] **Track: Architectural Reboot (Claude-Native)**
+- [x] **Track: Architectural Reboot (Claude-Native)**
   *Link: [./tracks/arch_reboot_20260407/](./tracks/arch_reboot_20260407/)*

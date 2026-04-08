@@ -16,6 +16,6 @@
     - [ ] Write tests to verify the agent's ability to find relevant tickers for specific themes.
 
 ## Phase 3: Integration & Handover [checkpoint: ]
-- [ ] Task: Explorer-Analyst Handover
+- [x] Task: Explorer-Analyst Handover (94afe73)
     - [ ] Implement a function to automatically trigger `macro_analyst.py` with the discovered tickers.
-- [ ] Task: Conductor - User Manual Verification 'Explorer/Scout' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'Explorer/Scout' (Protocol in workflow.md)

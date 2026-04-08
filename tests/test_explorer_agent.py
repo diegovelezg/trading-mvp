@@ -36,6 +36,22 @@ def test_explorer_cli():
             explorer_agent.main()
             mock_discover.assert_called_once_with("tech companies")
 
+def test_discover_tickers_thematic_structure():
+    """Verify that discover_tickers returns a list of strings for various themes."""
+    with patch.dict(os.environ, {"GEMINI_API_KEY": "fake_key"}):
+        with patch("explorer_agent.Client") as MockClient:
+            with patch("explorer_agent.insert_exploration"):
+                mock_client = MockClient.return_value
+                mock_response = MagicMock()
+                mock_response.text = '{"tickers": ["T1", "T2"], "reasoning": "test"}'
+                mock_client.models.generate_content.return_value = mock_response
+                
+                themes = ["energy", "ai", "biotech"]
+                for theme in themes:
+                    tickers = discover_tickers(theme)
+                    assert isinstance(tickers, list)
+                    assert all(isinstance(t, str) for t in tickers)
+
 def test_discover_tickers_markdown_json():
     """Verify that discover_tickers handles markdown JSON blocks."""
     with patch.dict(os.environ, {"GEMINI_API_KEY": "fake_key"}):

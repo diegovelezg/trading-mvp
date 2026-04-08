@@ -8,7 +8,7 @@
     - [ ] Implement `explorer_agent.py` to use Gemini for company/ticker brainstorming.
     - [ ] Implement web search or financial data lookup (if needed) for validation.
 
-## Phase 2: Core Explorer Implementation [checkpoint: ]
+## Phase 2: Core Explorer Implementation [checkpoint: c27ed7e]
 - [x] Task: Explorer Command Line Interface (ee63282)
     - [ ] Add CLI arguments to `explorer_agent.py` for thematic prompts.
     - [ ] Implement the core discovery loop and results extraction.

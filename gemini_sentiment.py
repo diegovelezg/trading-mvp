@@ -1,19 +1,30 @@
 import os
 import json
+import logging
+from typing import Dict
 from dotenv import load_dotenv
 from google.genai import Client
 
-# Carga variables de entorno
+# Load environment variables
 load_dotenv()
 
-def analyze_sentiment(text):
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+logger = logging.getLogger(__name__)
+
+def analyze_sentiment(text: str) -> Dict:
     """
-    Analiza el sentimiento de un texto usando Gemini 3 Flash.
-    Retorna un diccionario con 'sentiment' (-1 a 1) y 'summary'.
+    Analyzes the sentiment of a text using Gemini 2.0 Flash.
+    
+    Args:
+        text: The news content to analyze.
+        
+    Returns:
+        A dictionary with 'sentiment' (float -1 to 1) and 'summary' (str).
     """
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
-        raise ValueError("Se requiere GEMINI_API_KEY en las variables de entorno.")
+        raise ValueError("GEMINI_API_KEY is required in environment variables.")
     
     client = Client(api_key=api_key)
     
@@ -27,18 +38,13 @@ def analyze_sentiment(text):
     {text}
     """
     
-    # Llamada a Gemini 3 Flash
-    # Nota: El nombre del modelo puede variar, pero espec.md dice Gemini 3 Flash.
-    # Usaremos 'gemini-2.0-flash' o similar si 'gemini-3-flash' no está disponible,
-    # pero seguiré el nombre de la especificación si es posible o el más cercano.
     try:
         response = client.models.generate_content(
-            model="gemini-2.0-flash", # Ajustado a un modelo disponible común, pero representativo de 'Flash'
+            model="gemini-2.0-flash",
             contents=prompt
         )
         
-        # Procesar la respuesta JSON
-        # A veces el modelo devuelve bloques de código ```json ... ```
+        # Process JSON response
         clean_text = response.text.strip()
         if clean_text.startswith("```json"):
             clean_text = clean_text[7:-3].strip()
@@ -51,7 +57,7 @@ def analyze_sentiment(text):
             "summary": str(result.get("summary", "No summary provided."))
         }
     except Exception as e:
-        print(f"Error analizando sentimiento: {e}")
+        logger.error(f"Error analyzing sentiment: {e}")
         return {
             "sentiment": 0.0,
             "summary": f"Error: {e}"

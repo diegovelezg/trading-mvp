@@ -5,7 +5,7 @@ from alpaca_news import fetch_news
 
 def test_fetch_news_mocked():
     """Verify that fetch_news calls the Alpaca API correctly."""
-    with patch.dict(os.environ, {"ALPACA_API_KEY": "fake_key", "ALPACA_SECRET_KEY": "fake_secret"}):
+    with patch.dict(os.environ, {"ALPACA_API_KEY_ID": "fake_key", "ALPACA_API_SECRET_KEY": "fake_secret"}):
         with patch("alpaca_news.NewsClient") as MockClient:
             mock_client = MockClient.return_value
             # Mock the news response

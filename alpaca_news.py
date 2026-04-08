@@ -1,37 +1,43 @@
 import os
+from typing import List, Dict, Optional
 from dotenv import load_dotenv
 from alpaca.data.historical import NewsClient
 from alpaca.data.requests import NewsRequest
 
-# Carga variables de entorno
+# Load environment variables
 load_dotenv()
 
-def fetch_news(symbols=None):
+def fetch_news(symbols: Optional[List[str]] = None) -> List[Dict]:
     """
-    Obtiene las últimas noticias para una lista de símbolos desde Alpaca News API.
+    Fetches the latest news for a list of symbols from the Alpaca News API.
+    
+    Args:
+        symbols: A list of ticker symbols to fetch news for.
+        
+    Returns:
+        A list of dictionaries containing news item details.
     """
-    api_key = os.getenv("ALPACA_API_KEY")
-    secret_key = os.getenv("ALPACA_SECRET_KEY")
+    api_key = os.getenv("ALPACA_API_KEY_ID")
+    secret_key = os.getenv("ALPACA_API_SECRET_KEY")
     
     if not api_key or not secret_key:
-        raise ValueError("Se requieren ALPACA_API_KEY y ALPACA_SECRET_KEY en las variables de entorno.")
+        raise ValueError("ALPACA_API_KEY_ID and ALPACA_API_SECRET_KEY are required in environment variables.")
     
     client = NewsClient(api_key=api_key, secret_key=secret_key)
     
-    # Configurar la solicitud
-    # NewsRequest expects symbols as a string or list depending on version, 
-    # but error indicates it wants a string.
+    # Configure the request
+    # NewsRequest expects symbols as a comma-separated string in current library version.
     symbols_str = ",".join(symbols) if isinstance(symbols, list) else symbols
     
     request_params = NewsRequest(
         symbols=symbols_str,
-        limit=10  # Por defecto, limitamos a 10 noticias
+        limit=10
     )
     
-    # Ejecutar la solicitud
+    # Execute the request
     response = client.get_news(request_params)
     
-    # Procesar la respuesta para un formato consistente
+    # Process the response into a consistent format
     news_items = []
     for item in response.news:
         news_items.append({

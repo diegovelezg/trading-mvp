@@ -1,74 +1,77 @@
 import sqlite3
 import os
+from typing import Optional
 
 DB_NAME = "trading.db"
 
-def get_connection():
+def get_connection() -> sqlite3.Connection:
     """Returns a connection to the SQLite database."""
     return sqlite3.connect(DB_NAME)
 
-def init_db():
+def init_db() -> None:
     """Initializes the database and creates required tables."""
     conn = get_connection()
-    cursor = conn.cursor()
+    try:
+        cursor = conn.cursor()
 
-    # Create news table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS news (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            external_id TEXT UNIQUE,
-            title TEXT NOT NULL,
-            source TEXT,
-            url TEXT,
-            summary TEXT,
-            published_at DATETIME,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
+        # Create news table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS news (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                external_id TEXT UNIQUE,
+                title TEXT NOT NULL,
+                source TEXT,
+                url TEXT,
+                summary TEXT,
+                published_at DATETIME,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
 
-    # Create sentiments table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS sentiments (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            news_id INTEGER,
-            agent_id TEXT,
-            score REAL,
-            reasoning TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (news_id) REFERENCES news (id)
-        )
-    ''')
+        # Create sentiments table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS sentiments (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                news_id INTEGER,
+                agent_id TEXT,
+                score REAL,
+                reasoning TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (news_id) REFERENCES news (id)
+            )
+        ''')
 
-    # Create tickers table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS tickers (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            symbol TEXT UNIQUE NOT NULL,
-            name TEXT,
-            sector TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
+        # Create tickers table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS tickers (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                symbol TEXT UNIQUE NOT NULL,
+                name TEXT,
+                sector TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
 
-    # Create trades table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS trades (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            symbol TEXT NOT NULL,
-            qty INTEGER,
-            price REAL,
-            side TEXT,
-            status TEXT,
-            filled_at DATETIME,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
+        # Create trades table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS trades (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                symbol TEXT NOT NULL,
+                qty INTEGER,
+                price REAL,
+                side TEXT,
+                status TEXT,
+                filled_at DATETIME,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+    finally:
+        conn.close()
 
-def insert_news(external_id, title, source, url, summary, published_at):
-    """Inserta una noticia en la base de datos y retorna su ID."""
+def insert_news(external_id: str, title: str, source: str, url: str, summary: str, published_at: str) -> int:
+    """Inserts a news item into the database and returns its ID."""
     conn = get_connection()
     cursor = conn.cursor()
     try:
@@ -77,7 +80,7 @@ def insert_news(external_id, title, source, url, summary, published_at):
             VALUES (?, ?, ?, ?, ?, ?)
         ''', (external_id, title, source, url, summary, published_at))
         
-        # Si fue ignorado (ya existe), buscamos su ID
+        # If it was ignored (already exists), find its ID
         if cursor.rowcount == 0:
             cursor.execute('SELECT id FROM news WHERE external_id = ?', (external_id,))
             news_id = cursor.fetchone()[0]
@@ -89,8 +92,8 @@ def insert_news(external_id, title, source, url, summary, published_at):
     finally:
         conn.close()
 
-def insert_sentiment(news_id, agent_id, score, reasoning):
-    """Inserta un sentimiento asociado a una noticia."""
+def insert_sentiment(news_id: int, agent_id: str, score: float, reasoning: str) -> None:
+    """Inserts a sentiment associated with a news item."""
     conn = get_connection()
     cursor = conn.cursor()
     try:

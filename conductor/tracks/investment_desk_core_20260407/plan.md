@@ -12,8 +12,8 @@
 ## Phase 2: News Ingestion & Analysis
 - [x] Task: Alpaca News Integration (bc19fb7)
     - [ ] Implement a script to fetch the latest news for a given watchlist from Alpaca.
-- [~] Task: Gemini Sentiment Analysis
+- [x] Task: Gemini Sentiment Analysis (eb01565)
     - [ ] Implement a script using Gemini 3 Flash to score news sentiment and generate summaries.
-- [ ] Task: Integrated Ingestion Flow
+- [~] Task: Integrated Ingestion Flow
     - [ ] Connect news fetching, sentiment analysis, and database storage into a single "Macro Analyst" workflow.
 - [ ] Task: Conductor - User Manual Verification 'News Ingestion & Analysis' (Protocol in workflow.md)

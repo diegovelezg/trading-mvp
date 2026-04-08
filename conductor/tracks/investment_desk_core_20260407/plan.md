@@ -9,11 +9,11 @@
     - [ ] Implement `db_manager.py` for standardized database access.
 - [x] Task: Conductor - User Manual Verification 'Infrastructure & Database' (Protocol in workflow.md) (4aca89f)
 
-## Phase 2: News Ingestion & Analysis
+## Phase 2: News Ingestion & Analysis [checkpoint: d188d3a]
 - [x] Task: Alpaca News Integration (bc19fb7)
     - [ ] Implement a script to fetch the latest news for a given watchlist from Alpaca.
 - [x] Task: Gemini Sentiment Analysis (eb01565)
     - [ ] Implement a script using Gemini 3 Flash to score news sentiment and generate summaries.
 - [x] Task: Integrated Ingestion Flow (a3baa98)
     - [ ] Connect news fetching, sentiment analysis, and database storage into a single "Macro Analyst" workflow.
-- [~] Task: Conductor - User Manual Verification 'News Ingestion & Analysis' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'News Ingestion & Analysis' (Protocol in workflow.md) (d188d3a)

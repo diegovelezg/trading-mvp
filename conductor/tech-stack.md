@@ -21,4 +21,5 @@
 ## Infrastructure & Tooling
 - **Python venv**: Isolated virtual environments for dependency management.
 - **Git**: Version control for scripts, agent "skills", and project configuration.
+- **Claude Subagents & Skills**: Logic and agent roles defined as native configuration files in `.claude/subagents` and `.claude/skills`.
 - **MCP (Model Context Protocol)**: Connectivity framework between Claude Code and external data sources.

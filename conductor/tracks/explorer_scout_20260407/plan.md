@@ -1,6 +1,6 @@
 # Implementation Plan: Explorer/Scout Agent
 
-## Phase 1: Research & Discovery [checkpoint: ]
+## Phase 1: Research & Discovery [checkpoint: 87426dd]
 - [x] Task: Exploration Schema (a54fe08)
     - [ ] Create `explorations` table in `trading.db` to store prompts and results.
     - [ ] Update `db_manager.py` with insertion helpers for explorations.

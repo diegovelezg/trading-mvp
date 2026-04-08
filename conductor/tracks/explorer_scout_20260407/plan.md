@@ -12,7 +12,7 @@
 - [x] Task: Explorer Command Line Interface (ee63282)
     - [ ] Add CLI arguments to `explorer_agent.py` for thematic prompts.
     - [ ] Implement the core discovery loop and results extraction.
-- [~] Task: Test Discovery Quality
+- [x] Task: Test Discovery Quality (ede59fa)
     - [ ] Write tests to verify the agent's ability to find relevant tickers for specific themes.
 
 ## Phase 3: Integration & Handover [checkpoint: ]

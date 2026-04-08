@@ -14,6 +14,6 @@
     - [ ] Implement a script to fetch the latest news for a given watchlist from Alpaca.
 - [x] Task: Gemini Sentiment Analysis (eb01565)
     - [ ] Implement a script using Gemini 3 Flash to score news sentiment and generate summaries.
-- [~] Task: Integrated Ingestion Flow
+- [x] Task: Integrated Ingestion Flow (a3baa98)
     - [ ] Connect news fetching, sentiment analysis, and database storage into a single "Macro Analyst" workflow.
-- [ ] Task: Conductor - User Manual Verification 'News Ingestion & Analysis' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'News Ingestion & Analysis' (Protocol in workflow.md)

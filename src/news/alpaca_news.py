@@ -1,8 +1,11 @@
 import os
+import logging
 from typing import List, Dict, Optional
 from dotenv import load_dotenv
 from alpaca.data.historical import NewsClient
 from alpaca.data.requests import NewsRequest
+
+logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
@@ -17,12 +20,17 @@ def fetch_news(symbols: Optional[List[str]] = None) -> List[Dict]:
     Returns:
         A list of dictionaries containing news item details.
     """
-    api_key = os.getenv("ALPACA_API_KEY_ID")
-    secret_key = os.getenv("ALPACA_API_SECRET_KEY")
-    
-    if not api_key or not secret_key:
-        raise ValueError("ALPACA_API_KEY_ID and ALPACA_API_SECRET_KEY are required in environment variables.")
-    
+    api_key = os.getenv("ALPACA_DATA_API_KEY")
+    secret_key = os.getenv("ALPACA_DATA_API_SECRET")
+
+    if not api_key:
+        raise ValueError("ALPACA_DATA_API_KEY is required in environment variables.")
+
+    # Try with empty secret if not provided (Alpaca may have changed auth requirements)
+    if not secret_key:
+        secret_key = ""
+        logger.info("Attempting connection with API Key only (no secret provided)")
+
     client = NewsClient(api_key=api_key, secret_key=secret_key)
     
     # Configure the request

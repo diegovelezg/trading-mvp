@@ -66,6 +66,16 @@ def init_db() -> None:
             )
         ''')
 
+        # Create explorations table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS explorations (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                prompt TEXT NOT NULL,
+                results TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+
         conn.commit()
     finally:
         conn.close()
@@ -102,6 +112,21 @@ def insert_sentiment(news_id: int, agent_id: str, score: float, reasoning: str) 
             VALUES (?, ?, ?, ?)
         ''', (news_id, agent_id, score, reasoning))
         conn.commit()
+    finally:
+        conn.close()
+
+def insert_exploration(prompt: str, results: str) -> int:
+    """Inserts an exploration result into the database and returns its ID."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute('''
+            INSERT INTO explorations (prompt, results)
+            VALUES (?, ?)
+        ''', (prompt, results))
+        exploration_id = cursor.lastrowid
+        conn.commit()
+        return exploration_id
     finally:
         conn.close()
 

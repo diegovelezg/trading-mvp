@@ -10,9 +10,9 @@
 - [x] Task: Conductor - User Manual Verification 'Infrastructure & Database' (Protocol in workflow.md) (4aca89f)
 
 ## Phase 2: News Ingestion & Analysis
-- [~] Task: Alpaca News Integration
+- [x] Task: Alpaca News Integration (bc19fb7)
     - [ ] Implement a script to fetch the latest news for a given watchlist from Alpaca.
-- [ ] Task: Gemini Sentiment Analysis
+- [~] Task: Gemini Sentiment Analysis
     - [ ] Implement a script using Gemini 3 Flash to score news sentiment and generate summaries.
 - [ ] Task: Integrated Ingestion Flow
     - [ ] Connect news fetching, sentiment analysis, and database storage into a single "Macro Analyst" workflow.

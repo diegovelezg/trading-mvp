@@ -52,6 +52,14 @@ def test_discover_tickers_thematic_structure():
                     assert isinstance(tickers, list)
                     assert all(isinstance(t, str) for t in tickers)
 
+def test_handover_to_analyst():
+    """Verify that handover_to_analyst calls macro_analyst correctly."""
+    with patch("explorer_agent.ingest_and_analyze") as mock_ingest:
+        from explorer_agent import handover_to_analyst
+        tickers = ["AAPL", "TSLA"]
+        handover_to_analyst(tickers)
+        mock_ingest.assert_called_once_with(tickers)
+
 def test_discover_tickers_markdown_json():
     """Verify that discover_tickers handles markdown JSON blocks."""
     with patch.dict(os.environ, {"GEMINI_API_KEY": "fake_key"}):

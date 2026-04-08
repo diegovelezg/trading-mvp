@@ -6,6 +6,7 @@ from typing import List, Optional
 from dotenv import load_dotenv
 from google.genai import Client
 from db_manager import insert_exploration
+from macro_analyst import ingest_and_analyze
 
 # Load environment variables
 load_dotenv()
@@ -72,10 +73,25 @@ def discover_tickers(prompt: str) -> List[str]:
         logger.error(f"Error discovering tickers: {e}")
         return []
 
+def handover_to_analyst(tickers: List[str]) -> None:
+    """
+    Triggers the Macro Analyst to ingest and analyze news for the given tickers.
+    
+    Args:
+        tickers: A list of ticker symbols to analyze.
+    """
+    if not tickers:
+        logger.warning("No tickers provided for handover.")
+        return
+        
+    logger.info(f"Handing over {len(tickers)} tickers to Macro Analyst...")
+    ingest_and_analyze(tickers)
+
 def main() -> None:
     """Main entry point for the Explorer Agent CLI."""
     parser = argparse.ArgumentParser(description="Discover stock tickers based on a thematic prompt.")
     parser.add_argument("prompt", type=str, help="The thematic prompt to explore.")
+    parser.add_argument("--analyze", action="store_true", help="Automatically trigger Macro Analyst for discovered tickers.")
     
     args = parser.parse_args()
     
@@ -84,6 +100,9 @@ def main() -> None:
         print(f"\nDiscovered Tickers for '{args.prompt}':")
         for ticker in discovered:
             print(f"- {ticker}")
+            
+        if args.analyze:
+            handover_to_analyst(discovered)
     else:
         print(f"\nNo tickers discovered for '{args.prompt}'.")
 

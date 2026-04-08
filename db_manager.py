@@ -67,6 +67,41 @@ def init_db():
     conn.commit()
     conn.close()
 
+def insert_news(external_id, title, source, url, summary, published_at):
+    """Inserta una noticia en la base de datos y retorna su ID."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute('''
+            INSERT OR IGNORE INTO news (external_id, title, source, url, summary, published_at)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (external_id, title, source, url, summary, published_at))
+        
+        # Si fue ignorado (ya existe), buscamos su ID
+        if cursor.rowcount == 0:
+            cursor.execute('SELECT id FROM news WHERE external_id = ?', (external_id,))
+            news_id = cursor.fetchone()[0]
+        else:
+            news_id = cursor.lastrowid
+            
+        conn.commit()
+        return news_id
+    finally:
+        conn.close()
+
+def insert_sentiment(news_id, agent_id, score, reasoning):
+    """Inserta un sentimiento asociado a una noticia."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute('''
+            INSERT INTO sentiments (news_id, agent_id, score, reasoning)
+            VALUES (?, ?, ?, ?)
+        ''', (news_id, agent_id, score, reasoning))
+        conn.commit()
+    finally:
+        conn.close()
+
 if __name__ == "__main__":
     init_db()
     print("Database initialized successfully.")

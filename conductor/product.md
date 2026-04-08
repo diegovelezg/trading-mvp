@@ -29,6 +29,6 @@ To build a highly modular, multi-agent "Mesa de Inversión" (Investment Desk) wh
 ## Scope (Iteration 1)
 - **Multi-Agent Scaffolding**: Setup of the basic "Mesa de Inversión" agent communication and workflow.
 - **Dynamic Watchlist Management**: Support for defining and switching between different segments, groups, or research lines (e.g., "Power", "Small Caps", "Geopolitical Trends").
-- **SQLite Core Implementation**: Database initialization and schema setup to store modular research logs, news, and trade data.
-- **Alpaca News & Execution**: Scripts for connecting to Alpaca (Paper Trading) and fetching context-aware news.
+- **SQLite Core Implementation (Done)**: Database initialization and schema setup to store modular research logs, news, and trade data.
+- **Alpaca News & Execution (Partial)**: Scripts for connecting to Alpaca (Paper Trading) and fetching context-aware news.
 - **CLI Reports**: Initial generation of "Trade Cards" and terminal-based status summaries.

@@ -1,7 +1,7 @@
 # Tech Stack: Agentic Trading MVP
 
 ## Languages & Runtimes
-- **Python 3.10+**: Core language for scripts, data processing, and Alpaca integration.
+- **Python 3.10+**: Core language for scripts, data processing, and Alpaca integration. Libraries: `alpaca-py`, `google-genai`, `python-dotenv`.
 - **Node.js**: Runtime for Claude Code and potential MCP server developments.
 
 ## Multi-Agent Ecosystem (LLMs)

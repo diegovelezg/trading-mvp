@@ -20,6 +20,7 @@ export async function GET(request: Request) {
         d.stop_loss,
         d.position_size,
         d.status,
+        d.alpaca_order_id,
         t.avg_confidence,
         t.rationale,
         t.full_results_json as analysis_json,
@@ -31,7 +32,8 @@ export async function GET(request: Request) {
 
     const params: any[] = [];
     if (dateStr) {
-      query += ` WHERE date(d.decision_timestamp) = ?`;
+      // Adjusted for UTC-5 offset to match local system time
+      query += ` WHERE date(d.decision_timestamp, '-5 hours') = ?`;
       params.push(dateStr);
     }
 

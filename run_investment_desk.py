@@ -349,7 +349,8 @@ def run_investment_desk(watchlist_id: int = None, watchlist_name: str = None, ho
                         decision_notes=decision['rationale'],
                         action_taken=decision['action'],
                         position_size=decision.get('position_size'),
-                        entry_price=decision.get('entry_price')
+                        entry_price=decision.get('entry_price'),
+                        alpaca_order_id=decision.get('order_id')
                     )
 
                     if decision_id:

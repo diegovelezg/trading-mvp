@@ -118,6 +118,9 @@ def create_investment_tracking_tables():
             desk_run_id INTEGER NOT NULL,
             ticker VARCHAR(10) NOT NULL,
 
+            -- Alpaca link
+            alpaca_order_id TEXT,
+
             -- The recommendation
             recommendation VARCHAR(50),  -- BULLISH, BEARISH, CAUTIOUS, NEUTRAL
             desk_action VARCHAR(50),  -- BUY, AVOID, WATCH, HOLD
@@ -340,7 +343,8 @@ def record_decision(
     decision_notes: str = None,
     action_taken: str = None,
     position_size: float = None,
-    entry_price: float = None
+    entry_price: float = None,
+    alpaca_order_id: str = None
 ) -> Optional[int]:
     """Record an investment decision based on analysis.
 
@@ -355,6 +359,7 @@ def record_decision(
         action_taken: What action was taken (BOUGHT/SOLD/HELD/HEDGED/NONE)
         position_size: Size of position (if executed)
         entry_price: Entry price (if executed)
+        alpaca_order_id: Alpaca order ID (if executed)
 
     Returns:
         decision_id, or None if failed
@@ -367,8 +372,8 @@ def record_decision(
         cur.execute("""
             INSERT INTO investment_decisions
             (ticker_analysis_id, desk_run_id, ticker, recommendation, desk_action,
-             decision, decision_notes, action_taken, position_size, entry_price)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             decision, decision_notes, action_taken, position_size, entry_price, alpaca_order_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             ticker_analysis_id,
             desk_run_id,
@@ -379,7 +384,8 @@ def record_decision(
             decision_notes,
             action_taken,
             position_size,
-            entry_price
+            entry_price,
+            alpaca_order_id
         ))
 
         decision_id = cur.lastrowid

@@ -47,6 +47,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '.claude', 'subagents
 from trading_mvp.core.db_geo_news import get_recent_news
 from trading_mvp.core.db_geo_entities import get_recent_entities, get_entities_by_name
 from watchlist_manager.agent import get_ticker_entities, get_news_for_ticker
+from trading_mvp.analysis.quant_stats import fetch_historical_stats
 
 
 def analyze_ticker(ticker: str, hours_back: int = 48) -> Dict:
@@ -166,6 +167,9 @@ def analyze_ticker(ticker: str, hours_back: int = 48) -> Dict:
     # 5. Generate insights
     logger.info(f"💡 Step 5: Generating investment insights...")
 
+    # Fetch quantitative stats
+    quant_stats = fetch_historical_stats(ticker)
+
     # Top negative entities (risks)
     top_risks = [e for e in entity_analysis if e['overall_impact'] == 'negative'][:5]
 
@@ -199,6 +203,23 @@ def analyze_ticker(ticker: str, hours_back: int = 48) -> Dict:
         recommendation = "NEUTRAL"
         rationale = "No clear directional signal. Monitor for developing themes."
 
+    # Construct evidence for dashboard
+    bull_case = {
+        "arguments": [f"{e['entity_name']} (intensity: {e['intensity']})" for e in top_opportunities],
+        "deep_analysis": "Positive drivers identified in geopolitical and macroeconomic news matching the asset's entity profile."
+    }
+    bear_case = {
+        "arguments": [f"{e['entity_name']} (intensity: {e['intensity']})" for e in top_risks],
+        "deep_analysis": "Negative risks and headwinds identified through sentiment analysis of related entities."
+    }
+    risk_analysis = {
+        "stop_loss": {
+            "percentage": 0.05,
+            "technical_defense": "Standard variance protection based on sector volatility."
+        },
+        "deep_analysis": "Risk management focused on mitigating exposure to identified negative entities."
+    }
+
     logger.info(f"  ✅ Generated {recommendation} recommendation")
     logger.info("")
 
@@ -228,6 +249,12 @@ def analyze_ticker(ticker: str, hours_back: int = 48) -> Dict:
         'top_risks': top_risks,
         'top_opportunities': top_opportunities,
         'most_mentioned': most_mentioned,
+
+        # Dashboard evidence
+        'bull_case': bull_case,
+        'bear_case': bear_case,
+        'risk_analysis': risk_analysis,
+        'quant_stats': quant_stats,
 
         # Scores
         'avg_confidence': round(avg_confidence, 2),

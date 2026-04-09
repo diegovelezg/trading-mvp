@@ -90,7 +90,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard title="Total Equity" value={`$${portfolio?.equity?.toLocaleString() || 0}`} icon={<Wallet className="text-blue-500" />} />
         <KPICard title="Buying Power" value={`$${portfolio?.buying_power?.toLocaleString() || 0}`} icon={<Zap className="text-yellow-500" />} />
-        <KPICard title="Bot Success" value={stats?.sharpeRatio || 0} icon={<TrendingUp className="text-green-500" />} label="Sharpe" />
+        <KPICard title="Bot Success" value={`${stats?.winRate || 0}%`} icon={<TrendingUp className="text-green-500" />} label={`Win Rate (${stats?.sharpeRatio || 0} Sharpe)`} />
         <KPICard title="Total Decisions" value={stats?.totalDecisions || 0} icon={<BrainCircuit className="text-purple-500" />} />
       </div>
 
@@ -176,7 +176,7 @@ export default function Dashboard() {
           ) : (
             <div className="space-y-6">
               {activities.map((act) => (
-                <DecisionCard key={act.decision_id} activity={act} />
+                <DecisionCard key={act.decision_id} activity={act} alpacaOrders={portfolio?.orders || []} />
               ))}
             </div>
           )}
@@ -202,10 +202,14 @@ function KPICard({ title, value, icon, label }: any) {
   );
 }
 
-function DecisionCard({ activity }: any) {
+function DecisionCard({ activity, alpacaOrders = [] }: any) {
   const [expanded, setExpanded] = useState(false);
   const isBuy = activity.action_taken === 'BUY' || activity.desk_action === 'BUY';
   const analysis = activity.analysis || {};
+  
+  // Try to find live status in current Alpaca orders
+  const liveOrder = activity.alpaca_order_id ? alpacaOrders.find((o: any) => o.id === activity.alpaca_order_id) : null;
+  const currentStatus = liveOrder ? liveOrder.status.toUpperCase() : activity.status;
   
   // Extract agent evidence
   const bullCase = analysis.bull_case || {};
@@ -224,7 +228,7 @@ function DecisionCard({ activity }: any) {
             <div>
               <span className="text-2xl font-bold tracking-tighter text-zinc-100">{activity.ticker}</span>
               <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-widest mt-1">
-                {activity.recommendation} • {activity.status}
+                {activity.recommendation} • {currentStatus}
               </p>
             </div>
           </div>

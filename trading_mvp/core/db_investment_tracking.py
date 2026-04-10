@@ -5,6 +5,7 @@ import json
 from typing import List, Dict, Optional
 from datetime import datetime
 from trading_mvp.core.db_manager import get_connection
+from psycopg2.extras import RealDictCursor
 
 logger = logging.getLogger(__name__)
 
@@ -13,197 +14,194 @@ def create_investment_tracking_tables():
     """Create all investment tracking tables."""
 
     conn = get_connection()
-    cur = conn.cursor()
+    with conn.cursor() as cur:
+        # 1. Desk runs (complete investment desk analysis)
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS investment_desk_runs (
+                id SERIAL PRIMARY KEY,
 
-    # 1. Desk runs (complete investment desk analysis)
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS investment_desk_runs (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                -- Run metadata
+                run_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                watchlist_id INTEGER NOT NULL,
+                watchlist_name VARCHAR(255),
 
-            -- Run metadata
-            run_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            watchlist_id INTEGER NOT NULL,
-            watchlist_name VARCHAR(255),
+                -- Analysis parameters
+                time_window_hours INTEGER,
+                duration_seconds FLOAT,
 
-            -- Analysis parameters
-            time_window_hours INTEGER,
-            duration_seconds FLOAT,
+                -- Overall desk results
+                overall_sentiment VARCHAR(50),  -- BULLISH, BEARISH, CAUTIOUSLY_BULLISH, etc.
+                desk_outlook TEXT,
 
-            -- Overall desk results
-            overall_sentiment VARCHAR(50),  -- BULLISH, BEARISH, CAUTIOUSLY_BULLISH, etc.
-            desk_outlook TEXT,
+                -- Aggregate metrics
+                total_tickers INTEGER,
+                analyzed_tickers INTEGER,
+                failed_tickers TEXT,  -- JSON array
+                total_news_analyzed INTEGER,
+                total_entities_found INTEGER,
 
-            -- Aggregate metrics
-            total_tickers INTEGER,
-            analyzed_tickers INTEGER,
-            failed_tickers TEXT,  -- JSON array
-            total_news_analyzed INTEGER,
-            total_entities_found INTEGER,
+                avg_confidence FLOAT,
+                avg_negative_ratio FLOAT,
+                avg_positive_ratio FLOAT,
 
-            avg_confidence FLOAT,
-            avg_negative_ratio FLOAT,
-            avg_positive_ratio FLOAT,
+                -- Recommendation breakdown
+                bullish_count INTEGER,
+                bearish_count INTEGER,
+                cautious_count INTEGER,
+                neutral_count INTEGER,
 
-            -- Recommendation breakdown
-            bullish_count INTEGER,
-            bearish_count INTEGER,
-            cautious_count INTEGER,
-            neutral_count INTEGER,
+                -- Full results (JSON)
+                full_results_json TEXT,
 
-            -- Full results (JSON)
-            full_results_json TEXT,
+                -- Desk recommendations (JSON)
+                recommendations_json TEXT
+            );
+        """)
 
-            -- Desk recommendations (JSON)
-            recommendations_json TEXT,
+        # 2. Individual ticker analyses
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS ticker_analyses (
+                id SERIAL PRIMARY KEY,
 
-            FOREIGN KEY (watchlist_id) REFERENCES watchlists(id)
-        );
-    """)
+                -- Link to desk run
+                desk_run_id INTEGER,
 
-    # 2. Individual ticker analyses
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS ticker_analyses (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                -- Ticker info
+                ticker VARCHAR(10) NOT NULL,
+                company_name VARCHAR(255),
 
-            -- Link to desk run
-            desk_run_id INTEGER,
+                -- Analysis timestamp
+                analysis_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-            -- Ticker info
-            ticker VARCHAR(10) NOT NULL,
-            company_name VARCHAR(255),
+                -- Entity mapping
+                mapped_entities TEXT,  -- JSON array
 
-            -- Analysis timestamp
-            analysis_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                -- News summary
+                related_news_count INTEGER,
+                news_sources TEXT,  -- JSON array
+                news_ids TEXT,  -- JSON array of news IDs used
 
-            -- Entity mapping
-            mapped_entities TEXT,  -- JSON array
+                -- Entity analysis
+                unique_entities_found INTEGER,
+                total_entity_mentions INTEGER,
 
-            -- News summary
-            related_news_count INTEGER,
-            news_sources TEXT,  -- JSON array
-            news_ids TEXT,  -- JSON array of news IDs used
+                -- Sentiment scores
+                avg_confidence FLOAT,
+                negative_ratio FLOAT,
+                positive_ratio FLOAT,
 
-            -- Entity analysis
-            unique_entities_found INTEGER,
-            total_entity_mentions INTEGER,
+                -- Recommendation
+                recommendation VARCHAR(50),  -- BULLISH, BEARISH, CAUTIOUS, NEUTRAL
+                rationale TEXT,
 
-            -- Sentiment scores
-            avg_confidence FLOAT,
-            negative_ratio FLOAT,
-            positive_ratio FLOAT,
+                -- Top insights (JSON)
+                top_risks_json TEXT,
+                top_opportunities_json TEXT,
+                most_mentioned_json TEXT,
 
-            -- Recommendation
-            recommendation VARCHAR(50),  -- BULLISH, BEARISH, CAUTIOUS, NEUTRAL
-            rationale TEXT,
+                -- Full results (JSON)
+                full_results_json TEXT,
 
-            -- Top insights (JSON)
-            top_risks_json TEXT,
-            top_opportunities_json TEXT,
-            most_mentioned_json TEXT,
+                FOREIGN KEY (desk_run_id) REFERENCES investment_desk_runs(id) ON DELETE CASCADE
+            );
+        """)
 
-            -- Full results (JSON)
-            full_results_json TEXT,
+        # 3. Decision tracking (what was done with the recommendation)
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS investment_decisions (
+                id SERIAL PRIMARY KEY,
 
-            FOREIGN KEY (desk_run_id) REFERENCES investment_desk_runs(id) ON DELETE CASCADE
-        );
-    """)
+                -- Link to analysis
+                ticker_analysis_id INTEGER NOT NULL,
+                desk_run_id INTEGER NOT NULL,
+                ticker VARCHAR(10) NOT NULL,
 
-    # 3. Decision tracking (what was done with the recommendation)
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS investment_decisions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                -- Alpaca link
+                alpaca_order_id TEXT,
 
-            -- Link to analysis
-            ticker_analysis_id INTEGER NOT NULL,
-            desk_run_id INTEGER NOT NULL,
-            ticker VARCHAR(10) NOT NULL,
+                -- The recommendation
+                recommendation VARCHAR(50),  -- BULLISH, BEARISH, CAUTIOUS, NEUTRAL
+                desk_action VARCHAR(50),  -- BUY, AVOID, WATCH, HOLD
 
-            -- Alpaca link
-            alpaca_order_id TEXT,
+                -- Decision made by user
+                decision VARCHAR(50),  -- FOLLOWED, IGNORED, MODIFIED
+                decision_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                decision_notes TEXT,
 
-            -- The recommendation
-            recommendation VARCHAR(50),  -- BULLISH, BEARISH, CAUTIOUS, NEUTRAL
-            desk_action VARCHAR(50),  -- BUY, AVOID, WATCH, HOLD
+                -- Execution
+                action_taken VARCHAR(100),  -- BOUGHT, SOLD, HELD, HEDGED, NONE
+                execution_timestamp TIMESTAMP,
 
-            -- Decision made by user
-            decision VARCHAR(50),  -- FOLLOWED, IGNORED, MODIFIED
-            decision_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            decision_notes TEXT,
+                -- Position details (if executed)
+                position_size FLOAT,
+                entry_price FLOAT,
+                target_price FLOAT,
+                stop_loss FLOAT,
 
-            -- Execution
-            action_taken VARCHAR(100),  -- BOUGHT, SOLD, HELD, HEDGED, NONE
-            execution_timestamp TIMESTAMP,
+                -- Outcome
+                exit_price FLOAT,
+                exit_timestamp TIMESTAMP,
+                profit_loss FLOAT,
+                profit_loss_pct FLOAT,
 
-            -- Position details (if executed)
-            position_size FLOAT,
-            entry_price FLOAT,
-            target_price FLOAT,
-            stop_loss FLOAT,
+                -- Status
+                status VARCHAR(50) DEFAULT 'PENDING',  -- PENDING, OPEN, CLOSED, CANCELLED
 
-            -- Outcome
-            exit_price FLOAT,
-            exit_timestamp TIMESTAMP,
-            profit_loss FLOAT,
-            profit_loss_pct FLOAT,
+                FOREIGN KEY (ticker_analysis_id) REFERENCES ticker_analyses(id),
+                FOREIGN KEY (desk_run_id) REFERENCES investment_desk_runs(id)
+            );
+        """)
 
-            -- Status
-            status VARCHAR(50) DEFAULT 'PENDING',  -- PENDING, OPEN, CLOSED, CANCELLED
+        # 4. Performance tracking
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS recommendation_performance (
+                id SERIAL PRIMARY KEY,
 
-            FOREIGN KEY (ticker_analysis_id) REFERENCES ticker_analyses(id),
-            FOREIGN KEY (desk_run_id) REFERENCES investment_desk_runs(id)
-        );
-    """)
+                -- Link to decision
+                decision_id INTEGER NOT NULL,
 
-    # 4. Performance tracking
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS recommendation_performance (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                -- Was the recommendation correct?
+                was_correct BOOLEAN,
+                actual_outcome VARCHAR(50),  -- PROFIT, LOSS, BREAKEVEN
 
-            -- Link to decision
-            decision_id INTEGER NOT NULL,
+                -- Time to outcome
+                days_to_outcome INTEGER,
 
-            -- Was the recommendation correct?
-            was_correct BOOLEAN,
-            actual_outcome VARCHAR(50),  -- PROFIT, LOSS, BREAKEVEN
+                -- Market context at outcome
+                outcome_notes TEXT,
 
-            -- Time to outcome
-            days_to_outcome INTEGER,
+                -- Lessons learned
+                lessons_learned TEXT,
 
-            -- Market context at outcome
-            outcome_notes TEXT,
+                -- Rating (1-5 stars)
+                rating INTEGER,
 
-            -- Lessons learned
-            lessons_learned TEXT,
+                outcome_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-            -- Rating (1-5 stars)
-            rating INTEGER,
+                FOREIGN KEY (decision_id) REFERENCES investment_decisions(id)
+            );
+        """)
 
-            outcome_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        # Indexes
+        cur.execute("""
+            CREATE INDEX IF NOT EXISTS idx_desk_runs_watchlist
+            ON investment_desk_runs(run_timestamp DESC);
+        """)
 
-            FOREIGN KEY (decision_id) REFERENCES investment_decisions(id)
-        );
-    """)
+        cur.execute("""
+            CREATE INDEX IF NOT EXISTS idx_ticker_analyses_ticker
+            ON ticker_analyses(ticker, analysis_timestamp DESC);
+        """)
 
-    # Indexes
-    cur.execute("""
-        CREATE INDEX IF NOT EXISTS idx_desk_runs_watchlist
-        ON investment_desk_runs(watchlist_id, run_timestamp DESC);
-    """)
+        cur.execute("""
+            CREATE INDEX IF NOT EXISTS idx_decisions_ticker
+            ON investment_decisions(ticker, decision_timestamp DESC);
+        """)
 
-    cur.execute("""
-        CREATE INDEX IF NOT EXISTS idx_ticker_analyses_ticker
-        ON ticker_analyses(ticker, analysis_timestamp DESC);
-    """)
-
-    cur.execute("""
-        CREATE INDEX IF NOT EXISTS idx_decisions_ticker
-        ON investment_decisions(ticker, decision_timestamp DESC);
-    """)
-
-    cur.execute("""
-        CREATE INDEX IF NOT EXISTS idx_decisions_status
-        ON investment_decisions(status);
-    """)
+        cur.execute("""
+            CREATE INDEX IF NOT EXISTS idx_decisions_status
+            ON investment_decisions(status);
+        """)
 
     conn.commit()
     conn.close()
@@ -222,55 +220,54 @@ def save_desk_run(desk_analysis: Dict) -> Optional[int]:
     """
 
     conn = get_connection()
-    cur = conn.cursor()
-
     try:
-        watchlist = desk_analysis['watchlist']
+        with conn.cursor() as cur:
+            watchlist = desk_analysis['watchlist']
 
-        cur.execute("""
-            INSERT INTO investment_desk_runs
-            (watchlist_id, watchlist_name, time_window_hours, duration_seconds,
-             overall_sentiment, desk_outlook,
-             total_tickers, analyzed_tickers, failed_tickers,
-             total_news_analyzed, total_entities_found,
-             avg_confidence, avg_negative_ratio, avg_positive_ratio,
-             bullish_count, bearish_count, cautious_count, neutral_count,
-             full_results_json, recommendations_json)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            watchlist['id'],
-            watchlist['name'],
-            desk_analysis['time_window_hours'],
-            desk_analysis['duration_seconds'],
-            desk_analysis['overall_sentiment'],
-            desk_analysis['desk_outlook'],
-            desk_analysis['total_tickers'],
-            desk_analysis['analyzed_tickers'],
-            json.dumps(desk_analysis['failed_tickers']),
-            desk_analysis['total_news_analyzed'],
-            desk_analysis['total_entities_found'],
-            desk_analysis['avg_confidence'],
-            desk_analysis['avg_negative_ratio'],
-            desk_analysis['avg_positive_ratio'],
-            desk_analysis['bullish_count'],
-            desk_analysis['bearish_count'],
-            desk_analysis['cautious_count'],
-            desk_analysis['neutral_count'],
-            json.dumps(desk_analysis),
-            json.dumps(desk_analysis['recommendations'])
-        ))
+            cur.execute("""
+                INSERT INTO investment_desk_runs
+                (watchlist_id, watchlist_name, time_window_hours, duration_seconds,
+                 overall_sentiment, desk_outlook,
+                 total_tickers, analyzed_tickers, failed_tickers,
+                 total_news_analyzed, total_entities_found,
+                 avg_confidence, avg_negative_ratio, avg_positive_ratio,
+                 bullish_count, bearish_count, cautious_count, neutral_count,
+                 full_results_json, recommendations_json)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING id
+            """, (
+                watchlist['id'],
+                watchlist['name'],
+                desk_analysis['time_window_hours'],
+                desk_analysis['duration_seconds'],
+                desk_analysis['overall_sentiment'],
+                desk_analysis['desk_outlook'],
+                desk_analysis['total_tickers'],
+                desk_analysis['analyzed_tickers'],
+                json.dumps(desk_analysis['failed_tickers']),
+                desk_analysis['total_news_analyzed'],
+                desk_analysis['total_entities_found'],
+                desk_analysis['avg_confidence'],
+                desk_analysis['avg_negative_ratio'],
+                desk_analysis['avg_positive_ratio'],
+                desk_analysis['bullish_count'],
+                desk_analysis['bearish_count'],
+                desk_analysis['cautious_count'],
+                desk_analysis['neutral_count'],
+                json.dumps(desk_analysis),
+                json.dumps(desk_analysis['recommendations'])
+            ))
 
-        desk_run_id = cur.lastrowid
-        conn.commit()
-        conn.close()
-
-        logger.info(f"✅ Saved desk run {desk_run_id}")
-        return desk_run_id
+            desk_run_id = cur.fetchone()[0]
+            conn.commit()
+            logger.info(f"✅ Saved desk run {desk_run_id}")
+            return desk_run_id
 
     except Exception as e:
         logger.error(f"❌ Failed to save desk run: {e}")
-        conn.close()
         return None
+    finally:
+        conn.close()
 
 
 def save_ticker_analysis(ticker_analysis: Dict, desk_run_id: int) -> Optional[int]:
@@ -285,52 +282,51 @@ def save_ticker_analysis(ticker_analysis: Dict, desk_run_id: int) -> Optional[in
     """
 
     conn = get_connection()
-    cur = conn.cursor()
-
     try:
-        cur.execute("""
-            INSERT INTO ticker_analyses
-            (desk_run_id, ticker, company_name, analysis_timestamp,
-             mapped_entities, related_news_count, news_sources, news_ids,
-             unique_entities_found, total_entity_mentions,
-             avg_confidence, negative_ratio, positive_ratio,
-             recommendation, rationale,
-             top_risks_json, top_opportunities_json, most_mentioned_json,
-             full_results_json)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            desk_run_id,
-            ticker_analysis['ticker'],
-            ticker_analysis.get('company_name'),  # Optional
-            ticker_analysis['analysis_timestamp'],
-            json.dumps(ticker_analysis['mapped_entities']),
-            ticker_analysis['related_news_count'],
-            json.dumps(ticker_analysis['news_sources']),
-            json.dumps([n.get('id') for n in ticker_analysis.get('related_news', [])]),
-            ticker_analysis['unique_entities_found'],
-            ticker_analysis['unique_entities_found'],  # Using same value for now
-            ticker_analysis['avg_confidence'],
-            ticker_analysis['negative_ratio'],
-            ticker_analysis['positive_ratio'],
-            ticker_analysis['recommendation'],
-            ticker_analysis['rationale'],
-            json.dumps(ticker_analysis.get('top_risks', [])),
-            json.dumps(ticker_analysis.get('top_opportunities', [])),
-            json.dumps(ticker_analysis.get('most_mentioned', [])),
-            json.dumps(ticker_analysis)
-        ))
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO ticker_analyses
+                (desk_run_id, ticker, company_name, analysis_timestamp,
+                 mapped_entities, related_news_count, news_sources, news_ids,
+                 unique_entities_found, total_entity_mentions,
+                 avg_confidence, negative_ratio, positive_ratio,
+                 recommendation, rationale,
+                 top_risks_json, top_opportunities_json, most_mentioned_json,
+                 full_results_json)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING id
+            """, (
+                desk_run_id,
+                ticker_analysis['ticker'],
+                ticker_analysis.get('company_name'),  # Optional
+                ticker_analysis['analysis_timestamp'],
+                json.dumps(ticker_analysis['mapped_entities']),
+                ticker_analysis['related_news_count'],
+                json.dumps(ticker_analysis['news_sources']),
+                json.dumps([n.get('id') for n in ticker_analysis.get('related_news', [])]),
+                ticker_analysis['unique_entities_found'],
+                ticker_analysis['unique_entities_found'],  # Using same value for now
+                ticker_analysis['avg_confidence'],
+                ticker_analysis['negative_ratio'],
+                ticker_analysis['positive_ratio'],
+                ticker_analysis['recommendation'],
+                ticker_analysis['rationale'],
+                json.dumps(ticker_analysis.get('top_risks', [])),
+                json.dumps(ticker_analysis.get('top_opportunities', [])),
+                json.dumps(ticker_analysis.get('most_mentioned', [])),
+                json.dumps(ticker_analysis)
+            ))
 
-        ticker_analysis_id = cur.lastrowid
-        conn.commit()
-        conn.close()
-
-        logger.info(f"✅ Saved ticker analysis {ticker_analysis_id} for {ticker_analysis['ticker']}")
-        return ticker_analysis_id
+            ticker_analysis_id = cur.fetchone()[0]
+            conn.commit()
+            logger.info(f"✅ Saved ticker analysis {ticker_analysis_id} for {ticker_analysis['ticker']}")
+            return ticker_analysis_id
 
     except Exception as e:
         logger.error(f"❌ Failed to save ticker analysis: {e}")
-        conn.close()
         return None
+    finally:
+        conn.close()
 
 
 def record_decision(
@@ -366,39 +362,38 @@ def record_decision(
     """
 
     conn = get_connection()
-    cur = conn.cursor()
-
     try:
-        cur.execute("""
-            INSERT INTO investment_decisions
-            (ticker_analysis_id, desk_run_id, ticker, recommendation, desk_action,
-             decision, decision_notes, action_taken, position_size, entry_price, alpaca_order_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            ticker_analysis_id,
-            desk_run_id,
-            ticker,
-            recommendation,
-            desk_action,
-            decision,
-            decision_notes,
-            action_taken,
-            position_size,
-            entry_price,
-            alpaca_order_id
-        ))
+        with conn.cursor() as cur:
+            cur.execute("""
+                INSERT INTO investment_decisions
+                (ticker_analysis_id, desk_run_id, ticker, recommendation, desk_action,
+                 decision, decision_notes, action_taken, position_size, entry_price, alpaca_order_id)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING id
+            """, (
+                ticker_analysis_id,
+                desk_run_id,
+                ticker,
+                recommendation,
+                desk_action,
+                decision,
+                decision_notes,
+                action_taken,
+                position_size,
+                entry_price,
+                alpaca_order_id
+            ))
 
-        decision_id = cur.lastrowid
-        conn.commit()
-        conn.close()
-
-        logger.info(f"✅ Recorded decision {decision_id} for {ticker}: {decision}")
-        return decision_id
+            decision_id = cur.fetchone()[0]
+            conn.commit()
+            logger.info(f"✅ Recorded decision {decision_id} for {ticker}: {decision}")
+            return decision_id
 
     except Exception as e:
         logger.error(f"❌ Failed to record decision: {e}")
-        conn.close()
         return None
+    finally:
+        conn.close()
 
 
 def update_decision_outcome(
@@ -430,38 +425,36 @@ def update_decision_outcome(
     """
 
     conn = get_connection()
-    cur = conn.cursor()
-
     try:
-        # Update decision
-        cur.execute("""
-            UPDATE investment_decisions
-            SET exit_price = ?,
-                exit_timestamp = CURRENT_TIMESTAMP,
-                profit_loss = ?,
-                profit_loss_pct = ?,
-                status = ?
-            WHERE id = ?
-        """, (exit_price, profit_loss, profit_loss_pct, status, decision_id))
-
-        # Add performance record
-        if any([was_correct is not None, actual_outcome, outcome_notes, rating]):
+        with conn.cursor() as cur:
+            # Update decision
             cur.execute("""
-                INSERT INTO recommendation_performance
-                (decision_id, was_correct, actual_outcome, outcome_notes, rating)
-                VALUES (?, ?, ?, ?, ?)
-            """, (decision_id, was_correct, actual_outcome, outcome_notes, rating))
+                UPDATE investment_decisions
+                SET exit_price = %s,
+                    exit_timestamp = CURRENT_TIMESTAMP,
+                    profit_loss = %s,
+                    profit_loss_pct = %s,
+                    status = %s
+                WHERE id = %s
+            """, (exit_price, profit_loss, profit_loss_pct, status, decision_id))
 
-        conn.commit()
-        conn.close()
+            # Add performance record
+            if any([was_correct is not None, actual_outcome, outcome_notes, rating]):
+                cur.execute("""
+                    INSERT INTO recommendation_performance
+                    (decision_id, was_correct, actual_outcome, outcome_notes, rating)
+                    VALUES (%s, %s, %s, %s, %s)
+                """, (decision_id, was_correct, actual_outcome, outcome_notes, rating))
 
-        logger.info(f"✅ Updated outcome for decision {decision_id}")
-        return True
+            conn.commit()
+            logger.info(f"✅ Updated outcome for decision {decision_id}")
+            return True
 
     except Exception as e:
         logger.error(f"❌ Failed to update outcome: {e}")
-        conn.close()
         return False
+    finally:
+        conn.close()
 
 
 def get_decision_history(ticker: str = None, limit: int = 50) -> List[Dict]:
@@ -476,51 +469,44 @@ def get_decision_history(ticker: str = None, limit: int = 50) -> List[Dict]:
     """
 
     conn = get_connection()
-    cur = conn.cursor()
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            if ticker:
+                cur.execute("""
+                    SELECT
+                        d.*,
+                        t.recommendation as ticker_recommendation,
+                        t.rationale as ticker_rationale,
+                        t.avg_confidence,
+                        dr.overall_sentiment as desk_sentiment,
+                        dr.watchlist_name
+                    FROM investment_decisions d
+                    JOIN ticker_analyses t ON d.ticker_analysis_id = t.id
+                    JOIN investment_desk_runs dr ON d.desk_run_id = dr.id
+                    WHERE d.ticker = %s
+                    ORDER BY d.decision_timestamp DESC
+                    LIMIT %s
+                """, (ticker, limit))
+            else:
+                cur.execute("""
+                    SELECT
+                        d.*,
+                        t.recommendation as ticker_recommendation,
+                        t.rationale as ticker_rationale,
+                        t.avg_confidence,
+                        dr.overall_sentiment as desk_sentiment,
+                        dr.watchlist_name
+                    FROM investment_decisions d
+                    JOIN ticker_analyses t ON d.ticker_analysis_id = t.id
+                    JOIN investment_desk_runs dr ON d.desk_run_id = dr.id
+                    ORDER BY d.decision_timestamp DESC
+                    LIMIT %s
+                """, (limit,))
 
-    if ticker:
-        cur.execute("""
-            SELECT
-                d.*,
-                t.recommendation as ticker_recommendation,
-                t.rationale as ticker_rationale,
-                t.avg_confidence,
-                dr.overall_sentiment as desk_sentiment,
-                dr.watchlist_name
-            FROM investment_decisions d
-            JOIN ticker_analyses t ON d.ticker_analysis_id = t.id
-            JOIN investment_desk_runs dr ON d.desk_run_id = dr.id
-            WHERE d.ticker = ?
-            ORDER BY d.decision_timestamp DESC
-            LIMIT ?
-        """, (ticker, limit))
-    else:
-        cur.execute("""
-            SELECT
-                d.*,
-                t.recommendation as ticker_recommendation,
-                t.rationale as ticker_rationale,
-                t.avg_confidence,
-                dr.overall_sentiment as desk_sentiment,
-                dr.watchlist_name
-            FROM investment_decisions d
-            JOIN ticker_analyses t ON d.ticker_analysis_id = t.id
-            JOIN investment_desk_runs dr ON d.desk_run_id = dr.id
-            ORDER BY d.decision_timestamp DESC
-            LIMIT ?
-        """, (limit,))
-
-    rows = cur.fetchall()
-
-    # Convert to list of dicts
-    columns = [desc[0] for desc in cur.description]
-    decisions = []
-    for row in rows:
-        decision_dict = dict(zip(columns, row))
-        decisions.append(decision_dict)
-
-    conn.close()
-    return decisions
+            rows = cur.fetchall()
+            return [dict(row) for row in rows]
+    finally:
+        conn.close()
 
 
 def get_performance_stats(ticker: str = None) -> Dict:
@@ -534,36 +520,34 @@ def get_performance_stats(ticker: str = None) -> Dict:
     """
 
     conn = get_connection()
-    cur = conn.cursor()
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            if ticker:
+                where_clause = "WHERE d.ticker = %s"
+                params = (ticker,)
+            else:
+                where_clause = ""
+                params = ()
 
-    if ticker:
-        where_clause = "WHERE d.ticker = ?"
-        params = (ticker,)
-    else:
-        where_clause = ""
-        params = ()
+            cur.execute(f"""
+                SELECT
+                    COUNT(*) as total_decisions,
+                    COUNT(CASE WHEN d.status = 'CLOSED' THEN 1 END) as closed_decisions,
+                    COUNT(CASE WHEN d.action_taken = 'BOUGHT' THEN 1 END) as bought_count,
+                    SUM(CASE WHEN d.profit_loss IS NOT NULL THEN d.profit_loss ELSE 0 END) as total_pl,
+                    AVG(CASE WHEN d.profit_loss_pct IS NOT NULL THEN d.profit_loss_pct ELSE NULL END) as avg_pl_pct,
+                    COUNT(CASE WHEN p.was_correct = true THEN 1 END) as correct_recommendations,
+                    COUNT(CASE WHEN p.was_correct = false THEN 1 END) as incorrect_recommendations,
+                    AVG(CASE WHEN p.rating IS NOT NULL THEN p.rating ELSE NULL END) as avg_rating
+                FROM investment_decisions d
+                LEFT JOIN recommendation_performance p ON d.id = p.decision_id
+                {where_clause}
+            """, params)
 
-    cur.execute(f"""
-        SELECT
-            COUNT(*) as total_decisions,
-            COUNT(CASE WHEN d.status = 'CLOSED' THEN 1 END) as closed_decisions,
-            COUNT(CASE WHEN d.action_taken = 'BOUGHT' THEN 1 END) as bought_count,
-            SUM(CASE WHEN d.profit_loss IS NOT NULL THEN d.profit_loss ELSE 0 END) as total_pl,
-            AVG(CASE WHEN d.profit_loss_pct IS NOT NULL THEN d.profit_loss_pct ELSE NULL END) as avg_pl_pct,
-            COUNT(CASE WHEN p.was_correct = 1 THEN 1 END) as correct_recommendations,
-            COUNT(CASE WHEN p.was_correct = 0 THEN 1 END) as incorrect_recommendations,
-            AVG(CASE WHEN p.rating IS NOT NULL THEN p.rating ELSE NULL END) as avg_rating
-        FROM investment_decisions d
-        LEFT JOIN recommendation_performance p ON d.id = p.decision_id
-        {where_clause}
-    """, params)
-
-    row = cur.fetchone()
-    columns = [desc[0] for desc in cur.description]
-    stats = dict(zip(columns, row))
-
-    conn.close()
-    return stats
+            row = cur.fetchone()
+            return dict(row) if row else {}
+    finally:
+        conn.close()
 
 
 def get_audit_trail(ticker: str, hours_back: int = 48) -> List[Dict]:
@@ -578,56 +562,55 @@ def get_audit_trail(ticker: str, hours_back: int = 48) -> List[Dict]:
     """
 
     conn = get_connection()
-    cur = conn.cursor()
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute("""
+                SELECT
+                    dr.id as desk_run_id,
+                    dr.run_timestamp,
+                    dr.overall_sentiment,
+                    t.id as ticker_analysis_id,
+                    t.analysis_timestamp,
+                    t.recommendation,
+                    t.rationale,
+                    t.avg_confidence,
+                    t.negative_ratio,
+                    t.positive_ratio,
+                    t.related_news_count,
+                    t.unique_entities_found,
+                    t.top_risks_json,
+                    t.top_opportunities_json,
+                    d.id as decision_id,
+                    d.decision_timestamp,
+                    d.decision,
+                    d.action_taken,
+                    d.position_size,
+                    d.entry_price,
+                    d.exit_price,
+                    d.profit_loss_pct,
+                    d.status
+                FROM ticker_analyses t
+                JOIN investment_desk_runs dr ON t.desk_run_id = dr.id
+                LEFT JOIN investment_decisions d ON t.id = d.ticker_analysis_id
+                WHERE t.ticker = %s
+                AND t.analysis_timestamp > CURRENT_TIMESTAMP - (INTERVAL '1 hour' * %s)
+                ORDER BY t.analysis_timestamp DESC
+            """, (ticker, hours_back))
 
-    cur.execute("""
-        SELECT
-            dr.id as desk_run_id,
-            dr.run_timestamp,
-            dr.overall_sentiment,
-            t.id as ticker_analysis_id,
-            t.analysis_timestamp,
-            t.recommendation,
-            t.rationale,
-            t.avg_confidence,
-            t.negative_ratio,
-            t.positive_ratio,
-            t.related_news_count,
-            t.unique_entities_found,
-            t.top_risks_json,
-            t.top_opportunities_json,
-            d.id as decision_id,
-            d.decision_timestamp,
-            d.decision,
-            d.action_taken,
-            d.position_size,
-            d.entry_price,
-            d.exit_price,
-            d.profit_loss_pct,
-            d.status
-        FROM ticker_analyses t
-        JOIN investment_desk_runs dr ON t.desk_run_id = dr.id
-        LEFT JOIN investment_decisions d ON t.id = d.ticker_analysis_id
-        WHERE t.ticker = ?
-        AND t.analysis_timestamp > datetime('now', '-' || ? || ' hours')
-        ORDER BY t.analysis_timestamp DESC
-    """, (ticker, hours_back))
+            rows = cur.fetchall()
 
-    rows = cur.fetchall()
+            audit_trail = []
+            for row in rows:
+                audit_dict = dict(row)
+                # Parse JSON fields
+                for field in ['top_risks_json', 'top_opportunities_json']:
+                    if audit_dict.get(field):
+                        try:
+                            audit_dict[field.replace('_json', '')] = json.loads(audit_dict[field])
+                        except:
+                            pass
+                audit_trail.append(audit_dict)
 
-    # Convert to list of dicts
-    columns = [desc[0] for desc in cur.description]
-    audit_trail = []
-    for row in rows:
-        audit_dict = dict(zip(columns, row))
-        # Parse JSON fields
-        for field in ['top_risks_json', 'top_opportunities_json']:
-            if audit_dict.get(field):
-                try:
-                    audit_dict[field.replace('_json', '')] = json.loads(audit_dict[field])
-                except:
-                    pass
-        audit_trail.append(audit_dict)
-
-    conn.close()
-    return audit_trail
+            return audit_trail
+    finally:
+        conn.close()

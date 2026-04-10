@@ -1,12 +1,15 @@
 """Ejecución de órdenes en Alpaca Paper Trading."""
 
 import os
-from typing import Dict, List, Optional
+import logging
+from typing import Dict, List, Optional, Tuple
+from datetime import date
 from alpaca.trading.client import TradingClient
-from alpaca.trading.requests import MarketOrderRequest, LimitOrderRequest
-from alpaca.trading.enums import OrderSide, TimeInForce
+from alpaca.trading.requests import MarketOrderRequest, LimitOrderRequest, GetOrdersRequest
+from alpaca.trading.enums import OrderSide, TimeInForce, OrderStatus
 from dotenv import load_dotenv
 
+logger = logging.getLogger(__name__)
 load_dotenv()
 
 def get_trading_client() -> TradingClient:
@@ -22,6 +25,50 @@ def get_trading_client() -> TradingClient:
         secret_key=secret_key,
         paper=True  # Use paper trading
     )
+
+def check_execution_guardrails() -> Tuple[bool, str]:
+    """Check if we can still trade today based on human-defined limits.
+    
+    Returns:
+        (is_allowed, reason)
+    """
+    try:
+        client = get_trading_client()
+        account = client.get_account()
+        
+        # 1. Check Daily Drawdown Limit
+        # last_equity is the equity at the close of the previous trading day
+        equity = float(account.equity)
+        last_equity = float(account.last_equity)
+        
+        drawdown = (equity - last_equity) / last_equity if last_equity > 0 else 0
+        limit_drawdown = float(os.getenv("DAILY_DRAWDOWN_LIMIT_PCT", "0.03"))
+        
+        if drawdown < -limit_drawdown:
+            return False, f"Daily drawdown limit reached: {drawdown:.2%} (Limit: {limit_drawdown:.2%})"
+            
+        # 2. Check Max Trades Per Day
+        # Get orders from today
+        today = date.today().isoformat()
+        
+        # Note: We use GetOrdersRequest to filter by date
+        # In Alpaca SDK, we might need to handle pagination if there are many orders
+        orders = client.get_orders(GetOrdersRequest(status=OrderStatus.ALL, after=today))
+        
+        # Count filled or open buy/sell orders (excluding cancellations)
+        active_statuses = [OrderStatus.FILLED, OrderStatus.PARTIALLY_FILLED, OrderStatus.NEW, OrderStatus.ACCEPTED]
+        trade_count = len([o for o in orders if o.status in active_statuses])
+        
+        limit_trades = int(os.getenv("MAX_TRADES_PER_DAY", "10"))
+        if trade_count >= limit_trades:
+            return False, f"Maximum daily trades reached: {trade_count} (Limit: {limit_trades})"
+            
+        return True, "All guardrails passed"
+        
+    except Exception as e:
+        logger.error(f"Error checking guardrails: {e}")
+        # If we can't check, we fail safe (stop trading)
+        return False, f"Guardrail check failed: {str(e)}"
 
 def submit_order(
     symbol: str,
@@ -44,6 +91,12 @@ def submit_order(
     Returns:
         Order confirmation dict
     """
+    # FINAL SAFETY CHECK
+    is_allowed, reason = check_execution_guardrails()
+    if not is_allowed:
+        logger.error(f"🚫 EXECUTION BLOCKED: {reason}")
+        raise PermissionError(f"Trade rejected by Risk Guardrails: {reason}")
+
     client = get_trading_client()
 
     side = OrderSide.BUY if side.lower() == 'buy' else OrderSide.SELL

@@ -16,7 +16,10 @@ Uso:
 
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+# Fix root path and subagents path
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, root_dir)
+sys.path.insert(0, os.path.join(root_dir, '.claude', 'subagents'))
 
 import logging
 from datetime import datetime
@@ -33,16 +36,13 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Set up environment
+# Note: API Keys should ideally be in .env, but keeping them as they were in the script
 os.environ['ALPACA_PAPER_API_KEY'] = 'YOUR_ALPACA_PAPER_API_KEY'
 os.environ['PAPER_API_SECRET'] = 'YOUR_ALPACA_SECRET_KEY'
 os.environ['SERPAPI_API_KEY'] = 'YOUR_SERPAPI_API_KEY'
 os.environ['GEMINI_API_KEY'] = 'AIzaSyCutHRoCMkN02KhsVYATzu5XRPjboQZxnc'
 os.environ['GEMINI_API_MODEL_01'] = 'gemini-3.1-flash-lite-preview'
 os.environ['GEMINI_API_MODEL_02'] = 'gemini-3.1-flash-lite-preview'
-
-import sys
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '.claude', 'subagents'))
 
 from trading_mvp.core.db_geo_news import get_recent_news
 from trading_mvp.core.db_geo_entities import get_recent_entities, get_entities_by_name
@@ -363,6 +363,29 @@ def print_analysis_report(analysis: Dict):
             print(f"   {i}. {entity['entity_name']}: {entity['mention_count']} mentions")
     print()
 
+    # Quantitative Stats
+    if analysis.get('quant_stats') and not analysis['quant_stats'].get('error'):
+        qs = analysis['quant_stats']
+        print("📈 QUANTITATIVE SNAPSHOT:")
+        print(f"   • Current Price: ${qs['current_price']:.2f}")
+        print(f"   • Trend: {qs['trend']} (SMA 200: ${qs['sma_200']})")
+        print(f"   • Momentum: {qs['momentum']} (SMA 50: ${qs['sma_50']})")
+        print(f"   • Relative Strength (RSI 14): {qs['rsi_14']}")
+        
+        # RSI Interpretation
+        rsi_label = "OVERBOUGHT" if qs['rsi_14'] > 70 else "OVERSOLD" if qs['rsi_14'] < 30 else "NEUTRAL"
+        print(f"   • RSI Condition: {rsi_label}")
+        
+        print(f"   • Volatility (ATR 14): ${qs['atr_14']:.2f} ({qs['volatility_ratio']}% of price)")
+        print(f"   • Market Beta (vs SPY): {qs['beta_spy']}")
+        
+        # Beta interpretation
+        beta_desc = "High correlation" if qs['beta_spy'] > 1.2 else "Low correlation" if qs['beta_spy'] < 0.8 else "Moves with market"
+        print(f"   • Correlation: {beta_desc}")
+    elif analysis.get('quant_stats') and analysis['quant_stats'].get('error'):
+        print(f"📈 QUANTITATIVE SNAPSHOT: ⚠️ Data unavailable ({analysis['quant_stats']['error']})")
+    print()
+
     print("="*70)
 
 
@@ -376,47 +399,40 @@ def get_entities_for_news(news_id: int) -> List[Dict]:
         List of entity dicts
     """
 
-    import sqlite3
+    import json
     from trading_mvp.core.db_manager import get_connection
+    from psycopg2.extras import RealDictCursor
 
     conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute("""
-        SELECT * FROM geo_macro_entities
-        WHERE news_id = ?
-        ORDER BY confidence DESC
-    """, (news_id,))
-
-    rows = cur.fetchall()
-
-    # Convert to list of dicts
-    columns = [desc[0] for desc in cur.description]
     entities = []
-    for row in rows:
-        entity_dict = dict(zip(columns, row))
-        # Parse JSON fields
-        if entity_dict.get('sectors'):
-            try:
-                import json
-                entity_dict['sectors'] = json.loads(entity_dict['sectors'])
-            except:
-                entity_dict['sectors'] = []
-        else:
-            entity_dict['sectors'] = []
+    
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute("""
+                SELECT * FROM geo_macro_entities
+                WHERE news_id = %s
+                ORDER BY confidence DESC
+            """, (news_id,))
 
-        if entity_dict.get('regions'):
-            try:
-                import json
-                entity_dict['regions'] = json.loads(entity_dict['regions'])
-            except:
-                entity_dict['regions'] = []
-        else:
-            entity_dict['regions'] = []
+            rows = cur.fetchall()
 
-        entities.append(entity_dict)
+            for row in rows:
+                entity_dict = dict(row)
+                # Handle JSONB fields - they might already be parsed as lists/dicts
+                for field in ['sectors', 'regions']:
+                    val = entity_dict.get(field)
+                    if isinstance(val, str):
+                        try:
+                            entity_dict[field] = json.loads(val)
+                        except:
+                            entity_dict[field] = []
+                    elif val is None:
+                        entity_dict[field] = []
+                
+                entities.append(entity_dict)
+    finally:
+        conn.close()
 
-    conn.close()
     return entities
 
 

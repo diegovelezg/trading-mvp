@@ -55,6 +55,16 @@ TICKER_TO_ENTITIES = {
     "WFC": ["Finance", "Banking", "Financial Services"],
     "C": ["Finance", "Banking", "Financial Services"],
     "GS": ["Finance", "Investment Banking", "Financial Services"],
+    "MA": ["Mastercard", "Payments", "Finance", "Credit Cards"],
+
+    # Nuclear & Uranium
+    "NXE": ["NexGen Energy", "Uranium", "Nuclear Energy", "Saskatchewan"],
+    "CCJ": ["Cameco", "Uranium", "Nuclear Energy", "Fuel Cycle"],
+    "URA": ["Uranium ETF", "Uranium", "Nuclear Power", "Clean Energy"],
+    "BWXT": ["BWX Technologies", "Nuclear Reactors", "SMR", "Naval Nuclear"],
+    "SMR": ["NuScale Power", "Small Modular Reactors", "Nuclear Technology"],
+    "UUUU": ["Energy Fuels", "Uranium", "Rare Earth Elements"],
+    "DNN": ["Denison Mines", "Uranium", "Athabasca Basin"]
 }
 
 

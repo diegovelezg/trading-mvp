@@ -15,7 +15,7 @@ Uso:
 
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import logging
 from datetime import datetime
@@ -55,19 +55,27 @@ from trading_mvp.core.db_investment_tracking import (
 )
 from trading_mvp.agents.decision_agent import (
     DecisionAgent,
-    DecisionConfig,
-    DEFAULT_CONFIG
+    DecisionConfig
+)
+from trading_mvp.execution.alpaca_orders import (
+    get_account,
+    get_positions,
+    submit_order
 )
 
 # Import analyze_ticker function
 import importlib.util
-spec = importlib.util.spec_from_file_location("analyze_ticker", "analyze_ticker.py")
+# Try to find it in the same directory as this script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+analyze_ticker_path = os.path.join(script_dir, "analyze_ticker.py")
+
+spec = importlib.util.spec_from_file_location("analyze_ticker", analyze_ticker_path)
 analyze_ticker_module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(analyze_ticker_module)
 
 
 def run_investment_desk(watchlist_id: int = None, watchlist_name: str = None, hours_back: int = 48) -> Dict:
-    """Run complete investment desk analysis on a watchlist.
+    """Run complete investment desk analysis on a watchlist and current portfolio.
 
     Args:
         watchlist_id: Watchlist ID (optional, use watchlist_name instead)
@@ -79,7 +87,7 @@ def run_investment_desk(watchlist_id: int = None, watchlist_name: str = None, ho
     """
 
     logger.info("="*70)
-    logger.info("🏛️  INVESTMENT DESK - COMPLETE ANALYSIS")
+    logger.info("🏛️  INVESTMENT DESK - PORTFOLIO-FIRST ANALYSIS")
     logger.info("="*70)
     logger.info("")
 
@@ -88,58 +96,77 @@ def run_investment_desk(watchlist_id: int = None, watchlist_name: str = None, ho
     # 0. Ensure tracking tables exist
     create_investment_tracking_tables()
 
-    # 1. Get watchlist
-    if watchlist_id:
-        watchlist = get_watchlist(watchlist_id)
-        if not watchlist:
-            logger.error(f"❌ Watchlist ID {watchlist_id} not found")
-            return {"success": False, "error": "Watchlist not found"}
-    elif watchlist_name:
-        # Find by name
-        watchlists = get_active_watchlists()
-        watchlist = next((wl for wl in watchlists if wl['name'] == watchlist_name), None)
-        if not watchlist:
-            logger.error(f"❌ Watchlist '{watchlist_name}' not found")
-            return {"success": False, "error": "Watchlist not found"}
-        watchlist_id = watchlist['id']
-    else:
-        # Use first active watchlist
-        watchlists = get_active_watchlists()
-        if not watchlists:
-            logger.error("❌ No active watchlists found")
-            return {"success": False, "error": "No active watchlists"}
-        watchlist = watchlists[0]
-        watchlist_id = watchlist['id']
+    # 1. Load Portfolio Context from Alpaca
+    logger.info("💰 Loading current portfolio from Alpaca...")
+    try:
+        portfolio_positions = get_positions()
+        portfolio_account = get_account()
+        
+        portfolio_tickers = [p['symbol'] for p in portfolio_positions]
+        logger.info(f"   ✅ Portfolio: {len(portfolio_tickers)} positions found: {', '.join(portfolio_tickers)}")
+        logger.info(f"   ✅ Buying Power: ${portfolio_account['buying_power']:.2f} | Equity: ${portfolio_account['equity']:.2f}")
+    except Exception as e:
+        logger.error(f"   ❌ Failed to load portfolio: {e}")
+        portfolio_positions = []
+        portfolio_account = {'buying_power': 0, 'cash': 0, 'portfolio_value': 0, 'equity': 0}
 
-    logger.info(f"📋 Watchlist: {watchlist['name']}")
-    logger.info(f"   Description: {watchlist['description']}")
+    # 2. Get watchlist
+    watchlist_tickers = []
+    watchlist_info = {'name': 'Default', 'description': 'Default Watchlist'}
+    
+    try:
+        if watchlist_id:
+            watchlist = get_watchlist(watchlist_id)
+            if watchlist:
+                watchlist_info = watchlist
+                watchlist_tickers_data = get_watchlist_tickers(watchlist_id)
+                watchlist_tickers = [t['ticker'] for t in watchlist_tickers_data]
+        elif watchlist_name:
+            watchlists = get_active_watchlists()
+            watchlist = next((wl for wl in watchlists if wl['name'] == watchlist_name), None)
+            if watchlist:
+                watchlist_info = watchlist
+                watchlist_id = watchlist['id']
+                watchlist_tickers_data = get_watchlist_tickers(watchlist_id)
+                watchlist_tickers = [t['ticker'] for t in watchlist_tickers_data]
+        else:
+            watchlists = get_active_watchlists()
+            if watchlists:
+                watchlist = watchlists[0]
+                watchlist_info = watchlist
+                watchlist_id = watchlist['id']
+                watchlist_tickers_data = get_watchlist_tickers(watchlist_id)
+                watchlist_tickers = [t['ticker'] for t in watchlist_tickers_data]
+                
+        logger.info(f"📋 Watchlist: {watchlist_info['name']}")
+    except Exception as e:
+        logger.warning(f"⚠️  Watchlist loading issue: {e}")
+
+    # 3. Combine Tickers (Portfolio + Watchlist)
+    # Use a set to avoid duplicates
+    all_tickers = list(set(portfolio_tickers + watchlist_tickers))
+    
+    if not all_tickers:
+        logger.error(f"❌ No tickers found in either portfolio or watchlist")
+        return {"success": False, "error": "No tickers to analyze"}
+
+    logger.info(f"📊 Analyzing {len(all_tickers)} unique tickers...")
     logger.info("")
 
-    # 2. Get tickers
-    logger.info(f"📊 Loading tickers...")
-    tickers_data = get_watchlist_tickers(watchlist_id)
-    tickers = [t['ticker'] for t in tickers_data]
-
-    if not tickers:
-        logger.error(f"❌ No tickers found in watchlist")
-        return {"success": False, "error": "No tickers in watchlist"}
-
-    logger.info(f"   ✅ Found {len(tickers)} tickers: {', '.join(tickers)}")
-    logger.info("")
-
-    # 3. Analyze each ticker
-    logger.info(f"🔍 Analyzing tickers...")
-    logger.info("")
-
+    # 4. Analyze each ticker
     ticker_results = []
     failed_tickers = []
 
-    for i, ticker in enumerate(tickers, 1):
-        logger.info(f"[{i}/{len(tickers)}] Analyzing {ticker}...")
+    for i, ticker in enumerate(all_tickers, 1):
+        is_portfolio = ticker in portfolio_tickers
+        type_label = "[PORTFOLIO]" if is_portfolio else "[WATCHLIST]"
+        logger.info(f"[{i}/{len(all_tickers)}] {type_label} Analyzing {ticker}...")
 
         try:
             result = analyze_ticker_module.analyze_ticker(ticker, hours_back=hours_back)
             if result.get('success'):
+                # Tag result if it's in portfolio
+                result['is_in_portfolio'] = is_portfolio
                 ticker_results.append(result)
                 logger.info(f"   ✅ {ticker}: {result['recommendation']}")
             else:
@@ -242,15 +269,15 @@ def run_investment_desk(watchlist_id: int = None, watchlist_name: str = None, ho
         'success': True,
         'watchlist': {
             'id': watchlist_id,
-            'name': watchlist['name'],
-            'description': watchlist['description']
+            'name': watchlist_info['name'],
+            'description': watchlist_info['description']
         },
         'analysis_timestamp': datetime.now().isoformat(),
         'time_window_hours': hours_back,
         'duration_seconds': round(duration, 1),
 
         # Ticker breakdown
-        'total_tickers': len(tickers),
+        'total_tickers': len(all_tickers),
         'analyzed_tickers': len(ticker_results),
         'failed_tickers': failed_tickers,
 
@@ -322,10 +349,14 @@ def run_investment_desk(watchlist_id: int = None, watchlist_name: str = None, ho
         decision_config = DecisionConfig(autopilot_enabled=autopilot_mode)
         decision_agent = DecisionAgent(config=decision_config)
 
-        # Process recommendations
+        # Process recommendations with REAL portfolio context
+        # We need to make sure each recommendation in desk_analysis has its quant_stats
         agent_decisions = decision_agent.process_desk_recommendations(
             desk_analysis=desk_analysis,
-            portfolio_context={}  # TODO: Add portfolio context
+            portfolio_context={
+                'account': portfolio_account,
+                'positions': portfolio_positions
+            }
         )
 
         desk_analysis['agent_decisions'] = agent_decisions
@@ -364,7 +395,7 @@ def run_investment_desk(watchlist_id: int = None, watchlist_name: str = None, ho
     logger.info("="*70)
     logger.info(f"✅ INVESTMENT DESK ANALYSIS COMPLETE")
     logger.info(f"   Duration: {duration:.1f}s")
-    logger.info(f"   Tickers analyzed: {len(ticker_results)}/{len(tickers)}")
+    logger.info(f"   Tickers analyzed: {len(ticker_results)}/{len(all_tickers)}")
     logger.info(f"   Overall sentiment: {overall_sentiment}")
     if desk_run_id:
         logger.info(f"   📝 Audit trail: Desk Run ID {desk_run_id}")

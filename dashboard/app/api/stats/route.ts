@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import db from '@/lib/db';
+import { supabase } from '@/lib/supabase';
 
 const API_KEY = process.env.ALPACA_PAPER_API_KEY;
 const SECRET_KEY = process.env.PAPER_API_SECRET;
@@ -40,10 +40,12 @@ export async function GET() {
     const stdDev = Math.sqrt(returns.map(x => Math.pow(x - avgReturn, 2)).reduce((a, b) => a + b, 0) / (returns.length || 1));
     const sharpe = stdDev !== 0 ? (avgReturn / stdDev) * Math.sqrt(252) : 0;
 
-    // 4. Intelligence Metadata (From local DB - Rationale/Activity)
-    const newsCount = db.prepare("SELECT COUNT(*) as count FROM news").get() as any;
-    const runsCount = db.prepare("SELECT COUNT(*) as count FROM investment_desk_runs").get() as any;
-    const decisions = db.prepare("SELECT COUNT(*) as count FROM investment_decisions").get() as any;
+    // 4. Intelligence Metadata (From Supabase)
+    const [newsRes, runsRes, decisionsRes] = await Promise.all([
+      supabase.from('news').select('*', { count: 'exact', head: true }),
+      supabase.from('investment_desk_runs').select('*', { count: 'exact', head: true }),
+      supabase.from('investment_decisions').select('*', { count: 'exact', head: true })
+    ]);
 
     // 5. Calculate Win Rate from Alpaca Activities (Recent 50 fills)
     const activitiesRes = await fetch(`${BASE_URL}/v2/account/activities?activity_types=FILL&page_size=50`, { headers });
@@ -86,11 +88,12 @@ export async function GET() {
       totalPL: round(totalPL, 2),
       sharpeRatio: round(sharpe, 2),
       winRate: round(winRate, 1),
-      newsProcessed: newsCount.count,
-      deskRuns: runsCount.count,
-      totalDecisions: decisions.count
+      newsProcessed: newsRes.count || 0,
+      deskRuns: runsRes.count || 0,
+      totalDecisions: decisionsRes.count || 0
     });
   } catch (error: any) {
+    console.error('Stats API Error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

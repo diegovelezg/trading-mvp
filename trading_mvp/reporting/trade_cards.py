@@ -59,6 +59,10 @@ Take Profit:     {risk_analysis.get('take_profit', 'N/A')}
 Risk/Reward:     {risk_analysis.get('risk_reward', 'N/A')}
 Max Drawdown:    {risk_analysis.get('max_drawdown', 'N/A')}
 
+🛡️ HUMAN GUARDRAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{risk_analysis.get('risk_guardrail', 'Passed all guardrails')}
+
 💰 SENTIMENT SCORE: {sentiment_score:+.2f}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -28,6 +28,7 @@ try:
         get_positions,
         get_account
     )
+    from trading_mvp.core.portfolio_logic import validate_trade_size
     ALPACA_EXECUTION_AVAILABLE = True
     logger.info("✅ Alpaca Paper Trading execution available")
 except ImportError as e:
@@ -78,6 +79,18 @@ class DecisionAgent:
         """
 
         self.config = config or DecisionConfig()
+        
+        # Load Risk Parameters from .env if available
+        env_min_conf = os.getenv("MIN_CONFIDENCE_SCORE")
+        if env_min_conf:
+            try:
+                conf_val = float(env_min_conf)
+                self.config.min_confidence_for_buy = conf_val
+                self.config.min_confidence_for_sell = conf_val * 0.9  # Sell slightly more sensitive
+                logger.info(f"🛡️ Loaded MIN_CONFIDENCE_SCORE from env: {conf_val}")
+            except ValueError:
+                pass
+
         self.decision_history = []
 
         # Check environment variable for autopilot mode
@@ -168,6 +181,12 @@ class DecisionAgent:
         entities_found = ticker_analysis.get('unique_entities_found', 0)
 
         # Decision matrix
+        # ENSURE QUANT STATS ARE ACCESSIBLE TO HANDLERS
+        if 'quant_stats' in ticker_analysis:
+            portfolio_context['quant_stats'] = ticker_analysis['quant_stats']
+        elif 'quant_stats' not in portfolio_context:
+            portfolio_context['quant_stats'] = {}
+
         if recommendation == "BULLISH":
             return self._handle_bullish(
                 ticker=ticker,
@@ -219,22 +238,52 @@ class DecisionAgent:
         entities_found: int,
         portfolio_context: Dict
     ) -> Dict:
-        """Handle BULLISH recommendation."""
+        """Handle BULLISH recommendation with technical filters."""
 
-        # Check if criteria met to FOLLOW
+        # 1. Extract technical data if available
+        quant_stats = portfolio_context.get('quant_stats', {}) 
+        # Note: Depending on how it's passed, it might be in ticker_analysis or portfolio_context
+        # Let's ensure we check both or where it's actually provided
+        
+        rsi = quant_stats.get('rsi_14', 50)
+        atr = quant_stats.get('atr_14', 0)
+        trend = quant_stats.get('trend', 'UNKNOWN')
+
+        # 2. Basic criteria (Confidence + Sentiment)
         strong_signal = (
             confidence >= self.config.min_confidence_for_buy and
             positive_ratio >= self.config.min_positive_ratio_for_bullish and
             negative_ratio <= self.config.max_negative_ratio_for_bullish
         )
 
-        if strong_signal:
+        # 3. TECHNICAL FILTERS (Order and Progress)
+        technical_rejection = None
+        if rsi > 75:
+            technical_rejection = f"Asset is OVERBOUGHT (RSI: {rsi:.1f})"
+        elif trend == "BEARISH":
+            # Optional: Allow buying against trend but with lower confidence
+            confidence *= 0.8
+            logger.info(f"   ⚠️  Buying against trend (Price < SMA 200). Reducing confidence.")
+
+        if strong_signal and not technical_rejection:
             # Calculate position size
             position_size, entry_price = self._calculate_position_size(
                 ticker=ticker,
                 confidence=confidence,
                 portfolio_context=portfolio_context
             )
+
+            # 4. TECHNICAL STOP LOSS (2xATR or 5% minimum)
+            if atr > 0:
+                stop_loss = entry_price - (2 * atr)
+                # Ensure stop loss isn't ridiculously close or far
+                min_stop = entry_price * (1 - self.config.default_stop_loss_pct)
+                stop_loss = min(stop_loss, min_stop) 
+                
+                take_profit = entry_price + (4 * atr) # 1:2 Risk/Reward
+            else:
+                stop_loss = entry_price * (1 - self.config.default_stop_loss_pct)
+                take_profit = entry_price * (1 + self.config.default_take_profit_pct)
 
             decision = {
                 'decision': 'FOLLOWED',
@@ -245,17 +294,20 @@ class DecisionAgent:
                     confidence, positive_ratio, negative_ratio,
                     top_opportunities, news_count, entities_found
                 ),
-                'stop_loss': entry_price * (1 - self.config.default_stop_loss_pct),
-                'take_profit': entry_price * (1 + self.config.default_take_profit_pct),
+                'stop_loss': round(stop_loss, 2),
+                'take_profit': round(take_profit, 2),
                 'confidence_in_decision': confidence,
-                'risk_level': self._assess_risk_level(top_risks, negative_ratio)
+                'risk_level': self._assess_risk_level(top_risks, negative_ratio),
+                'risk_guardrail': getattr(self, 'last_risk_reason', 'Passed all guardrails'),
+                'technical_context': f"RSI: {rsi:.1f}, ATR: ${atr:.2f}, Trend: {trend}"
             }
 
             logger.info(f"   ✅ DECISION: FOLLOWED - BUY {ticker}")
+            logger.info(f"      Technical Context: {decision['technical_context']}")
             logger.info(f"      Size: ${position_size:.2f} @ ${entry_price:.2f}")
-            logger.info(f"      Stop: ${decision['stop_loss']:.2f} | Target: ${decision['take_profit']:.2f}")
+            logger.info(f"      Stop: ${decision['stop_loss']:.2f} (2xATR) | Target: ${decision['take_profit']:.2f}")
 
-            # EXECUTE ORDER IN ALPACA (if autopilot and not dry_run)
+            # EXECUTE ORDER IN ALPACA
             if self.config.autopilot_enabled and not self.config.dry_run:
                 if ALPACA_EXECUTION_AVAILABLE:
                     decision = self._execute_buy_order(
@@ -264,30 +316,31 @@ class DecisionAgent:
                         entry_price=entry_price,
                         decision=decision
                     )
-                else:
-                    logger.warning("   ⚠️  Alpaca execution not available - recording decision only")
-            else:
-                if self.config.dry_run:
-                    logger.info(f"   🧪 DRY RUN MODE - Order NOT executed (testing)")
-
+            
+        elif technical_rejection:
+            decision = {
+                'decision': 'IGNORED',
+                'action': 'NONE',
+                'rationale': f"BULLISH sentiment but TECHNICAL REJECTION: {technical_rejection}",
+                'confidence_in_decision': 0.0,
+                'risk_level': 'high'
+            }
+            logger.warning(f"   🛡️  DECISION: IGNORED - {decision['rationale']}")
         else:
-            # Signal not strong enough
+            # Signal not strong enough (News/Sentiment)
             reasons = []
             if confidence < self.config.min_confidence_for_buy:
-                reasons.append(f"low confidence ({confidence:.2f} < {self.config.min_confidence_for_buy})")
+                reasons.append(f"low confidence ({confidence:.2f})")
             if positive_ratio < self.config.min_positive_ratio_for_bullish:
                 reasons.append(f"weak positive sentiment ({positive_ratio:.1%})")
-            if negative_ratio > self.config.max_negative_ratio_for_bullish:
-                reasons.append(f"high negative sentiment ({negative_ratio:.1%})")
 
             decision = {
                 'decision': 'IGNORED',
                 'action': 'NONE',
                 'rationale': f"BULLISH signal but criteria not met: {', '.join(reasons)}",
-                'confidence_in_decision': confidence * 0.5,  # Lower confidence when ignoring
+                'confidence_in_decision': confidence * 0.5,
                 'risk_level': 'low'
             }
-
             logger.info(f"   ⚠️  DECISION: IGNORED - {decision['rationale']}")
 
         return decision
@@ -304,26 +357,58 @@ class DecisionAgent:
         entities_found: int,
         portfolio_context: Dict
     ) -> Dict:
-        """Handle BEARISH recommendation."""
+        """Handle BEARISH recommendation with Sell-Off capability."""
 
-        # Check if we should AVOID
-        strong_signal = (
+        # 1. Check if we ALREADY HAVE this ticker in portfolio
+        positions = portfolio_context.get('positions', [])
+        current_pos = next((p for p in positions if p['symbol'] == ticker), None)
+        
+        # 2. Check if we should SELL or AVOID
+        strong_sell_signal = (
             confidence >= self.config.min_confidence_for_sell and
-            negative_ratio >= 0.60  # At least 60% negative
+            negative_ratio >= 0.55  # Clear negative bias
         )
 
-        if strong_signal:
+        if current_pos and strong_sell_signal:
+            # LIQUIDATE POSITION
+            qty = current_pos['qty']
             decision = {
                 'decision': 'FOLLOWED',
-                'action': 'NONE',  # Avoid/Don't buy
+                'action': 'SOLD',
+                'shares': qty,
+                'rationale': f"Strong BEARISH signal for existing position. Liquidating {qty} shares to protect capital. Conf: {confidence:.2f}, Neg: {negative_ratio:.1%}",
+                'confidence_in_decision': confidence,
+                'risk_level': 'high',
+                'risk_guardrail': 'Portfolio Protection Rule'
+            }
+
+            logger.warning(f"   🚨 DECISION: FOLLOWED - SELL {ticker} (Liquidating {qty} shares)")
+
+            # EXECUTE SELL IN ALPACA
+            if self.config.autopilot_enabled and not self.config.dry_run:
+                if ALPACA_EXECUTION_AVAILABLE:
+                    decision = self._execute_sell_order(
+                        ticker=ticker,
+                        decision=decision
+                    )
+                else:
+                    logger.warning("   ⚠️  Alpaca execution not available - recording decision only")
+            
+            return decision
+
+        elif strong_sell_signal:
+            # Just avoid buying
+            decision = {
+                'decision': 'FOLLOWED',
+                'action': 'NONE',
                 'rationale': self._generate_bearish_rationale(
                     confidence, negative_ratio, top_risks, news_count
                 ),
                 'confidence_in_decision': confidence,
                 'risk_level': 'high'
             }
-
             logger.info(f"   ❌ DECISION: FOLLOWED - AVOID {ticker}")
+            return decision
         else:
             decision = {
                 'decision': 'IGNORED',
@@ -332,8 +417,44 @@ class DecisionAgent:
                 'confidence_in_decision': confidence * 0.5,
                 'risk_level': 'medium'
             }
-
             logger.info(f"   ⚠️  DECISION: IGNORED - {decision['rationale']}")
+            return decision
+
+    def _execute_sell_order(
+        self,
+        ticker: str,
+        decision: Dict
+    ) -> Dict:
+        """Execute sell/liquidate order in Alpaca.
+
+        Args:
+            ticker: Ticker symbol
+            decision: Decision dict to update
+
+        Returns:
+            Updated decision dict with execution details
+        """
+
+        logger.warning(f"   💰 Executing SELL/LIQUIDATE order in Alpaca Paper Trading...")
+
+        try:
+            from trading_mvp.execution.alpaca_orders import get_trading_client
+            client = get_trading_client()
+
+            # Close position completely
+            client.close_position(ticker)
+
+            logger.info(f"   ✅ Position in {ticker} closed successfully")
+
+            # Update decision
+            decision['execution_status'] = 'SUCCESS'
+            decision['execution_timestamp'] = datetime.now().isoformat()
+            decision['order_type'] = 'liquidate'
+
+        except Exception as e:
+            logger.error(f"   ❌ Sell execution failed: {e}")
+            decision['execution_status'] = 'FAILED'
+            decision['execution_error'] = str(e)
 
         return decision
 
@@ -349,18 +470,27 @@ class DecisionAgent:
         entities_found: int,
         portfolio_context: Dict
     ) -> Dict:
-        """Handle CAUTIOUS/NEUTRAL recommendation."""
+        """Handle CAUTIOUS/NEUTRAL recommendation with technical context."""
 
-        # For cautious, we generally WATCH
+        # Extract technical data for visibility
+        quant_stats = portfolio_context.get('quant_stats', {})
+        rsi = quant_stats.get('rsi_14', 50)
+        atr = quant_stats.get('atr_14', 0)
+        trend = quant_stats.get('trend', 'UNKNOWN')
+
+        technical_note = f"RSI: {rsi:.1f}, ATR: ${atr:.2f}, Trend: {trend}"
+
         decision = {
             'decision': 'FOLLOWED',
             'action': 'NONE',
-            'rationale': f"CAUTIOUS recommendation - monitoring needed. Mixed signals (positive: {positive_ratio:.1%}, negative: {negative_ratio:.1%})",
+            'rationale': f"NEUTRAL/CAUTIOUS signal - monitoring. {technical_note}",
             'confidence_in_decision': confidence,
-            'risk_level': 'medium'
+            'risk_level': 'medium',
+            'technical_context': technical_note
         }
 
         logger.info(f"   👀 DECISION: FOLLOWED - WATCH {ticker}")
+        logger.info(f"      Technical Context: {technical_note}")
 
         return decision
 
@@ -370,7 +500,7 @@ class DecisionAgent:
         confidence: float,
         portfolio_context: Dict
     ) -> Tuple[float, float]:
-        """Calculate position size and entry price.
+        """Calculate position size using Risk Management guardrails.
 
         Args:
             ticker: Ticker symbol
@@ -381,31 +511,37 @@ class DecisionAgent:
             (position_size_usd, entry_price)
         """
 
-        # For now, use simplified fixed sizing with confidence adjustment
-        # In production, this would use real-time price data
+        # 1. Start with a base size adjusted by confidence
         base_size = self.config.base_position_size
-
-        # Adjust by confidence
-        confidence_multiplier = confidence / 0.90  # Normalize to 0.90 baseline
-        position_size = min(
+        confidence_multiplier = confidence / 0.85  # Normalize to our MIN_CONFIDENCE_SCORE
+        
+        # Proposed size based only on analysis
+        proposed_size = min(
             base_size * confidence_multiplier,
             self.config.max_position_size
         )
 
-        # Estimate entry price (in production, get from real-time data)
-        # For energy stocks, use rough estimate
+        # 2. Estimate entry price (Fallback for energy stocks MVP)
         estimated_prices = {
-            'COP': 98.0,
-            'USO': 75.0,
-            'XLE': 85.0,
-            'XOP': 110.0,
-            'BNO': 25.0,
-            'CVE': 18.0
+            'COP': 98.0, 'USO': 75.0, 'XLE': 85.0, 'XOP': 110.0, 'BNO': 25.0, 'CVE': 18.0, 'NXE': 24.5
         }
-
         entry_price = estimated_prices.get(ticker, 50.0)
 
-        return position_size, entry_price
+        # 3. Apply HUMAN-DEFINED GUARDRAILS from portfolio_logic
+        is_valid, allowed_size, reason = validate_trade_size(ticker, proposed_size)
+        
+        # Store risk metadata for reporting
+        self.last_risk_reason = reason if not is_valid or allowed_size < proposed_size else "Passed all guardrails"
+        
+        if not is_valid:
+            logger.warning(f"🛡️  RISK GUARDRAIL: Rejected {ticker} - {reason}")
+            return 0.0, entry_price
+        
+        if allowed_size < proposed_size:
+            logger.info(f"🛡️  RISK GUARDRAIL: Resized {ticker} - {reason}")
+            return allowed_size, entry_price
+
+        return proposed_size, entry_price
 
     def _generate_bullish_rationale(
         self,

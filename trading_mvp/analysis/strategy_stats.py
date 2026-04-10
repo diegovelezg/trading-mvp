@@ -1,6 +1,5 @@
 """Strategy Performance Metrics (Win Rate, Gain-to-Pain, Omega)."""
 
-import sqlite3
 import logging
 import pandas as pd
 import numpy as np

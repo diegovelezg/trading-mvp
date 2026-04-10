@@ -21,7 +21,7 @@ def get_alpaca_data_client() -> StockHistoricalDataClient:
     secret_key = os.getenv("PAPER_API_SECRET")
     return StockHistoricalDataClient(api_key, secret_key)
 
-def fetch_historical_stats(symbol: str, days: int = 365) -> Dict:
+def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
     """Fetch and calculate quantitative stats for a ticker.
     
     Returns:
@@ -29,8 +29,12 @@ def fetch_historical_stats(symbol: str, days: int = 365) -> Dict:
     """
     try:
         client = get_alpaca_data_client()
-        end_date = datetime.now()
+        
+        # Use yesterday as end_date to ensure we get consolidated historical data
+        end_date = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         start_date = end_date - timedelta(days=days)
+
+        logger.info(f"📊 Fetching historical data for {symbol} from {start_date.date()} to {end_date.date()}...")
 
         # Fetch bars for the ticker and SPY (for beta)
         request_params = StockBarsRequest(
@@ -43,64 +47,89 @@ def fetch_historical_stats(symbol: str, days: int = 365) -> Dict:
         bars = client.get_stock_bars(request_params)
         df = bars.df
         
-        if df.empty or symbol not in df.index.get_level_values(0):
+        if df.empty:
+            logger.warning(f"⚠️  No data returned from Alpaca for {symbol}")
             return {"error": f"No data found for {symbol}"}
+            
+        available_tickers = df.index.get_level_values(0).unique()
+        if symbol not in available_tickers:
+            logger.warning(f"⚠️  {symbol} not found in Alpaca response. Available: {list(available_tickers)}")
+            return {"error": f"Ticker {symbol} not found in history"}
 
         # Isolate ticker data
         ticker_df = df.xs(symbol).copy()
-        spy_df = df.xs("SPY").copy()
+        
+        if len(ticker_df) < 15:
+            return {"error": f"Insufficient data history for {symbol} (need at least 15 days)"}
 
         # 1. Trend (SMA)
-        ticker_df['sma_50'] = ticker_df['close'].rolling(window=50).mean()
-        ticker_df['sma_200'] = ticker_df['close'].rolling(window=200).mean()
+        # Ensure we have enough data for the rolling windows
+        ticker_df['sma_50'] = ticker_df['close'].rolling(window=min(50, len(ticker_df))).mean()
+        ticker_df['sma_200'] = ticker_df['close'].rolling(window=min(200, len(ticker_df))).mean()
         
         current_price = ticker_df['close'].iloc[-1]
         sma_50 = ticker_df['sma_50'].iloc[-1]
-        sma_200 = ticker_df['sma_200'].iloc[-1]
         
-        trend = "BULLISH" if current_price > sma_200 else "BEARISH"
-        momentum = "STRONG" if current_price > sma_50 else "WEAK"
+        # Fallback for SMA 200 if ticker is new
+        if len(ticker_df) >= 200:
+            sma_200 = ticker_df['sma_200'].iloc[-1]
+            trend = "BULLISH" if current_price > sma_200 else "BEARISH"
+        else:
+            sma_200 = 0.0
+            trend = "NEUTRAL (Insufficient history for SMA 200)"
 
-        # 2. Volatility (ATR - 14 days)
-        ticker_df['high_low'] = ticker_df['high'] - ticker_df['low']
-        ticker_df['high_close'] = abs(ticker_df['high'] - ticker_df['close'].shift())
-        ticker_df['low_close'] = abs(ticker_df['low'] - ticker_df['close'].shift())
-        ticker_df['tr'] = ticker_df[['high_low', 'high_close', 'low_close']].max(axis=1)
-        atr = ticker_df['tr'].rolling(window=14).mean().iloc[-1]
+        momentum = "POSITIVE" if current_price > sma_50 else "NEGATIVE"
 
-        # 3. Relative Strength (RSI - 14 days)
+        # 2. RSI (Relative Strength Index) - 14 days
         delta = ticker_df['close'].diff()
         gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
         loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
-        rs = gain / loss
-        rsi = 100 - (100 / (1 + rs.iloc[-1]))
-
-        # 4. Market Correlation (Beta vs SPY - 90 days)
-        recent_ticker = ticker_df['close'].pct_change().iloc[-90:]
-        recent_spy = spy_df['close'].pct_change().iloc[-90:]
+        # Avoid division by zero
+        rs = gain / loss.replace(0, 0.001)
+        ticker_df['rsi_14'] = 100 - (100 / (1 + rs))
+        rsi_14 = ticker_df['rsi_14'].iloc[-1]
         
-        # Align indices
-        combined = pd.concat([recent_ticker, recent_spy], axis=1).dropna()
-        if len(combined) > 10:
-            covariance = combined.cov().iloc[0, 1]
-            variance = combined.iloc[:, 1].var()
-            beta = covariance / variance
-        else:
-            beta = 1.0
+        if np.isnan(rsi_14): rsi_14 = 50.0
+
+        # 3. ATR (Average True Range) - 14 days
+        ticker_df['h_l'] = ticker_df['high'] - ticker_df['low']
+        ticker_df['h_pc'] = abs(ticker_df['high'] - ticker_df['close'].shift(1))
+        ticker_df['l_pc'] = abs(ticker_df['low'] - ticker_df['close'].shift(1))
+        ticker_df['tr'] = ticker_df[['h_l', 'h_pc', 'l_pc']].max(axis=1)
+        ticker_df['atr_14'] = ticker_df['tr'].rolling(window=14).mean()
+        atr = ticker_df['atr_14'].iloc[-1]
+        
+        if np.isnan(atr): atr = 0.0
+
+        # 4. Beta (Correlation with SPY)
+        beta_spy = 1.0 # Default
+        if "SPY" in available_tickers:
+            spy_df = df.xs("SPY").copy()
+            # Align dates by percentage change
+            ticker_returns = ticker_df['close'].pct_change()
+            spy_returns = spy_df['close'].pct_change()
+            combined = pd.concat([ticker_returns, spy_returns], axis=1).dropna()
+            combined.columns = ['ticker', 'spy']
+            if len(combined) > 30:
+                covariance = combined.cov().iloc[0, 1]
+                variance = combined['spy'].var()
+                if variance > 0:
+                    beta_spy = round(covariance / variance, 2)
 
         return {
-            "symbol": symbol,
-            "current_price": round(current_price, 2),
+            "current_price": round(float(current_price), 2),
+            "sma_50": round(float(sma_50), 2) if not np.isnan(sma_50) else 0,
+            "sma_200": round(float(sma_200), 2) if not np.isnan(sma_200) else 0,
             "trend": trend,
             "momentum": momentum,
-            "sma_50": round(sma_50, 2) if not np.isnan(sma_50) else None,
-            "sma_200": round(sma_200, 2) if not np.isnan(sma_200) else None,
-            "rsi_14": round(rsi, 2) if not np.isnan(rsi) else 50.0,
-            "atr_14": round(atr, 2) if not np.isnan(atr) else 0.0,
-            "beta_spy": round(beta, 2),
-            "volatility_ratio": round((atr / current_price) * 100, 2) # % of price
+            "rsi_14": round(float(rsi_14), 1),
+            "atr_14": round(float(atr), 2),
+            "volatility_ratio": round((atr / current_price) * 100, 2) if current_price > 0 else 0,
+            "beta_spy": beta_spy
         }
 
     except Exception as e:
         logger.error(f"Error calculating quant stats for {symbol}: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
         return {"error": str(e)}

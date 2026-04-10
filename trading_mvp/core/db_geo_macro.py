@@ -1,59 +1,58 @@
 """GeoMacro Database Schema and Operations."""
 
-import sqlite3
 import json
 from datetime import datetime, timedelta
 from typing import List, Dict, Optional
 from trading_mvp.core.db_manager import get_connection
+from psycopg2.extras import RealDictCursor
 
 def create_geo_macro_tables():
     """Create GeoMacro insights database schema."""
     conn = get_connection()
-    cursor = conn.cursor()
+    with conn.cursor() as cursor:
+        # Main insights table
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS geo_macro_insights (
+                id SERIAL PRIMARY KEY,
+                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                event_type TEXT NOT NULL,
+                importance TEXT NOT NULL,
+                title TEXT NOT NULL,
+                summary TEXT NOT NULL,
+                impact_analysis TEXT NOT NULL,
+                affected_sectors JSONB,
+                affected_regions JSONB,
+                affected_tickers JSONB,
+                time_horizon TEXT NOT NULL,
+                confidence_score REAL NOT NULL,
+                sources JSONB,
+                tags JSONB,
+                raw_data TEXT,
+                session_type TEXT,  -- morning, afternoon, ad-hoc
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
 
-    # Main insights table
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS geo_macro_insights (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-            event_type TEXT NOT NULL,
-            importance TEXT NOT NULL,
-            title TEXT NOT NULL,
-            summary TEXT NOT NULL,
-            impact_analysis TEXT NOT NULL,
-            affected_sectors TEXT,
-            affected_regions TEXT,
-            affected_tickers TEXT,
-            time_horizon TEXT NOT NULL,
-            confidence_score REAL NOT NULL,
-            sources TEXT,
-            tags TEXT,
-            raw_data TEXT,
-            session_type TEXT,  -- morning, afternoon, ad-hoc
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    """)
+        # Indexes for efficient querying
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_geo_macro_timestamp
+            ON geo_macro_insights(timestamp DESC)
+        """)
 
-    # Indexes for efficient querying
-    cursor.execute("""
-        CREATE INDEX IF NOT EXISTS idx_geo_macro_timestamp
-        ON geo_macro_insights(timestamp DESC)
-    """)
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_geo_macro_importance
+            ON geo_macro_insights(importance)
+        """)
 
-    cursor.execute("""
-        CREATE INDEX IF NOT EXISTS idx_geo_macro_importance
-        ON geo_macro_insights(importance)
-    """)
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_geo_macro_event_type
+            ON geo_macro_insights(event_type)
+        """)
 
-    cursor.execute("""
-        CREATE INDEX IF NOT EXISTS idx_geo_macro_event_type
-        ON geo_macro_insights(event_type)
-    """)
-
-    cursor.execute("""
-        CREATE INDEX IF NOT EXISTS idx_geo_macro_tickers
-        ON geo_macro_insights(affected_tickers)
-    """)
+        cursor.execute("""
+            CREATE INDEX IF NOT EXISTS idx_geo_macro_tickers
+            ON geo_macro_insights(affected_tickers)
+        """)
 
     conn.commit()
     conn.close()
@@ -69,36 +68,37 @@ def insert_geo_macro_insight(insight: Dict) -> int:
         ID of inserted insight
     """
     conn = get_connection()
-    cursor = conn.cursor()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                INSERT INTO geo_macro_insights (
+                    event_type, importance, title, summary, impact_analysis,
+                    affected_sectors, affected_regions, affected_tickers,
+                    time_horizon, confidence_score, sources, tags, raw_data, session_type
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING id
+            """, (
+                insight['event_type'],
+                insight['importance'],
+                insight['title'],
+                insight['summary'],
+                insight['impact_analysis'],
+                json.dumps(insight.get('affected_sectors', [])),
+                json.dumps(insight.get('affected_regions', [])),
+                json.dumps(insight.get('affected_tickers', [])),
+                insight['time_horizon'],
+                insight['confidence_score'],
+                json.dumps(insight.get('sources', [])),
+                json.dumps(insight.get('tags', [])),
+                insight.get('raw_data', ''),
+                insight.get('session_type', 'ad-hoc')
+            ))
 
-    cursor.execute("""
-        INSERT INTO geo_macro_insights (
-            event_type, importance, title, summary, impact_analysis,
-            affected_sectors, affected_regions, affected_tickers,
-            time_horizon, confidence_score, sources, tags, raw_data, session_type
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """, (
-        insight['event_type'],
-        insight['importance'],
-        insight['title'],
-        insight['summary'],
-        insight['impact_analysis'],
-        json.dumps(insight.get('affected_sectors', [])),
-        json.dumps(insight.get('affected_regions', [])),
-        json.dumps(insight.get('affected_tickers', [])),
-        insight['time_horizon'],
-        insight['confidence_score'],
-        json.dumps(insight.get('sources', [])),
-        json.dumps(insight.get('tags', [])),
-        insight.get('raw_data', ''),
-        insight.get('session_type', 'ad-hoc')
-    ))
-
-    insight_id = cursor.lastrowid
-    conn.commit()
-    conn.close()
-
-    return insight_id
+            insight_id = cursor.fetchone()[0]
+            conn.commit()
+            return insight_id
+    finally:
+        conn.close()
 
 def get_recent_insights(hours: int = 48, min_importance: str = "medium") -> List[Dict]:
     """Get recent geo-macro insights.
@@ -111,37 +111,32 @@ def get_recent_insights(hours: int = 48, min_importance: str = "medium") -> List
         List of insight dictionaries
     """
     conn = get_connection()
-    cursor = conn.cursor()
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+            importance_order = {"critical": 4, "high": 3, "medium": 2, "low": 1}
+            min_score = importance_order.get(min_importance, 0)
 
-    importance_order = {"critical": 4, "high": 3, "medium": 2, "low": 1}
-    min_score = importance_order.get(min_importance, 0)
+            cursor.execute("""
+                SELECT * FROM geo_macro_insights
+                WHERE timestamp > CURRENT_TIMESTAMP - (INTERVAL '1 hour' * %s)
+                ORDER BY
+                    CASE importance
+                        WHEN 'critical' THEN 1
+                        WHEN 'high' THEN 2
+                        WHEN 'medium' THEN 3
+                        WHEN 'low' THEN 4
+                    END,
+                    timestamp DESC
+            """, (hours,))
 
-    cutoff_time = datetime.now() - timedelta(hours=hours)
-
-    cursor.execute("""
-        SELECT * FROM geo_macro_insights
-        WHERE timestamp > ?
-        ORDER BY
-            CASE importance
-                WHEN 'critical' THEN 1
-                WHEN 'high' THEN 2
-                WHEN 'medium' THEN 3
-                WHEN 'low' THEN 4
-            END,
-            timestamp DESC
-    """, (cutoff_time.isoformat(),))
-
-    rows = cursor.fetchall()
-    conn.close()
-
-    insights = []
-    for row in rows:
-        insights.append(_row_to_insight_dict(row))
-
-    # Filter by minimum importance
-    filtered = [i for i in insights if importance_order.get(i['importance'], 0) >= min_score]
-
-    return filtered
+            rows = cursor.fetchall()
+            insights = [_process_row(row) for row in rows]
+            
+            # Filter by minimum importance
+            filtered = [i for i in insights if importance_order.get(i['importance'], 0) >= min_score]
+            return filtered
+    finally:
+        conn.close()
 
 def get_insights_for_ticker(ticker: str, hours: int = 72) -> List[Dict]:
     """Get insights relevant to a specific ticker.
@@ -154,21 +149,26 @@ def get_insights_for_ticker(ticker: str, hours: int = 72) -> List[Dict]:
         List of relevant insights
     """
     conn = get_connection()
-    cursor = conn.cursor()
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+            # Note: Using casts to text for ILIKE on JSONB if needed, or better use JSONB operators.
+            # For simplicity, if tickers is a JSON array of strings, we can use:
+            # affected_tickers @> '["TICKER"]'
+            # But the user might want a partial match or the old behavior.
+            # SQLite's affected_tickers was TEXT containing JSON.
+            # Postgres JSONB column can be queried with @>
+            ticker_json = json.dumps([ticker])
+            cursor.execute("""
+                SELECT * FROM geo_macro_insights
+                WHERE (affected_tickers @> %s::jsonb OR title ILIKE %s OR summary ILIKE %s)
+                AND timestamp > CURRENT_TIMESTAMP - (INTERVAL '1 hour' * %s)
+                ORDER BY timestamp DESC
+            """, (ticker_json, f"%{ticker}%", f"%{ticker}%", hours))
 
-    cutoff_time = datetime.now() - timedelta(hours=hours)
-
-    cursor.execute("""
-        SELECT * FROM geo_macro_insights
-        WHERE affected_tickers LIKE ?
-        AND timestamp > ?
-        ORDER BY timestamp DESC
-    """, (f"%{ticker}%", cutoff_time.isoformat()))
-
-    rows = cursor.fetchall()
-    conn.close()
-
-    return [_row_to_insight_dict(row) for row in rows]
+            rows = cursor.fetchall()
+            return [_process_row(row) for row in rows]
+    finally:
+        conn.close()
 
 def get_insights_for_sector(sector: str, hours: int = 72) -> List[Dict]:
     """Get insights relevant to a specific sector.
@@ -181,21 +181,20 @@ def get_insights_for_sector(sector: str, hours: int = 72) -> List[Dict]:
         List of relevant insights
     """
     conn = get_connection()
-    cursor = conn.cursor()
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+            sector_json = json.dumps([sector])
+            cursor.execute("""
+                SELECT * FROM geo_macro_insights
+                WHERE (affected_sectors @> %s::jsonb OR summary ILIKE %s)
+                AND timestamp > CURRENT_TIMESTAMP - (INTERVAL '1 hour' * %s)
+                ORDER BY timestamp DESC
+            """, (sector_json, f"%{sector}%", hours))
 
-    cutoff_time = datetime.now() - timedelta(hours=hours)
-
-    cursor.execute("""
-        SELECT * FROM geo_macro_insights
-        WHERE affected_sectors LIKE ?
-        AND timestamp > ?
-        ORDER BY timestamp DESC
-    """, (f"%{sector}%", cutoff_time.isoformat()))
-
-    rows = cursor.fetchall()
-    conn.close()
-
-    return [_row_to_insight_dict(row) for row in rows]
+            rows = cursor.fetchall()
+            return [_process_row(row) for row in rows]
+    finally:
+        conn.close()
 
 def get_insights_for_region(region: str, hours: int = 72) -> List[Dict]:
     """Get insights relevant to a specific region.
@@ -208,21 +207,20 @@ def get_insights_for_region(region: str, hours: int = 72) -> List[Dict]:
         List of relevant insights
     """
     conn = get_connection()
-    cursor = conn.cursor()
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+            region_json = json.dumps([region])
+            cursor.execute("""
+                SELECT * FROM geo_macro_insights
+                WHERE (affected_regions @> %s::jsonb OR summary ILIKE %s)
+                AND timestamp > CURRENT_TIMESTAMP - (INTERVAL '1 hour' * %s)
+                ORDER BY timestamp DESC
+            """, (region_json, f"%{region}%", hours))
 
-    cutoff_time = datetime.now() - timedelta(hours=hours)
-
-    cursor.execute("""
-        SELECT * FROM geo_macro_insights
-        WHERE affected_regions LIKE ?
-        AND timestamp > ?
-        ORDER BY timestamp DESC
-    """, (f"%{region}%", cutoff_time.isoformat()))
-
-    rows = cursor.fetchall()
-    conn.close()
-
-    return [_row_to_insight_dict(row) for row in rows]
+            rows = cursor.fetchall()
+            return [_process_row(row) for row in rows]
+    finally:
+        conn.close()
 
 def get_critical_insights(hours: int = 24) -> List[Dict]:
     """Get only critical/high importance insights.
@@ -234,54 +232,39 @@ def get_critical_insights(hours: int = 24) -> List[Dict]:
         List of critical insights
     """
     conn = get_connection()
-    cursor = conn.cursor()
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+            cursor.execute("""
+                SELECT * FROM geo_macro_insights
+                WHERE importance IN ('critical', 'high')
+                AND timestamp > CURRENT_TIMESTAMP - (INTERVAL '1 hour' * %s)
+                ORDER BY
+                    CASE importance
+                        WHEN 'critical' THEN 1
+                        WHEN 'high' THEN 2
+                    END,
+                    timestamp DESC
+            """, (hours,))
 
-    cutoff_time = datetime.now() - timedelta(hours=hours)
+            rows = cursor.fetchall()
+            return [_process_row(row) for row in rows]
+    finally:
+        conn.close()
 
-    cursor.execute("""
-        SELECT * FROM geo_macro_insights
-        WHERE importance IN ('critical', 'high')
-        AND timestamp > ?
-        ORDER BY
-            CASE importance
-                WHEN 'critical' THEN 1
-                WHEN 'high' THEN 2
-            END,
-            timestamp DESC
-    """, (cutoff_time.isoformat(),))
-
-    rows = cursor.fetchall()
-    conn.close()
-
-    return [_row_to_insight_dict(row) for row in rows]
-
-def _row_to_insight_dict(row) -> Dict:
-    """Convert database row to insight dictionary.
-
-    Args:
-        row: Database row
-
-    Returns:
-        Insight dictionary
+def _process_row(row) -> Dict:
+    """Process database row (RealDictRow) to ensure JSON fields are parsed if necessary.
+    Psycopg2 with JSONB usually returns them as dicts/lists already.
     """
-    # Get column names from cursor description
-    columns = [
-        'id', 'timestamp', 'event_type', 'importance', 'title',
-        'summary', 'impact_analysis', 'affected_sectors', 'affected_regions',
-        'affected_tickers', 'time_horizon', 'confidence_score',
-        'sources', 'tags', 'raw_data', 'session_type', 'created_at'
-    ]
-
-    insight = dict(zip(columns, row))
-
-    # Parse JSON fields
-    insight['affected_sectors'] = json.loads(insight.get('affected_sectors', '[]'))
-    insight['affected_regions'] = json.loads(insight.get('affected_regions', '[]'))
-    insight['affected_tickers'] = json.loads(insight.get('affected_tickers', '[]'))
-    insight['sources'] = json.loads(insight.get('sources', '[]'))
-    insight['tags'] = json.loads(insight.get('tags', '[]'))
-
-    return insight
+    d = dict(row)
+    # If using JSONB, these might already be lists/dicts. 
+    # If they are still strings (unlikely with JSONB but possible if type was TEXT), we'd parse them.
+    for field in ['affected_sectors', 'affected_regions', 'affected_tickers', 'sources', 'tags']:
+        if isinstance(d.get(field), str):
+            try:
+                d[field] = json.loads(d[field])
+            except:
+                d[field] = []
+    return d
 
 def get_insight_summary(hours: int = 24) -> Dict:
     """Get summary of recent insights.

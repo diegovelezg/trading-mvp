@@ -245,7 +245,7 @@ function DecisionCard({ activity, alpacaOrders = [] }: any) {
         
         <CardContent className="pb-6">
           <div className="text-sm text-zinc-300 leading-relaxed mb-6 italic border-l-2 border-zinc-800 pl-4 py-1">
-            "{activity.rationale || activity.decision_notes}"
+            &quot;{activity.rationale || activity.decision_notes}&quot;
           </div>
           
           <div className="flex flex-wrap gap-4">

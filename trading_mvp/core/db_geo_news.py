@@ -4,6 +4,7 @@ import logging
 import json
 from typing import List, Dict, Optional
 from trading_mvp.core.db_manager import get_connection
+from psycopg2.extras import RealDictCursor
 
 logger = logging.getLogger(__name__)
 
@@ -11,52 +12,51 @@ def create_geo_macro_news_table():
     """Create geo_macro_news table if it doesn't exist."""
 
     conn = get_connection()
-    cur = conn.cursor()
+    with conn.cursor() as cur:
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS geo_macro_news (
+                id SERIAL PRIMARY KEY,
 
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS geo_macro_news (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                -- News content
+                title TEXT NOT NULL,
+                summary TEXT,
+                content TEXT,
+                url TEXT,
 
-            -- News content
-            title TEXT NOT NULL,
-            summary TEXT,
-            content TEXT,
-            url TEXT,
+                -- Source
+                source TEXT,
+                source_type TEXT,
+                author TEXT,
+                published_at TIMESTAMP,
+                collected_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-            -- Source
-            source TEXT,
-            source_type TEXT,
-            author TEXT,
-            published_at TIMESTAMP,
-            collected_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                -- Source-specific IDs
+                alpaca_id INTEGER,
+                serpapi_position INTEGER,
 
-            -- Source-specific IDs
-            alpaca_id INTEGER,
-            serpapi_position INTEGER,
+                -- Raw data (JSONB for Postgres)
+                raw_data JSONB,
 
-            -- Raw data (JSON string for SQLite)
-            raw_data TEXT,
+                -- Prevent duplicates
+                UNIQUE (source, alpaca_id)
+            );
+        """)
 
-            -- Prevent duplicates
-            UNIQUE (source, alpaca_id)
-        );
-    """)
+        # Create indexes
+        cur.execute("""
+            CREATE INDEX IF NOT EXISTS idx_geo_news_source
+            ON geo_macro_news(source);
+        """)
 
-    # Create indexes
-    cur.execute("""
-        CREATE INDEX IF NOT EXISTS idx_geo_news_source
-        ON geo_macro_news(source);
-    """)
+        cur.execute("""
+            CREATE INDEX IF NOT EXISTS idx_geo_news_published
+            ON geo_macro_news(published_at DESC);
+        """)
 
-    cur.execute("""
-        CREATE INDEX IF NOT EXISTS idx_geo_news_published
-        ON geo_macro_news(published_at DESC);
-    """)
-
-    cur.execute("""
-        CREATE INDEX IF NOT EXISTS idx_geo_news_collected
-        ON geo_macro_news(collected_at DESC);
-    """)
+        cur.execute("""
+            CREATE INDEX IF NOT EXISTS idx_geo_news_collected
+            ON geo_macro_news(collected_at DESC);
+        """)
 
     conn.commit()
     conn.close()
@@ -75,54 +75,54 @@ def insert_geo_news(news: Dict) -> Optional[int]:
     """
 
     conn = get_connection()
-    cur = conn.cursor()
-
     try:
-        # Convert raw_data dict to JSON string
-        raw_data_str = json.dumps(news.get('raw_data', {})) if news.get('raw_data') else None
+        with conn.cursor() as cur:
+            # raw_data is JSONB in Postgres, we use json.dumps() before insertion
+            raw_data_json = json.dumps(news.get('raw_data', {})) if news.get('raw_data') else None
 
-        cur.execute("""
-            INSERT OR IGNORE INTO geo_macro_news (
-                title, summary, content, url,
-                source, source_type, author, published_at,
-                alpaca_id, raw_data
-            ) VALUES (
-                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-            )
-        """, (
-            news.get('title'),
-            news.get('summary'),
-            news.get('content'),
-            news.get('url'),
-            news.get('source'),
-            news.get('source_type'),
-            news.get('author'),
-            news.get('published_at'),
-            news.get('alpaca_id') or news.get('id'),
-            raw_data_str
-        ))
-
-        conn.commit()
-
-        # Get the inserted ID
-        if cur.lastrowid:
-            news_id = cur.lastrowid
-        else:
-            # If INSERT OR IGNORE was triggered, find existing ID
             cur.execute("""
-                SELECT id FROM geo_macro_news
-                WHERE source = ? AND alpaca_id = ?
-            """, (news.get('source'), news.get('alpaca_id') or news.get('id')))
-            result = cur.fetchone()
-            news_id = result[0] if result else None
+                INSERT INTO geo_macro_news (
+                    title, summary, content, url,
+                    source, source_type, author, published_at,
+                    alpaca_id, raw_data
+                ) VALUES (
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                )
+                ON CONFLICT (source, alpaca_id) DO NOTHING
+                RETURNING id
+            """, (
+                news.get('title'),
+                news.get('summary'),
+                news.get('content'),
+                news.get('url'),
+                news.get('source'),
+                news.get('source_type'),
+                news.get('author'),
+                news.get('published_at'),
+                news.get('alpaca_id') or news.get('id'),
+                raw_data_json
+            ))
 
-        conn.close()
-        return news_id
+            result = cur.fetchone()
+            if result:
+                news_id = result[0]
+            else:
+                # If ON CONFLICT DO NOTHING was triggered, find existing ID
+                cur.execute("""
+                    SELECT id FROM geo_macro_news
+                    WHERE source = %s AND alpaca_id = %s
+                """, (news.get('source'), news.get('alpaca_id') or news.get('id')))
+                result = cur.fetchone()
+                news_id = result[0] if result else None
+
+            conn.commit()
+            return news_id
 
     except Exception as e:
         logger.warning(f"⚠️  Could not insert news: {e}")
-        conn.close()
         return None
+    finally:
+        conn.close()
 
 
 def insert_geo_news_batch(news_list: List[Dict]) -> int:
@@ -158,33 +158,20 @@ def get_recent_news(hours_back: int = 24, limit: int = 100) -> List[Dict]:
     """
 
     conn = get_connection()
-    cur = conn.cursor()
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute("""
+                SELECT * FROM geo_macro_news
+                WHERE collected_at > CURRENT_TIMESTAMP - (INTERVAL '1 hour' * %s)
+                ORDER BY published_at DESC
+                LIMIT %s
+            """, (hours_back, limit))
 
-    cur.execute("""
-        SELECT * FROM geo_macro_news
-        WHERE collected_at > datetime('now', '-' || ? || ' hours')
-        ORDER BY published_at DESC
-        LIMIT ?
-    """, (hours_back, limit))
-
-    rows = cur.fetchall()
-
-    # Convert to list of dicts
-    columns = [desc[0] for desc in cur.description]
-    news_list = []
-    for row in rows:
-        news_dict = dict(zip(columns, row))
-        # Parse raw_data JSON string back to dict
-        if news_dict.get('raw_data'):
-            try:
-                news_dict['raw_data'] = json.loads(news_dict['raw_data'])
-            except:
-                pass
-        news_list.append(news_dict)
-
-    conn.close()
-
-    return news_list
+            rows = cur.fetchall()
+            # Convert RealDictRow to regular dict
+            return [dict(row) for row in rows]
+    finally:
+        conn.close()
 
 
 def get_news_by_source(source: str, hours_back: int = 24, limit: int = 50) -> List[Dict]:
@@ -200,34 +187,20 @@ def get_news_by_source(source: str, hours_back: int = 24, limit: int = 50) -> Li
     """
 
     conn = get_connection()
-    cur = conn.cursor()
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute("""
+                SELECT * FROM geo_macro_news
+                WHERE source = %s
+                AND collected_at > CURRENT_TIMESTAMP - (INTERVAL '1 hour' * %s)
+                ORDER BY published_at DESC
+                LIMIT %s
+            """, (source, hours_back, limit))
 
-    cur.execute("""
-        SELECT * FROM geo_macro_news
-        WHERE source = ?
-        AND collected_at > datetime('now', '-' || ? || ' hours')
-        ORDER BY published_at DESC
-        LIMIT ?
-    """, (source, hours_back, limit))
-
-    rows = cur.fetchall()
-
-    # Convert to list of dicts
-    columns = [desc[0] for desc in cur.description]
-    news_list = []
-    for row in rows:
-        news_dict = dict(zip(columns, row))
-        # Parse raw_data JSON string back to dict
-        if news_dict.get('raw_data'):
-            try:
-                news_dict['raw_data'] = json.loads(news_dict['raw_data'])
-            except:
-                pass
-        news_list.append(news_dict)
-
-    conn.close()
-
-    return news_list
+            rows = cur.fetchall()
+            return [dict(row) for row in rows]
+    finally:
+        conn.close()
 
 
 def get_news_count_by_source(hours_back: int = 24) -> Dict[str, int]:
@@ -241,18 +214,17 @@ def get_news_count_by_source(hours_back: int = 24) -> Dict[str, int]:
     """
 
     conn = get_connection()
-    cur = conn.cursor()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT source, COUNT(*) as count
+                FROM geo_macro_news
+                WHERE collected_at > CURRENT_TIMESTAMP - (INTERVAL '1 hour' * %s)
+                GROUP BY source
+            """, (hours_back,))
 
-    cur.execute("""
-        SELECT source, COUNT(*) as count
-        FROM geo_macro_news
-        WHERE collected_at > datetime('now', '-' || ? || ' hours')
-        GROUP BY source
-    """, (hours_back,))
-
-    rows = cur.fetchall()
-    counts = {row[0]: row[1] for row in rows if row[0]}
-
-    conn.close()
-
-    return counts
+            rows = cur.fetchall()
+            counts = {row[0]: row[1] for row in rows if row[0]}
+            return counts
+    finally:
+        conn.close()

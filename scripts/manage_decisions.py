@@ -19,7 +19,7 @@ Uso:
 
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import logging
 import argparse
@@ -53,34 +53,34 @@ def list_pending_recommendations(limit: int = 20):
         limit: Max records to show
     """
 
-    import sqlite3
     from trading_mvp.core.db_manager import get_connection
 
     conn = get_connection()
-    cur = conn.cursor()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT
+                    t.id,
+                    t.ticker,
+                    t.recommendation,
+                    t.rationale,
+                    t.analysis_timestamp,
+                    t.avg_confidence,
+                    t.related_news_count,
+                    dr.watchlist_name,
+                    dr.overall_sentiment as desk_sentiment,
+                    d.id as decision_id
+                FROM ticker_analyses t
+                JOIN investment_desk_runs dr ON t.desk_run_id = dr.id
+                LEFT JOIN investment_decisions d ON t.id = d.ticker_analysis_id
+                WHERE d.id IS NULL
+                ORDER BY t.analysis_timestamp DESC
+                LIMIT %s
+            """, (limit,))
 
-    cur.execute("""
-        SELECT
-            t.id,
-            t.ticker,
-            t.recommendation,
-            t.rationale,
-            t.analysis_timestamp,
-            t.avg_confidence,
-            t.related_news_count,
-            dr.watchlist_name,
-            dr.overall_sentiment as desk_sentiment,
-            d.id as decision_id
-        FROM ticker_analyses t
-        JOIN investment_desk_runs dr ON t.desk_run_id = dr.id
-        LEFT JOIN investment_decisions d ON t.id = d.ticker_analysis_id
-        WHERE d.id IS NULL
-        ORDER BY t.analysis_timestamp DESC
-        LIMIT ?
-    """, (limit,))
-
-    rows = cur.fetchall()
-    conn.close()
+            rows = cur.fetchall()
+    finally:
+        conn.close()
 
     if not rows:
         print("\n✅ No pending recommendations found")
@@ -136,32 +136,32 @@ def make_decision(
         entry_price: Entry price (if executed)
     """
 
-    import sqlite3
     from trading_mvp.core.db_manager import get_connection
 
     # Get ticker analysis details
     conn = get_connection()
-    cur = conn.cursor()
-
-    cur.execute("""
-        SELECT
-            t.ticker,
-            t.recommendation,
-            t.desk_run_id,
-            dr.overall_sentiment
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT
+                    t.ticker,
+                    t.recommendation,
+                    t.desk_run_id,
+                    dr.overall_sentiment
         FROM ticker_analyses t
         JOIN investment_desk_runs dr ON t.desk_run_id = dr.id
-        WHERE t.id = ?
+        WHERE t.id = %s
     """, (ticker_analysis_id,))
 
-    row = cur.fetchone()
+            row = cur.fetchone()
+    finally:
+        conn.close()
+
     if not row:
         print(f"❌ Ticker analysis {ticker_analysis_id} not found")
-        conn.close()
         return
 
     ticker, recommendation, desk_run_id, desk_sentiment = row
-    conn.close()
 
     # Determine desk action
     desk_action_map = {
@@ -219,29 +219,30 @@ def record_outcome(decision_id: int, exit_price: float, notes: str = None, ratin
         rating: Rating 1-5
     """
 
-    import sqlite3
     from trading_mvp.core.db_manager import get_connection
 
     # Get decision details
     conn = get_connection()
-    cur = conn.cursor()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT
+                    d.ticker,
+                    d.entry_price,
+                    d.position_size,
+                    d.recommendation,
+                    t.avg_confidence
+                FROM investment_decisions d
+                JOIN ticker_analyses t ON d.ticker_analysis_id = t.id
+                WHERE d.id = %s
+            """, (decision_id,))
 
-    cur.execute("""
-        SELECT
-            d.ticker,
-            d.entry_price,
-            d.position_size,
-            d.recommendation,
-            t.avg_confidence
-        FROM investment_decisions d
-        JOIN ticker_analyses t ON d.ticker_analysis_id = t.id
-        WHERE d.id = ?
-    """, (decision_id,))
+            row = cur.fetchone()
+    finally:
+        conn.close()
 
-    row = cur.fetchone()
     if not row:
         print(f"❌ Decision {decision_id} not found")
-        conn.close()
         return
 
     ticker, entry_price, position_size, recommendation, confidence = row

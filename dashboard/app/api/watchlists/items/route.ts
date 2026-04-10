@@ -1,5 +1,34 @@
 import { NextResponse } from 'next/server';
-import db from '@/lib/db';
+import { supabase } from '@/lib/supabase';
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const { watchlist_id, ticker, company_name, reason } = body;
+
+    if (!watchlist_id || !ticker) {
+      return NextResponse.json({ error: 'watchlist_id and ticker are required' }, { status: 400 });
+    }
+
+    const { data: item, error } = await supabase
+      .from('watchlist_items')
+      .insert({
+        watchlist_id: parseInt(watchlist_id),
+        ticker: ticker.toUpperCase(),
+        company_name: company_name || null,
+        reason: reason || null
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    return NextResponse.json(item, { status: 201 });
+  } catch (error: any) {
+    console.error('API Error:', error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
 
 export async function DELETE(request: Request) {
   try {
@@ -11,18 +40,17 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Missing ticker or watchlistId" }, { status: 400 });
     }
 
-    // Since we are in readonly mode in the lib/db.ts for safety, 
-    // I will check if I need to re-open the connection for writing.
-    // For local MVP, let's assume we can write.
-    const deleteStmt = db.prepare(`
-      DELETE FROM watchlist_items 
-      WHERE watchlist_id = ? AND ticker = ?
-    `);
-    
-    deleteStmt.run(watchlistId, ticker);
+    const { error } = await supabase
+      .from('watchlist_items')
+      .delete()
+      .eq('watchlist_id', watchlistId)
+      .eq('ticker', ticker.toUpperCase());
+
+    if (error) throw error;
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
+    console.error('API Error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

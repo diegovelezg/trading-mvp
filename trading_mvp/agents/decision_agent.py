@@ -372,11 +372,12 @@ class DecisionAgent:
         if current_pos and strong_sell_signal:
             # LIQUIDATE POSITION
             qty = current_pos['qty']
+            quant = portfolio_context.get('quant_stats', {})
             decision = {
                 'decision': 'FOLLOWED',
                 'action': 'SOLD',
                 'shares': qty,
-                'rationale': f"Strong BEARISH signal for existing position. Liquidating {qty} shares to protect capital. Conf: {confidence:.2f}, Neg: {negative_ratio:.1%}",
+                'rationale': f"Strong BEARISH signal (confidence {confidence:.2f} ≥ {self.config.min_confidence_for_sell} threshold, negative_ratio {negative_ratio:.0%} ≥ 55%). Analyzed {news_count} news items with {len(top_risks)} high-risk entities. Top risk: {top_risks[0].get('entity_name', 'N/A') if top_risks else 'N/A'}. Technical context: RSI {quant.get('rsi_14', 'N/A')}, Trend {quant.get('trend', 'N/A')}. LIQUIDATING {qty} shares to protect capital.",
                 'confidence_in_decision': confidence,
                 'risk_level': 'high',
                 'risk_guardrail': 'Portfolio Protection Rule'
@@ -480,10 +481,20 @@ class DecisionAgent:
 
         technical_note = f"RSI: {rsi:.1f}, ATR: ${atr:.2f}, Trend: {trend}"
 
+        # Determine WHY neutral
+        if news_count == 0:
+            reason = f"NO NEWS DATA - Technicals mixed (RSI {rsi:.1f}, Trend {trend}). Insufficient information for action."
+        elif positive_ratio == 0 and negative_ratio == 0:
+            reason = f"NEUTRAL SENTIMENT - No clear bias in {news_count} news items. Technicals inconclusive."
+        elif abs(positive_ratio - negative_ratio) < 0.2:
+            reason = f"MIXED SIGNALS - Positive: {positive_ratio:.0%}, Negative: {negative_ratio:.0%}. News sentiment balanced. Technicals: {technical_note}."
+        else:
+            reason = f"LOW CONFIDENCE signal ({confidence:.2f}). {technical_note}. Monitoring for clearer direction."
+
         decision = {
             'decision': 'FOLLOWED',
             'action': 'NONE',
-            'rationale': f"NEUTRAL/CAUTIOUS signal - monitoring. {technical_note}",
+            'rationale': reason,
             'confidence_in_decision': confidence,
             'risk_level': 'medium',
             'technical_context': technical_note
@@ -555,15 +566,15 @@ class DecisionAgent:
         """Generate rationale for BULLISH decision."""
 
         rationale_parts = [
-            f"Strong BULLISH signal (confidence: {confidence:.2f})",
-            f"Positive sentiment dominates ({positive_ratio:.1%} vs {negative_ratio:.1%} negative)"
+            f"Strong BULLISH signal (confidence {confidence:.2f} ≥ {self.config.min_confidence_for_buy} threshold)",
+            f"Positive sentiment dominates ({positive_ratio:.0%} vs {negative_ratio:.0%} negative) from {news_count} news items"
         ]
 
         if opportunities:
-            top_opp = opportunities[0].get('entity_name', 'N/A') if isinstance(opportunities[0], dict) else opportunities[0]
-            rationale_parts.append(f"Key opportunity: {top_opp}")
+            opp_names = [o.get('entity_name', 'N/A') if isinstance(o, dict) else o for o in opportunities[:3]]
+            rationale_parts.append(f"Key drivers: {', '.join(opp_names)}")
 
-        rationale_parts.append(f"Based on {news_count} news items and {entities_found} entities")
+        rationale_parts.append(f"Entities analyzed: {entities_found}. Technicals favorable (no overbought RSI, trend supports entry)")
 
         return ". ".join(rationale_parts) + "."
 
@@ -577,15 +588,15 @@ class DecisionAgent:
         """Generate rationale for BEARISH decision."""
 
         rationale_parts = [
-            f"Strong BEARISH signal (confidence: {confidence:.2f})",
-            f"Negative sentiment elevated ({negative_ratio:.1%})"
+            f"Strong BEARISH signal (confidence {confidence:.2f} ≥ {self.config.min_confidence_for_sell} threshold)",
+            f"Negative sentiment elevated ({negative_ratio:.0%} of entities) from {news_count} news items"
         ]
 
         if risks:
-            top_risk = risks[0].get('entity_name', 'N/A') if isinstance(risks[0], dict) else risks[0]
-            rationale_parts.append(f"Key risk: {top_risk}")
+            risk_names = [r.get('entity_name', 'N/A') if isinstance(r, dict) else r for r in risks[:3]]
+            rationale_parts.append(f"Key risks: {', '.join(risk_names)}")
 
-        rationale_parts.append(f"Based on {news_count} news items")
+        rationale_parts.append("Recommend AVOID or reduce existing exposure")
 
         return ". ".join(rationale_parts) + "."
 
@@ -737,7 +748,7 @@ def create_decision_agent(config: DecisionConfig = None) -> DecisionAgent:
 
 # Default configuration
 DEFAULT_CONFIG = DecisionConfig(
-    autopilot_enabled=False,  # Default to manual
+    autopilot_enabled=False,  # Default to manual (overridden by AUTOPILOT_MODE env var)
     max_position_size=10000.0,
     max_portfolio_risk=0.02,
     default_stop_loss_pct=0.05,
@@ -750,5 +761,5 @@ DEFAULT_CONFIG = DecisionConfig(
     base_position_size=5000.0,
     max_positions_per_sector=3,
     max_total_positions=10,
-    dry_run=False  # Execute in Alpaca Paper Trading by default
+    dry_run=False  # Execute in Alpaca Paper Trading when in AUTOPILOT mode
 )

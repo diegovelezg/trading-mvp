@@ -10,6 +10,25 @@ from psycopg2.extras import RealDictCursor
 logger = logging.getLogger(__name__)
 
 
+def _clean_datetime_objects(obj):
+    """Recursively clean datetime objects for JSON serialization.
+
+    Args:
+        obj: Any Python object
+
+    Returns:
+        Object with datetime objects converted to ISO strings
+    """
+    if isinstance(obj, datetime):
+        return obj.isoformat()
+    elif isinstance(obj, dict):
+        return {k: _clean_datetime_objects(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [_clean_datetime_objects(item) for item in obj]
+    else:
+        return obj
+
+
 def create_investment_tracking_tables():
     """Create all investment tracking tables."""
 
@@ -224,6 +243,9 @@ def save_desk_run(desk_analysis: Dict) -> Optional[int]:
         with conn.cursor() as cur:
             watchlist = desk_analysis['watchlist']
 
+            # Clean datetime objects for JSON serialization
+            clean_analysis = _clean_datetime_objects(desk_analysis.copy())
+
             cur.execute("""
                 INSERT INTO investment_desk_runs
                 (watchlist_id, watchlist_name, time_window_hours, duration_seconds,
@@ -254,7 +276,7 @@ def save_desk_run(desk_analysis: Dict) -> Optional[int]:
                 desk_analysis['bearish_count'],
                 desk_analysis['cautious_count'],
                 desk_analysis['neutral_count'],
-                json.dumps(desk_analysis),
+                json.dumps(clean_analysis),
                 json.dumps(desk_analysis['recommendations'])
             ))
 
@@ -284,6 +306,14 @@ def save_ticker_analysis(ticker_analysis: Dict, desk_run_id: int) -> Optional[in
     conn = get_connection()
     try:
         with conn.cursor() as cur:
+            # Clean datetime objects for JSON serialization
+            clean_analysis = _clean_datetime_objects(ticker_analysis.copy())
+
+            # Convert datetime to string for timestamp field
+            analysis_timestamp = ticker_analysis['analysis_timestamp']
+            if isinstance(analysis_timestamp, datetime):
+                analysis_timestamp = analysis_timestamp.isoformat()
+
             cur.execute("""
                 INSERT INTO ticker_analyses
                 (desk_run_id, ticker, company_name, analysis_timestamp,
@@ -299,7 +329,7 @@ def save_ticker_analysis(ticker_analysis: Dict, desk_run_id: int) -> Optional[in
                 desk_run_id,
                 ticker_analysis['ticker'],
                 ticker_analysis.get('company_name'),  # Optional
-                ticker_analysis['analysis_timestamp'],
+                analysis_timestamp,
                 json.dumps(ticker_analysis['mapped_entities']),
                 ticker_analysis['related_news_count'],
                 json.dumps(ticker_analysis['news_sources']),
@@ -314,7 +344,7 @@ def save_ticker_analysis(ticker_analysis: Dict, desk_run_id: int) -> Optional[in
                 json.dumps(ticker_analysis.get('top_risks', [])),
                 json.dumps(ticker_analysis.get('top_opportunities', [])),
                 json.dumps(ticker_analysis.get('most_mentioned', [])),
-                json.dumps(ticker_analysis)
+                json.dumps(clean_analysis)
             ))
 
             ticker_analysis_id = cur.fetchone()[0]

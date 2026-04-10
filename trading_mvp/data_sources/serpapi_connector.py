@@ -54,6 +54,56 @@ class SerpApiConnector(BaseDataConnector):
         else:
             return str(obj)
 
+    def parse_relative_date(self, date_str: str) -> str:
+        """Convert SERPAPI relative dates to ISO format.
+
+        Args:
+            date_str: Date string like "1 day ago", "4 hours ago", "LIVE5 minutes ago"
+
+        Returns:
+            ISO formatted date string or empty string if parsing fails
+        """
+        from datetime import datetime, timedelta
+        import re
+
+        if not date_str or not isinstance(date_str, str):
+            return ""
+
+        # Remove LIVE prefix if present
+        date_str = date_str.replace("LIVE", "").strip()
+
+        # Try to extract relative time pattern
+        # Matches: "1 day ago", "4 hours ago", "23 hours ago", "2 days ago", "3 weeks ago", "42 seconds ago", "1 month ago"
+        match = re.match(r'(\d+)\s+(second|minute|hour|day|week|month)s?\s+ago', date_str.lower())
+
+        if match:
+            value = int(match.group(1))
+            unit = match.group(2)
+
+            # Calculate the date
+            if unit == 'second':
+                delta = timedelta(seconds=value)
+            elif unit == 'minute':
+                delta = timedelta(minutes=value)
+            elif unit == 'hour':
+                delta = timedelta(hours=value)
+            elif unit == 'day':
+                delta = timedelta(days=value)
+            elif unit == 'week':
+                delta = timedelta(weeks=value)
+            elif unit == 'month':
+                # Approximate month as 30 days
+                delta = timedelta(days=value * 30)
+            else:
+                return ""
+
+            # Calculate past date and return ISO format
+            past_date = datetime.now() - delta
+            return past_date.isoformat()
+
+        # If not a relative date, return as-is (might already be ISO or other format)
+        return date_str
+
     def fetch_data(self, query: str = "geopolitical news", max_items: int = 50) -> List[Dict]:
         """Fetch recent news from Google News via SERPAPI.
 
@@ -84,15 +134,33 @@ class SerpApiConnector(BaseDataConnector):
 
                 self.last_fetch = datetime.now()
                 self.fetch_count += 1
-                logger.info(f"✅ Fetched {len(news_results)} news items from SERPAPI")
+
+                if not news_results:
+                    logger.warning(f"⚠️  SERPAPI returned 200 but no news_results for query: '{query}'")
+                else:
+                    logger.info(f"✅ Fetched {len(news_results)} news items from SERPAPI (query: '{query}')")
+
                 return news_results
             else:
-                logger.warning(f"⚠️  SERPAPI returned: {response.status_code}")
+                error_detail = response.text[:200] if response.text else "No error details"
+                logger.error(f"❌ SERPAPI returned {response.status_code}: {error_detail}")
                 return []
 
+        except requests.exceptions.Timeout as e:
+            self.error_count += 1
+            logger.error(f"❌ SERPAPI timeout after 30s (query: '{query}'): {e}")
+            return []
+        except requests.exceptions.ConnectionError as e:
+            self.error_count += 1
+            logger.error(f"❌ SERPAPI connection error (query: '{query}'): {e}")
+            return []
         except requests.exceptions.RequestException as e:
             self.error_count += 1
-            logger.warning(f"⚠️  Could not fetch SERPAPI news: {e}")
+            logger.error(f"❌ SERPAPI request failed (query: '{query}'): {e}")
+            return []
+        except Exception as e:
+            self.error_count += 1
+            logger.error(f"❌ Unexpected error fetching SERPAPI news (query: '{query}'): {e}")
             return []
 
     def normalize_data(self, raw_data: List[Dict]) -> List[Dict]:
@@ -105,11 +173,25 @@ class SerpApiConnector(BaseDataConnector):
             Normalized news items
         """
         normalized = []
+        failed_items = []
 
-        for item in raw_data:
+        for i, item in enumerate(raw_data):
             try:
-                # Extract date if available
+                # Validar título
+                title = item.get("title", "").strip()
+                if not title or title == "[Removed]":
+                    failed_items.append({"index": i, "reason": "invalid_title"})
+                    continue
+
+                # Validar URL
+                url = item.get("link", "").strip()
+                if not url:
+                    failed_items.append({"index": i, "reason": "missing_url"})
+                    continue
+
+                # Extract and parse date
                 date_str = item.get("date", "")
+                parsed_date = self.parse_relative_date(date_str)
 
                 # Convert entire item to JSON-serializable recursively
                 clean_raw_data = self.make_json_serializable(item)
@@ -117,20 +199,27 @@ class SerpApiConnector(BaseDataConnector):
                 normalized_item = {
                     "source": "serpapi_google_news",
                     "source_type": "search_api",
-                    "title": item.get("title", ""),
-                    "summary": item.get("snippet", ""),
-                    "content": item.get("snippet", ""),
-                    "url": item.get("link", ""),
+                    "title": title,
+                    "summary": item.get("snippet", "").strip() or title,
+                    "content": item.get("snippet", "").strip() or title,
+                    "url": url,
                     "author": "",
-                    "published_at": date_str,
+                    "published_at": parsed_date,  # ✅ PARSED TO ISO FORMAT
                     "symbols": [],  # SERPAPI doesn't provide symbols
                     "raw_data": clean_raw_data
                 }
                 normalized.append(normalized_item)
             except Exception as e:
-                logger.warning(f"⚠️  Error normalizing news item: {e}")
-                continue
+                failed_items.append({"index": i, "reason": str(e)})
+                logger.error(f"❌ Error normalizing SERPAPI news item {i}: {e}")
 
+        # Reportar pérdidas
+        if failed_items:
+            logger.warning(f"⚠️  Failed to normalize {len(failed_items)}/{len(raw_data)} SERPAPI news items")
+            for failure in failed_items[:5]:
+                logger.warning(f"    - Item {failure['index']}: {failure['reason']}")
+
+        logger.info(f"✅ Normalized {len(normalized)}/{len(raw_data)} SERPAPI news items")
         return normalized
 
     def fetch_geopolitical_news(self, max_items: int = 50) -> List[Dict]:

@@ -38,6 +38,11 @@ class GoogleNewsConnector(BaseDataConnector):
             # Parse RSS feed
             feed = feedparser.parse(rss_url)
 
+            # Check if feed has entries
+            if not hasattr(feed, 'entries') or not feed.entries:
+                logger.warning(f"⚠️  Google News RSS returned no entries for topic: {topic}")
+                return []
+
             # Extract news items
             news_items = []
             for entry in feed.entries[:max_items]:
@@ -54,13 +59,16 @@ class GoogleNewsConnector(BaseDataConnector):
             self.last_fetch = datetime.now()
             self.fetch_count += 1
 
-            logger.info(f"✅ Fetched {len(news_items)} items from Google News RSS")
+            if not news_items:
+                logger.warning(f"⚠️  Google News RSS had feed but 0 valid items for topic: {topic}")
+            else:
+                logger.info(f"✅ Fetched {len(news_items)} items from Google News RSS (topic: {topic})")
 
             return news_items
 
         except Exception as e:
             self.error_count += 1
-            logger.error(f"❌ Error fetching Google News RSS: {e}")
+            logger.error(f"❌ Error fetching Google News RSS (topic: {topic}): {e}")
             return []
 
     def make_json_serializable(self, obj):
@@ -99,9 +107,16 @@ class GoogleNewsConnector(BaseDataConnector):
             Normalized news items
         """
         normalized = []
+        failed_items = []
 
-        for item in raw_data:
+        for i, item in enumerate(raw_data):
             try:
+                # Validar título
+                title = item.get("title", "").strip()
+                if not title or title == "[Removed]":
+                    failed_items.append({"index": i, "reason": "invalid_title"})
+                    continue
+
                 # Clean HTML from summary
                 summary = item.get("summary", "")
 
@@ -132,19 +147,26 @@ class GoogleNewsConnector(BaseDataConnector):
                 normalized_item = {
                     "source": "google_news",
                     "source_type": "rss_feed",
-                    "title": item.get("title", ""),
-                    "summary": summary,
-                    "content": summary,
-                    "url": item.get("link", ""),
+                    "title": title,
+                    "summary": summary.strip() or title,
+                    "content": summary.strip() or title,
+                    "url": item.get("link", "").strip(),
                     "author": author,
                     "published_at": item.get("published", ""),
                     "raw_data": clean_raw_data
                 }
                 normalized.append(normalized_item)
             except Exception as e:
-                logger.warning(f"⚠️  Error normalizing Google News item: {e}")
-                continue
+                failed_items.append({"index": i, "reason": str(e)})
+                logger.error(f"❌ Error normalizing Google News item {i}: {e}")
 
+        # Reportar pérdidas
+        if failed_items:
+            logger.warning(f"⚠️  Failed to normalize {len(failed_items)}/{len(raw_data)} Google News items")
+            for failure in failed_items[:5]:
+                logger.warning(f"    - Item {failure['index']}: {failure['reason']}")
+
+        logger.info(f"✅ Normalized {len(normalized)}/{len(raw_data)} Google News items")
         return normalized
 
     def fetch_geopolitical_news(self, max_items: int = 50) -> List[Dict]:

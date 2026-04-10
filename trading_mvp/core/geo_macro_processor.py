@@ -54,17 +54,25 @@ class GeoMacroProcessor:
 
         all_news = []
         source_counts = {}
+        fetch_errors = {}
 
         # 1.1: Fetch from Alpaca
         try:
             logger.info("  📰 Fetching from Alpaca News...")
             alpaca_news = self.alpaca_connector.fetch_macro_news(hours_back=hours_back)
+            if not alpaca_news:
+                logger.warning("  ⚠️  Alpaca returned empty results")
+                fetch_errors['alpaca'] = "empty_results"
             alpaca_normalized = self.alpaca_connector.normalize_data(alpaca_news)
+            if not alpaca_normalized:
+                logger.warning("  ⚠️  Alpaca normalization produced 0 items")
+                fetch_errors['alpaca'] = "normalization_failed"
             all_news.extend(alpaca_normalized)
             source_counts['alpaca'] = len(alpaca_normalized)
             logger.info(f"  ✅ Alpaca: {len(alpaca_normalized)} items")
         except Exception as e:
-            logger.warning(f"  ⚠️  Alpaca failed: {e}")
+            logger.error(f"  ❌ Alpaca failed completely: {e}")
+            fetch_errors['alpaca'] = str(e)
             source_counts['alpaca'] = 0
 
         # 1.2: Fetch from Google News
@@ -72,33 +80,63 @@ class GeoMacroProcessor:
             logger.info("  🌐 Fetching from Google News RSS...")
             google_geo = self.google_connector.fetch_geopolitical_news(max_items=30)
             google_econ = self.google_connector.fetch_economic_news(max_items=30)
+            google_raw = google_geo + google_econ
+            if not google_raw:
+                logger.warning("  ⚠️  Google News returned empty results")
+                fetch_errors['google'] = "empty_results"
             # IMPORTANT: normalize_data to convert FeedParserDict to JSON-serializable
-            google_news = self.google_connector.normalize_data(google_geo + google_econ)
+            google_news = self.google_connector.normalize_data(google_raw)
+            if not google_news:
+                logger.warning("  ⚠️  Google normalization produced 0 items")
+                fetch_errors['google'] = "normalization_failed"
             all_news.extend(google_news)
             source_counts['google'] = len(google_news)
             logger.info(f"  ✅ Google News: {len(google_news)} items")
         except Exception as e:
-            logger.warning(f"  ⚠️  Google News failed: {e}")
+            logger.error(f"  ❌ Google News failed completely: {e}")
+            fetch_errors['google'] = str(e)
             source_counts['google'] = 0
 
         # 1.3: Fetch from SERPAPI
         try:
             logger.info("  🔍 Fetching from SERPAPI...")
             serpapi_news = self.serpapi_connector.fetch_macro_news()
+            if not serpapi_news:
+                logger.warning("  ⚠️  SERPAPI returned empty results")
+                fetch_errors['serpapi'] = "empty_results"
             # IMPORTANT: normalize_data to convert to JSON-serializable
             serpapi_normalized = self.serpapi_connector.normalize_data(serpapi_news)
+            if not serpapi_normalized:
+                logger.warning("  ⚠️  SERPAPI normalization produced 0 items")
+                fetch_errors['serpapi'] = "normalization_failed"
             all_news.extend(serpapi_normalized)
             source_counts['serpapi'] = len(serpapi_normalized)
             logger.info(f"  ✅ SERPAPI: {len(serpapi_normalized)} items")
         except Exception as e:
-            logger.warning(f"  ⚠️  SERPAPI failed: {e}")
+            logger.error(f"  ❌ SERPAPI failed completely: {e}")
+            fetch_errors['serpapi'] = str(e)
             source_counts['serpapi'] = 0
 
+        # Summary of fetched news
+        total_fetched = len(all_news)
+        logger.info(f"  📊 Total fetched: {total_fetched} news items")
+
+        if total_fetched == 0:
+            logger.error("❌ CRITICAL: No news items fetched from any source!")
+            return source_counts
+
         # 1.4: Store all news in database
-        logger.info(f"  💾 Storing {len(all_news)} news items in database...")
+        logger.info(f"  💾 Storing {total_fetched} news items in database...")
         inserted_count = insert_geo_news_batch(all_news)
 
-        logger.info(f"✅ Step 1 complete: {inserted_count} news items stored")
+        # Report storage success rate
+        if inserted_count == 0:
+            logger.error("❌ CRITICAL: Zero news items stored in database!")
+        elif inserted_count < total_fetched:
+            loss_rate = ((total_fetched - inserted_count) / total_fetched) * 100
+            logger.warning(f"⚠️  Storage loss: {loss_rate:.1f}% ({total_fetched - inserted_count} items not stored)")
+        else:
+            logger.info(f"✅ Step 1 complete: {inserted_count} news items stored")
 
         return source_counts
 

@@ -242,19 +242,19 @@ def run_investment_desk(watchlist_id: int = None, watchlist_name: str = None, ho
     # Overall desk sentiment
     if len(bullish) > len(bearish) and avg_positive > avg_negative:
         overall_sentiment = "BULLISH"
-        desk_outlook = "Favorable conditions across most tickers. Consider increasing exposure."
+        desk_outlook = f"Favorable conditions: {len(bullish)} bullish vs {len(bearish)} bearish. Avg confidence {avg_confidence:.0%}. Consider increasing exposure."
     elif len(bearish) > len(bullish) and avg_negative > avg_positive:
         overall_sentiment = "BEARISH"
-        desk_outlook = "Negative sentiment dominates. Consider reducing risk or hedging."
+        desk_outlook = f"Negative sentiment dominates: {len(bearish)} bearish vs {len(bullish)} bullish. Avg negative ratio {avg_negative:.0%}. Consider reducing risk or hedging."
     elif avg_positive > avg_negative:
         overall_sentiment = "CAUTIOUSLY BULLISH"
-        desk_outlook = "Moderate positive bias. Selective opportunities."
+        desk_outlook = f"Moderate positive bias: {avg_positive:.0%} positive entities vs {avg_negative:.0%} negative. {len(bullish)} bullish opportunities. Selective entries recommended."
     elif avg_negative > avg_positive:
         overall_sentiment = "CAUTIOUSLY BEARISH"
-        desk_outlook = "Moderate negative bias. Defensive posture recommended."
+        desk_outlook = f"Moderate negative bias: {avg_negative:.0%} negative entities vs {avg_positive:.0%} positive. {len(bearish)} bearish signals. Defensive posture recommended."
     else:
         overall_sentiment = "NEUTRAL"
-        desk_outlook = "No clear directional bias. Maintain balanced approach."
+        desk_outlook = f"No clear directional bias: {len(bullish)} bullish, {len(bearish)} bearish, {len(neutral)} neutral. Avg confidence {avg_confidence:.0%}. Maintain balanced approach."
 
     logger.info(f"   ✅ Overall desk sentiment: {overall_sentiment}")
     logger.info("")
@@ -344,7 +344,10 @@ def run_investment_desk(watchlist_id: int = None, watchlist_name: str = None, ho
     autopilot_mode = os.getenv("AUTOPILOT_MODE", "off").lower() == "on"
 
     if autopilot_mode or True:  # Always run agent (user can toggle with env var)
-        decision_config = DecisionConfig(autopilot_enabled=autopilot_mode)
+        decision_config = DecisionConfig(
+            autopilot_enabled=autopilot_mode,
+            dry_run=False  # CRITICAL: Execute real orders in AUTOPILOT mode
+        )
         decision_agent = DecisionAgent(config=decision_config)
 
         # Process recommendations with REAL portfolio context

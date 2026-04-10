@@ -29,7 +29,11 @@ def _api_get(endpoint: str) -> Dict:
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
-        return response.json()
+        data = response.json()
+        # Extract actual data from wrapper response
+        if isinstance(data, dict) and 'data' in data:
+            return data['data']
+        return data
     except Exception as e:
         logger.error(f"❌ GET {url} failed: {e}")
         return {}
@@ -41,7 +45,11 @@ def _api_post(endpoint: str, data: Dict) -> Dict:
     try:
         response = requests.post(url, json=data, timeout=10)
         response.raise_for_status()
-        return response.json()
+        resp_data = response.json()
+        # Extract actual data from wrapper response
+        if isinstance(resp_data, dict) and 'data' in resp_data:
+            return resp_data['data']
+        return resp_data
     except Exception as e:
         logger.error(f"❌ POST {url} failed: {e}")
         return {}
@@ -110,14 +118,15 @@ def get_recent_explorations(limit: int = 10) -> List[Dict]:
     return _api_get("/api/explorations")
 
 
-def insert_exploration(prompt: str, criteria: str, tickers: list, reasoning: str = "") -> Optional[int]:
+def insert_exploration(prompt: str, criteria: str, tickers: list, reasoning: str = "", ticker_details: list = None) -> Optional[int]:
     """Insertar exploración directamente en Supabase (no hay API endpoint aún).
 
     Args:
         prompt: Prompt temático
         criteria: Criterios de búsqueda
-        tickers: Lista de tickers descubiertos
+        tickers: Lista de tickers descubiertos (solo símbolos)
         reasoning: Razónamiento de la IA
+        ticker_details: Lista completa con metadatos de cada ticker [{ticker, name, sector, description_es}]
 
     Returns:
         exploration_id o None
@@ -132,12 +141,20 @@ def insert_exploration(prompt: str, criteria: str, tickers: list, reasoning: str
 
         supabase = create_client(supabase_url, supabase_key)
 
-        result = supabase.table('explorations').insert({
+        # Build insert data
+        insert_data = {
             'prompt': prompt,
             'criteria': criteria,
             'tickers': tickers,
             'reasoning': reasoning
-        }).execute()
+        }
+
+        # Add ticker_details if provided
+        if ticker_details:
+            insert_data['ticker_details'] = ticker_details
+            logger.info(f"📊 Saving {len(ticker_details)} ticker details to exploration")
+
+        result = supabase.table('explorations').insert(insert_data).execute()
 
         if result.data:
             exploration_id = result.data[0]['id']
@@ -163,6 +180,17 @@ def insert_news(external_id: str, title: str, source: str, url: str, summary: st
     Returns:
         news_id o None
     """
+    # Validaciones críticas
+    if not title or not title.strip():
+        logger.error(f"❌ Cannot insert news: missing title. Source: {source}, External ID: {external_id}")
+        return None
+
+    if not external_id:
+        logger.error(f"❌ Cannot insert news: missing external_id. Title: {title[:50]}")
+        return None
+
+    title_preview = title[:50] + "..." if len(title) > 50 else title
+
     try:
         supabase_url = os.getenv("NEXT_PUBLIC_SUPABASE_URL")
         supabase_key = os.getenv("NEXT_PUBLIC_SUPABASE_ANON_KEY")
@@ -175,7 +203,7 @@ def insert_news(external_id: str, title: str, source: str, url: str, summary: st
 
         result = supabase.table('news').insert({
             'external_id': external_id,
-            'title': title,
+            'title': title.strip(),
             'source': source,
             'url': url,
             'summary': summary,
@@ -184,20 +212,25 @@ def insert_news(external_id: str, title: str, source: str, url: str, summary: st
 
         if result.data:
             news_id = result.data[0]['id']
-            logger.info(f"✅ Saved news: {title[:50]}...")
+            logger.info(f"✅ Saved news: {title_preview}")
             return news_id
+
+        logger.error(f"❌ Insert returned no data for news: {title_preview}")
         return None
     except Exception as e:
         # Si es duplicado, intentar buscar el existente
         if "duplicate" in str(e).lower() or "unique" in str(e).lower():
+            logger.debug(f"♻️  News already exists (duplicate): {title_preview}")
             try:
                 supabase = create_client(supabase_url, supabase_key)
                 result = supabase.table('news').select('*').eq('external_id', external_id).execute()
                 if result.data:
+                    logger.debug(f"✅ Found existing news ID: {result.data[0]['id']}")
                     return result.data[0]['id']
-            except:
-                pass
-        logger.error(f"❌ Error saving news: {e}")
+            except Exception as retry_e:
+                logger.error(f"❌ Error fetching existing news after duplicate: {retry_e}")
+        else:
+            logger.error(f"❌ Error saving news '{title_preview}' (source: {source}): {e}")
         return None
 
 

@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import { withErrorHandler, BadRequestError } from '@/lib/api-error-handler';
+import { withErrorHandler } from '@/lib/api-error-handler';
 import { successResponse } from '@/lib/api-response';
 import { createWatchlistSchema } from '@/lib/schemas/watchlist';
 

@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import { withErrorHandler, BadRequestError, NotFoundError } from '@/lib/api-error-handler';
+import { withErrorHandler, BadRequestError } from '@/lib/api-error-handler';
 import { successResponse } from '@/lib/api-response';
 import { addWatchlistItemSchema } from '@/lib/schemas/watchlist';
 import { normalizeTicker } from '@/lib/ticker-utils';

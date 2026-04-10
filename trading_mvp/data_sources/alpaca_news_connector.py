@@ -70,16 +70,33 @@ class AlpacaNewsConnector(BaseDataConnector):
                 news_items = response_data.get("news", [])
                 self.last_fetch = datetime.now()
                 self.fetch_count += 1
-                logger.info(f"✅ Fetched {len(news_items)} news items from Alpaca v1beta1")
+
+                if not news_items:
+                    logger.warning("⚠️  Alpaca API returned 200 but no news items in response")
+                else:
+                    logger.info(f"✅ Fetched {len(news_items)} news items from Alpaca v1beta1")
+
                 return news_items
             else:
-                logger.warning(f"⚠️  Alpaca v1 News API returned: {response.status_code}")
-                # Fallback: return empty array
+                error_detail = response.text[:200] if response.text else "No error details"
+                logger.error(f"❌ Alpaca v1 News API returned {response.status_code}: {error_detail}")
                 return []
 
+        except requests.exceptions.Timeout as e:
+            self.error_count += 1
+            logger.error(f"❌ Alpaca API timeout after 30s: {e}")
+            return []
+        except requests.exceptions.ConnectionError as e:
+            self.error_count += 1
+            logger.error(f"❌ Alpaca API connection error: {e}")
+            return []
         except requests.exceptions.RequestException as e:
             self.error_count += 1
-            logger.warning(f"⚠️  Could not fetch Alpaca news: {e}")
+            logger.error(f"❌ Alpaca API request failed: {e}")
+            return []
+        except Exception as e:
+            self.error_count += 1
+            logger.error(f"❌ Unexpected error fetching Alpaca news: {e}")
             return []
 
     def normalize_data(self, raw_data: List[Dict]) -> List[Dict]:
@@ -92,26 +109,41 @@ class AlpacaNewsConnector(BaseDataConnector):
             Normalized news items
         """
         normalized = []
+        failed_items = []
 
-        for item in raw_data:
+        for i, item in enumerate(raw_data):
             try:
+                # Validar campos requeridos
+                headline = item.get("headline", "").strip()
+                if not headline:
+                    failed_items.append({"index": i, "reason": "missing_title"})
+                    continue
+
                 normalized_item = {
                     "source": "alpaca_news",
                     "source_type": "news_api",
-                    "title": item.get("headline", ""),
-                    "summary": item.get("summary", "") or item.get("headline", ""),
-                    "content": item.get("summary", "") or item.get("headline", ""),
-                    "url": item.get("url", ""),
-                    "author": item.get("author", ""),
+                    "title": headline,
+                    "summary": item.get("summary", "").strip() or headline,
+                    "content": item.get("summary", "").strip() or headline,
+                    "url": item.get("url", "").strip(),
+                    "author": item.get("author", "").strip(),
                     "published_at": item.get("created_at", ""),
                     "symbols": item.get("symbols", []),
+                    "alpaca_id": item.get("id"),  # ✅ CRITICAL FIX
                     "raw_data": item
                 }
                 normalized.append(normalized_item)
             except Exception as e:
-                logger.warning(f"⚠️  Error normalizing news item: {e}")
-                continue
+                failed_items.append({"index": i, "reason": str(e)})
+                logger.error(f"❌ Error normalizing Alpaca news item {i}: {e}")
 
+        # Reportar pérdidas
+        if failed_items:
+            logger.warning(f"⚠️  Failed to normalize {len(failed_items)}/{len(raw_data)} Alpaca news items")
+            for failure in failed_items[:5]:  # Mostrar primeros 5
+                logger.warning(f"    - Item {failure['index']}: {failure['reason']}")
+
+        logger.info(f"✅ Normalized {len(normalized)}/{len(raw_data)} Alpaca news items")
         return normalized
 
     def fetch_macro_news(self, hours_back: int = 24) -> List[Dict]:

@@ -74,11 +74,34 @@ def insert_geo_news(news: Dict) -> Optional[int]:
         ID of inserted news, or None if failed
     """
 
+    # Validaciones críticas antes de intentar insertar
+    if not news:
+        logger.error("❌ Cannot insert news: news item is None or empty")
+        return None
+
+    title = news.get('title', '').strip()
+    if not title:
+        logger.error(f"❌ Cannot insert news: missing title. Source: {news.get('source')}")
+        return None
+
+    source = news.get('source', 'unknown')
+    title_preview = title[:50] + "..." if len(title) > 50 else title
+
     conn = get_connection()
     try:
         with conn.cursor() as cur:
             # raw_data is JSONB in Postgres, we use json.dumps() before insertion
             raw_data_json = json.dumps(news.get('raw_data', {})) if news.get('raw_data') else None
+
+            # Usar alpaca_id si existe, si no intentar generar un hash basado en URL+title
+            alpaca_id = news.get('alpaca_id') or news.get('id')
+
+            # Para fuentes sin alpaca_id (Google, SERPAPI), usar hash de URL para duplicados
+            if not alpaca_id and news.get('url'):
+                import hashlib
+                url_hash = hashlib.md5(news['url'].encode()).hexdigest()
+                # Usar el hash numérico como pseudo-ID para duplicados
+                alpaca_id = int(url_hash[:8], 16) if url_hash else None
 
             cur.execute("""
                 INSERT INTO geo_macro_news (
@@ -91,35 +114,38 @@ def insert_geo_news(news: Dict) -> Optional[int]:
                 ON CONFLICT (source, alpaca_id) DO NOTHING
                 RETURNING id
             """, (
-                news.get('title'),
-                news.get('summary'),
-                news.get('content'),
-                news.get('url'),
-                news.get('source'),
-                news.get('source_type'),
-                news.get('author'),
+                title,
+                news.get('summary', '') or title,
+                news.get('content', '') or title,
+                news.get('url', ''),
+                source,
+                news.get('source_type', ''),
+                news.get('author', ''),
                 news.get('published_at'),
-                news.get('alpaca_id') or news.get('id'),
+                alpaca_id,
                 raw_data_json
             ))
 
             result = cur.fetchone()
             if result:
                 news_id = result[0]
+                logger.debug(f"✅ Inserted news: {title_preview}")
             else:
                 # If ON CONFLICT DO NOTHING was triggered, find existing ID
                 cur.execute("""
                     SELECT id FROM geo_macro_news
                     WHERE source = %s AND alpaca_id = %s
-                """, (news.get('source'), news.get('alpaca_id') or news.get('id')))
+                """, (source, alpaca_id))
                 result = cur.fetchone()
                 news_id = result[0] if result else None
+                if news_id:
+                    logger.debug(f"♻️  News already exists: {title_preview}")
 
             conn.commit()
             return news_id
 
     except Exception as e:
-        logger.warning(f"⚠️  Could not insert news: {e}")
+        logger.error(f"❌ DB error inserting news '{title_preview}' (source: {source}): {e}")
         return None
     finally:
         conn.close()
@@ -134,15 +160,32 @@ def insert_geo_news_batch(news_list: List[Dict]) -> int:
     Returns:
         Number of news items inserted
     """
+    if not news_list:
+        logger.warning("⚠️  No news items to insert")
+        return 0
 
     inserted_count = 0
+    skipped_count = 0
+    failed_count = 0
 
-    for news in news_list:
+    for i, news in enumerate(news_list, 1):
         news_id = insert_geo_news(news)
         if news_id:
             inserted_count += 1
+        else:
+            # Count failure vs skip
+            if not news.get('title'):
+                failed_count += 1
+            else:
+                skipped_count += 1  # Probablemente duplicado
 
-    logger.info(f"✅ Inserted {inserted_count}/{len(news_list)} news items")
+    # Reporte detallado
+    total = len(news_list)
+    logger.info(f"📊 Batch insert results: {inserted_count} inserted, {skipped_count} skipped (duplicates), {failed_count} failed out of {total} total")
+
+    if failed_count > 0:
+        logger.warning(f"⚠️  {failed_count} news items failed to insert (check logs above)")
+
     return inserted_count
 
 

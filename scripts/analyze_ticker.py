@@ -140,12 +140,25 @@ def analyze_ticker(ticker: str, hours_back: int = 48) -> Dict:
 
         avg_confidence = sum(confidences) / len(confidences) if confidences else 0.5
 
-        # Collect all sectors/regions
+        # Collect all sectors/regions AND source news
         all_sectors = set()
         all_regions = set()
+        source_news = []  # Track which news mentioned this entity
+
         for e in entities:
             all_sectors.update(e.get('sectors', []))
             all_regions.update(e.get('regions', []))
+
+            # Add news source if not already tracked
+            if e.get('news_title') and e.get('news_source'):
+                news_entry = {
+                    'title': e['news_title'],
+                    'source': e['news_source']
+                }
+
+                # Avoid duplicate news entries
+                if not any(sn['title'] == news_entry['title'] for sn in source_news):
+                    source_news.append(news_entry)
 
         entity_analysis.append({
             'entity_name': entity_name,
@@ -154,7 +167,8 @@ def analyze_ticker(ticker: str, hours_back: int = 48) -> Dict:
             'intensity': intensity,
             'avg_confidence': round(avg_confidence, 2),
             'related_sectors': list(all_sectors),
-            'related_regions': list(all_regions)
+            'related_regions': list(all_regions),
+            'source_news': source_news  # NEW: Track which news mentioned this entity
         })
 
     # Sort by mention count and impact
@@ -206,19 +220,47 @@ def analyze_ticker(ticker: str, hours_back: int = 48) -> Dict:
     # Construct evidence for dashboard
     bull_case = {
         "arguments": [f"{e['entity_name']} (intensity: {e['intensity']})" for e in top_opportunities],
-        "deep_analysis": "Positive drivers identified in geopolitical and macroeconomic news matching the asset's entity profile."
+        "deep_analysis": f"Analyzed {len(related_news)} news items → {len(entity_analysis)} entities identified. Positive signal: {positive_ratio:.0%} bullish entities vs {negative_ratio:.0%} bearish. Top drivers: {', '.join([e['entity_name'] for e in top_opportunities[:3]])}." if top_opportunities else f"Analyzed {len(related_news)} news items → {len(entity_analysis)} entities. No positive signals detected (0% bullish entities).",
+        "evidence_chain": []  # Will be populated below
     }
     bear_case = {
         "arguments": [f"{e['entity_name']} (intensity: {e['intensity']})" for e in top_risks],
-        "deep_analysis": "Negative risks and headwinds identified through sentiment analysis of related entities."
+        "deep_analysis": f"Analyzed {len(related_news)} news items → {len(entity_analysis)} entities. Negative signal: {negative_ratio:.0%} bearish entities vs {positive_ratio:.0%} bullish. Key risks: {', '.join([e['entity_name'] for e in top_risks[:3]])} (all high intensity). Combined with quant signal (RSI: {quant_stats.get('rsi_14', 'N/A')}, Trend: {quant_stats.get('trend', 'N/A')}) → {recommendation} recommendation." if top_risks else f"Analyzed {len(related_news)} news items → {len(entity_analysis)} entities. No negative risks detected (0% bearish entities).",
+        "evidence_chain": []  # Will be populated below
     }
     risk_analysis = {
         "stop_loss": {
             "percentage": 0.05,
             "technical_defense": "Standard variance protection based on sector volatility."
         },
-        "deep_analysis": "Risk management focused on mitigating exposure to identified negative entities."
+        "deep_analysis": f"Risk level: {'HIGH' if negative_ratio > 0.6 else 'MEDIUM' if negative_ratio > 0.3 else 'LOW'} based on {len(top_risks)} negative entities with avg {sum([e.get('avg_confidence', 0.5) for e in top_risks]) / len(top_risks):.0%} confidence. Stop loss set at 5% to protect against {top_risks[0].get('entity_name', 'market volatility') if top_risks else 'market'} downside." if top_risks else "Risk level: LOW. Stop loss set at 5% as standard protection.",
+        "evidence_chain": []  # Will be populated below
     }
+
+    # Build evidence chain for each entity (NEWS → ENTITY trace)
+    for entity in top_risks[:5]:  # Top 5 risks
+        if entity.get('source_news'):
+            for news in entity['source_news'][:2]:  # Max 2 news per entity
+                bear_case['evidence_chain'].append({
+                    'news_title': news['title'][:80] + '...' if len(news['title']) > 80 else news['title'],
+                    'news_source': news['source'],
+                    'entity_name': entity['entity_name'],
+                    'intensity': entity['intensity'],
+                    'confidence': entity['avg_confidence'],
+                    'impact': entity['overall_impact']
+                })
+
+    for entity in top_opportunities[:5]:  # Top 5 opportunities
+        if entity.get('source_news'):
+            for news in entity['source_news'][:2]:  # Max 2 news per entity
+                bull_case['evidence_chain'].append({
+                    'news_title': news['title'][:80] + '...' if len(news['title']) > 80 else news['title'],
+                    'news_source': news['source'],
+                    'entity_name': entity['entity_name'],
+                    'intensity': entity['intensity'],
+                    'confidence': entity['avg_confidence'],
+                    'impact': entity['overall_impact']
+                })
 
     logger.info(f"  ✅ Generated {recommendation} recommendation")
     logger.info("")
@@ -413,8 +455,8 @@ def get_entities_for_news(news_id: int) -> List[Dict]:
     try:
         supabase = create_client(supabase_url, supabase_key)
 
-        # Obtener entities de Supabase (tabla geo_entities)
-        result = supabase.table('geo_entities').select('*').eq('news_id', news_id).execute()
+        # Obtener entities de Supabase (tabla geo_macro_entities)
+        result = supabase.table('geo_macro_entities').select('*').eq('news_id', news_id).execute()
 
         if result.data:
             # Formatear resultado para compatibilidad

@@ -37,10 +37,17 @@ def discover_tickers(prompt: str) -> List[dict]:
 
     gen_prompt = f"""
     You are a financial research scout. Based on the theme: "{prompt}",
-    identify 5-10 relevant stock tickers (US exchanges).
+    identify 20-50 relevant stock tickers from US exchanges ONLY (NYSE, NASDAQ, AMEX).
+
+    CRITICAL REQUIREMENTS:
+    - US exchanges ONLY (NYSE, NASDAQ, AMEX) - NO international exchanges
+    - Do NOT limit to a small number - be COMPREHENSIVE and find ALL relevant companies
+    - Cover ALL categories mentioned in the theme
+    - Include large caps, mid caps, and small caps if relevant
+    - Think expansively - if in doubt, include the ticker
 
     For EACH ticker, you MUST provide:
-    1. Ticker symbol
+    1. Ticker symbol (US only, no exchange suffixes)
     2. Company Name
     3. Industry Sector
     4. A 1-sentence description in SPANISH (description_es).
@@ -67,15 +74,16 @@ def discover_tickers(prompt: str) -> List[dict]:
 
         data = json.loads(clean_text)
         results = data.get("results", [])
-        
-        # Save to database
+
+        # Save to database with FULL metadata
         tickers_only = [r['ticker'].upper() for r in results]
         criteria = extract_search_criteria(prompt)
         insert_exploration(
             prompt=prompt,
             criteria=criteria,
             tickers=tickers_only,
-            reasoning=data.get("reasoning", "")
+            reasoning=data.get("reasoning", ""),
+            ticker_details=results  # Pass FULL results with name, sector, description_es
         )
 
         logger.info(f"Discovered {len(results)} tickers with metadata.")

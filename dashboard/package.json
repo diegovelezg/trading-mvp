@@ -11,11 +11,13 @@
   "dependencies": {
     "@radix-ui/react-tooltip": "^1.2.8",
     "@supabase/supabase-js": "^2.103.0",
+    "@types/pg": "^8.20.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "lucide-react": "^1.7.0",
     "luxon": "^3.7.2",
     "next": "16.2.3",
+    "pg": "^8.20.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "recharts": "^3.8.1",

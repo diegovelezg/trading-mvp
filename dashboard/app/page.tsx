@@ -3,21 +3,21 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Activity, 
-  TrendingUp, 
-  BarChart3, 
-  History, 
+import {
+  Activity,
+  TrendingUp,
+  BarChart3,
+  History,
   BrainCircuit,
   Filter,
   ChevronDown,
   ChevronUp,
   ShieldCheck,
+  Shield,
   Zap,
   Wallet,
   Briefcase,
   Clock,
-  Search,
   MessageSquare,
   TrendingDown,
   Target,
@@ -41,14 +41,14 @@ export default function Dashboard() {
           fetch(`/api/activity?date=${dateFilter}`),
           fetch("/api/portfolio")
         ]);
-        
+
         const statsData = await statsRes.json();
         const activityData = await activityRes.json();
         const portfolioData = await portfolioRes.json();
-        
-        setStats(statsData?.error ? null : statsData);
+
+        setStats(statsData?.error ? null : statsData?.data);
         setActivities(Array.isArray(activityData) ? activityData : []);
-        setPortfolio(portfolioData?.error ? null : portfolioData);
+        setPortfolio(portfolioData);
       } catch (e) {
         console.error("Fetch error:", e);
       } finally {
@@ -175,15 +175,75 @@ export default function Dashboard() {
             </div>
           ) : (
             <div className="space-y-6">
-              {activities.map((act) => (
-                <DecisionCard key={act.decision_id} activity={act} alpacaOrders={portfolio?.orders || []} />
-              ))}
+              {/* Group activities by desk_run_id */}
+              {(() => {
+                const groupedByDesk = activities.reduce((acc: any, act: any) => {
+                  const deskId = act.desk_run_id || 'no-desk';
+                  if (!acc[deskId]) {
+                    acc[deskId] = [];
+                  }
+                  acc[deskId].push(act);
+                  return acc;
+                }, {});
+
+                return Object.entries(groupedByDesk).map(([deskId, deskActivities]: any) => (
+                  <DeskRunCard
+                    key={deskId}
+                    deskRunId={deskId}
+                    activities={deskActivities}
+                    alpacaOrders={portfolio?.orders || []}
+                  />
+                ));
+              })()}
             </div>
           )}
         </div>
 
       </div>
     </main>
+  );
+}
+
+function DeskRunCard({ deskRunId, activities, alpacaOrders = [] }: any) {
+  const [expanded, setExpanded] = useState(true); // Default expanded
+
+  // Extract desk info from first activity
+  const firstActivity = activities[0] || {};
+  const deskTimestamp = firstActivity.decision_timestamp || firstActivity.created_at;
+  const tickerCount = activities.length;
+
+  return (
+    <Card className="bg-zinc-950/80 border-zinc-900">
+      <div className="cursor-pointer" onClick={() => setExpanded(!expanded)}>
+        <CardHeader className="flex flex-row items-center justify-between py-4">
+          <div className="flex items-center gap-3">
+            <History className="w-5 h-5 text-zinc-400" />
+            <div>
+              <h3 className="text-sm font-bold text-zinc-100">
+                🏛️ MESA DE INVERSIONES #{deskRunId !== 'no-desk' ? deskRunId : 'N/A'}
+              </h3>
+              <p className="text-[10px] text-zinc-500 font-mono">
+                {new Date(deskTimestamp).toLocaleString()} • {tickerCount} tickers analizados
+              </p>
+            </div>
+          </div>
+          {expanded ? <ChevronUp className="w-5 h-5 text-zinc-500" /> : <ChevronDown className="w-5 h-5 text-zinc-500" />}
+        </CardHeader>
+
+        {expanded && (
+          <CardContent className="space-y-3 pb-6">
+            {activities.map((activity: any) => (
+              <DecisionCard
+                key={activity.decision_id || activity.ticker}
+                activity={activity}
+                alpacaOrders={alpacaOrders}
+                isNested={true}
+              />
+            ))}
+          </CardContent>
+        )}
+      </div>
+    </Card>
   );
 }
 
@@ -202,24 +262,246 @@ function KPICard({ title, value, icon, label }: any) {
   );
 }
 
-function DecisionCard({ activity, alpacaOrders = [] }: any) {
+function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
   const [expanded, setExpanded] = useState(false);
   const isBuy = activity.action_taken === 'BUY' || activity.desk_action === 'BUY';
   const analysis = activity.analysis || {};
-  
+
   // Try to find live status in current Alpaca orders
   const liveOrder = activity.alpaca_order_id ? alpacaOrders.find((o: any) => o.id === activity.alpaca_order_id) : null;
   const currentStatus = liveOrder ? liveOrder.status.toUpperCase() : activity.status;
-  
+
   // Extract agent evidence
   const bullCase = analysis.bull_case || {};
   const bearCase = analysis.bear_case || {};
   const riskAnalysis = analysis.risk_analysis || {};
   const quant = analysis.quant_stats || analysis.quant_metrics || {};
 
+  // NESTED MODE: Compact header, full content on expand
+  if (isNested) {
+    return (
+      <Card className="bg-zinc-900/40 border border-zinc-900/50 hover:border-zinc-800 transition-all">
+        {/* COMPACT HEADER */}
+        <div className="cursor-pointer" onClick={(e) => { e.stopPropagation(); setExpanded(!expanded); }}>
+          <div className="flex flex-row items-center justify-between p-3">
+            <div className="flex items-center gap-3">
+              <Badge variant={isBuy ? "success" : "secondary"} className="px-2 py-0.5 text-[10px]">
+                {activity.desk_action || 'WAIT'}
+              </Badge>
+              <span className="text-lg font-bold text-zinc-100">{activity.ticker}</span>
+              <span className="text-[9px] text-zinc-500 font-mono uppercase">
+                {activity.recommendation}
+              </span>
+              {activity.sentiment_score && (
+                <span className={`text-[9px] font-bold ${activity.sentiment_score > 0 ? 'text-green-500' : activity.sentiment_score < 0 ? 'text-red-500' : 'text-zinc-500'}`}>
+                  {activity.sentiment_score > 0 ? '+' : ''}{(activity.sentiment_score * 100).toFixed(0)}%
+                </span>
+              )}
+            </div>
+            {expanded ? <ChevronUp className="w-4 h-4 text-zinc-600" /> : <ChevronDown className="w-4 h-4 text-zinc-600" />}
+          </div>
+        </div>
+
+        {/* FULL CONTENT ON EXPAND - SAME AS STANDALONE */}
+        {expanded && (
+          <CardContent className="pb-6 border-t border-zinc-900/50">
+            <div className="text-sm text-zinc-300 leading-relaxed mb-6 italic border-l-2 border-zinc-800 pl-4 py-1">
+              &quot;{activity.rationale || activity.decision_notes}&quot;
+            </div>
+
+            <div className="flex flex-wrap gap-4 mb-6">
+              <QuantItem label="RSI" value={quant.rsi_14} />
+              <QuantItem label="Beta" value={quant.beta_spy} />
+              <QuantItem label="Sentiment" value={activity.sentiment_score ? `${(activity.sentiment_score * 100).toFixed(1)}%` : '--'} />
+              <QuantItem label="Confidence" value={analysis.avg_confidence ? `${(analysis.avg_confidence * 100).toFixed(0)}%` : '--'} />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+              {/* BULL EVIDENCE */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-green-500">
+                  <TrendingUp className="w-4 h-4" />
+                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Bull Evidence</h3>
+                </div>
+                <ul className="space-y-2">
+                  {bullCase.arguments && bullCase.arguments.length > 0 ? (
+                    bullCase.arguments.map((arg: string, i: number) => (
+                      <li key={i} className="text-[11px] text-zinc-400 flex gap-2">
+                        <span className="text-green-900 font-bold">•</span> {arg}
+                      </li>
+                    ))
+                  ) : (
+                    <li className="text-[11px] text-zinc-600 italic">No positive signals detected in recent news</li>
+                  )}
+                </ul>
+
+                {/* EVIDENCE CHAIN: NEWS → ENTITY */}
+                {bullCase.evidence_chain && bullCase.evidence_chain.length > 0 && (
+                  <div className="mt-3 space-y-2">
+                    <p className="text-[9px] font-mono uppercase text-zinc-600">📰 Source News</p>
+                    {bullCase.evidence_chain.map((evidence: any, i: number) => (
+                      <div key={i} className="bg-zinc-900/50 p-2 rounded border-l-2 border-green-700">
+                        <p className="text-[10px] text-zinc-400 font-mono truncate" title={evidence.news_title}>
+                          "{evidence.news_title}"
+                        </p>
+                        <p className="text-[9px] text-zinc-500 mt-1">
+                          <span className="text-green-700">→</span> {evidence.entity_name} ({evidence.impact}, {Math.round(evidence.confidence * 100)}% conf)
+                          <span className="text-zinc-600 ml-2">[{evidence.news_source}]</span>
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {bullCase.deep_analysis && (
+                  <div className="mt-4 p-3 bg-green-950/5 rounded border border-green-900/20">
+                    <p className="text-[9px] text-green-700 font-mono uppercase mb-1 font-bold">Analyst Monologue</p>
+                    <p className="text-[10px] text-zinc-400 leading-relaxed italic">{bullCase.deep_analysis}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* BEAR EVIDENCE */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-red-500">
+                  <TrendingDown className="w-4 h-4" />
+                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Bear Risks</h3>
+                </div>
+                <ul className="space-y-2">
+                  {bearCase.arguments?.map((arg: string, i: number) => (
+                    <li key={i} className="text-[11px] text-zinc-400 flex gap-2">
+                      <span className="text-red-900 font-bold">•</span> {arg}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* EVIDENCE CHAIN: NEWS → ENTITY */}
+                {bearCase.evidence_chain && bearCase.evidence_chain.length > 0 && (
+                  <div className="mt-3 space-y-2">
+                    <p className="text-[9px] font-mono uppercase text-zinc-600">📰 Source News</p>
+                    {bearCase.evidence_chain.map((evidence: any, i: number) => (
+                      <div key={i} className="bg-zinc-900/50 p-2 rounded border-l-2 border-red-700">
+                        <p className="text-[10px] text-zinc-400 font-mono truncate" title={evidence.news_title}>
+                          "{evidence.news_title}"
+                        </p>
+                        <p className="text-[9px] text-zinc-500 mt-1">
+                          <span className="text-red-700">→</span> {evidence.entity_name} ({evidence.impact}, {Math.round(evidence.confidence * 100)}% conf)
+                          <span className="text-zinc-600 ml-2">[{evidence.news_source}]</span>
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {bearCase.deep_analysis && (
+                  <div className="mt-4 p-3 bg-red-950/5 rounded border border-red-900/20">
+                    <p className="text-[9px] text-red-700 font-mono uppercase mb-1 font-bold">Skeptic Monologue</p>
+                    <p className="text-[10px] text-zinc-400 leading-relaxed italic">{bearCase.deep_analysis}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* RISK MANAGEMENT */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-yellow-500">
+                  <ShieldCheck className="w-4 h-4" />
+                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Risk Strategy</h3>
+                </div>
+                <div className="bg-zinc-900/30 p-4 rounded-xl border border-zinc-900 space-y-3">
+                  <div className="flex justify-between text-xs">
+                    <span className="text-zinc-500 font-mono">STOP_LOSS</span>
+                    <span className="text-red-500 font-bold">{riskAnalysis.stop_loss?.percentage * 100 || 5}%</span>
+                  </div>
+                  <p className="text-[10px] text-zinc-500 italic leading-snug">
+                    Defense: {riskAnalysis.stop_loss?.technical_defense || "Standard variance protection."}
+                  </p>
+                </div>
+                {riskAnalysis.deep_analysis && (
+                  <div className="p-3 bg-yellow-950/5 rounded border border-yellow-900/20">
+                    <p className="text-[9px] text-yellow-700 font-mono uppercase mb-1 font-bold">Risk Ratiocination</p>
+                    <p className="text-[10px] text-zinc-400 leading-relaxed">{riskAnalysis.deep_analysis}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* RISK MANAGEMENT & EXECUTION CONTROLS */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-purple-500">
+                  <Shield className="w-4 h-4" />
+                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Execution</h3>
+                </div>
+                <div className="bg-purple-950/10 p-4 rounded-xl border border-purple-900/30 space-y-3">
+                  {/* Position Size */}
+                  <div className="flex justify-between items-center">
+                    <span className="text-[10px] font-mono text-zinc-500">POSITION_SIZE</span>
+                    <span className="text-xs font-bold text-zinc-300">
+                      {activity.position_size ? `$${activity.position_size.toLocaleString()}` : '$0'}
+                    </span>
+                  </div>
+
+                  {/* Entry Price */}
+                  <div className="flex justify-between items-center">
+                    <span className="text-[10px] font-mono text-zinc-500">ENTRY_PRICE</span>
+                    <span className="text-xs font-bold text-zinc-300">
+                      {activity.entry_price ? `$${activity.entry_price.toFixed(2)}` : '--'}
+                    </span>
+                  </div>
+
+                  {/* Stop Loss */}
+                  <div className="flex justify-between items-center">
+                    <span className="text-[10px] font-mono text-zinc-500">STOP_LOSS_PCT</span>
+                    <span className="text-xs font-bold text-red-400">
+                      {(riskAnalysis.stop_loss?.percentage || 0.05) * 100}%
+                    </span>
+                  </div>
+
+                  {/* Alpaca Order ID */}
+                  <div className="flex justify-between items-center">
+                    <span className="text-[10px] font-mono text-zinc-500">ALPACA_ORDER</span>
+                    <span className="text-[10px] font-mono text-zinc-400">
+                      {activity.alpaca_order_id || 'PENDING'}
+                    </span>
+                  </div>
+
+                  {/* Execution Status */}
+                  <div className="flex justify-between items-center border-t border-zinc-800 pt-2">
+                    <span className="text-[10px] font-mono text-zinc-500">EXECUTION_STATUS</span>
+                    <span className={`text-[10px] font-bold font-mono ${
+                      currentStatus === 'FILLED' ? 'text-green-500' :
+                      currentStatus === 'PENDING' ? 'text-yellow-500' :
+                      'text-zinc-400'
+                    }`}>
+                      {currentStatus}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* CIO FINAL RATIONALE */}
+              <div className="space-y-4 md:col-span-2">
+                <div className="flex items-center gap-2 text-blue-500">
+                  <BrainCircuit className="w-4 h-4" />
+                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">CIO Strategy</h3>
+                </div>
+                <div className="text-[11px] text-zinc-400 leading-relaxed space-y-2">
+                  <p><b className="text-zinc-300">Net Sentiment:</b> {analysis.positive_ratio > analysis.negative_ratio ? 'Positive Bias' : 'Negative Bias'}</p>
+                  <p><b className="text-zinc-300">Model:</b> GLM-5.1 Strategic Brain</p>
+                  <p><b className="text-zinc-300">Verdict:</b> {activity.decision_notes}</p>
+                </div>
+              </div>
+
+            </div>
+          </CardContent>
+        )}
+      </Card>
+    );
+  }
+
+  // STANDALONE MODE: Full card (original behavior)
   return (
     <Card className="hover:border-zinc-700 transition-all bg-zinc-950/40">
-      <div className="cursor-pointer" onClick={() => setExpanded(!expanded)}>
+      <div className="cursor-pointer" onClick={(e) => { e.stopPropagation(); setExpanded(!expanded); }}>
         <CardHeader className="flex flex-row items-center justify-between py-6">
           <div className="flex items-center gap-4">
             <Badge variant={isBuy ? "success" : "secondary"} className="px-3 py-1">
@@ -242,12 +524,12 @@ function DecisionCard({ activity, alpacaOrders = [] }: any) {
             {expanded ? <ChevronUp className="w-5 h-5 text-zinc-500" /> : <ChevronDown className="w-5 h-5 text-zinc-500" />}
           </div>
         </CardHeader>
-        
+
         <CardContent className="pb-6">
           <div className="text-sm text-zinc-300 leading-relaxed mb-6 italic border-l-2 border-zinc-800 pl-4 py-1">
             &quot;{activity.rationale || activity.decision_notes}&quot;
           </div>
-          
+
           <div className="flex flex-wrap gap-4">
             <QuantItem label="RSI" value={quant.rsi_14} />
             <QuantItem label="Beta" value={quant.beta_spy} />
@@ -255,10 +537,9 @@ function DecisionCard({ activity, alpacaOrders = [] }: any) {
             <QuantItem label="Confidence" value={analysis.avg_confidence ? `${(analysis.avg_confidence * 100).toFixed(0)}%` : '--'} />
           </div>
         </CardContent>
-      </div>
 
-      {expanded && (
-        <CardContent className="pt-8 border-t border-zinc-900 bg-zinc-950/60">
+        {expanded && (
+          <CardContent className="pt-8 border-t border-zinc-900 bg-zinc-950/60">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             
             {/* BULL EVIDENCE */}
@@ -268,12 +549,35 @@ function DecisionCard({ activity, alpacaOrders = [] }: any) {
                 <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Bull Evidence</h3>
               </div>
               <ul className="space-y-2">
-                {bullCase.arguments?.map((arg: string, i: number) => (
-                  <li key={i} className="text-[11px] text-zinc-400 flex gap-2">
-                    <span className="text-green-900 font-bold">•</span> {arg}
-                  </li>
-                ))}
+                {bullCase.arguments && bullCase.arguments.length > 0 ? (
+                  bullCase.arguments.map((arg: string, i: number) => (
+                    <li key={i} className="text-[11px] text-zinc-400 flex gap-2">
+                      <span className="text-green-900 font-bold">•</span> {arg}
+                    </li>
+                  ))
+                ) : (
+                  <li className="text-[11px] text-zinc-600 italic">No positive signals detected in recent news</li>
+                )}
               </ul>
+
+              {/* EVIDENCE CHAIN: NEWS → ENTITY */}
+              {bullCase.evidence_chain && bullCase.evidence_chain.length > 0 && (
+                <div className="mt-3 space-y-2">
+                  <p className="text-[9px] font-mono uppercase text-zinc-600">📰 Source News</p>
+                  {bullCase.evidence_chain.map((evidence: any, i: number) => (
+                    <div key={i} className="bg-zinc-900/50 p-2 rounded border-l-2 border-green-700">
+                      <p className="text-[10px] text-zinc-400 font-mono truncate" title={evidence.news_title}>
+                        "{evidence.news_title}"
+                      </p>
+                      <p className="text-[9px] text-zinc-500 mt-1">
+                        <span className="text-green-700">→</span> {evidence.entity_name} ({evidence.impact}, {Math.round(evidence.confidence * 100)}% conf)
+                        <span className="text-zinc-600 ml-2">[{evidence.news_source}]</span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               {bullCase.deep_analysis && (
                 <div className="mt-4 p-3 bg-green-950/5 rounded border border-green-900/20">
                   <p className="text-[9px] text-green-700 font-mono uppercase mb-1 font-bold">Analyst Monologue</p>
@@ -295,6 +599,25 @@ function DecisionCard({ activity, alpacaOrders = [] }: any) {
                   </li>
                 ))}
               </ul>
+
+              {/* EVIDENCE CHAIN: NEWS → ENTITY */}
+              {bearCase.evidence_chain && bearCase.evidence_chain.length > 0 && (
+                <div className="mt-3 space-y-2">
+                  <p className="text-[9px] font-mono uppercase text-zinc-600">📰 Source News</p>
+                  {bearCase.evidence_chain.map((evidence: any, i: number) => (
+                    <div key={i} className="bg-zinc-900/50 p-2 rounded border-l-2 border-red-700">
+                      <p className="text-[10px] text-zinc-400 font-mono truncate" title={evidence.news_title}>
+                        "{evidence.news_title}"
+                      </p>
+                      <p className="text-[9px] text-zinc-500 mt-1">
+                        <span className="text-red-700">→</span> {evidence.entity_name} ({evidence.impact}, {Math.round(evidence.confidence * 100)}% conf)
+                        <span className="text-zinc-600 ml-2">[{evidence.news_source}]</span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               {bearCase.deep_analysis && (
                 <div className="mt-4 p-3 bg-red-950/5 rounded border border-red-900/20">
                   <p className="text-[9px] text-red-700 font-mono uppercase mb-1 font-bold">Skeptic Monologue</p>
@@ -326,8 +649,61 @@ function DecisionCard({ activity, alpacaOrders = [] }: any) {
               )}
             </div>
 
+            {/* RISK MANAGEMENT & EXECUTION CONTROLS */}
+            <div className="space-y-4 md:col-span-2">
+              <div className="flex items-center gap-2 text-purple-500">
+                <Shield className="w-4 h-4" />
+                <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Risk Management & Execution Controls</h3>
+              </div>
+              <div className="bg-purple-950/10 p-4 rounded-xl border border-purple-900/30 space-y-3">
+                {/* Position Size */}
+                <div className="flex justify-between items-center">
+                  <span className="text-[10px] font-mono text-zinc-500">POSITION_SIZE</span>
+                  <span className="text-xs font-bold text-zinc-300">
+                    {activity.position_size ? `$${activity.position_size.toLocaleString()}` : '$0'}
+                  </span>
+                </div>
+
+                {/* Entry Price */}
+                <div className="flex justify-between items-center">
+                  <span className="text-[10px] font-mono text-zinc-500">ENTRY_PRICE</span>
+                  <span className="text-xs font-bold text-zinc-300">
+                    {activity.entry_price ? `$${activity.entry_price.toFixed(2)}` : '--'}
+                  </span>
+                </div>
+
+                {/* Stop Loss */}
+                <div className="flex justify-between items-center">
+                  <span className="text-[10px] font-mono text-zinc-500">STOP_LOSS_PCT</span>
+                  <span className="text-xs font-bold text-red-400">
+                    {(riskAnalysis.stop_loss?.percentage || 0.05) * 100}%
+                  </span>
+                </div>
+
+                {/* Alpaca Order ID */}
+                <div className="flex justify-between items-center">
+                  <span className="text-[10px] font-mono text-zinc-500">ALPACA_ORDER</span>
+                  <span className="text-[10px] font-mono text-zinc-400">
+                    {activity.alpaca_order_id || 'PENDING'}
+                  </span>
+                </div>
+
+                {/* Execution Status */}
+                <div className="flex justify-between items-center border-t border-zinc-800 pt-2">
+                  <span className="text-[10px] font-mono text-zinc-500">EXECUTION_STATUS</span>
+                  <span className={`text-[10px] font-bold font-mono ${
+                    currentStatus === 'FILLED' ? 'text-green-500' :
+                    currentStatus === 'PENDING' ? 'text-yellow-500' :
+                    'text-zinc-400'
+                  }`}>
+                    {currentStatus}
+                  </span>
+                </div>
+              </div>
+            </div>
+
             {/* CIO FINAL RATIONALE DETAILS */}
-            <div className="space-y-4">
+            <div className="space-y-4 md:col-span-2">
               <div className="flex items-center gap-2 text-blue-500">
                 <BrainCircuit className="w-4 h-4" />
                 <h3 className="text-xs font-bold uppercase tracking-widest font-mono">CIO Strategy</h3>
@@ -342,6 +718,7 @@ function DecisionCard({ activity, alpacaOrders = [] }: any) {
           </div>
         </CardContent>
       )}
+      </div>
     </Card>
   );
 }

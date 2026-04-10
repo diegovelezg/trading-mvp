@@ -35,6 +35,12 @@ type Exploration = {
   prompt: string;
   criteria: string;
   tickers: string[];
+  ticker_details?: Array<{
+    ticker: string;
+    name: string;
+    sector: string;
+    description_es: string;
+  }>;
   reasoning?: string;
 };
 
@@ -49,9 +55,20 @@ type ActiveItem = {
   volume?: number;
 };
 
+type TickerQuantData = {
+  ticker: string;
+  currentPrice: number;
+  change14d: number;
+  change28d: number;
+  volume: number;
+  marketCap?: number;
+};
+
 export default function WatchlistPage() {
   const [activeItems, setActiveItems] = useState<ActiveItem[]>([]);
   const [explorations, setExplorations] = useState<Exploration[]>([]);
+  const [tickerQuantData, setTickerQuantData] = useState<Map<string, TickerQuantData>>(new Map());
+  const [loadingTickerData, setLoadingTickerData] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'active' | 'history'>('active');
   const [expandedExplorations, setExpandedExplorations] = useState<Set<number>>(new Set());
@@ -70,18 +87,59 @@ export default function WatchlistPage() {
       ]);
       const wlData = await wlRes.json();
       const expData = await expRes.json();
-      
+
+      // Extract data from wrapped response
+      const watchlistsData = wlData?.data || (Array.isArray(wlData) ? wlData : []);
+
       // Flatten all items from all watchlists for "Managed" view
-      const allActive = (Array.isArray(wlData) ? wlData : []).flatMap(wl => 
-        wl.items.map((i: any) => ({ ...i, watchlistId: wl.id }))
+      const allActive = watchlistsData.flatMap(wl =>
+        (wl.items || [])
+          .filter((i: any) => i.ticker) // Filter out items without ticker
+          .map((i: any) => ({ ...i, watchlistId: wl.id }))
       );
-      
+
       setActiveItems(allActive);
-      setExplorations(Array.isArray(expData) ? expData : []);
+      setExplorations(Array.isArray(expData?.data) ? expData.data : []);
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchTickerQuantData = async (ticker: string) => {
+    if (tickerQuantData.has(ticker) || loadingTickerData.has(ticker)) {
+      return; // Already fetched or loading
+    }
+
+    setLoadingTickerData(prev => new Set(prev).add(ticker));
+
+    try {
+      const res = await fetch(`/api/ticker-quote?ticker=${ticker}`);
+      if (res.ok) {
+        const data = await res.json();
+        setTickerQuantData(prev => new Map(prev).set(ticker, data));
+      }
+    } catch (e) {
+      console.error(`Failed to fetch quant data for ${ticker}:`, e);
+    } finally {
+      setLoadingTickerData(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(ticker);
+        return newSet;
+      });
+    }
+  };
+
+  const fetchExplorationTickersData = async (exploration: Exploration) => {
+    const tickers = exploration.tickers || [];
+    const tickersToFetch = tickers.filter(t => !tickerQuantData.has(t) && !loadingTickerData.has(t));
+
+    // Fetch in parallel with limit
+    const batchSize = 5;
+    for (let i = 0; i < tickersToFetch.length; i += batchSize) {
+      const batch = tickersToFetch.slice(i, i + batchSize);
+      await Promise.all(batch.map(t => fetchTickerQuantData(t)));
     }
   };
 
@@ -104,15 +162,15 @@ export default function WatchlistPage() {
   // Filter and sort items
   const filteredAndSortedItems = activeItems
     .filter(item =>
-      item.ticker.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.company_name?.toLowerCase().includes(searchTerm.toLowerCase())
+      (item.ticker?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+      (item.company_name?.toLowerCase().includes(searchTerm.toLowerCase()) || false)
     )
     .sort((a, b) => {
       let comparison = 0;
 
       switch (sortBy) {
         case 'ticker':
-          comparison = a.ticker.localeCompare(b.ticker);
+          comparison = (a.ticker || '').localeCompare(b.ticker || '');
           break;
         case 'price':
           comparison = (a.currentPrice || 0) - (b.currentPrice || 0);
@@ -124,7 +182,7 @@ export default function WatchlistPage() {
           comparison = (a.volume || 0) - (b.volume || 0);
           break;
         case 'added_at':
-          comparison = new Date(a.added_at).getTime() - new Date(b.added_at).getTime();
+          comparison = new Date(a.added_at || 0).getTime() - new Date(b.added_at || 0).getTime();
           break;
       }
 
@@ -187,7 +245,9 @@ export default function WatchlistPage() {
     }
   };
 
-  const toggleExploration = (id: number) => {
+  const toggleExploration = async (id: number) => {
+    const isExpanding = !expandedExplorations.has(id);
+
     setExpandedExplorations(prev => {
       const newSet = new Set(prev);
       if (newSet.has(id)) {
@@ -197,6 +257,14 @@ export default function WatchlistPage() {
       }
       return newSet;
     });
+
+    // Fetch quant data when expanding
+    if (isExpanding) {
+      const exploration = explorations.find(e => e.id === id);
+      if (exploration) {
+        await fetchExplorationTickersData(exploration);
+      }
+    }
   };
 
   const showNotification = (type: 'success' | 'error', message: string) => {
@@ -480,41 +548,103 @@ export default function WatchlistPage() {
                           {Array.isArray(exp.tickers) && exp.tickers.map((t: string) => {
                             const inWatchlist = isTickerInWatchlist(t);
                             const isAdding = addingTickers.has(t);
+                            const quantData = tickerQuantData.get(t);
+                            const tickerDetail = exp.ticker_details?.find(d => d.ticker === t);
+                            const isLoadingData = loadingTickerData.has(t);
 
                             return (
                               <div
                                 key={t}
-                                className={`bg-zinc-900/40 border p-3 rounded-lg flex items-center justify-between transition-all ${
+                                className={`bg-zinc-900/40 border p-4 rounded-lg transition-all ${
                                   inWatchlist ? 'border-green-900/30' : 'border-zinc-800/50'
                                 }`}
                               >
-                                <div className="flex items-center gap-2">
-                                  <span className="font-bold text-zinc-300">{t}</span>
-                                  {inWatchlist && (
-                                    <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
-                                  )}
-                                </div>
-                                {!inWatchlist && (
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      addToWatchlist(t, '', `Added from exploration #${exp.id}`);
-                                    }}
-                                    disabled={isAdding}
-                                    className="px-3 py-1 text-[10px] font-mono uppercase bg-blue-900/20 hover:bg-blue-900/40 text-blue-400 border border-blue-900/50 rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
-                                  >
-                                    {isAdding ? (
-                                      <>
-                                        <span className="animate-pulse">Adding...</span>
-                                      </>
-                                    ) : (
-                                      <>
-                                        <Plus className="w-3 h-3" />
-                                        Add
-                                      </>
+                                <div className="space-y-3">
+                                  {/* Header: Ticker + Add Button */}
+                                  <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2">
+                                      <span className="text-xl font-bold text-zinc-200">{t}</span>
+                                      {inWatchlist && (
+                                        <CheckCircle2 className="w-4 h-4 text-green-500" />
+                                      )}
+                                      {isLoadingData && (
+                                        <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                                      )}
+                                    </div>
+                                    {!inWatchlist && (
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          addToWatchlist(t, tickerDetail?.name || '', `Added from exploration #${exp.id}`);
+                                        }}
+                                        disabled={isAdding}
+                                        className="px-3 py-1.5 text-[10px] font-mono uppercase bg-blue-900/20 hover:bg-blue-900/40 text-blue-400 border border-blue-900/50 rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
+                                      >
+                                        {isAdding ? (
+                                          <span className="animate-pulse">Adding...</span>
+                                        ) : (
+                                          <>
+                                            <Plus className="w-3 h-3" />
+                                            Add
+                                          </>
+                                        )}
+                                      </button>
                                     )}
-                                  </button>
-                                )}
+                                  </div>
+
+                                  {/* Company Info */}
+                                  {tickerDetail && (
+                                    <div className="space-y-2">
+                                      <p className="text-sm font-semibold text-zinc-300">{tickerDetail.name}</p>
+                                      <div className="flex items-center gap-2">
+                                        <Badge variant="outline" className="text-[8px] px-2 py-0 border-zinc-700 text-zinc-400">
+                                          {tickerDetail.sector}
+                                        </Badge>
+                                      </div>
+                                      <p className="text-[11px] text-zinc-400 leading-relaxed">{tickerDetail.description_es}</p>
+                                    </div>
+                                  )}
+
+                                  {/* Quant Data from Alpaca */}
+                                  {quantData && (
+                                    <div className="grid grid-cols-4 gap-2 pt-2 border-t border-zinc-800/50">
+                                      <div>
+                                        <div className="text-[8px] font-mono text-zinc-600 uppercase">Precio</div>
+                                        <div className="text-sm font-bold text-zinc-300">
+                                          ${quantData.currentPrice.toFixed(2)}
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <div className="text-[8px] font-mono text-zinc-600 uppercase">14d</div>
+                                        <div className={`text-sm font-bold flex items-center gap-1 ${quantData.change14d >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                          {quantData.change14d >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                                          {quantData.change14d >= 0 ? '+' : ''}{quantData.change14d.toFixed(1)}%
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <div className="text-[8px] font-mono text-zinc-600 uppercase">28d</div>
+                                        <div className={`text-sm font-bold flex items-center gap-1 ${quantData.change28d >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                          {quantData.change28d >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                                          {quantData.change28d >= 0 ? '+' : ''}{quantData.change28d.toFixed(1)}%
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <div className="text-[8px] font-mono text-zinc-600 uppercase">Volumen</div>
+                                        <div className="text-sm font-bold text-zinc-300">
+                                          {(quantData.volume / 1000000).toFixed(1)}M
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )}
+
+                                  {/* Relation to search criteria */}
+                                  <div className="bg-blue-950/10 border border-blue-900/20 p-2 rounded">
+                                    <p className="text-[9px] text-blue-400 font-mono uppercase mb-1">Relación con criterio</p>
+                                    <p className="text-[10px] text-zinc-400 italic">
+                                      {tickerDetail?.description_es || 'Componente del sector solicitado en la búsqueda temática.'}
+                                    </p>
+                                  </div>
+                                </div>
                               </div>
                             );
                           })}

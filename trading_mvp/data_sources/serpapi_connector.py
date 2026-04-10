@@ -29,6 +29,31 @@ class SerpApiConnector(BaseDataConnector):
 
         logger.info("✅ SERPAPI Google News connector initialized")
 
+    def make_json_serializable(self, obj):
+        """Convert an object to JSON-serializable format recursively.
+
+        Args:
+            obj: Any object
+
+        Returns:
+            JSON-serializable version
+        """
+        import datetime
+
+        if isinstance(obj, (str, int, float, bool, type(None))):
+            return obj
+        elif isinstance(obj, datetime.datetime):
+            return obj.isoformat()
+        elif hasattr(obj, 'keys'):  # Dict-like
+            return {k: self.make_json_serializable(v) for k, v in obj.items()}
+        elif hasattr(obj, '__iter__') and not isinstance(obj, (str, bytes)):
+            try:
+                return [self.make_json_serializable(item) for item in list(obj)]
+            except:
+                return str(obj)
+        else:
+            return str(obj)
+
     def fetch_data(self, query: str = "geopolitical news", max_items: int = 50) -> List[Dict]:
         """Fetch recent news from Google News via SERPAPI.
 
@@ -86,6 +111,9 @@ class SerpApiConnector(BaseDataConnector):
                 # Extract date if available
                 date_str = item.get("date", "")
 
+                # Convert entire item to JSON-serializable recursively
+                clean_raw_data = self.make_json_serializable(item)
+
                 normalized_item = {
                     "source": "serpapi_google_news",
                     "source_type": "search_api",
@@ -96,7 +124,7 @@ class SerpApiConnector(BaseDataConnector):
                     "author": "",
                     "published_at": date_str,
                     "symbols": [],  # SERPAPI doesn't provide symbols
-                    "raw_data": item
+                    "raw_data": clean_raw_data
                 }
                 normalized.append(normalized_item)
             except Exception as e:

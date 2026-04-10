@@ -72,7 +72,8 @@ class GeoMacroProcessor:
             logger.info("  🌐 Fetching from Google News RSS...")
             google_geo = self.google_connector.fetch_geopolitical_news(max_items=30)
             google_econ = self.google_connector.fetch_economic_news(max_items=30)
-            google_news = google_geo + google_econ
+            # IMPORTANT: normalize_data to convert FeedParserDict to JSON-serializable
+            google_news = self.google_connector.normalize_data(google_geo + google_econ)
             all_news.extend(google_news)
             source_counts['google'] = len(google_news)
             logger.info(f"  ✅ Google News: {len(google_news)} items")
@@ -84,9 +85,11 @@ class GeoMacroProcessor:
         try:
             logger.info("  🔍 Fetching from SERPAPI...")
             serpapi_news = self.serpapi_connector.fetch_macro_news()
-            all_news.extend(serpapi_news)
-            source_counts['serpapi'] = len(serpapi_news)
-            logger.info(f"  ✅ SERPAPI: {len(serpapi_news)} items")
+            # IMPORTANT: normalize_data to convert to JSON-serializable
+            serpapi_normalized = self.serpapi_connector.normalize_data(serpapi_news)
+            all_news.extend(serpapi_normalized)
+            source_counts['serpapi'] = len(serpapi_normalized)
+            logger.info(f"  ✅ SERPAPI: {len(serpapi_normalized)} items")
         except Exception as e:
             logger.warning(f"  ⚠️  SERPAPI failed: {e}")
             source_counts['serpapi'] = 0

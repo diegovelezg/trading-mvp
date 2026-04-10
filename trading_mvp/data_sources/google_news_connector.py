@@ -63,6 +63,32 @@ class GoogleNewsConnector(BaseDataConnector):
             logger.error(f"❌ Error fetching Google News RSS: {e}")
             return []
 
+    def make_json_serializable(self, obj):
+        """Convert an object to JSON-serializable format recursively.
+
+        Args:
+            obj: Any object
+
+        Returns:
+            JSON-serializable version
+        """
+        import datetime
+
+        if isinstance(obj, (str, int, float, bool, type(None))):
+            return obj
+        elif isinstance(obj, datetime.datetime):
+            return obj.isoformat()
+        elif hasattr(obj, 'keys'):  # Dict-like (FeedParserDict, dict, etc.)
+            return {k: self.make_json_serializable(v) for k, v in obj.items()}
+        elif hasattr(obj, '__iter__') and not isinstance(obj, (str, bytes)):
+            # List-like but not string/bytes
+            try:
+                return [self.make_json_serializable(item) for item in list(obj)]
+            except:
+                return str(obj)
+        else:
+            return str(obj)
+
     def normalize_data(self, raw_data: List[Dict]) -> List[Dict]:
         """Normalize Google News to standard format.
 
@@ -93,22 +119,8 @@ class GoogleNewsConnector(BaseDataConnector):
                     # Clean up extra whitespace
                     summary = " ".join(summary.split())
 
-                # Convert item to dict (handle FeedParserDict)
-                raw_data_dict = dict(item) if hasattr(item, 'keys') else item
-
-                # Ensure all values are JSON-serializable
-                clean_raw_data = {}
-                for key, value in raw_data_dict.items():
-                    # Convert FeedParserDict or any non-serializable objects to strings
-                    if hasattr(value, 'keys'):
-                        clean_raw_data[key] = dict(value) if hasattr(value, '__iter__') else str(value)
-                    elif hasattr(value, '__iter__') and not isinstance(value, (str, bytes)):
-                        try:
-                            clean_raw_data[key] = list(value)
-                        except:
-                            clean_raw_data[key] = str(value)
-                    else:
-                        clean_raw_data[key] = value
+                # Convert entire item to JSON-serializable dict recursively
+                clean_raw_data = self.make_json_serializable(item)
 
                 # Extract source from FeedParserDict
                 source_dict = item.get("source", {})

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { normalizeTicker } from "@/lib/ticker-utils";
+import { getDefaultWatchlistId } from "@/lib/config";
 import {
   Radar,
   Trash2,
@@ -152,8 +154,8 @@ export default function WatchlistPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          watchlist_id: 2, // "Energía Nuclear" watchlist ID
-          ticker: ticker.toUpperCase(),
+          watchlist_id: getDefaultWatchlistId(),
+          ticker: normalizeTicker(ticker),
           company_name: companyName,
           reason: reason
         })
@@ -166,7 +168,7 @@ export default function WatchlistPage() {
           company_name: newItem.company_name || companyName,
           reason: newItem.reason || reason,
           added_at: newItem.added_at || new Date().toISOString(),
-          watchlistId: 2
+          watchlistId: getDefaultWatchlistId()
         }]);
         showNotification('success', `${ticker} added to watchlist`);
       } else {

@@ -390,7 +390,7 @@ def print_analysis_report(analysis: Dict):
 
 
 def get_entities_for_news(news_id: int) -> List[Dict]:
-    """Get entities for a news item.
+    """Get entities for a news item via Supabase.
 
     Args:
         news_id: News ID
@@ -399,41 +399,32 @@ def get_entities_for_news(news_id: int) -> List[Dict]:
         List of entity dicts
     """
 
-    import json
-    from trading_mvp.core.db_manager import get_connection
-    from psycopg2.extras import RealDictCursor
+    import os
+    from supabase import create_client
 
-    conn = get_connection()
-    entities = []
-    
+    # Supabase client
+    supabase_url = os.getenv("NEXT_PUBLIC_SUPABASE_URL")
+    supabase_key = os.getenv("NEXT_PUBLIC_SUPABASE_ANON_KEY")
+
+    if not supabase_url or not supabase_key:
+        logger.error("❌ Supabase credentials not found")
+        return []
+
     try:
-        with conn.cursor(cursor_factory=RealDictCursor) as cur:
-            cur.execute("""
-                SELECT * FROM geo_macro_entities
-                WHERE news_id = %s
-                ORDER BY confidence DESC
-            """, (news_id,))
+        supabase = create_client(supabase_url, supabase_key)
 
-            rows = cur.fetchall()
+        # Obtener entities de Supabase (tabla geo_entities)
+        result = supabase.table('geo_entities').select('*').eq('news_id', news_id).execute()
 
-            for row in rows:
-                entity_dict = dict(row)
-                # Handle JSONB fields - they might already be parsed as lists/dicts
-                for field in ['sectors', 'regions']:
-                    val = entity_dict.get(field)
-                    if isinstance(val, str):
-                        try:
-                            entity_dict[field] = json.loads(val)
-                        except:
-                            entity_dict[field] = []
-                    elif val is None:
-                        entity_dict[field] = []
-                
-                entities.append(entity_dict)
-    finally:
-        conn.close()
+        if result.data:
+            # Formatear resultado para compatibilidad
+            return result.data
+        else:
+            return []
 
-    return entities
+    except Exception as e:
+        logger.error(f"❌ Error getting entities for news {news_id}: {e}")
+        return []
 
 
 if __name__ == "__main__":

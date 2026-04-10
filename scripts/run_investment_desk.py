@@ -42,9 +42,7 @@ os.environ['GEMINI_API_MODEL_01'] = 'gemini-3.1-flash-lite-preview'
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '.claude', 'subagents'))
 
-from trading_mvp.core.db_watchlist import (
-    get_watchlist,
-    get_watchlist_tickers,
+from trading_mvp.core.dashboard_api_client import (
     get_active_watchlists
 )
 from trading_mvp.core.db_investment_tracking import (
@@ -110,34 +108,34 @@ def run_investment_desk(watchlist_id: int = None, watchlist_name: str = None, ho
         portfolio_positions = []
         portfolio_account = {'buying_power': 0, 'cash': 0, 'portfolio_value': 0, 'equity': 0}
 
-    # 2. Get watchlist
+    # 2. Get watchlist (via Dashboard API)
     watchlist_tickers = []
     watchlist_info = {'name': 'Default', 'description': 'Default Watchlist'}
-    
+
     try:
+        watchlists = get_active_watchlists()
+
         if watchlist_id:
-            watchlist = get_watchlist(watchlist_id)
+            # Find specific watchlist by ID
+            watchlist = next((wl for wl in watchlists if wl['id'] == watchlist_id), None)
             if watchlist:
                 watchlist_info = watchlist
-                watchlist_tickers_data = get_watchlist_tickers(watchlist_id)
-                watchlist_tickers = [t['ticker'] for t in watchlist_tickers_data]
+                watchlist_tickers = [item['ticker'] for item in watchlist.get('items', [])]
         elif watchlist_name:
-            watchlists = get_active_watchlists()
+            # Find specific watchlist by name
             watchlist = next((wl for wl in watchlists if wl['name'] == watchlist_name), None)
             if watchlist:
                 watchlist_info = watchlist
                 watchlist_id = watchlist['id']
-                watchlist_tickers_data = get_watchlist_tickers(watchlist_id)
-                watchlist_tickers = [t['ticker'] for t in watchlist_tickers_data]
+                watchlist_tickers = [item['ticker'] for item in watchlist.get('items', [])]
         else:
-            watchlists = get_active_watchlists()
+            # Use first available watchlist
             if watchlists:
                 watchlist = watchlists[0]
                 watchlist_info = watchlist
                 watchlist_id = watchlist['id']
-                watchlist_tickers_data = get_watchlist_tickers(watchlist_id)
-                watchlist_tickers = [t['ticker'] for t in watchlist_tickers_data]
-                
+                watchlist_tickers = [item['ticker'] for item in watchlist.get('items', [])]
+
         logger.info(f"📋 Watchlist: {watchlist_info['name']}")
     except Exception as e:
         logger.warning(f"⚠️  Watchlist loading issue: {e}")

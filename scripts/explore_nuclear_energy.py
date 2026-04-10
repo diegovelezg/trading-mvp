@@ -7,8 +7,8 @@ from datetime import datetime
 # Bootstrap to find project root
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from trading_mvp.core.db_manager import insert_exploration
-from trading_mvp.core.db_watchlist import create_watchlist, add_tickers_batch_to_watchlist
+from trading_mvp.core.dashboard_api_client import create_watchlist, add_ticker_to_watchlist
+from trading_mvp.core.db_manager import insert_exploration  # Mantener temporalmente para explorations
 from google import genai
 from google.genai import types
 
@@ -80,9 +80,18 @@ async def perform_nuclear_exploration():
         )
         
         if watchlist_id:
-            added = add_tickers_batch_to_watchlist(watchlist_id, tickers)
+            # Añadir tickers individualmente via Dashboard API
+            added = 0
+            for t in tickers:
+                ticker = t.get('ticker', '').upper()
+                company_name = t.get('company_name', '')
+                reason = f"{t.get('sector', 'N/A')}: {t.get('reason', '')}"
+
+                if add_ticker_to_watchlist(watchlist_id, ticker, company_name, reason):
+                    added += 1
+
             print(f"📈 Watchlist '{watchlist_id}' poblada con {added} empresas en la nube.")
-            
+
             # Mostrar los primeros 5 para feedback
             for t in tickers[:5]:
                 print(f"   - {t['ticker']}: {t['company_name']} ({t['sector']})")

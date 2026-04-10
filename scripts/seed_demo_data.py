@@ -4,7 +4,7 @@ import os
 # Add the project root to the Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from trading_mvp.core.db_watchlist import create_watchlist, add_ticker_to_watchlist
+from trading_mvp.core.dashboard_api_client import create_watchlist, add_ticker_to_watchlist
 
 def main():
     print("🌱 Seeding initial demo data...")

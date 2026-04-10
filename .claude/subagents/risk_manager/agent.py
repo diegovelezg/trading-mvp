@@ -10,7 +10,6 @@ from dotenv import load_dotenv
 from google.genai import Client
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-from trading_mvp.core.db_manager import insert_exploration
 
 load_dotenv()
 

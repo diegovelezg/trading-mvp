@@ -8,7 +8,7 @@ from typing import List
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 from trading_mvp.news.alpaca_news import fetch_news
 from trading_mvp.analysis.gemini_sentiment import analyze_sentiment
-from trading_mvp.core.db_manager import insert_news, insert_sentiment
+from trading_mvp.core.dashboard_api_client import insert_news, insert_sentiment
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')

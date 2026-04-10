@@ -22,7 +22,7 @@ def get_alpaca_data_client() -> StockHistoricalDataClient:
     return StockHistoricalDataClient(api_key, secret_key)
 
 def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
-    """Fetch and calculate quantitative stats for a ticker.
+    """Fetch and calculate quantitative stats for a ticker using Wilder's Smoothing (Gold Standard).
     
     Returns:
         Dict with SMA, RSI, ATR, and Beta (vs SPY).
@@ -30,13 +30,10 @@ def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
     try:
         client = get_alpaca_data_client()
         
-        # Use yesterday as end_date to ensure we get consolidated historical data
+        # Use yesterday as end_date to ensure consolidated historical data
         end_date = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         start_date = end_date - timedelta(days=days)
 
-        logger.info(f"📊 Fetching historical data for {symbol} from {start_date.date()} to {end_date.date()}...")
-
-        # Fetch bars for the ticker and SPY (for beta)
         request_params = StockBarsRequest(
             symbol_or_symbols=[symbol, "SPY"],
             timeframe=TimeFrame.Day,
@@ -47,30 +44,22 @@ def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
         bars = client.get_stock_bars(request_params)
         df = bars.df
         
-        if df.empty:
-            logger.warning(f"⚠️  No data returned from Alpaca for {symbol}")
+        if df.empty or symbol not in df.index.get_level_values(0):
             return {"error": f"No data found for {symbol}"}
-            
-        available_tickers = df.index.get_level_values(0).unique()
-        if symbol not in available_tickers:
-            logger.warning(f"⚠️  {symbol} not found in Alpaca response. Available: {list(available_tickers)}")
-            return {"error": f"Ticker {symbol} not found in history"}
 
         # Isolate ticker data
         ticker_df = df.xs(symbol).copy()
         
-        if len(ticker_df) < 15:
-            return {"error": f"Insufficient data history for {symbol} (need at least 15 days)"}
+        if len(ticker_df) < 30:
+            return {"error": f"Insufficient data history for {symbol} (need at least 30 days)"}
 
-        # 1. Trend (SMA)
-        # Ensure we have enough data for the rolling windows
+        # 1. Trend (Standard SMA)
         ticker_df['sma_50'] = ticker_df['close'].rolling(window=min(50, len(ticker_df))).mean()
         ticker_df['sma_200'] = ticker_df['close'].rolling(window=min(200, len(ticker_df))).mean()
         
         current_price = ticker_df['close'].iloc[-1]
         sma_50 = ticker_df['sma_50'].iloc[-1]
         
-        # Fallback for SMA 200 if ticker is new
         if len(ticker_df) >= 200:
             sma_200 = ticker_df['sma_200'].iloc[-1]
             trend = "BULLISH" if current_price > sma_200 else "BEARISH"
@@ -80,32 +69,37 @@ def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
 
         momentum = "POSITIVE" if current_price > sma_50 else "NEGATIVE"
 
-        # 2. RSI (Relative Strength Index) - 14 days
+        # 2. RSI (Relative Strength Index) - Wilder's Smoothing Standard
         delta = ticker_df['close'].diff()
-        gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
-        loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
-        # Avoid division by zero
-        rs = gain / loss.replace(0, 0.001)
+        gain = (delta.where(delta > 0, 0))
+        loss = (-delta.where(delta < 0, 0))
+        
+        # Wilder's Smoothing = EMA with alpha = 1/N
+        avg_gain = gain.ewm(alpha=1/14, min_periods=14, adjust=False).mean()
+        avg_loss = loss.ewm(alpha=1/14, min_periods=14, adjust=False).mean()
+        
+        rs = avg_gain / avg_loss.replace(0, 0.001)
         ticker_df['rsi_14'] = 100 - (100 / (1 + rs))
         rsi_14 = ticker_df['rsi_14'].iloc[-1]
         
         if np.isnan(rsi_14): rsi_14 = 50.0
 
-        # 3. ATR (Average True Range) - 14 days
+        # 3. ATR (Average True Range) - Wilder's Smoothing Standard
         ticker_df['h_l'] = ticker_df['high'] - ticker_df['low']
         ticker_df['h_pc'] = abs(ticker_df['high'] - ticker_df['close'].shift(1))
         ticker_df['l_pc'] = abs(ticker_df['low'] - ticker_df['close'].shift(1))
         ticker_df['tr'] = ticker_df[['h_l', 'h_pc', 'l_pc']].max(axis=1)
-        ticker_df['atr_14'] = ticker_df['tr'].rolling(window=14).mean()
+        
+        # Wilder's ATR uses the same 1/N smoothing
+        ticker_df['atr_14'] = ticker_df['tr'].ewm(alpha=1/14, min_periods=14, adjust=False).mean()
         atr = ticker_df['atr_14'].iloc[-1]
         
         if np.isnan(atr): atr = 0.0
 
         # 4. Beta (Correlation with SPY)
-        beta_spy = 1.0 # Default
-        if "SPY" in available_tickers:
+        beta_spy = 1.0
+        if "SPY" in df.index.get_level_values(0):
             spy_df = df.xs("SPY").copy()
-            # Align dates by percentage change
             ticker_returns = ticker_df['close'].pct_change()
             spy_returns = spy_df['close'].pct_change()
             combined = pd.concat([ticker_returns, spy_returns], axis=1).dropna()
@@ -130,6 +124,4 @@ def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
 
     except Exception as e:
         logger.error(f"Error calculating quant stats for {symbol}: {e}")
-        import traceback
-        logger.error(traceback.format_exc())
         return {"error": str(e)}

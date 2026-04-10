@@ -1,0 +1,40 @@
+{
+  "TICKER_TO_ENTITIES": {
+    "USO": ["Crude Oil", "Oil", "Energy", "Commodities", "WTI"],
+    "XLE": ["Energy", "Oil & Gas", "SPDR", "ETF", "Sector"],
+    "XOP": ["Energy", "Oil & Gas", "Exploration", "ETF"],
+    "BNO": ["Brent Oil", "Oil", "Energy", "Commodities"],
+    "COP": ["Oil & Gas", "Energy", "Crude Oil", "Exploration & Production", "Commodities"],
+    "CVE": ["Oil & Gas", "Energy", "Canadian Oil", "Tar Sands", "Integrated Oil"],
+
+    "AAPL": ["Technology", "Consumer", "Hardware", "Semiconductors", "Mobile"],
+    "MSFT": ["Technology", "Software", "Cloud", "Enterprise"],
+    "GOOGL": ["Technology", "Internet", "Search", "Advertising", "Cloud"],
+    "META": ["Technology", "Social Media", "Internet", "Advertising"],
+    "NVDA": ["Technology", "Semiconductors", "AI", "Hardware", "Chips"],
+    "AMD": ["Technology", "Semiconductors", "Hardware", "Chips"],
+
+    "ENPH": ["Solar Energy", "Renewable Energy", "Technology", "Residential"],
+    "SEDG": ["Solar Energy", "Renewable Energy", "Technology", "Commercial"],
+    "FSLR": ["Solar Energy", "Renewable Energy", "Technology"],
+    "RUN": ["Solar Energy", "Renewable Energy", "Technology", "Residential"],
+    "CSIQ": ["Solar Energy", "Renewable Energy", "Technology"],
+    "PLUG": ["Clean Energy", "Battery Technology", "Renewable Energy"],
+    "BE": ["Electric Vehicle", "Battery Technology", "Clean Energy"],
+
+    "JPM": ["Finance", "Banking", "Financial Services"],
+    "BAC": ["Finance", "Banking", "Financial Services"],
+    "WFC": ["Finance", "Banking", "Financial Services"],
+    "C": ["Finance", "Banking", "Financial Services"],
+    "GS": ["Finance", "Investment Banking", "Financial Services"],
+    "MA": ["Mastercard", "Payments", "Finance", "Credit Cards"],
+
+    "NXE": ["NexGen Energy", "Uranium", "Nuclear Energy", "Saskatchewan"],
+    "CCJ": ["Cameco", "Uranium", "Nuclear Energy", "Fuel Cycle"],
+    "URA": ["Uranium ETF", "Uranium", "Nuclear Power", "Clean Energy"],
+    "BWXT": ["BWX Technologies", "Nuclear Reactors", "SMR", "Naval Nuclear"],
+    "SMR": ["NuScale Power", "Small Modular Reactors", "Nuclear Technology"],
+    "UUUU": ["Energy Fuels", "Uranium", "Rare Earth Elements"],
+    "DNN": ["Denison Mines", "Uranium", "Athabasca Basin"]
+  }
+}

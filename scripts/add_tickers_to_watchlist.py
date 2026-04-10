@@ -5,7 +5,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from trading_mvp.core.db_watchlist import add_ticker_to_watchlist
+from trading_mvp.core.dashboard_api_client import add_ticker_to_watchlist, get_active_watchlists
 
 # Watchlist ID 3: Oil & Energy Watchlist
 watchlist_id = 3
@@ -46,9 +46,14 @@ for ticker_data in tickers_to_add:
 
 print(f"\n📊 Successfully added {added_count}/{len(tickers_to_add)} tickers")
 
-# Verify
-from trading_mvp.core.db_watchlist import get_watchlist_tickers
-tickers = get_watchlist_tickers(watchlist_id)
-print(f"\n📋 Watchlist now has {len(tickers)} tickers:")
-for t in tickers:
-    print(f"  • {t['ticker']}: {t.get('company_name', 'N/A')}")
+# Verify (via Dashboard API)
+watchlists = get_active_watchlists()
+watchlist = next((wl for wl in watchlists if wl['id'] == watchlist_id), None)
+
+if watchlist:
+    tickers = watchlist.get('items', [])
+    print(f"\n📋 Watchlist now has {len(tickers)} tickers:")
+    for t in tickers:
+        print(f"  • {t['ticker']}: {t.get('company_name', 'N/A')}")
+else:
+    print(f"\n⚠️  Could not verify watchlist {watchlist_id}")

@@ -9,63 +9,18 @@ from datetime import datetime
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from trading_mvp.core.db_watchlist import (
-    create_watchlist_tables,
+from trading_mvp.core.dashboard_api_client import (
     create_watchlist,
-    add_tickers_batch_to_watchlist,
-    get_watchlist,
-    get_watchlist_tickers,
-    get_active_watchlists,
-    save_watchlist_analysis,
-    get_watchlist_analysis
+    add_ticker_to_watchlist,
+    get_active_watchlists
+)
+from trading_mvp.utils.config_loader import (
+    TICKER_TO_ENTITIES,
+    get_ticker_entities,
+    get_default_watchlist_id
 )
 
 logger = logging.getLogger(__name__)
-
-# Ticker to Entity mapping (static for now, can be made dynamic)
-TICKER_TO_ENTITIES = {
-    # Energy/Oil
-    "USO": ["Crude Oil", "Oil", "Energy", "Commodities", "WTI"],
-    "XLE": ["Energy", "Oil & Gas", "SPDR", "ETF", "Sector"],
-    "XOP": ["Energy", "Oil & Gas", "Exploration", "ETF"],
-    "BNO": ["Brent Oil", "Oil", "Energy", "Commodities"],
-    "COP": ["Oil & Gas", "Energy", "Crude Oil", "Exploration & Production", "Commodities"],
-    "CVE": ["Oil & Gas", "Energy", "Canadian Oil", "Tar Sands", "Integrated Oil"],
-
-    # Technology
-    "AAPL": ["Technology", "Consumer", "Hardware", "Semiconductors", "Mobile"],
-    "MSFT": ["Technology", "Software", "Cloud", "Enterprise"],
-    "GOOGL": ["Technology", "Internet", "Search", "Advertising", "Cloud"],
-    "META": ["Technology", "Social Media", "Internet", "Advertising"],
-    "NVDA": ["Technology", "Semiconductors", "AI", "Hardware", "Chips"],
-    "AMD": ["Technology", "Semiconductors", "Hardware", "Chips"],
-
-    # Renewable Energy
-    "ENPH": ["Solar Energy", "Renewable Energy", "Technology", "Residential"],
-    "SEDG": ["Solar Energy", "Renewable Energy", "Technology", "Commercial"],
-    "FSLR": ["Solar Energy", "Renewable Energy", "Technology"],
-    "RUN": ["Solar Energy", "Renewable Energy", "Technology", "Residential"],
-    "CSIQ": ["Solar Energy", "Renewable Energy", "Technology"],
-    "PLUG": ["Clean Energy", "Battery Technology", "Renewable Energy"],
-    "BE": ["Electric Vehicle", "Battery Technology", "Clean Energy"],
-
-    # Finance
-    "JPM": ["Finance", "Banking", "Financial Services"],
-    "BAC": ["Finance", "Banking", "Financial Services"],
-    "WFC": ["Finance", "Banking", "Financial Services"],
-    "C": ["Finance", "Banking", "Financial Services"],
-    "GS": ["Finance", "Investment Banking", "Financial Services"],
-    "MA": ["Mastercard", "Payments", "Finance", "Credit Cards"],
-
-    # Nuclear & Uranium
-    "NXE": ["NexGen Energy", "Uranium", "Nuclear Energy", "Saskatchewan"],
-    "CCJ": ["Cameco", "Uranium", "Nuclear Energy", "Fuel Cycle"],
-    "URA": ["Uranium ETF", "Uranium", "Nuclear Power", "Clean Energy"],
-    "BWXT": ["BWX Technologies", "Nuclear Reactors", "SMR", "Naval Nuclear"],
-    "SMR": ["NuScale Power", "Small Modular Reactors", "Nuclear Technology"],
-    "UUUU": ["Energy Fuels", "Uranium", "Rare Earth Elements"],
-    "DNN": ["Denison Mines", "Uranium", "Athabasca Basin"]
-}
 
 
 def create_watchlist_from_explorer(name: str, description: str, tickers: List[str],
@@ -97,13 +52,15 @@ def create_watchlist_from_explorer(name: str, description: str, tickers: List[st
         logger.error(f"❌ Could not create watchlist")
         return {"success": False, "error": "Could not create watchlist"}
 
-    # Add tickers
-    ticker_items = [
-        {"ticker": t, "reason": f"Discovered by Explorer Agent: {criteria_prompt}"}
-        for t in tickers
-    ]
-
-    added_count = add_tickers_batch_to_watchlist(watchlist_id, ticker_items)
+    # Add tickers (loop individual via Dashboard API)
+    added_count = 0
+    for ticker in tickers:
+        if add_ticker_to_watchlist(
+            watchlist_id=watchlist_id,
+            ticker=ticker,
+            reason=f"Discovered by Explorer Agent: {criteria_prompt}"
+        ):
+            added_count += 1
 
     logger.info(f"✅ Watchlist created: ID {watchlist_id} with {added_count} tickers")
 
@@ -117,6 +74,9 @@ def create_watchlist_from_explorer(name: str, description: str, tickers: List[st
 def analyze_watchlist(watchlist_id: int, hours_back: int = 48) -> Dict:
     """Analyze a watchlist using multiple agents.
 
+    NOTA: Esta función está siendo deprecada.
+    El análisis ahora se hace vía run_investment_desk.py que usa Dashboard APIs.
+
     Args:
         watchlist_id: Watchlist ID
         hours_back: Hours to look back for news
@@ -125,61 +85,27 @@ def analyze_watchlist(watchlist_id: int, hours_back: int = 48) -> Dict:
         Dict with analysis results
     """
 
-    logger.info(f"🔍 Analyzing watchlist {watchlist_id}...")
+    logger.warning("⚠️  analyze_watchlist() está deprecada. Usar run_investment_desk.py en su lugar.")
 
-    # Get watchlist details
-    watchlist = get_watchlist(watchlist_id)
+    # Get tickers from dashboard API
+    watchlists = get_active_watchlists()
+    watchlist = next((wl for wl in watchlists if wl['id'] == watchlist_id), None)
+
     if not watchlist:
         logger.error(f"❌ Watchlist {watchlist_id} not found")
         return {"success": False, "error": "Watchlist not found"}
 
-    # Get tickers
-    tickers_data = get_watchlist_tickers(watchlist_id)
-    tickers = [t['ticker'] for t in tickers_data]
+    tickers = [item['ticker'] for item in watchlist.get('items', [])]
 
     logger.info(f"  📊 Analyzing {len(tickers)} tickers...")
 
-    results = []
-    data_sources = []
-
-    for ticker in tickers:
-        logger.info(f"    🎯 Analyzing {ticker}...")
-
-        # For now, just store placeholder analysis
-        # In the future, this will call:
-        # - GeoMacro Analyst: get_news_for_ticker(ticker)
-        # - Sentiment Analyst: analyze_sentiment(ticker)
-        # - Risk Manager: assess_risk(ticker)
-
-        geomacro_score = 0.0  # Placeholder
-        sentiment_score = 0.0  # Placeholder
-        risk_score = 0.5  # Placeholder
-
-        # Save analysis
-        save_watchlist_analysis(
-            watchlist_id=watchlist_id,
-            ticker=ticker,
-            geomacro_score=geomacro_score,
-            sentiment_score=sentiment_score,
-            risk_score=risk_score,
-            data_sources=["placeholder"]  # Will be real agents
-        )
-
-        results.append({
-            "ticker": ticker,
-            "geomacro_score": geomacro_score,
-            "sentiment_score": sentiment_score,
-            "risk_score": risk_score
-        })
-
-    logger.info(f"✅ Analysis complete for {len(results)} tickers")
-
+    # Placeholder - análisis real se mueve a run_investment_desk.py
     return {
         "success": True,
         "watchlist_id": watchlist_id,
         "watchlist_name": watchlist['name'],
-        "ticker_count": len(results),
-        "results": results
+        "ticker_count": len(tickers),
+        "results": []
     }
 
 
@@ -243,7 +169,7 @@ def get_news_for_ticker(ticker: str, hours_back: int = 24) -> List[Dict]:
 
 
 def get_watchlist_status(watchlist_id: int) -> Dict:
-    """Get status of a watchlist.
+    """Get status of a watchlist via Dashboard API.
 
     Args:
         watchlist_id: Watchlist ID
@@ -252,55 +178,35 @@ def get_watchlist_status(watchlist_id: int) -> Dict:
         Dict with watchlist status
     """
 
-    watchlist = get_watchlist(watchlist_id)
+    watchlists = get_active_watchlists()
+    watchlist = next((wl for wl in watchlists if wl['id'] == watchlist_id), None)
+
     if not watchlist:
         return {"success": False, "error": "Watchlist not found"}
 
-    tickers = get_watchlist_tickers(watchlist_id)
-    analysis = get_watchlist_analysis(watchlist_id, hours_back=48)
-
     return {
         "success": True,
-        "watchlist": {
-            "id": watchlist['id'],
-            "name": watchlist['name'],
-            "description": watchlist['description'],
-            "criteria_prompt": watchlist['criteria_prompt'],
-            "criteria_summary": watchlist['criteria_summary'],
-            "status": watchlist['status'],
-            "created_at": watchlist['created_at']
-        },
-        "tickers": tickers,
-        "recent_analysis": analysis
+        "watchlist": watchlist,
+        "tickers": watchlist.get('items', []),
+        "ticker_count": watchlist.get('ticker_count', 0)
     }
 
 
 def list_watchlists() -> List[Dict]:
-    """List all active watchlists.
+    """List all active watchlists via Dashboard API.
 
     Returns:
-        List of watchlist dicts
+        List of watchlist dicts (ya incluye items y ticker_count)
     """
 
-    watchlists = get_active_watchlists()
-
-    # Add ticker counts
-    for wl in watchlists:
-        wl_id = wl['id']
-        tickers = get_watchlist_tickers(wl_id)
-        wl['ticker_count'] = len(tickers)
-
-    return watchlists
+    return get_active_watchlists()
 
 
 # Main function for agent execution
 if __name__ == "__main__":
     import json
 
-    # Initialize database
-    create_watchlist_tables()
-
-    # Example: Create watchlist from Explorer Agent
+    # Example: Create watchlist from Explorer Agent (via Dashboard API)
     result = create_watchlist_from_explorer(
         name="Renewable Energy Small Caps",
         description="High growth renewable energy companies under $5B market cap",

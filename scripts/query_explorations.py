@@ -1,6 +1,6 @@
 # Query Explorations
 
-from trading_mvp.core.db_manager import get_recent_explorations
+from trading_mvp.core.dashboard_api_client import get_recent_explorations
 import sys
 
 def show_recent_explorations(limit=5):

@@ -11,7 +11,7 @@ from google.genai import Client
 
 # Add parent directory to path to import trading_mvp modules
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-from trading_mvp.core.db_manager import insert_exploration
+from trading_mvp.core.dashboard_api_client import insert_exploration
 
 load_dotenv()
 

@@ -116,7 +116,7 @@ def orchestrate_investment_workflow(theme: str, capital: float = 1000.0, execute
 
         # AUTO-POPULATE WATCHLIST WITH SPANISH DESCRIPTIONS
         try:
-            from trading_mvp.core.db_watchlist import add_ticker_to_watchlist, get_active_watchlists
+            from trading_mvp.core.dashboard_api_client import add_ticker_to_watchlist, get_active_watchlists
             watchlists = get_active_watchlists()
             if watchlists:
                 target_wl = watchlists[0]['id'] # Use the first active watchlist
@@ -211,7 +211,7 @@ def orchestrate_investment_workflow(theme: str, capital: float = 1000.0, execute
         from trading_mvp.core.portfolio_logic import get_portfolio_health
         from trading_mvp.analysis.portfolio_stats import calculate_portfolio_metrics
         from trading_mvp.analysis.strategy_stats import calculate_strategy_stats
-        from trading_mvp.core.db_investment_tracking import save_ticker_analysis, record_decision, save_desk_run
+        from trading_mvp.core.dashboard_api_client import save_ticker_analysis, record_decision, save_desk_run
 
         portfolio_state = get_portfolio_health()
         portfolio_metrics = calculate_portfolio_metrics()
@@ -230,7 +230,7 @@ def orchestrate_investment_workflow(theme: str, capital: float = 1000.0, execute
         # PERSIST TO DATABASE FOR OBSERVABILITY
         try:
             # 1. Create a real desk run record
-            from trading_mvp.core.db_watchlist import get_active_watchlists
+            from trading_mvp.core.dashboard_api_client import get_active_watchlists
             watchlists = get_active_watchlists()
             target_wl = watchlists[0]['id'] if watchlists else 1
             

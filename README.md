@@ -1,155 +1,95 @@
-# Trading MVP: Multi-Agent Investment Desk
+# Trading MVP: Institutional-Grade Multi-Agent Investment Desk
 
-**Mesa de Inversión completa con 7 roles especializados coordinados**
+**Sistema de trading autónomo con 7 roles especializados, motor cuantitativo de alta precisión y control humano determinista.**
 
 ## 🎯 Visión
 
-Sistema multi-agente que emula una mesa de inversión institucional, donde agentes especializados (Explorer, Analysts, Researchers, Risk Manager, Executioner) colaboran para analizar y ejecutar decisiones de inversión.
-
-## 🏗️ Arquitectura
-
-```
-trading_mvp/                     # 📦 Código compartido
-├── core/                      # Base de datos, configuración
-├── analysis/                  # Análisis de sentimiento
-├── news/                      # Fuentes de noticias (Alpaca)
-├── execution/                 # Ejecución de órdenes
-└── reporting/                 # Reportes y Trade Cards
-
-.claude/subagents/             # 🤖 Subagentes especializados
-├── explorer/                  # 🔍 Descubre empresas por temática
-├── macro_analyst/             # 📊 Analiza noticias y sentimiento
-├── hypothesis_generator/      # 🧠 Genera hipótesis de inversión
-├── bull_researcher/           # 📈 Argumentos a favor
-├── bear_researcher/           # 📉 Argumentos en contra
-├── risk_manager/              # ⚡ Gestión de riesgos
-├── executioner/               # 💼 Ejecuta órdenes
-└── orchestrator/              # 🎯 Coordina todo el flujo
-```
-
-## 🚀 Inicio Rápido
-
-### Instalación
-```bash
-# Clonar y configurar
-git clone https://github.com/diegovelezg/trading-mvp
-cd trading-mvp
-
-# Crear entorno virtual
-python -m venv .venv
-source .venv/bin/activate  # Linux/Mac
-
-# Instalar
-pip install -e ".[dev]"
-
-# Configurar API keys
-cp .env.example .env
-# Editar .env con tus credenciales de Alpaca y Gemini
-
-# Inicializar base de datos
-python -m trading_mvp.core.db_manager
-```
-
-### Uso de Subagentes
-
-```bash
-# 1. Explorer: Descubrir empresas por temática
-python .claude/subagents/explorer/agent.py "small caps in energy sector"
-
-# 2. Hypothesis Generator: Analizar fundamentales
-python .claude/subagents/hypothesis_generator/agent.py --tickers "AAPL,TSLA,MSFT"
-
-# 3. Macro Analyst: Analizar noticias y sentimiento
-python .claude/subagents/macro_analyst/agent.py --symbols "AAPL,TSLA"
-
-# 4. Bull Researcher: Análisis alcista
-python .claude/subagents/bull_researcher/agent.py --ticker "AAPL"
-
-# 5. Bear Researcher: Análisis bajista
-python .claude/subagents/bear_researcher/agent.py --ticker "AAPL"
-
-# 6. Risk Manager: Evaluar riesgo
-python .claude/subagents/risk_manager/agent.py --ticker "AAPL" --position-size 1000
-
-# 7. Executioner: Ejecutar órdenes
-python .claude/subagents/executioner/agent.py --symbol "AAPL" --action "BUY" --qty 10
-python .claude/subagents/executioner/agent.py --positions  # Ver posiciones
-
-# 8. Orchestrator: ¡FLUJO COMPLETO! (Recomendado)
-python .claude/subagents/orchestrator/agent.py "AI infrastructure" --capital 5000
-```
-
-### Ver Exploraciones Registradas
-
-```bash
-# Ver historial de exploraciones con criterios
-python scripts/query_explorations.py --limit 5
-```
-
-## 📊 Flujo de Trabajo Completo
-
-1. **Discovery** → Explorer descubre empresas por temática
-2. **Hypothesis** → Hypothesis Generator crea hipótesis de inversión
-3. **Analysis** → Macro Analyst analiza noticias y sentimiento
-4. **Dialectical** → Bull + Bear Researchers debaten pros y contras
-5. **Risk** → Risk Manager evalúa riesgos y tamaño de posición
-6. **Execution** → Executioner ejecuta órdenes en Alpaca Paper Trading
-7. **Reporting** → Se generan Trade Cards y reportes automáticos
-
-## 🔧 Scripts de Utilidad
-
-```bash
-# Inicializar base de datos
-python -m trading_mvp.core.db_manager
-
-# Ver exploraciones recientes
-python scripts/query_explorations.py
-
-# Migrar esquema de BD (cuando hay cambios)
-python scripts/migrate_db.py
-```
-
-## 🧪 Testing
-
-```bash
-# Ejecutar todos los tests
-pytest -v
-
-# Con cobertura
-pytest --cov=trading_mvp --cov-report=html
-```
-
-## 📖 Documentación
-
-- [STRUCTURE.md](STRUCTURE.md) - Estructura detallada del proyecto
-- [IMPLEMENTATION_COMPLETE.md](IMPLEMENTATION_COMPLETE.md) - Estado de implementación
-- [docs/conductor/](docs/conductor/) - Documentación técnica completa
-
-## 🎯 Características
-
-✅ **7 roles especializados** + Orchestrator
-✅ **Autocontenido**: Cada subagente tiene su config + código
-✅ **Registro de criterios**: Explorer guarda criterios de búsqueda
-✅ **Trade Cards**: Reportes automáticos con análisis completo
-✅ **Alpaca Paper Trading**: Integración con broker real
-✅ **Base de datos SQLite**: Auditoría completa de decisiones
-
-## 📊 Estado del Proyecto
-
-- **Versión**: 0.2.0
-- **Estado**: Alpha (Funcional pero en desarrollo)
-- **Tests**: En progreso
-- **Documentación**: Completa
-
-## 🚧 Próximos Pasos
-
-1. Completar suite de tests
-2. Orquestación nativa Claude Code (sin scripts manuales)
-3. Más fuentes de datos (GDELT, SEC filings)
-4. Optimizar prompts de Gemini para mejor análisis
+Mesa de inversión impulsada por IA que emula un entorno institucional. El sistema gestiona una cartera completa bajo principios de **"Portfolio-First Analysis"**, integrando narrativa macro, sentimiento de noticias y un **Rigor Cuantitativo Híbrido**.
 
 ---
 
-**Nota**: Este es un MVP para investigación educativa. No es apto para trading real sin gestión de riesgos apropiada.
+## 🏗️ Arquitectura "By the Book" (Claude Code Pattern)
 
-**Licencia**: MIT - Ver archivo [LICENSE](LICENSE)
+El proyecto sigue el estándar de diseño de Claude Code para workflows multi-agente, asegurando determinismo y escalabilidad:
+
+1.  **Capa de Intención (`.md`)**: Cada agente tiene una "Constitución" en Markdown que define su rol, mandatos y flujo de trabajo.
+2.  **Capa de Ejecución (`.py`)**: Implementación determinista via CLI que garantiza entradas y salidas estructuradas (Structured I/O).
+3.  **Patrón Handover**: Desacoplamiento total entre agentes; la comunicación se realiza mediante eventos y disparadores de shell.
+
+### Estructura de Módulos
+```
+trading_mvp/                     # 📦 Core Infrastructure
+├── core/                      # Portofolio Logic & DB (Supabase/SQLite)
+├── analysis/                  # Quant Engine & Sentiment Analysis
+├── news/                      # News Aggregators (Alpaca, GDELT)
+├── execution/                 # Alpaca Trading API Integration
+└── reporting/                 # Automated Trade Cards & Audit Trails
+```
+
+---
+
+## 📈 Quantitative Intelligence Engine
+
+El sistema no opera solo por intuición narrativa. Integra un motor estadístico que valida cada tesis de inversión mediante **sensores técnicos en tiempo real**:
+
+### 1. Filtros de Momentum y Tendencia
+*   **SMA 50 vs SMA 200 (Golden/Death Cross)**: El sistema identifica la tendencia primaria. Si el precio está bajo la media de 200 días, la confianza del análisis alcista se penaliza automáticamente un 20%.
+*   **Momentum de Corto Plazo**: Cruce de SMA 50 para detectar aceleración del precio.
+
+### 2. Osciladores de Fuerza Relativa (RSI)
+*   **Anti-Euphoria Filter**: Si el RSI(14) es **> 75**, el `DecisionAgent` bloquea cualquier orden de compra, independientemente de lo buenas que sean las noticias (evita el FOMO y compras en techos).
+*   **Oversold Detection**: Identifica activos castigados con RSI **< 30** como oportunidades de alta probabilidad.
+
+### 3. Volatilidad y Gestión de Riesgo (ATR)
+*   **Stop Loss Dinámico (2x ATR)**: Olvida los porcentajes fijos. El sistema calcula la volatilidad diaria (Average True Range). El Stop Loss se coloca a 2 ATRs del precio de entrada, adaptándose al "ruido" específico de cada activo.
+*   **Take Profit Inteligente**: Ratio de Riesgo/Beneficio de **1:2** calculado sobre la volatilidad real.
+
+### 4. Correlación de Mercado (Beta)
+*   **Beta vs SPY**: Mide la sensibilidad del activo respecto al mercado general. Si el mercado es bajista, el sistema reduce el tamaño de posición en activos de alta Beta (> 1.2).
+
+---
+
+## 🛡️ Human-in-the-Loop Guardrails (Control Humano)
+
+Configura estos límites innegociables en tu `.env` para gobernar a la IA:
+
+*   **`MIN_CONFIDENCE_SCORE`**: Umbral de certeza mínima (ej. 0.80).
+*   **`MAX_POSITION_SIZE_PCT`**: Máximo capital por activo (ej. 10% de la cuenta).
+*   **`MAX_PORTFOLIO_EXPOSURE_PCT`**: Límite de inversión total (ej. 85%).
+*   **`MIN_CASH_RESERVE_PCT`**: Efectivo intocable para emergencias.
+*   **`DAILY_DRAWDOWN_LIMIT_PCT`**: **Panic Button** que apaga el sistema ante pérdidas rápidas.
+
+---
+
+## 📊 Flujo de Trabajo Integral (The Desk Loop)
+
+El sistema opera en un ciclo dialéctico y determinista de 7 pasos:
+
+1.  **Sync Context**: Lectura de cartera real de Alpaca.
+2.  **Evaluate Health**: Análisis de posiciones actuales. Si un activo se vuelve **BEARISH**, se liquida automáticamente (**Sell-Off logic**).
+3.  **Discovery**: Explorer identifica nuevas empresas basadas en la temática activa.
+4.  **Quant Snapshot**: Ingesta de datos históricos y cálculo de RSI, ATR y SMAs.
+5.  **Dialectical Research**: Bull y Bear Researchers debaten la tesis contrastando noticias con la evidencia Quant.
+6.  **Deterministic Decision**: El `DecisionAgent` cruza la IA con los Guardrails Humanos y Sensores Técnicos.
+7.  **Autonomous Execution**: Si `AUTOPILOT_MODE=on`, ejecución de órdenes y generación de **Trade Cards**.
+
+---
+
+## 🛠️ Comandos de Ejecución
+
+```bash
+# Ejecutar la Mesa de Inversiones Integral (Flujo Completo)
+export PYTHONPATH=$PYTHONPATH:.
+./venv/bin/python3 scripts/run_investment_desk.py --watchlist-id 2 --hours-back 168
+
+# Uso Individual de Agentes (Patrón CLI)
+python .claude/subagents/bull_researcher/agent.py --ticker "AAPL"
+python .claude/subagents/risk_manager/agent.py --ticker "AAPL" --position-size 1000
+```
+
+---
+
+**Nota**: Este es un proyecto de investigación y desarrollo. No constituye asesoramiento financiero. El uso de autopilot en cuentas reales conlleva riesgos significativos.
+
+**Versión**: 0.3.5 (Quant-Native Edition)
+**Licencia**: MIT

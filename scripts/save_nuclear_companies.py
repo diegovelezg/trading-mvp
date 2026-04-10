@@ -10,8 +10,8 @@ import json
 # Bootstrap to find project root
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from trading_mvp.core.db_manager import insert_exploration
-from trading_mvp.core.db_watchlist import create_watchlist, add_tickers_batch_to_watchlist
+from trading_mvp.core.dashboard_api_client import create_watchlist, add_ticker_to_watchlist, get_recent_explorations
+from trading_mvp.core.db_manager import insert_exploration  # Mantener temporalmente
 
 def main():
     print("🚀 Guardando empresas de Energía Nuclear en la DB...")
@@ -93,9 +93,17 @@ def main():
     if watchlist_id:
         print(f"✅ Watchlist creada con ID: {watchlist_id}")
 
-        # 3. Añadir tickers
+        # 3. Añadir tickers individualmente via Dashboard API
         print("\n📈 Añadiendo tickers a la watchlist...")
-        added = add_tickers_batch_to_watchlist(watchlist_id, nuclear_companies)
+        added = 0
+        for c in nuclear_companies:
+            if add_ticker_to_watchlist(
+                watchlist_id=watchlist_id,
+                ticker=c['ticker'],
+                company_name=c['company_name'],
+                reason=f"{c['sector']}: {c['reason']}"
+            ):
+                added += 1
         print(f"✅ {added} empresas añadidas a la watchlist")
 
         # Mostrar muestra

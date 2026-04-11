@@ -290,7 +290,7 @@ def save_desk_run(watchlist_id: int, theme: str, tickers: list) -> Optional[int]
 
         supabase = create_client(supabase_url, supabase_key)
 
-        result = supabase.table('investment_runs').insert({
+        result = supabase.table('investment_desk_runs').insert({
             'watchlist_id': watchlist_id,
             'watchlist_name': f"Theme: {theme}",
             'total_tickers': len(tickers)
@@ -326,7 +326,7 @@ def save_ticker_analysis(ticker_result: Dict, desk_run_id: int) -> Optional[int]
 
         supabase = create_client(supabase_url, supabase_key)
 
-        result = supabase.table('ticker_analysis').insert({
+        result = supabase.table('ticker_analyses').insert({
             'desk_run_id': desk_run_id,
             'ticker': ticker_result.get('ticker'),
             'company_name': ticker_result.get('company_name'),
@@ -372,9 +372,39 @@ def record_decision(ticker_analysis_id: int, desk_run_id: int, ticker: str,
     Returns:
         decision_id o None
     """
-    # Placeholder - esta tabla podría no existir aún en Supabase
-    logger.info(f"💾 Decision recorded for {ticker}: {decision}")
-    return None
+    try:
+        supabase_url = os.getenv("NEXT_PUBLIC_SUPABASE_URL")
+        supabase_key = os.getenv("NEXT_PUBLIC_SUPABASE_ANON_KEY")
+
+        if not supabase_url or not supabase_key:
+            logger.error("❌ Supabase credentials not found")
+            return None
+
+        supabase = create_client(supabase_url, supabase_key)
+
+        result = supabase.table('investment_decisions').insert({
+            'ticker_analysis_id': ticker_analysis_id,
+            'desk_run_id': desk_run_id,
+            'ticker': ticker,
+            'recommendation': recommendation,
+            'desk_action': desk_action,
+            'decision': decision,
+            'decision_notes': decision_notes,
+            'action_taken': action_taken,
+            'position_size': position_size,
+            'entry_price': entry_price,
+            'alpaca_order_id': alpaca_order_id,
+            'status': 'PENDING' if action_taken == 'NONE' else 'OPEN'
+        }).execute()
+
+        if result.data:
+            decision_id = result.data[0]['id']
+            logger.info(f"✅ Recorded decision for {ticker}: {decision}")
+            return decision_id
+        return None
+    except Exception as e:
+        logger.error(f"❌ Error recording decision: {e}")
+        return None
 
 
 # ============================================================================

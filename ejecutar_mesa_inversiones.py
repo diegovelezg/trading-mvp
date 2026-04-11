@@ -26,17 +26,18 @@ def main():
     logger.info("="*70 + "\n")
 
     try:
-        # Importar el script de la mesa de inversiones
+        # Importar el script de la mesa de inversiones v2 (con fail-fast)
         import importlib.util
-        script_path = os.path.join('scripts', 'run_investment_desk.py')
+        script_path = os.path.join('scripts', 'run_investment_desk_v2.py')
 
-        spec = importlib.util.spec_from_file_location("run_investment_desk", script_path)
+        spec = importlib.util.spec_from_file_location("run_investment_desk_v2", script_path)
         desk_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(desk_module)
 
-        # Ejecutar la mesa de inversiones
-        # Esto ejecutará: Discovery → Macro Analysis → Bull/Bear/Risk Agents → CIO → Decision Agent → Execution
-        result = desk_module.run_investment_desk(hours_back=48)
+        # Ejecutar la mesa de inversiones v2
+        # PASO 0: News Extraction (fail if fails)
+        # PASO 1-7: Analysis con fail-fast
+        result = desk_module.run_investment_desk_v2(hours_back=48)
 
         if result.get('success'):
             logger.info("\n" + "="*70)

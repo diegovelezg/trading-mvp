@@ -54,8 +54,9 @@ def main():
         "news",
         "sentiments",
         "geo_entities",
-        "investment_runs",
-        "ticker_analysis"
+        "investment_desk_runs",
+        "ticker_analyses",
+        "investment_decisions"
     ]
 
     print("Tablas requeridas por el sistema:")

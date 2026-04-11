@@ -370,13 +370,19 @@ def run_investment_desk(watchlist_id: int = None, watchlist_name: str = None, ho
             for decision in agent_decisions:
                 ticker_analysis_id = ticker_analysis_ids.get(decision['ticker'])
 
-                if ticker_analysis_id and decision['action'] != 'NONE':
+                if ticker_analysis_id:
+                    # Map action to desk_action for the database
+                    desk_action = 'WATCH'
+                    if decision['action'] == 'BOUGHT': desk_action = 'BUY'
+                    elif decision['action'] == 'SOLD': desk_action = 'SELL'
+                    elif decision['action'] == 'NONE' and decision['decision'] == 'IGNORED': desk_action = 'AVOID'
+
                     decision_id = record_decision(
                         ticker_analysis_id=ticker_analysis_id,
                         desk_run_id=desk_run_id,
                         ticker=decision['ticker'],
                         recommendation=decision['original_recommendation'],
-                        desk_action='BUY' if decision['action'] == 'BOUGHT' else 'AVOID',
+                        desk_action=desk_action,
                         decision=decision['decision'],
                         decision_notes=decision['rationale'],
                         action_taken=decision['action'],
@@ -386,7 +392,7 @@ def run_investment_desk(watchlist_id: int = None, watchlist_name: str = None, ho
                     )
 
                     if decision_id:
-                        logger.info(f"   ✅ Recorded decision for {decision['ticker']}: {decision['action']}")
+                        logger.info(f"   ✅ Recorded decision for {decision['ticker']}: {decision['action']} ({desk_action})")
 
             logger.info("")
     else:

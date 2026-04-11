@@ -53,83 +53,98 @@ def create_missing_tables():
             """)
             print("✅ geo_entities creada")
 
-            # Tabla: investment_runs (mesa de inversiones)
-            print("Creando tabla investment_runs...")
+            # 1. Desk runs (complete investment desk analysis)
+            print("Creando tabla investment_desk_runs...")
             cur.execute("""
-                CREATE TABLE IF NOT EXISTS investment_runs (
+                CREATE TABLE IF NOT EXISTS investment_desk_runs (
                     id SERIAL PRIMARY KEY,
-                    watchlist_id INTEGER,
+                    run_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    watchlist_id INTEGER NOT NULL,
                     watchlist_name VARCHAR(255),
-                    analysis_timestamp TIMESTAMP WITH TIME ZONE,
                     time_window_hours INTEGER,
                     duration_seconds FLOAT,
-
-                    -- Aggregate metrics
+                    overall_sentiment VARCHAR(50),
+                    desk_outlook TEXT,
                     total_tickers INTEGER,
                     analyzed_tickers INTEGER,
+                    failed_tickers TEXT,
+                    total_news_analyzed INTEGER,
+                    total_entities_found INTEGER,
                     avg_confidence FLOAT,
                     avg_negative_ratio FLOAT,
                     avg_positive_ratio FLOAT,
-                    total_news_analyzed INTEGER,
-                    total_entities_found INTEGER,
-
-                    -- Recommendation breakdown
                     bullish_count INTEGER,
                     bearish_count INTEGER,
                     cautious_count INTEGER,
                     neutral_count INTEGER,
-
-                    -- Overall sentiment
-                    overall_sentiment VARCHAR(50),
-                    desk_outlook TEXT,
-
-                    -- Created at
-                    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                    full_results_json TEXT,
+                    recommendations_json TEXT
                 );
             """)
-            print("✅ investment_runs creada")
+            print("✅ investment_desk_runs creada")
 
-            # Tabla: ticker_analysis
-            print("Creando tabla ticker_analysis...")
+            # 2. Individual ticker analyses
+            print("Creando tabla ticker_analyses...")
             cur.execute("""
-                CREATE TABLE IF NOT EXISTS ticker_analysis (
+                CREATE TABLE IF NOT EXISTS ticker_analyses (
                     id SERIAL PRIMARY KEY,
-                    desk_run_id INTEGER REFERENCES investment_runs(id) ON DELETE CASCADE,
-
-                    -- Ticker info
+                    desk_run_id INTEGER REFERENCES investment_desk_runs(id) ON DELETE CASCADE,
                     ticker VARCHAR(10) NOT NULL,
                     company_name VARCHAR(255),
-
-                    -- Recommendation
-                    recommendation VARCHAR(20), -- BULLISH, BEARISH, CAUTIOUS, NEUTRAL
-                    rationale TEXT,
-
-                    -- Sentiment scores
-                    positive_ratio FLOAT,
-                    negative_ratio FLOAT,
-                    neutral_ratio FLOAT,
-                    avg_confidence FLOAT,
-
-                    -- News analysis
+                    analysis_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    mapped_entities TEXT,
                     related_news_count INTEGER,
+                    news_sources TEXT,
+                    news_ids TEXT,
                     unique_entities_found INTEGER,
-
-                    -- Top risks and opportunities (JSON)
-                    top_risks JSONB,
-                    top_opportunities JSONB,
-
-                    -- Metadata
-                    is_in_portfolio BOOLEAN DEFAULT FALSE,
-                    analysis_timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                    total_entity_mentions INTEGER,
+                    avg_confidence FLOAT,
+                    negative_ratio FLOAT,
+                    positive_ratio FLOAT,
+                    recommendation VARCHAR(50),
+                    rationale TEXT,
+                    top_risks_json TEXT,
+                    top_opportunities_json TEXT,
+                    most_mentioned_json TEXT,
+                    full_results_json TEXT
                 );
             """)
-            print("✅ ticker_analysis creada")
+            print("✅ ticker_analyses creada")
+
+            # 3. Decision tracking
+            print("Creando tabla investment_decisions...")
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS investment_decisions (
+                    id SERIAL PRIMARY KEY,
+                    ticker_analysis_id INTEGER NOT NULL REFERENCES ticker_analyses(id) ON DELETE CASCADE,
+                    desk_run_id INTEGER NOT NULL REFERENCES investment_desk_runs(id) ON DELETE CASCADE,
+                    ticker VARCHAR(10) NOT NULL,
+                    alpaca_order_id TEXT,
+                    recommendation VARCHAR(50),
+                    desk_action VARCHAR(50),
+                    decision VARCHAR(50),
+                    decision_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    decision_notes TEXT,
+                    action_taken VARCHAR(100),
+                    execution_timestamp TIMESTAMP,
+                    position_size FLOAT,
+                    entry_price FLOAT,
+                    target_price FLOAT,
+                    stop_loss FLOAT,
+                    exit_price FLOAT,
+                    exit_timestamp TIMESTAMP,
+                    profit_loss FLOAT,
+                    profit_loss_pct FLOAT,
+                    status VARCHAR(50) DEFAULT 'PENDING'
+                );
+            """)
+            print("✅ investment_decisions creada")
 
             # Crear índices
             print("Creando índices...")
-            cur.execute("CREATE INDEX IF NOT EXISTS idx_ticker_analysis_desk_run ON ticker_analysis(desk_run_id);")
-            cur.execute("CREATE INDEX IF NOT EXISTS idx_ticker_analysis_ticker ON ticker_analysis(ticker);")
-            cur.execute("CREATE INDEX IF NOT EXISTS idx_investment_runs_timestamp ON investment_runs(analysis_timestamp DESC);")
+            cur.execute("CREATE INDEX IF NOT EXISTS idx_ticker_analyses_desk_run ON ticker_analyses(desk_run_id);")
+            cur.execute("CREATE INDEX IF NOT EXISTS idx_ticker_analyses_ticker ON ticker_analyses(ticker);")
+            cur.execute("CREATE INDEX IF NOT EXISTS idx_investment_desk_runs_timestamp ON investment_desk_runs(run_timestamp DESC);")
             print("✅ Índices creados")
 
             print()

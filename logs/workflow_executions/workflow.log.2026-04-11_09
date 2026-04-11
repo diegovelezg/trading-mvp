@@ -1,0 +1,9 @@
+2026-04-11 09:59:10,426 - workflow_logger - INFO - 🚀 STEP START: data_validation [test_001]
+2026-04-11 09:59:10,426 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [test_001] (0.00s)
+2026-04-11 09:59:10,426 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "test": "OK",
+  "value": 42
+}
+2026-04-11 09:59:10,427 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_095910.json
+2026-04-11 09:59:10,427 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 1 steps completed, 0 failed

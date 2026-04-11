@@ -153,61 +153,103 @@ def fix_supabase_schema():
             print()
 
             # 4. Verificar tablas de mesa de inversiones
-            print("4️⃣  Verificando tablas de mesa de inversiones...")
+            print("4️⃣  Verificando tablas de mesa de inversiones (PLURAL SCHEMA)...")
 
-            # investment_runs
+            # investment_desk_runs
             cur.execute("""
                 SELECT EXISTS (
                     SELECT FROM information_schema.tables
-                    WHERE table_name = 'investment_runs'
+                    WHERE table_name = 'investment_desk_runs'
                 );
             """)
             if not cur.fetchone()[0]:
-                print("   💾 Creando tabla 'investment_runs'...")
+                print("   💾 Creando tabla 'investment_desk_runs'...")
                 cur.execute("""
-                    CREATE TABLE investment_runs (
+                    CREATE TABLE investment_desk_runs (
                         id SERIAL PRIMARY KEY,
-                        watchlist_id INTEGER,
+                        run_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        watchlist_id INTEGER NOT NULL,
                         watchlist_name VARCHAR(255),
-                        theme VARCHAR(255),
                         overall_sentiment VARCHAR(50),
+                        desk_outlook TEXT,
                         total_tickers INTEGER,
-                        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                        analyzed_tickers INTEGER,
+                        total_news_analyzed INTEGER,
+                        total_entities_found INTEGER,
+                        avg_confidence FLOAT,
+                        avg_negative_ratio FLOAT,
+                        avg_positive_ratio FLOAT,
+                        bullish_count INTEGER,
+                        bearish_count INTEGER,
+                        cautious_count INTEGER,
+                        neutral_count INTEGER,
+                        full_results_json TEXT,
+                        recommendations_json TEXT
                     );
                 """)
                 print("   ✅ Creada")
             else:
-                print("   ✅ Tabla 'investment_runs' existe")
+                print("   ✅ Tabla 'investment_desk_runs' existe")
 
-            # ticker_analysis
+            # ticker_analyses
             cur.execute("""
                 SELECT EXISTS (
                     SELECT FROM information_schema.tables
-                    WHERE table_name = 'ticker_analysis'
+                    WHERE table_name = 'ticker_analyses'
                 );
             """)
             if not cur.fetchone()[0]:
-                print("   💾 Creando tabla 'ticker_analysis'...")
+                print("   💾 Creando tabla 'ticker_analyses'...")
                 cur.execute("""
-                    CREATE TABLE ticker_analysis (
+                    CREATE TABLE ticker_analyses (
                         id SERIAL PRIMARY KEY,
-                        desk_run_id INTEGER REFERENCES investment_runs(id) ON DELETE CASCADE,
+                        desk_run_id INTEGER REFERENCES investment_desk_runs(id) ON DELETE CASCADE,
                         ticker VARCHAR(10) NOT NULL,
                         company_name VARCHAR(255),
-                        recommendation VARCHAR(20),
-                        rationale TEXT,
-                        positive_ratio FLOAT,
-                        negative_ratio FLOAT,
-                        avg_confidence FLOAT,
+                        analysis_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        mapped_entities TEXT,
                         related_news_count INTEGER,
                         unique_entities_found INTEGER,
-                        is_in_portfolio BOOLEAN DEFAULT FALSE,
-                        analysis_timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                        avg_confidence FLOAT,
+                        negative_ratio FLOAT,
+                        positive_ratio FLOAT,
+                        recommendation VARCHAR(50),
+                        rationale TEXT,
+                        top_risks_json TEXT,
+                        top_opportunities_json TEXT,
+                        full_results_json TEXT
                     );
                 """)
                 print("   ✅ Creada")
             else:
-                print("   ✅ Tabla 'ticker_analysis' existe")
+                print("   ✅ Tabla 'ticker_analyses' existe")
+
+            # investment_decisions
+            cur.execute("""
+                SELECT EXISTS (
+                    SELECT FROM information_schema.tables
+                    WHERE table_name = 'investment_decisions'
+                );
+            """)
+            if not cur.fetchone()[0]:
+                print("   💾 Creando tabla 'investment_decisions'...")
+                cur.execute("""
+                    CREATE TABLE investment_decisions (
+                        id SERIAL PRIMARY KEY,
+                        ticker_analysis_id INTEGER NOT NULL REFERENCES ticker_analyses(id) ON DELETE CASCADE,
+                        desk_run_id INTEGER NOT NULL REFERENCES investment_desk_runs(id) ON DELETE CASCADE,
+                        ticker VARCHAR(10) NOT NULL,
+                        recommendation VARCHAR(50),
+                        desk_action VARCHAR(50),
+                        decision VARCHAR(50),
+                        decision_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        action_taken VARCHAR(100),
+                        status VARCHAR(50) DEFAULT 'PENDING'
+                    );
+                """)
+                print("   ✅ Creada")
+            else:
+                print("   ✅ Tabla 'investment_decisions' existe")
 
             print()
             print("="*70)
@@ -215,10 +257,11 @@ def fix_supabase_schema():
             print("="*70)
             print()
             print("📋 Tablas verificadas/creadas:")
-            print("   ✅ geo_macro_entities (con news_id)")
-            print("   ✅ geo_macro_news (con alpaca_id)")
-            print("   ✅ investment_runs")
-            print("   ✅ ticker_analysis")
+            print("   ✅ geo_macro_entities")
+            print("   ✅ geo_macro_news")
+            print("   ✅ investment_desk_runs")
+            print("   ✅ ticker_analyses")
+            print("   ✅ investment_decisions")
             print()
             print("🚀 Ahora puedes ejecutar la mesa de inversiones correctamente")
 

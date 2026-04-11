@@ -48,8 +48,8 @@ export const GET = withErrorHandler(async () => {
   // 4. Intelligence Metadata (From Supabase)
   const [newsRes, runsRes, decisionsRes] = await Promise.all([
     supabase.from('news').select('*', { count: 'exact', head: true }),
-    supabase.from('investment_runs').select('*', { count: 'exact', head: true }),
-    supabase.from('ticker_analysis').select('*', { count: 'exact', head: true })
+    supabase.from('investment_desk_runs').select('*', { count: 'exact', head: true }),
+    supabase.from('ticker_analyses').select('*', { count: 'exact', head: true })
   ]);
 
   // 5. Calculate Win Rate from Alpaca Activities (Recent 50 fills)

@@ -1,0 +1,28 @@
+{
+  "execution_id": "20260411_095910",
+  "start_time": "2026-04-11T09:59:10.426723",
+  "end_time": "2026-04-11T09:59:10.426887",
+  "total_duration_seconds": 0.000164,
+  "total_steps": 1,
+  "completed_steps": 1,
+  "failed_steps": 0,
+  "steps": [
+    {
+      "step_id": "test_001",
+      "step_type": "data_validation",
+      "status": "completed",
+      "start_time": "2026-04-11T09:59:10.426723",
+      "end_time": "2026-04-11T09:59:10.426887",
+      "duration_seconds": 0.000164,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "test": "OK",
+        "value": 42
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    }
+  ]
+}

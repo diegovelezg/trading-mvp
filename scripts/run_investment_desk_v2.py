@@ -229,23 +229,30 @@ def run_investment_desk_v2(hours_back: int = 48) -> Dict:
 
                 if not watchlists:
                     return {
-                        'success': False,
-                        'error': 'No watchlists available'
+                        'success': True,  # Watchlist vacía es válido
+                        'watchlist': {'id': None, 'name': 'No Watchlist'},
+                        'tickers': [],
+                        'id': None,
+                        'name': 'No Watchlist'
                     }
 
+                # USAR LA PRIMERA WATCHLIST DISPONIBLE (simple)
                 watchlist = watchlists[0]
                 watchlist_tickers = [
-                    item['ticker']
+                    item.get('ticker')
                     for item in watchlist.get('items', [])
+                    if item.get('ticker')
                 ]
 
-                logger.info(f"   ✅ Watchlist: {watchlist['name']}")
+                logger.info(f"   ✅ Watchlist: {watchlist.get('name', 'Unnamed')}")
                 logger.info(f"   ✅ Tickers: {len(watchlist_tickers)}")
 
                 return {
                     'success': True,
                     'watchlist': watchlist,
-                    'tickers': watchlist_tickers
+                    'tickers': watchlist_tickers,
+                    'id': watchlist.get('id'),
+                    'name': watchlist.get('name', 'Unnamed')
                 }
             except Exception as e:
                 logger.error(f"   ❌ Failed to load watchlist: {e}")

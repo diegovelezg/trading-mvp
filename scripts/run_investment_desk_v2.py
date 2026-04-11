@@ -236,13 +236,20 @@ def run_investment_desk_v2(hours_back: int = 48) -> Dict:
                         'name': 'No Watchlist'
                     }
 
-                # USAR LA PRIMERA WATCHLIST DISPONIBLE (simple)
-                watchlist = watchlists[0]
-                watchlist_tickers = [
-                    item.get('ticker')
-                    for item in watchlist.get('items', [])
-                    if item.get('ticker')
-                ]
+                # BUSCAR PRIMER WATCHLIST CON TICKERS
+                watchlist = None
+                watchlist_tickers = []
+
+                for wl in watchlists:
+                    tickers = [
+                        item.get('ticker')
+                        for item in wl.get('items', [])
+                        if item.get('ticker')
+                    ]
+                    if tickers:
+                        watchlist = wl
+                        watchlist_tickers = tickers
+                        break
 
                 logger.info(f"   ✅ Watchlist: {watchlist.get('name', 'Unnamed')}")
                 logger.info(f"   ✅ Tickers: {len(watchlist_tickers)}")

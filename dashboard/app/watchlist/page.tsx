@@ -476,7 +476,8 @@ export default function WatchlistPage() {
           ) : (
             explorations.map((exp) => {
               const isExpanded = expandedExplorations.has(exp.id);
-              const tickerCount = Array.isArray(exp.tickers) ? exp.tickers.length : 0;
+              const uniqueTickers = Array.isArray(exp.tickers) ? Array.from(new Set(exp.tickers as string[])) : [];
+              const tickerCount = uniqueTickers.length;
 
               return (
                 <div key={exp.id} className="border border-zinc-900 rounded-xl overflow-hidden bg-zinc-950/20">
@@ -545,7 +546,7 @@ export default function WatchlistPage() {
                           Discovered Tickers
                         </p>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                          {Array.isArray(exp.tickers) && exp.tickers.map((t: string) => {
+                          {uniqueTickers.map((t: string) => {
                             const inWatchlist = isTickerInWatchlist(t);
                             const isAdding = addingTickers.has(t);
                             const quantData = tickerQuantData.get(t);
@@ -554,7 +555,7 @@ export default function WatchlistPage() {
 
                             return (
                               <div
-                                key={t}
+                                key={`${exp.id}-${t}`}
                                 className={`bg-zinc-900/40 border p-4 rounded-lg transition-all ${
                                   inWatchlist ? 'border-green-900/30' : 'border-zinc-800/50'
                                 }`}

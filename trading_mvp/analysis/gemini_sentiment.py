@@ -45,12 +45,14 @@ def extract_json_from_response(text: str) -> str:
 
     return clean_text.strip()
 
-def analyze_sentiment(text: str) -> Dict:
+def analyze_sentiment(text: str, ticker: str = "Unknown", dna: Dict = None) -> Dict:
     """
-    Analyzes the sentiment of a text using Gemini 2.0 Flash.
+    Analyzes the sentiment of a text using Gemini 2.0 Flash with Asset DNA context.
     
     Args:
         text: The news content to analyze.
+        ticker: Ticker symbol for context.
+        dna: Asset DNA dictionary from DNAManager.
         
     Returns:
         A dictionary with 'sentiment' (float -1 to 1) and 'summary' (str).
@@ -60,23 +62,38 @@ def analyze_sentiment(text: str) -> Dict:
         raise ValueError("GEMINI_API_KEY is required in environment variables.")
 
     model = os.getenv("GEMINI_API_MODEL_02", "gemini-2.0-flash")
-    logger.info(f"Using model: {model}")
+    logger.info(f"Using model: {model} for {ticker} sentiment")
 
     client = Client(api_key=api_key)
     
-    prompt = f"""
-    Analyze the sentiment of the following financial news content.
-    Provide your response STRICTLY in JSON format with these exact keys:
-    - "sentiment": a float between -1 (extremely negative) and 1 (extremely positive)
-    - "summary": a brief summary of the news
+    # Asset DNA context for the prompt
+    dna_context = ""
+    if dna:
+        dna_context = f"""
+        ASSET DNA FOR {ticker}:
+        - Type: {dna.get('asset_type')}
+        - Bullish Catalysts: {dna.get('bullish_catalysts')}
+        - Bearish Catalysts: {dna.get('bearish_catalysts')}
+        """
 
-    IMPORTANT: Return ONLY the JSON object, no additional text, no markdown formatting.
+    prompt = f"""
+    You are an expert Financial Sentiment Analyst. Analyze the following news for the ticker: {ticker}.
+    
+    {dna_context}
+
+    YOUR MISSION:
+    Determine if this news is Bullish, Bearish, or Neutral SPECIFICALLY for {ticker} based on its DNA.
+    Example: Geopolitical conflict is BULLISH for Oil but BEARISH for Growth Tech.
+    
+    Provide your response STRICTLY in JSON format with these exact keys:
+    - "sentiment": a float between -1 (extremely bearish for this asset) and 1 (extremely bullish for this asset)
+    - "summary": a brief summary of the news and its specific impact on the asset
+    - "reasoning": 1 sentence explaining why this sentiment was chosen based on the asset's nature
+
+    IMPORTANT: Return ONLY the JSON object.
 
     News Content:
     {text}
-
-    Example format:
-    {{"sentiment": 0.5, "summary": "Brief description here"}}
     """
     
     try:

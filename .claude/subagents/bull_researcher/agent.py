@@ -15,11 +15,13 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
-def analyze_bull_case(ticker: str) -> Dict:
-    """Analyze bullish case for a ticker using Gemini.
+def analyze_bull_case(ticker: str, news_context: str = "No recent news provided.", dna: Dict = None) -> Dict:
+    """Analyze bullish case for a ticker using the provided Asset DNA.
 
     Args:
         ticker: Ticker symbol to analyze
+        news_context: Recent news or market context
+        dna: Pre-defined asset DNA from DNAManager
 
     Returns:
         Dictionary containing bullish analysis
@@ -33,19 +35,30 @@ def analyze_bull_case(ticker: str) -> Dict:
 
     client = Client(api_key=api_key)
 
-    prompt = f"""
-    You are a Senior Bullish Analyst at a top-tier hedge fund. Analyze {ticker} and build a high-conviction POSITIVE investment case.
+    # Use provided DNA or fallback to generic
+    dna_context = json.dumps(dna, indent=2) if dna else "Unknown asset DNA."
 
-    Your task is to provide:
-    1. EXHAUSTIVE BULLISH ARGUMENTS: 3-5 points with specific evidence and causal links (how X leads to Y).
-    2. STRATEGIC CATALYSTS: Detailed events, expected impact magnitude, and specific timelines.
-    3. PRICE TARGET SYNTHESIS: Base, Bull, and Blue-Sky scenarios with the underlying valuation logic for each.
-    4. COUNTER-RISK ANALYSIS: Identify what could break the bull case and why you believe the upside outweighs it.
-    5. DEEP ANALYSIS: A 2-paragraph "Internal Monologue" explaining your conviction.
+    prompt = f"""
+    You are a Senior Bullish Analyst. Your task is to build a high-conviction POSITIVE case for {ticker}.
+    
+    CRITICAL SOURCE OF TRUTH (Asset DNA):
+    ---
+    {dna_context}
+    ---
+
+    CONTEXTUAL NEWS:
+    ---
+    {news_context}
+    ---
+
+    YOUR MISSION:
+    1. ANALYZE if the current news/context matches the 'bullish_catalysts' defined in the Asset DNA.
+    2. REASONING: If the news is 'good for the world' but 'BEARISH' for this specific DNA (e.g., peace for gold), you MUST be honest and provide a NEUTRAL/HOLD verdict.
+    3. CATALYSTS: Focus on upside drivers that actually apply to this asset type and its core drivers.
 
     Provide your response in JSON format:
     {{
-        "arguments": ["..."],
+        "arguments": ["3-5 specific bullish arguments based on DNA and news"],
         "catalysts": [
             {{"event": "...", "impact": "...", "timeline": "...", "causal_link": "..."}}
         ],
@@ -54,12 +67,12 @@ def analyze_bull_case(ticker: str) -> Dict:
             "bull": {{"target": 0, "logic": "..."}},
             "blue_sky": {{"target": 0, "logic": "..."}}
         }},
-        "deep_analysis": "Your institutional-grade ratiocination here...",
-        "overall_sentiment": "Strong Buy/Buy/Hold",
+        "deep_analysis": "Institutional-grade monologue explaining why you are bullish (or why you are neutral despite good news).",
+        "overall_sentiment": "Strong Buy/Buy/Hold/Neutral",
         "confidence_score": 0.0-1.0
     }}
 
-    Response MUST be a valid JSON. Think step-by-step.
+    Response MUST be a valid JSON.
     """
 
     try:
@@ -80,7 +93,13 @@ def analyze_bull_case(ticker: str) -> Dict:
 
     except Exception as e:
         logger.error(f"Error analyzing bull case: {e}")
-        return {"arguments": [], "catalysts": [], "overall_sentiment": "Hold"}
+        return {
+            "asset_dna": "Unknown",
+            "arguments": [], 
+            "catalysts": [], 
+            "overall_sentiment": "Hold",
+            "deep_analysis": f"Analysis failed: {str(e)}"
+        }
 
 def main():
     """Main entry point for Bull Researcher CLI."""

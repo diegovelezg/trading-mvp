@@ -91,6 +91,32 @@ def insert_exploration(prompt: str, criteria: str, tickers: list, reasoning: str
     finally:
         conn.close()
 
+def get_news_for_ticker(ticker: str, limit: int = 5) -> str:
+    """Retrieves recent news summaries for a specific ticker to provide context."""
+    conn = get_connection()
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cursor:
+            # Search for ticker in title or summary
+            cursor.execute('''
+                SELECT title, summary, source, published_at
+                FROM news
+                WHERE title ILIKE %s OR summary ILIKE %s
+                ORDER BY published_at DESC
+                LIMIT %s
+            ''', (f'%{ticker}%', f'%{ticker}%', limit))
+            
+            rows = cursor.fetchall()
+            if not rows:
+                return "No recent news found in database for this ticker."
+            
+            context = []
+            for row in rows:
+                context.append(f"[{row['published_at']}] {row['source']}: {row['title']} - {row['summary']}")
+            
+            return "\n\n".join(context)
+    finally:
+        conn.close()
+
 def get_recent_explorations(limit: int = 10) -> list:
     """
     Retrieve recent explorations from the database.

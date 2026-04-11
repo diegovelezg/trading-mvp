@@ -10,6 +10,7 @@ from google.genai import Client
 # Add parent directory to path to import trading_mvp modules
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 from trading_mvp.core.dashboard_api_client import insert_exploration
+from trading_mvp.core.dna_manager import DNAManager
 
 # Load environment variables
 load_dotenv()
@@ -74,6 +75,14 @@ def discover_tickers(prompt: str) -> List[dict]:
 
         data = json.loads(clean_text)
         results = data.get("results", [])
+
+        # 🧬 DNA Enrichment: Get DNA for each ticker discovered
+        dna_manager = DNAManager()
+        for res in results:
+            ticker = res['ticker'].upper()
+            dna = dna_manager.get_dna(ticker)
+            res['asset_type'] = dna.get('asset_type', 'Unknown')
+            logger.info(f"🧬 Profiled {ticker} as {res['asset_type']}")
 
         # Save to database with FULL metadata
         tickers_only = [r['ticker'].upper() for r in results]

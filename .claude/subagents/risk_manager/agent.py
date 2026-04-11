@@ -16,12 +16,13 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
-def assess_risk(ticker: str, position_size: float) -> Dict:
-    """Assess risk for a ticker and position size using Gemini.
+def assess_risk(ticker: str, position_size: float, dna: Dict = None) -> Dict:
+    """Assess risk for a ticker and position size using provided Asset DNA.
 
     Args:
         ticker: Ticker symbol
         position_size: Dollar amount of position
+        dna: Pre-defined asset DNA from DNAManager
 
     Returns:
         Dictionary containing risk assessment
@@ -35,36 +36,38 @@ def assess_risk(ticker: str, position_size: float) -> Dict:
 
     client = Client(api_key=api_key)
 
-    prompt = f"""
-    You are a Senior Risk Manager at a systematic trading firm. Assess the risk for a ${position_size:,.0f} position in {ticker}.
+    # Use provided DNA or fallback
+    dna_context = json.dumps(dna, indent=2) if dna else "Unknown asset DNA."
 
-    Your task is to provide:
-    1. VOLATILITY SYNTHESIS: Analysis of price action volatility and how it dictates current risk parameters.
-    2. TECHNICAL RISK DEFENSE: Justify the Stop Loss and Take Profit levels based on key technical levels, ATR (Average True Range), or standard deviations.
-    3. CAPITAL ALLOCATION LOGIC: Explain why the proposed size of ${position_size:,.0f} is optimal or if it should be adjusted based on the "Kelly Criterion" or "Volatility Targeting" concepts.
-    4. DRAWDOWN PROJECTION: Worst-case scenario analysis and potential recovery time.
-    5. DEEP ANALYSIS: A 2-paragraph "Internal Monologue" explaining your risk conviction and potential hedging strategies.
+    prompt = f"""
+    You are a Senior Risk Manager. Your goal is to define the risk parameters for a ${position_size:,.0f} position in {ticker}.
+
+    SOURCE OF TRUTH (Asset DNA):
+    ---
+    {dna_context}
+    ---
+
+    YOUR MANDATE:
+    1. DNA-BASED VOLATILITY: Use the 'geopolitical_sensitivity' and 'interest_rate_sensitivity' to define the risk profile.
+    2. SMART STOP LOSS: If an asset has HIGH geopolitical sensitivity (e.g., Oil), allow for more 'volatility breathing room' in the Stop Loss to avoid being stopped out by noise.
+    3. SIZING ADJUSTMENT: Suggest adjusting the ${position_size:,.0f} based on the DNA risk. Lower the size for high-sensitivity/high-beta assets.
+    4. HEDGING: Suggest specific assets to hedge this position based on its DNA drivers (e.g., if sensitive to rates, hedge with Treasuries).
 
     Provide your response in JSON format:
     {{
-        "volatility": "Low/Medium/High",
+        "risk_score": "Low/Medium/High",
+        "volatility_profile": "Analysis of volatility based on DNA sensitivities",
         "stop_loss": {{
             "percentage": 0.0,
-            "price": 0.0,
-            "technical_defense": "..."
+            "rationale": "Why this SL fits the asset DNA"
         }},
-        "take_profit": [
-            {{"level": 0.0, "logic": "..."}}
-        ],
-        "risk_reward_ratio": "...",
-        "position_size_recommendation": "...",
-        "sizing_logic": "Why this size makes sense...",
-        "deep_analysis": "Your institutional-grade risk ratiocination here...",
-        "risk_score": "Low/Medium/High",
-        "risk_factors": ["..."]
+        "position_size_recommendation": "USD amount adjusted for DNA risk",
+        "hedging_strategy": "Specific assets or actions to mitigate DNA risks",
+        "deep_analysis": "Internal monologue on DNA-aware risk management.",
+        "risk_factors": ["List of DNA-specific risks"]
     }}
 
-    Response MUST be a valid JSON. Think step-by-step.
+    Response MUST be a valid JSON.
     """
 
     try:

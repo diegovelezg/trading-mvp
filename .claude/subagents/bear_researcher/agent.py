@@ -15,11 +15,13 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
-def analyze_bear_case(ticker: str) -> Dict:
-    """Analyze bearish case for a ticker using Gemini.
+def analyze_bear_case(ticker: str, news_context: str = "No recent news provided.", dna: Dict = None) -> Dict:
+    """Analyze bearish case for a ticker using the provided Asset DNA.
 
     Args:
         ticker: Ticker symbol to analyze
+        news_context: Recent news or market context
+        dna: Pre-defined asset DNA from DNAManager
 
     Returns:
         Dictionary containing bearish analysis
@@ -33,19 +35,30 @@ def analyze_bear_case(ticker: str) -> Dict:
 
     client = Client(api_key=api_key)
 
-    prompt = f"""
-    You are a Senior Bearish Analyst at a top-tier hedge fund. Analyze {ticker} and build a high-conviction NEGATIVE investment case.
+    # Use provided DNA or fallback to generic
+    dna_context = json.dumps(dna, indent=2) if dna else "Unknown asset DNA."
 
-    Your task is to provide:
-    1. EXHAUSTIVE BEARISH ARGUMENTS: 3-5 points with specific evidence, data points, and causal links (how X leads to downside Y).
-    2. STRATEGIC RISKS & HEADWINDS: Detailed events, expected negative impact, and timelines.
-    3. DOWNSIDE PRICE TARGETS: Base, Bear, and Super-Bear scenarios with the underlying valuation logic for each.
-    4. RED FLAGS: Specific indicators investors should watch that signal the thesis is materializing.
-    5. DEEP ANALYSIS: A 2-paragraph "Internal Monologue" explaining your skepticism and why the current price is unjustified.
+    prompt = f"""
+    You are a Senior Bearish Analyst. Your task is to build a high-conviction NEGATIVE case for {ticker}.
+    
+    CRITICAL SOURCE OF TRUTH (Asset DNA):
+    ---
+    {dna_context}
+    ---
+
+    CONTEXTUAL NEWS:
+    ---
+    {news_context}
+    ---
+
+    YOUR MISSION:
+    1. ANALYZE if the current news/context matches the 'bearish_catalysts' defined in the Asset DNA.
+    2. REASONING: If the news is 'bad for the world' but 'BULLISH' for this specific DNA (e.g., war for oil), you MUST be honest and provide a NEUTRAL/HOLD verdict.
+    3. ARGUMENTS: Focus on downside risks that actually apply to this asset type and its core drivers.
 
     Provide your response in JSON format:
     {{
-        "arguments": ["..."],
+        "arguments": ["3-5 specific bearish arguments based on DNA and news"],
         "risks": [
             {{"event": "...", "impact": "...", "timeline": "...", "causal_link": "..."}}
         ],
@@ -54,13 +67,13 @@ def analyze_bear_case(ticker: str) -> Dict:
             "bear": {{"target": 0, "logic": "..."}},
             "super_bear": {{"target": 0, "logic": "..."}}
         }},
-        "red_flags": ["..."],
-        "deep_analysis": "Your institutional-grade skepticism here...",
-        "overall_sentiment": "Strong Sell/Sell/Hold",
+        "red_flags": ["Specific indicators to watch"],
+        "deep_analysis": "Institutional-grade monologue explaining why you are bearish (or why you are neutral despite bad news).",
+        "overall_sentiment": "Strong Sell/Sell/Hold/Neutral",
         "confidence_score": 0.0-1.0
     }}
 
-    Response MUST be a valid JSON. Think step-by-step.
+    Response MUST be a valid JSON.
     """
 
     try:
@@ -81,7 +94,13 @@ def analyze_bear_case(ticker: str) -> Dict:
 
     except Exception as e:
         logger.error(f"Error analyzing bear case: {e}")
-        return {"arguments": [], "risks": [], "overall_sentiment": "Hold"}
+        return {
+            "asset_dna": "Unknown",
+            "arguments": [], 
+            "risks": [], 
+            "overall_sentiment": "Hold",
+            "deep_analysis": f"Analysis failed: {str(e)}"
+        }
 
 def main():
     """Main entry point for Bear Researcher CLI."""

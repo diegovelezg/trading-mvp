@@ -50,10 +50,11 @@ def check_execution_guardrails() -> Tuple[bool, str]:
         # 2. Check Max Trades Per Day
         # Get orders from today
         today = date.today().isoformat()
-        
+
         # Note: We use GetOrdersRequest to filter by date
         # In Alpaca SDK, we might need to handle pagination if there are many orders
-        orders = client.get_orders(GetOrdersRequest(status=OrderStatus.ALL, after=today))
+        # Get all orders (no status filter) to count today's activity
+        orders = client.get_orders(GetOrdersRequest(after=today))
         
         # Count filled or open buy/sell orders (excluding cancellations)
         active_statuses = [OrderStatus.FILLED, OrderStatus.PARTIALLY_FILLED, OrderStatus.NEW, OrderStatus.ACCEPTED]

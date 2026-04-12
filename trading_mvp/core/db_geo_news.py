@@ -151,8 +151,10 @@ def insert_geo_news(news: Dict) -> Optional[int]:
         conn.close()
 
 
+from psycopg2.extras import RealDictCursor, execute_values
+
 def insert_geo_news_batch(news_list: List[Dict]) -> int:
-    """Insert multiple news items into geo_macro_news.
+    """Insert multiple news items into geo_macro_news efficiently.
 
     Args:
         news_list: List of normalized news items
@@ -164,29 +166,67 @@ def insert_geo_news_batch(news_list: List[Dict]) -> int:
         logger.warning("⚠️  No news items to insert")
         return 0
 
+    import hashlib
+    
+    # Preparar datos para el insert masivo
+    data_to_insert = []
+    for news in news_list:
+        title = news.get('title', '').strip()
+        if not title: continue
+        
+        source = news.get('source', 'unknown')
+        raw_data_json = json.dumps(news.get('raw_data', {})) if news.get('raw_data') else None
+        
+        # Lógica de ID idéntica a la versión individual
+        alpaca_id = news.get('alpaca_id') or news.get('id')
+        if not alpaca_id and news.get('url'):
+            url_hash = hashlib.md5(news['url'].encode()).hexdigest()
+            alpaca_id = int(url_hash[:8], 16)
+            
+        data_to_insert.append((
+            title,
+            news.get('summary', '') or title,
+            news.get('content', '') or title,
+            news.get('url', ''),
+            source,
+            news.get('source_type', ''),
+            news.get('author', ''),
+            news.get('published_at'),
+            alpaca_id,
+            raw_data_json
+        ))
+
+    if not data_to_insert:
+        return 0
+
+    conn = get_connection()
     inserted_count = 0
-    skipped_count = 0
-    failed_count = 0
+    try:
+        with conn.cursor() as cur:
+            # SQL para insert masivo con ON CONFLICT
+            query = """
+                INSERT INTO geo_macro_news (
+                    title, summary, content, url,
+                    source, source_type, author, published_at,
+                    alpaca_id, raw_data
+                ) VALUES %s
+                ON CONFLICT (source, alpaca_id) DO NOTHING
+            """
+            
+            # execute_values es la forma más rápida de psycopg2 para lotes
+            execute_values(cur, query, data_to_insert)
+            inserted_count = cur.rowcount
+            
+        conn.commit()
+        logger.info(f"📊 Batch insert complete: {inserted_count} new news items stored in a single transaction.")
+        return inserted_count
 
-    for i, news in enumerate(news_list, 1):
-        news_id = insert_geo_news(news)
-        if news_id:
-            inserted_count += 1
-        else:
-            # Count failure vs skip
-            if not news.get('title'):
-                failed_count += 1
-            else:
-                skipped_count += 1  # Probablemente duplicado
-
-    # Reporte detallado
-    total = len(news_list)
-    logger.info(f"📊 Batch insert results: {inserted_count} inserted, {skipped_count} skipped (duplicates), {failed_count} failed out of {total} total")
-
-    if failed_count > 0:
-        logger.warning(f"⚠️  {failed_count} news items failed to insert (check logs above)")
-
-    return inserted_count
+    except Exception as e:
+        logger.error(f"❌ Failed to execute batch insert: {e}")
+        conn.rollback()
+        return 0
+    finally:
+        conn.close()
 
 
 def get_recent_news(hours_back: int = 24, limit: int = 100) -> List[Dict]:

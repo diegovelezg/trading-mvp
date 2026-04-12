@@ -8,6 +8,11 @@ import os
 import logging
 from typing import List, Dict, Tuple
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from dotenv import load_dotenv
+
+# FORZAR SSOT: Recargar .env antes de cualquier importación de conectores
+load_dotenv(override=True)
 
 from trading_mvp.data_sources import AlpacaNewsConnector, GoogleNewsConnector, SerpApiConnector
 from trading_mvp.analysis.entity_extractor import EntityExtractor
@@ -22,6 +27,12 @@ from trading_mvp.core.db_geo_entities import (
     insert_entities_batch,
     get_entities_for_news
 )
+from trading_mvp.core.db_news_embeddings import (
+    get_unembedded_news,
+    save_news_embeddings_batch,
+    create_news_embeddings_table
+)
+from trading_mvp.core.gemini_embeddings import generate_embedding, generate_embeddings_batch
 
 logger = logging.getLogger(__name__)
 
@@ -126,17 +137,13 @@ class GeoMacroProcessor:
             return source_counts
 
         # 1.4: Store all news in database
-        logger.info(f"  💾 Storing {total_fetched} news items in database...")
-        inserted_count = insert_geo_news_batch(all_news)
-
-        # Report storage success rate
-        if inserted_count == 0:
-            logger.error("❌ CRITICAL: Zero news items stored in database!")
-        elif inserted_count < total_fetched:
-            loss_rate = ((total_fetched - inserted_count) / total_fetched) * 100
-            logger.warning(f"⚠️  Storage loss: {loss_rate:.1f}% ({total_fetched - inserted_count} items not stored)")
-        else:
-            logger.info(f"✅ Step 1 complete: {inserted_count} news items stored")
+        logger.info(f"  💾 DB_TRACE: Starting batch insert of {total_fetched} news items...")
+        try:
+            inserted_count = insert_geo_news_batch(all_news)
+            logger.info(f"  ✅ DB_TRACE: Batch insert complete. Inserted: {inserted_count}/{total_fetched}")
+        except Exception as e:
+            logger.error(f"  ❌ DB_TRACE_ERROR: Failed to store news batch: {e}")
+            raise
 
         return source_counts
 
@@ -145,63 +152,124 @@ class GeoMacroProcessor:
         hours_back: int = 24,
         limit: int = 50
     ) -> Tuple[List[Dict], List[Dict]]:
-        """Step 2: Extract entities and generate insights (without storing).
+        """Step 2: Extract entities and generate insights using parallelism."""
 
-        Args:
-            hours_back: Hours to look back for news
-            limit: Maximum number of news items to process
-
-        Returns:
-            Tuple of (all_entities, insights)
-        """
-
-        logger.info(f"🧠 Step 2: Extracting entities & generating insights...")
+        logger.info(f"🧠 STEP2_TRACE: Starting extraction (Limit: {limit})...")
 
         # 2.1: Get recent news from database
-        logger.info(f"  📊 Fetching recent news from DB...")
         recent_news = get_recent_news(hours_back=hours_back, limit=limit)
 
         if not recent_news:
-            logger.warning("  ⚠️  No recent news found in database")
+            logger.warning("  ⚠️  STEP2_TRACE: No news found in DB to process")
             return [], []
 
-        logger.info(f"  ✅ Found {len(recent_news)} news items")
+        logger.info(f"  ✅ STEP2_TRACE: Found {len(recent_news)} news items")
 
-        # 2.2: Extract entities from each news
-        logger.info(f"  🧠 Extracting entities from {len(recent_news)} news items...")
+        # 2.2: Extract entities from each news in parallel
         all_entities = []
-
-        for i, news in enumerate(recent_news, 1):
-            logger.info(f"    Processing {i}/{len(recent_news)}: {news.get('title', 'N/A')[:50]}...")
-
-            # Extract entities using Gemini
-            entities = self.entity_extractor.extract_entities(news)
-
-            # Store entities in database
+        
+        def process_single_news(news):
             news_id = news.get('id')
-            if entities and news_id:
-                inserted_count = insert_entities_batch(
-                    news_id=news_id,
-                    entities=entities,
-                    model_used=self.entity_extractor.model
-                )
-                logger.info(f"      💾 Stored {inserted_count} entities to DB")
+            title_brief = news.get('title', 'N/A')[:30]
+            logger.info(f"    🧵 THREAD_START [News {news_id}]: '{title_brief}'")
+            try:
+                # Extract entities using Gemini
+                start_time = datetime.now()
+                entities = self.entity_extractor.extract_entities(news)
+                duration = (datetime.now() - start_time).total_seconds()
+                logger.info(f"    ✨ GEMINI_TRACE [News {news_id}]: Extracted {len(entities)} entities in {duration:.2f}s")
+                
+                # Store entities in database
+                if entities and news_id:
+                    logger.info(f"    💾 DB_TRACE [News {news_id}]: Saving entities...")
+                    inserted_count = insert_entities_batch(
+                        news_id=news_id,
+                        entities=entities,
+                        model_used=self.entity_extractor.model
+                    )
+                    logger.info(f"    ✅ DB_TRACE [News {news_id}]: Saved {inserted_count} entities")
+                    
+                    for entity in entities:
+                        entity['news_id'] = news_id
+                    return entities
+            except Exception as e:
+                logger.error(f"    ❌ THREAD_ERROR [News {news_id}]: {e}")
+            return []
 
-            # Add news_id to each entity
-            for entity in entities:
-                entity['news_id'] = news_id
+        max_workers = 10
+        logger.info(f"  🚀 STEP2_TRACE: Launching executor with {max_workers} workers...")
+        
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_news = {executor.submit(process_single_news, news): news for news in recent_news}
+            
+            completed = 0
+            for future in as_completed(future_to_news):
+                entities = future.result()
+                all_entities.extend(entities)
+                completed += 1
+                logger.info(f"  📊 STEP2_PROGRESS: {completed}/{len(recent_news)} news items total processed")
 
-            all_entities.extend(entities)
+        logger.info(f"  ✅ STEP2_TRACE: Extraction complete. Total entities: {len(all_entities)}")
+        return all_entities, []
 
-        logger.info(f"  ✅ Extracted {len(all_entities)} entities total")
+    def step3_generate_embeddings_for_news(self, limit: int = 100) -> int:
+        """Step 3: Generate embeddings for news using batching."""
 
-        # 2.3: Generate insights from entities
-        logger.info("  💡 Generating insights from entities...")
-        insights = self._generate_insights_from_entities(recent_news, all_entities)
+        logger.info(f"🧠 STEP3_TRACE: Starting batch embedding (Limit: {limit})...")
 
-        logger.info(f"  ✅ Generated {len(insights)} insights")
+        create_news_embeddings_table()
+        unembedded_ids = get_unembedded_news(limit=limit)
 
-        return all_entities, insights
+        if not unembedded_ids:
+            logger.info("  ✅ STEP3_TRACE: Everything indexed")
+            return 0
+
+        logger.info(f"  🧠 STEP3_TRACE: Processing {len(unembedded_ids)} items in batches...")
+        
+        recent_news = get_recent_news(hours_back=168, limit=limit*2)
+        news_map = {n['id']: n for n in recent_news}
+        
+        generated_count = 0
+        BATCH_SIZE = 50
+        
+        for i in range(0, len(unembedded_ids), BATCH_SIZE):
+            current_ids = unembedded_ids[i:i + BATCH_SIZE]
+            current_texts = []
+            valid_ids = []
+            
+            for nid in current_ids:
+                news = news_map.get(nid)
+                if not news: continue
+                text = f"{news.get('title', '')} {news.get('summary', '')}".strip()
+                if text:
+                    current_texts.append(text)
+                    valid_ids.append(nid)
+            
+            if not current_texts: continue
+                
+            try:
+                logger.info(f"  🚀 GEMINI_BATCH_START: Sending {len(current_texts)} texts to Gemini...")
+                embeddings = generate_embeddings_batch(current_texts)
+                logger.info(f"  ✨ GEMINI_BATCH_COMPLETE: Received {len(embeddings)} vectors")
+                
+                # Preparar datos para el batch insert en BD
+                batch_to_save = []
+                for nid, emb in zip(valid_ids, embeddings):
+                    if len(emb) != 768:
+                        logger.error(f"  ⚠️  VECTOR_SIZE_MISMATCH: News {nid} got size {len(emb)}")
+                        continue
+                    batch_to_save.append((nid, str(emb), len(emb), "gemini-embedding-001"))
+                
+                if batch_to_save:
+                    inserted = save_news_embeddings_batch(batch_to_save)
+                    generated_count += inserted
+                    logger.info(f"    ✅ DB_BATCH_SAVE: Stored {inserted} vectors in one transaction")
+                
+                logger.info(f"  📊 STEP3_PROGRESS: {generated_count}/{len(unembedded_ids)} embeddings saved")
+            except Exception as e:
+                logger.error(f"  ❌ STEP3_BATCH_ERROR: {e}")
+
+        return generated_count
 
     def _generate_insights_from_entities(
         self,
@@ -349,6 +417,9 @@ class GeoMacroProcessor:
             limit=100
         )
 
+        # Step 3: Generate embeddings
+        embeddings_generated = self.step3_generate_embeddings_for_news(limit=100)
+
         end_time = datetime.now()
         duration = (end_time - start_time).total_seconds()
 
@@ -359,6 +430,7 @@ class GeoMacroProcessor:
             'source_counts': source_counts,
             'entities_extracted': len(all_entities),
             'insights_generated': len(insights),
+            'embeddings_generated': embeddings_generated,
             'insights': insights  # Top insights (not stored yet)
         }
 

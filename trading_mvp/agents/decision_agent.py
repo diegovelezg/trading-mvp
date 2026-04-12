@@ -187,33 +187,61 @@ class DecisionAgent:
 
         # III. CONVICTION (Weight: 0.15)
         conv_score = 0.0
-        rvol = quant_stats.get('rvol', 1.0)
-        if rvol > 1.2: conv_score += 1.0 # High conviction
-        elif rvol > 0.8: conv_score += 0.5
-        
+        rvol = quant_stats.get('rvol')
+
+        # Handle None RVOL (insufficient volume data)
+        if rvol is None:
+            conv_score = 0.0
+            logger.info("   ⚠️  RVOL UNAVAILABLE (insufficient volume data). Invalidating conviction score.")
+        elif rvol > 1.2:
+            conv_score += 1.0
+        elif rvol >= 1.0:
+            conv_score += 0.5
+        else:
+            # Harsh penalty for low volume (RVOL < 1.0)
+            conv_score = 0.0
+            logger.info(f"   ⚠️  LOW VOLUME DETECTED (RVOL: {rvol:.2f}). Invalidating conviction score.")
+
         score += conv_score * 0.15
         details.append(f"Conviction: {conv_score:.2f}")
 
         # IV. VOLATILITY (Weight: 0.20)
         vol_score = 1.0 # Start with perfect score, penalize risk
-        vol_ratio = quant_stats.get('volatility_ratio', 0)
-        if vol_ratio > 10: vol_score -= 0.5 # Too volatile
-        elif vol_ratio > 5: vol_score -= 0.2
-        
+        vol_ratio = quant_stats.get('volatility_ratio')
+
+        if vol_ratio is not None:
+            if vol_ratio > 10: vol_score -= 0.6 # Too volatile
+            elif vol_ratio > 5: vol_score -= 0.3
+        else:
+            # No volatility data available - neutral score
+            vol_score = 0.5
+            logger.info("   ⚠️  Volatility ratio unavailable (ATR calculation failed). Using neutral score.")
+
+        # Penalize momentum if volume is missing or low
+        if rvol is not None and rvol < 1.0:
+            mom_score *= 0.5
+            logger.info("   ⚠️  Reducing Momentum score by 50% due to lack of volume confirmation.")
+
         score += vol_score * 0.20
         details.append(f"Volatility: {vol_score:.2f}")
 
         # V. SENSITIVITY (Weight: 0.20)
         sens_score = 0.0
-        beta = quant_stats.get('beta_spy', 1.0)
-        corr = quant_stats.get('corr_spy', 1.0)
-        
-        # We prefer lower beta and moderate correlation for stability
-        if beta < 1.0: sens_score += 0.5
-        if abs(corr) < 0.7: sens_score += 0.5 # Some decoupling is good for Alpha
-        
+        beta = quant_stats.get('beta_spy')
+        corr = quant_stats.get('corr_spy_20d')
+
+        # Handle None values for Beta/Correlation
+        if beta is None or corr is None:
+            # No sensitivity data available - neutral score
+            sens_score = 0.5
+            details.append(f"Sensitivity: N/A (no SPY data)")
+        else:
+            # We prefer lower beta and moderate correlation for stability
+            if beta < 1.0: sens_score += 0.5
+            if abs(corr) < 0.7: sens_score += 0.5 # Some decoupling is good for Alpha
+            details.append(f"Sensitivity: {sens_score:.2f}")
+
         score += sens_score * 0.20
-        details.append(f"Sensitivity: {sens_score:.2f}")
 
         summary = ", ".join(details)
         return round(score, 2), summary
@@ -243,6 +271,11 @@ class DecisionAgent:
 
         # 3. Final Weighted Score
         final_score = (quant_score * 0.6) + (llm_score * 0.4)
+        
+        # ALIGNMENT CHECK (Feedback 3): Final score should not exceed confidence by much
+        if final_score > (confidence * 1.1):
+            logger.warning(f"   ⚖️  Final score ({final_score:.2f}) over-extended vs Confidence ({confidence:.2f}). Clipping to {confidence*1.1:.2f}")
+            final_score = min(final_score, confidence * 1.1)
         
         logger.info(f"⚖️  Weighted Model for {ticker}:")
         logger.info(f"   - Quant (60%): {quant_score:.2f} ({quant_summary})")
@@ -384,15 +417,17 @@ class DecisionAgent:
                     'risk_level': 'high'
                 }
 
-            # 5. TECHNICAL STOP LOSS (2xATR or 5% minimum)
+            # 5. DYNAMIC VOLATILITY STOP LOSS (Feedback 2)
+            # Use 1.5x ATR below entry price, with a 7% max cap for safety
             if atr > 0:
-                stop_loss = entry_price - (2 * atr)
-                min_stop = entry_price * (1 - self.config.default_stop_loss_pct)
-                stop_loss = min(stop_loss, min_stop) 
-                take_profit = entry_price + (4 * atr) # 1:2 Risk/Reward
+                stop_loss = entry_price - (1.5 * atr)
+                logger.info(f"   🛡️  Dynamic Stop Loss (1.5x ATR): ${stop_loss:.2f}")
+                take_profit = entry_price + (3.0 * atr) # 1:2 R/R
             else:
-                stop_loss = entry_price * (1 - self.config.default_stop_loss_pct)
-                take_profit = entry_price * (1 + self.config.default_take_profit_pct)
+                # Conservative fallback for volatile energy stocks (7% instead of 5%)
+                stop_loss = entry_price * (1 - 0.07)
+                take_profit = entry_price * (1 + 0.15)
+                logger.warning(f"   ⚠️  ATR not available. Using 7% fixed stop: ${stop_loss:.2f}")
 
             decision = {
                 'decision': 'FOLLOWED',
@@ -579,13 +614,13 @@ class DecisionAgent:
 
         # Determine WHY neutral
         if news_count == 0:
-            reason = f"NO NEWS DATA - Technicals mixed (RSI {rsi:.1f}, Trend {trend}). Insufficient information for action."
+            reason = f"SIN DATOS DE NOTICIAS - Técnicos mixtos (RSI {rsi:.1f}, Tendencia {trend}). Información insuficiente para actuar."
         elif positive_ratio == 0 and negative_ratio == 0:
-            reason = f"NEUTRAL SENTIMENT - No clear bias in {news_count} news items. Technicals inconclusive."
+            reason = f"SENTIMIENTO NEUTRAL - Sin sesgo claro en {news_count} noticias. Técnicos inconcluyentes."
         elif abs(positive_ratio - negative_ratio) < 0.2:
-            reason = f"MIXED SIGNALS - Positive: {positive_ratio:.0%}, Negative: {negative_ratio:.0%}. News sentiment balanced. Technicals: {technical_note}."
+            reason = f"SEÑALES MIXTAS - Positivo: {positive_ratio:.0%}, Negativo: {negative_ratio:.0%}. Sentimiento de noticias equilibrado. Técnicos: {technical_note}."
         else:
-            reason = f"LOW CONFIDENCE signal ({confidence:.2f}). {technical_note}. Monitoring for clearer direction."
+            reason = f"Señal de BAJA CONFIANZA ({confidence:.2f}). {technical_note}. Monitoreando para una dirección más clara."
 
         decision = {
             'decision': 'FOLLOWED',
@@ -662,15 +697,15 @@ class DecisionAgent:
         """Generate rationale for BULLISH decision using 60/40 Weighted Model."""
 
         rationale_parts = [
-            f"Strong BULLISH Weighted Score ({confidence:.2f} >= {self.config.min_confidence_for_buy} threshold)",
-            f"Sentiment: {positive_ratio:.0%} positive vs {negative_ratio:.0%} negative from {news_count} news items"
+            f"Fuerte Puntuación Ponderada ALCISTA ({confidence:.2f} >= umbral {self.config.min_confidence_for_buy})",
+            f"Sentimiento: {positive_ratio:.0%} positivo vs {negative_ratio:.0%} negativo basado en {news_count} noticias"
         ]
 
         if opportunities:
             opp_names = [o.get('entity_name', 'N/A') if isinstance(o, dict) else o for o in opportunities[:3]]
-            rationale_parts.append(f"Top drivers: {', '.join(opp_names)}")
+            rationale_parts.append(f"Principales impulsores: {', '.join(opp_names)}")
 
-        rationale_parts.append("Technical 60% weight confirms healthy structure, momentum (MACD/RSI), and volume conviction (RVOL)")
+        rationale_parts.append("El peso técnico del 60% confirma una estructura saludable, momentum (MACD/RSI) y convicción de volumen (RVOL)")
 
         return ". ".join(rationale_parts) + "."
 
@@ -684,15 +719,15 @@ class DecisionAgent:
         """Generate rationale for BEARISH decision using 60/40 Weighted Model."""
 
         rationale_parts = [
-            f"Strong BEARISH Weighted Score ({confidence:.2f} >= {self.config.min_confidence_for_sell} threshold)",
-            f"Sentiment: {negative_ratio:.0%} negative bias across {news_count} news items"
+            f"Fuerte Puntuación Ponderada BAJISTA ({confidence:.2f} >= umbral {self.config.min_confidence_for_sell})",
+            f"Sentimiento: {negative_ratio:.0%} de sesgo negativo a través de {news_count} noticias"
         ]
 
         if risks:
             risk_names = [r.get('entity_name', 'N/A') if isinstance(r, dict) else r for r in risks[:3]]
-            rationale_parts.append(f"Key risks: {', '.join(risk_names)}")
+            rationale_parts.append(f"Riesgos clave: {', '.join(risk_names)}")
 
-        rationale_parts.append("Technical 60% weight shows weakness, bearish momentum, or insufficient conviction to override macro risk")
+        rationale_parts.append("El peso técnico del 60% muestra debilidad, momentum bajista o convicción insuficiente para anular el riesgo macro")
 
         return ". ".join(rationale_parts) + "."
 

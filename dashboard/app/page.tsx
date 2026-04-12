@@ -61,7 +61,7 @@ export default function Dashboard() {
   if (loading && !portfolio) return <div className="p-10 text-zinc-500 font-mono animate-pulse">_SYNCING_EVIDENCE_LOGS...</div>;
 
   return (
-    <main className="p-6 md:p-10 max-w-6xl mx-auto space-y-10">
+    <main className="p-6 md:p-10 max-w-screen-2xl mx-auto space-y-10">
       
       {/* HEADER */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
@@ -97,7 +97,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* LEFT: ALPACA REAL-TIME */}
-        <div className="lg:col-span-4 space-y-8">
+        <div className="lg:col-span-3 space-y-8">
           <div className="space-y-4">
             <h2 className="text-xs font-bold flex items-center gap-2 uppercase tracking-[0.2em] text-zinc-500">
               <Briefcase className="w-3 h-3" />
@@ -163,7 +163,7 @@ export default function Dashboard() {
         </div>
 
         {/* RIGHT: THE DECISION FEED WITH EVIDENCE */}
-        <div className="lg:col-span-8 space-y-6">
+        <div className="lg:col-span-9 space-y-6">
           <h2 className="text-lg font-bold flex items-center gap-2 uppercase tracking-tighter">
             <History className="w-4 h-4 text-zinc-500" />
             THE_DECISION_FEED
@@ -292,7 +292,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
               <span className="text-[9px] text-zinc-500 font-mono uppercase">
                 {activity.recommendation}
               </span>
-              {activity.sentiment_score && (
+              {activity.sentiment_score !== null && activity.sentiment_score !== undefined && (
                 <span className={`text-[9px] font-bold ${activity.sentiment_score > 0 ? 'text-green-500' : activity.sentiment_score < 0 ? 'text-red-500' : 'text-zinc-500'}`}>
                   {activity.sentiment_score > 0 ? '+' : ''}{(activity.sentiment_score * 100).toFixed(0)}%
                 </span>
@@ -314,55 +314,58 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
               <QuantItem label="Beta" value={quant.beta_spy} />
               <QuantItem label="RVOL" value={quant.rvol} />
               <QuantItem label="Corr SPY" value={quant.corr_spy} />
-              <QuantItem label="Sentiment" value={activity.sentiment_score ? `${(activity.sentiment_score * 100).toFixed(1)}%` : '--'} />
-              <QuantItem label="Final Score" value={activity.confidence_in_decision ? `${(activity.confidence_in_decision * 100).toFixed(0)}%` : '--'} />
+              <QuantItem label="Sentiment" value={(activity.sentiment_score !== null && activity.sentiment_score !== undefined) ? `${(activity.sentiment_score * 100).toFixed(1)}%` : '--'} />
+              <QuantItem label="Final Score" value={(activity.confidence_in_decision !== null && activity.confidence_in_decision !== undefined) ? `${(activity.confidence_in_decision * 100).toFixed(0)}%` : '--'} />
             </div>
 
             {/* DETAILED QUANT GRID */}
-            <div className="mb-8 p-4 bg-zinc-950/40 border border-zinc-900 rounded-xl space-y-4">
-              <div className="flex items-center gap-2 text-zinc-500 mb-2">
-                <BarChart3 className="w-3 h-3" />
-                <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] font-mono">Detailed Quantitative Engine (60% Weight)</h4>
+            <div className="mb-8 p-6 bg-zinc-950/40 border border-zinc-900 rounded-2xl space-y-6">
+              <div className="flex items-center justify-between border-b border-zinc-900 pb-4">
+                <div className="flex items-center gap-2 text-zinc-400">
+                  <BarChart3 className="w-4 h-4" />
+                  <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] font-mono text-zinc-500">Technical Breakdown</h4>
+                </div>
+                <Badge variant="outline" className="text-[8px] uppercase font-mono border-zinc-800 text-zinc-600">60% Decision Weight</Badge>
               </div>
               
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {/* Structure */}
-                <div className="space-y-1">
-                  <p className="text-[8px] text-zinc-600 uppercase font-mono">Structure</p>
-                  <div className="text-[10px] text-zinc-400 space-y-0.5">
-                    <p>SMA 200: <span className="text-zinc-200 font-mono">${quant.sma_200?.toFixed(2)}</span></p>
-                    <p>SMA 50: <span className="text-zinc-200 font-mono">${quant.sma_50?.toFixed(2)}</span></p>
-                    <p>Dist 200: <span className={`font-mono ${quant.price_to_sma200_dist > 0 ? 'text-green-500' : 'text-red-500'}`}>{quant.price_to_sma200_dist?.toFixed(1)}%</span></p>
+                <div className="space-y-3">
+                  <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Market Structure</p>
+                  <div className="text-[11px] text-zinc-400 space-y-2">
+                    <p className="flex justify-between"><span>SMA 200</span> <span className="text-zinc-200 font-mono">${quant.sma_200?.toFixed(2)}</span></p>
+                    <p className="flex justify-between"><span>SMA 50</span> <span className="text-zinc-200 font-mono">${quant.sma_50?.toFixed(2)}</span></p>
+                    <p className="flex justify-between"><span>Trend Dist</span> <span className={`font-mono font-bold ${quant.price_to_sma200_dist > 0 ? 'text-green-500' : 'text-red-500'}`}>{quant.price_to_sma200_dist?.toFixed(1)}%</span></p>
                   </div>
                 </div>
 
                 {/* Momentum */}
-                <div className="space-y-1">
-                  <p className="text-[8px] text-zinc-600 uppercase font-mono">Momentum</p>
-                  <div className="text-[10px] text-zinc-400 space-y-0.5">
-                    <p>MACD: <span className="text-zinc-200 font-mono">{quant.macd?.line?.toFixed(3)}</span></p>
-                    <p>Signal: <span className="text-zinc-200 font-mono">{quant.macd?.signal?.toFixed(3)}</span></p>
-                    <p>Hist: <span className={`font-mono ${quant.macd?.histogram > 0 ? 'text-green-500' : 'text-red-500'}`}>{quant.macd?.histogram?.toFixed(3)}</span></p>
+                <div className="space-y-3">
+                  <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Momentum</p>
+                  <div className="text-[11px] text-zinc-400 space-y-2">
+                    <p className="flex justify-between"><span>MACD Line</span> <span className="text-zinc-200 font-mono">{quant.macd?.line?.toFixed(3)}</span></p>
+                    <p className="flex justify-between"><span>Signal</span> <span className="text-zinc-200 font-mono">{quant.macd?.signal?.toFixed(3)}</span></p>
+                    <p className="flex justify-between"><span>Histogram</span> <span className={`font-mono font-bold ${quant.macd?.histogram > 0 ? 'text-green-500' : 'text-red-500'}`}>{quant.macd?.histogram?.toFixed(3)}</span></p>
                   </div>
                 </div>
 
                 {/* Conviction */}
-                <div className="space-y-1">
-                  <p className="text-[8px] text-zinc-600 uppercase font-mono">Conviction</p>
-                  <div className="text-[10px] text-zinc-400 space-y-0.5">
-                    <p>RVOL: <span className={`font-mono ${quant.rvol > 1.2 ? 'text-green-500' : 'text-zinc-500'}`}>{quant.rvol?.toFixed(2)}x</span></p>
-                    <p>OBV: <span className="text-zinc-200 font-mono">{(quant.obv / 1000000).toFixed(1)}M</span></p>
-                    <p>Trend: <span className={`font-mono ${quant.trend === 'BULLISH' ? 'text-green-500' : 'text-red-500'}`}>{quant.trend}</span></p>
+                <div className="space-y-3">
+                  <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Conviction</p>
+                  <div className="text-[11px] text-zinc-400 space-y-2">
+                    <p className="flex justify-between"><span>Trend</span> <span className={`font-mono font-bold ${quant.trend === 'BULLISH' ? 'text-green-500' : 'text-red-500'}`}>{quant.trend}</span></p>
+                    <p className="flex justify-between"><span>OBV</span> <span className="text-zinc-200 font-mono">{(quant.obv / 1000000).toFixed(1)}M</span></p>
+                    <p className="text-[9px] text-zinc-700 italic mt-1">RVOL active in summary</p>
                   </div>
                 </div>
 
                 {/* Risk */}
-                <div className="space-y-1">
-                  <p className="text-[8px] text-zinc-600 uppercase font-mono">Volatility</p>
-                  <div className="text-[10px] text-zinc-400 space-y-0.5">
-                    <p>ATR (14): <span className="text-zinc-200 font-mono">${quant.atr_14?.toFixed(2)}</span></p>
-                    <p>Std Dev: <span className="text-zinc-200 font-mono">${quant.std_dev_20?.toFixed(2)}</span></p>
-                    <p>Risk/Price: <span className="text-zinc-200 font-mono">{quant.volatility_ratio?.toFixed(2)}%</span></p>
+                <div className="space-y-3">
+                  <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Volatility</p>
+                  <div className="text-[11px] text-zinc-400 space-y-2">
+                    <p className="flex justify-between"><span>ATR (14)</span> <span className="text-zinc-200 font-mono">${quant.atr_14?.toFixed(2)}</span></p>
+                    <p className="flex justify-between"><span>Std Dev</span> <span className="text-zinc-200 font-mono">${quant.std_dev_20?.toFixed(2)}</span></p>
+                    <p className="flex justify-between"><span>Risk/Price</span> <span className="text-zinc-200 font-mono">{quant.volatility_ratio?.toFixed(2)}%</span></p>
                   </div>
                 </div>
               </div>
@@ -454,92 +457,130 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                 )}
               </div>
 
-              {/* RISK MANAGEMENT */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 text-yellow-500">
-                  <ShieldCheck className="w-4 h-4" />
-                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Risk Strategy</h3>
+              {/* RISK & EXECUTION PANEL */}
+              <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-zinc-900">
+                
+                {/* RISK STRATEGY */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-yellow-500">
+                    <ShieldCheck className="w-4 h-4" />
+                    <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Risk Profile</h3>
+                  </div>
+                  
+                  <div className="bg-zinc-900/30 rounded-2xl border border-zinc-900 overflow-hidden">
+                    <div className="p-4 border-b border-zinc-900 flex justify-between items-center bg-yellow-950/5">
+                      <span className="text-[10px] font-mono text-zinc-500 uppercase">Safety Net</span>
+                      <div className="text-right">
+                        <span className="text-xs font-bold text-red-500 font-mono">STOP LOSS @ {riskAnalysis.stop_loss?.percentage * 100 || 5}%</span>
+                      </div>
+                    </div>
+                    <div className="p-4 space-y-3">
+                      <div className="flex items-start gap-3">
+                        <div className="mt-1 p-1 bg-zinc-900 rounded">
+                          <AlertTriangle className="w-3 h-3 text-zinc-600" />
+                        </div>
+                        <p className="text-[11px] text-zinc-400 leading-relaxed italic">
+                          "{riskAnalysis.deep_analysis || riskAnalysis.stop_loss?.technical_defense || "Standard variance protection applied based on asset volatility."}"
+                        </p>
+                      </div>
+                      <div className="flex gap-2 pt-2">
+                        <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">RSI: {quant.rsi_14?.toFixed(1)}</Badge>
+                        <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">ATR: ${quant.atr_14?.toFixed(2)}</Badge>
+                        <Badge variant="outline" className={`text-[8px] bg-zinc-950 border-zinc-800 ${activity.recommendation === 'BUY' ? 'text-green-500' : 'text-yellow-500'}`}>
+                          LVL: {activity.recommendation === 'BUY' ? 'AGGRESSIVE' : 'CAUTIOUS'}
+                        </Badge>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-zinc-900/30 p-4 rounded-xl border border-zinc-900 space-y-3">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-zinc-500 font-mono">STOP_LOSS</span>
-                    <span className="text-red-500 font-bold">{riskAnalysis.stop_loss?.percentage * 100 || 5}%</span>
-                  </div>
-                  <p className="text-[10px] text-zinc-500 italic leading-snug">
-                    Defense: {riskAnalysis.stop_loss?.technical_defense || "Standard variance protection."}
-                  </p>
-                </div>
-                {riskAnalysis.deep_analysis && (
-                  <div className="p-3 bg-yellow-950/5 rounded border border-yellow-900/20">
-                    <p className="text-[9px] text-yellow-700 font-mono uppercase mb-1 font-bold">Risk Ratiocination</p>
-                    <p className="text-[10px] text-zinc-400 leading-relaxed">{riskAnalysis.deep_analysis}</p>
-                  </div>
-                )}
-              </div>
 
-              {/* RISK MANAGEMENT & EXECUTION CONTROLS */}
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 text-purple-500">
-                  <Shield className="w-4 h-4" />
-                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Execution</h3>
-                </div>
-                <div className="bg-purple-950/10 p-4 rounded-xl border border-purple-900/30 space-y-3">
-                  {/* Position Size */}
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-mono text-zinc-500">POSITION_SIZE</span>
-                    <span className="text-xs font-bold text-zinc-300">
-                      {activity.position_size ? `$${activity.position_size.toLocaleString()}` : '$0'}
-                    </span>
+                {/* ORDER TICKET (EXECUTION) */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-purple-500">
+                    <Zap className="w-4 h-4" />
+                    <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Order Ticket</h3>
                   </div>
+                  
+                  <div className="bg-purple-950/5 rounded-2xl border border-purple-900/20 p-5 relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                      <Target className="w-12 h-12 text-purple-500" />
+                    </div>
+                    
+                    <div className="space-y-4 relative z-10">
+                      <div className="flex justify-between items-end">
+                        <div>
+                          <p className="text-[9px] font-mono text-purple-500 uppercase mb-1">Allocation</p>
+                          <p className="text-2xl font-black text-zinc-100 font-mono">
+                            {activity.position_size ? `$${activity.position_size.toLocaleString()}` : '$0.00'}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[9px] font-mono text-zinc-600 uppercase mb-1">Entry Target</p>
+                          <p className="text-sm font-bold text-zinc-400 font-mono">
+                            {activity.entry_price ? `$${activity.entry_price.toFixed(2)}` : 'MARKET'}
+                          </p>
+                        </div>
+                      </div>
 
-                  {/* Entry Price */}
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-mono text-zinc-500">ENTRY_PRICE</span>
-                    <span className="text-xs font-bold text-zinc-300">
-                      {activity.entry_price ? `$${activity.entry_price.toFixed(2)}` : '--'}
-                    </span>
-                  </div>
-
-                  {/* Stop Loss */}
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-mono text-zinc-500">STOP_LOSS_PCT</span>
-                    <span className="text-xs font-bold text-red-400">
-                      {(riskAnalysis.stop_loss?.percentage || 0.05) * 100}%
-                    </span>
-                  </div>
-
-                  {/* Alpaca Order ID */}
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-mono text-zinc-500">ALPACA_ORDER</span>
-                    <span className="text-[10px] font-mono text-zinc-400">
-                      {activity.alpaca_order_id || 'PENDING'}
-                    </span>
-                  </div>
-
-                  {/* Execution Status */}
-                  <div className="flex justify-between items-center border-t border-zinc-800 pt-2">
-                    <span className="text-[10px] font-mono text-zinc-500">EXECUTION_STATUS</span>
-                    <span className={`text-[10px] font-bold font-mono ${
-                      currentStatus === 'FILLED' ? 'text-green-500' :
-                      currentStatus === 'PENDING' ? 'text-yellow-500' :
-                      'text-zinc-400'
-                    }`}>
-                      {currentStatus}
-                    </span>
+                      <div className="grid grid-cols-2 gap-4 pt-4 border-t border-purple-900/20">
+                        <div>
+                          <p className="text-[8px] font-mono text-zinc-600 uppercase mb-1">Broker Reference</p>
+                          <p className="text-[10px] font-mono text-zinc-400 truncate">
+                            {activity.alpaca_order_id || '---'}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[8px] font-mono text-zinc-600 uppercase mb-1">Status</p>
+                          <Badge className={`text-[9px] font-mono font-bold ${
+                            currentStatus === 'FILLED' ? 'bg-green-500/10 text-green-500 border-green-500/20' :
+                            currentStatus === 'PENDING' || currentStatus === 'NEW' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
+                            'bg-zinc-800 text-zinc-500 border-zinc-700'
+                          }`}>
+                            {currentStatus || 'IDLE'}
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* CIO FINAL RATIONALE */}
-              <div className="space-y-4 md:col-span-2">
+              <div className="space-y-4 md:col-span-2 pt-6 border-t border-zinc-900">
                 <div className="flex items-center gap-2 text-blue-500">
                   <BrainCircuit className="w-4 h-4" />
-                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">CIO Strategy</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Strategic Intelligence Summary</h3>
                 </div>
-                <div className="text-[11px] text-zinc-400 leading-relaxed space-y-2">
-                  <p><b className="text-zinc-300">Net Sentiment:</b> {analysis.positive_ratio > analysis.negative_ratio ? 'Positive Bias' : 'Negative Bias'}</p>
-                  <p><b className="text-zinc-300">Model:</b> GLM-5.1 Strategic Brain</p>
-                  <p><b className="text-zinc-300">Verdict:</b> {activity.decision_notes}</p>
+                <div className="bg-blue-950/5 border border-blue-900/20 rounded-xl p-5">
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-6 text-[11px] items-center">
+                    <div className="md:col-span-2 space-y-1">
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Decision Engine</p>
+                      <p className="text-zinc-300 font-bold">GLM-5.1 Strategic Brain</p>
+                    </div>
+                    
+                    <div className="md:col-span-7 space-y-1 border-l border-blue-900/20 pl-6">
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Execution Rationale & Context</p>
+                      <p className="text-[11px] text-zinc-300 leading-relaxed font-mono italic">
+                        "{activity.decision_notes || 'No additional decision context provided by the model.'}"
+                      </p>
+                    </div>
+
+                    <div className="md:col-span-3 space-y-1 border-l border-blue-900/20 pl-6 text-right">
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Final Verdict</p>
+                      <p className={`font-black uppercase text-sm ${
+                        activity.desk_action === 'BUY' ? 'text-green-500' :
+                        activity.desk_action === 'SELL' ? 'text-red-500' :
+                        activity.desk_action === 'WAIT' || activity.desk_action === 'WATCH' ? 'text-yellow-500' :
+                        'text-blue-400'
+                      }`}>
+                        {activity.desk_action === 'BUY' ? 'COMPRAR / EJECUTAR' :
+                         activity.desk_action === 'SELL' ? 'VENDER / LIQUIDAR' :
+                         activity.desk_action === 'WAIT' || activity.desk_action === 'WATCH' ? 'OBSERVAR / EN ESPERA' :
+                         activity.desk_action === 'HOLD' ? 'MANTENER POSICIÓN' :
+                         activity.desk_action || 'SIN ACCIÓN'}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -585,8 +626,10 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
           <div className="flex flex-wrap gap-4">
             <QuantItem label="RSI" value={quant.rsi_14} />
             <QuantItem label="Beta" value={quant.beta_spy} />
-            <QuantItem label="Sentiment" value={activity.sentiment_score ? `${(activity.sentiment_score * 100).toFixed(1)}%` : '--'} />
-            <QuantItem label="Confidence" value={analysis.avg_confidence ? `${(analysis.avg_confidence * 100).toFixed(0)}%` : '--'} />
+            <QuantItem label="RVOL" value={quant.rvol} />
+            <QuantItem label="Corr SPY" value={quant.corr_spy} />
+            <QuantItem label="Sentiment" value={(activity.sentiment_score !== null && activity.sentiment_score !== undefined) ? `${(activity.sentiment_score * 100).toFixed(1)}%` : '--'} />
+            <QuantItem label="Final Score" value={(activity.confidence_in_decision !== null && activity.confidence_in_decision !== undefined) ? `${(activity.confidence_in_decision * 100).toFixed(0)}%` : '--'} />
           </div>
         </CardContent>
 
@@ -701,71 +744,132 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
               )}
             </div>
 
-            {/* RISK MANAGEMENT & EXECUTION CONTROLS */}
-            <div className="space-y-4 md:col-span-2">
-              <div className="flex items-center gap-2 text-purple-500">
-                <Shield className="w-4 h-4" />
-                <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Risk Management & Execution Controls</h3>
+              {/* RISK & EXECUTION PANEL */}
+              <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-zinc-900">
+                
+                {/* RISK STRATEGY */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-yellow-500">
+                    <ShieldCheck className="w-4 h-4" />
+                    <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Risk Profile</h3>
+                  </div>
+                  
+                  <div className="bg-zinc-900/30 rounded-2xl border border-zinc-900 overflow-hidden">
+                    <div className="p-4 border-b border-zinc-900 flex justify-between items-center bg-yellow-950/5">
+                      <span className="text-[10px] font-mono text-zinc-500 uppercase">Safety Net</span>
+                      <div className="text-right">
+                        <span className="text-xs font-bold text-red-500 font-mono">STOP LOSS @ {riskAnalysis.stop_loss?.percentage * 100 || 5}%</span>
+                      </div>
+                    </div>
+                    <div className="p-4 space-y-3">
+                      <div className="flex items-start gap-3">
+                        <div className="mt-1 p-1 bg-zinc-900 rounded">
+                          <AlertTriangle className="w-3 h-3 text-zinc-600" />
+                        </div>
+                        <p className="text-[11px] text-zinc-400 leading-relaxed italic">
+                          "{riskAnalysis.deep_analysis || riskAnalysis.stop_loss?.technical_defense || "Standard variance protection applied based on asset volatility."}"
+                        </p>
+                      </div>
+                      <div className="flex gap-2 pt-2">
+                        <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">RSI: {quant.rsi_14?.toFixed(1)}</Badge>
+                        <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">ATR: ${quant.atr_14?.toFixed(2)}</Badge>
+                        <Badge variant="outline" className={`text-[8px] bg-zinc-950 border-zinc-800 ${activity.recommendation === 'BUY' ? 'text-green-500' : 'text-yellow-500'}`}>
+                          LVL: {activity.recommendation === 'BUY' ? 'AGGRESSIVE' : 'CAUTIOUS'}
+                        </Badge>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ORDER TICKET (EXECUTION) */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-purple-500">
+                    <Zap className="w-4 h-4" />
+                    <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Order Ticket</h3>
+                  </div>
+                  
+                  <div className="bg-purple-950/5 rounded-2xl border border-purple-900/20 p-5 relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                      <Target className="w-12 h-12 text-purple-500" />
+                    </div>
+                    
+                    <div className="space-y-4 relative z-10">
+                      <div className="flex justify-between items-end">
+                        <div>
+                          <p className="text-[9px] font-mono text-purple-500 uppercase mb-1">Allocation</p>
+                          <p className="text-2xl font-black text-zinc-100 font-mono">
+                            {activity.position_size ? `$${activity.position_size.toLocaleString()}` : '$0.00'}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[9px] font-mono text-zinc-600 uppercase mb-1">Entry Target</p>
+                          <p className="text-sm font-bold text-zinc-400 font-mono">
+                            {activity.entry_price ? `$${activity.entry_price.toFixed(2)}` : 'MARKET'}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4 pt-4 border-t border-purple-900/20">
+                        <div>
+                          <p className="text-[8px] font-mono text-zinc-600 uppercase mb-1">Broker Reference</p>
+                          <p className="text-[10px] font-mono text-zinc-400 truncate">
+                            {activity.alpaca_order_id || '---'}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-[8px] font-mono text-zinc-600 uppercase mb-1">Status</p>
+                          <Badge className={`text-[9px] font-mono font-bold ${
+                            currentStatus === 'FILLED' ? 'bg-green-500/10 text-green-500 border-green-500/20' :
+                            currentStatus === 'PENDING' || currentStatus === 'NEW' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
+                            'bg-zinc-800 text-zinc-500 border-zinc-700'
+                          }`}>
+                            {currentStatus || 'IDLE'}
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="bg-purple-950/10 p-4 rounded-xl border border-purple-900/30 space-y-3">
-                {/* Position Size */}
-                <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-mono text-zinc-500">POSITION_SIZE</span>
-                  <span className="text-xs font-bold text-zinc-300">
-                    {activity.position_size ? `$${activity.position_size.toLocaleString()}` : '$0'}
-                  </span>
-                </div>
 
-                {/* Entry Price */}
-                <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-mono text-zinc-500">ENTRY_PRICE</span>
-                  <span className="text-xs font-bold text-zinc-300">
-                    {activity.entry_price ? `$${activity.entry_price.toFixed(2)}` : '--'}
-                  </span>
+              {/* CIO FINAL RATIONALE DETAILS */}
+              <div className="space-y-4 md:col-span-2 pt-6 border-t border-zinc-900">
+                <div className="flex items-center gap-2 text-blue-500">
+                  <BrainCircuit className="w-4 h-4" />
+                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Strategic Intelligence Summary</h3>
                 </div>
+                <div className="bg-blue-950/5 border border-blue-900/20 rounded-xl p-5">
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-6 text-[11px] items-center">
+                    <div className="md:col-span-2 space-y-1">
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Decision Engine</p>
+                      <p className="text-zinc-300 font-bold">GLM-5.1 Strategic Brain</p>
+                    </div>
+                    
+                    <div className="md:col-span-7 space-y-1 border-l border-blue-900/20 pl-6">
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Execution Rationale & Context</p>
+                      <p className="text-[11px] text-zinc-300 leading-relaxed font-mono italic">
+                        "{activity.decision_notes || 'No additional decision context provided by the model.'}"
+                      </p>
+                    </div>
 
-                {/* Stop Loss */}
-                <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-mono text-zinc-500">STOP_LOSS_PCT</span>
-                  <span className="text-xs font-bold text-red-400">
-                    {(riskAnalysis.stop_loss?.percentage || 0.05) * 100}%
-                  </span>
-                </div>
-
-                {/* Alpaca Order ID */}
-                <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-mono text-zinc-500">ALPACA_ORDER</span>
-                  <span className="text-[10px] font-mono text-zinc-400">
-                    {activity.alpaca_order_id || 'PENDING'}
-                  </span>
-                </div>
-
-                {/* Execution Status */}
-                <div className="flex justify-between items-center border-t border-zinc-800 pt-2">
-                  <span className="text-[10px] font-mono text-zinc-500">EXECUTION_STATUS</span>
-                  <span className={`text-[10px] font-bold font-mono ${
-                    currentStatus === 'FILLED' ? 'text-green-500' :
-                    currentStatus === 'PENDING' ? 'text-yellow-500' :
-                    'text-zinc-400'
-                  }`}>
-                    {currentStatus}
-                  </span>
+                    <div className="md:col-span-3 space-y-1 border-l border-blue-900/20 pl-6 text-right">
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Final Verdict</p>
+                      <p className={`font-black uppercase text-sm ${
+                        activity.desk_action === 'BUY' ? 'text-green-500' :
+                        activity.desk_action === 'SELL' ? 'text-red-500' :
+                        activity.desk_action === 'WAIT' || activity.desk_action === 'WATCH' ? 'text-yellow-500' :
+                        'text-blue-400'
+                      }`}>
+                        {activity.desk_action === 'BUY' ? 'COMPRAR / EJECUTAR' :
+                         activity.desk_action === 'SELL' ? 'VENDER / LIQUIDAR' :
+                         activity.desk_action === 'WAIT' || activity.desk_action === 'WATCH' ? 'OBSERVAR / EN ESPERA' :
+                         activity.desk_action === 'HOLD' ? 'MANTENER POSICIÓN' :
+                         activity.desk_action || 'SIN ACCIÓN'}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            {/* CIO FINAL RATIONALE DETAILS */}
-            <div className="space-y-4 md:col-span-2">
-              <div className="flex items-center gap-2 text-blue-500">
-                <BrainCircuit className="w-4 h-4" />
-                <h3 className="text-xs font-bold uppercase tracking-widest font-mono">CIO Strategy</h3>
-              </div>
-              <div className="text-[11px] text-zinc-400 leading-relaxed space-y-2">
-                <p><b className="text-zinc-300">Net Sentiment:</b> {analysis.positive_ratio > analysis.negative_ratio ? 'Positive Bias' : 'Negative Bias'}</p>
-                <p><b className="text-zinc-300">Model:</b> GLM-5.1 Strategic Brain</p>
-                <p><b className="text-zinc-300">Verdict:</b> {activity.decision_notes}</p>
-              </div>
-            </div>
 
           </div>
         </CardContent>
@@ -778,9 +882,9 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
 function QuantItem({ label, value }: any) {
   const displayValue = typeof value === 'number' ? value.toFixed(2) : value;
   return (
-    <div className="bg-zinc-900/50 px-3 py-2 rounded border border-zinc-900 flex flex-col min-w-[80px]">
-      <span className="text-[9px] font-mono text-zinc-600 uppercase mb-1">{label}</span>
-      <span className="text-xs font-bold text-zinc-300">{displayValue || '--'}</span>
+    <div className="bg-zinc-900/30 px-4 py-3 rounded-xl border border-zinc-900/80 flex flex-col min-w-[110px] shadow-sm hover:bg-zinc-900/50 transition-colors">
+      <span className="text-[10px] font-bold font-mono text-zinc-500 uppercase mb-1.5 tracking-[0.1em]">{label}</span>
+      <span className="text-base font-black text-zinc-100 font-mono">{displayValue || '--'}</span>
     </div>
   );
 }

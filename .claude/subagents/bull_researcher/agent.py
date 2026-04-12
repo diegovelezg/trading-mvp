@@ -39,40 +39,41 @@ def analyze_bull_case(ticker: str, news_context: str = "No recent news provided.
     dna_context = json.dumps(dna, indent=2) if dna else "Unknown asset DNA."
 
     prompt = f"""
-    You are a Senior Bullish Analyst. Your task is to build a high-conviction POSITIVE case for {ticker}.
-    
-    CRITICAL SOURCE OF TRUTH (Asset DNA):
+    Eres un Analista Senior Senior 'Bullish' (Alcista). Tu tarea es construir un caso POSITIVO de alta convicción para {ticker}.
+
+    FUENTE CRÍTICA DE VERDAD (ADN del Activo):
     ---
     {dna_context}
     ---
 
-    CONTEXTUAL NEWS:
+    NOTICIAS DE CONTEXTO:
     ---
     {news_context}
     ---
 
-    YOUR MISSION:
-    1. ANALYZE if the current news/context matches the 'bullish_catalysts' defined in the Asset DNA.
-    2. REASONING: If the news is 'good for the world' but 'BEARISH' for this specific DNA (e.g., peace for gold), you MUST be honest and provide a NEUTRAL/HOLD verdict.
-    3. CATALYSTS: Focus on upside drivers that actually apply to this asset type and its core drivers.
+    TU MISIÓN:
+    1. ANALIZAR si las noticias/contexto actual coinciden con los 'catalizadores alcistas' definidos en el ADN del Activo.
+    2. RAZONAMIENTO: Si la noticia es 'buena para el mundo' pero 'BAJISTA' para este ADN específico (ej. paz para el oro), DEBES ser honesto y proporcionar un veredicto NEUTRAL/MANTENER.
+    3. CATALIZADORES: Enfócate en los impulsores de subida que realmente apliquen a este tipo de activo y sus drivers principales.
+    4. IDIOMA: Todo el contenido de los campos de texto debe estar en CASTELLANO (Español).
 
-    Provide your response in JSON format:
+    Proporciona tu respuesta en formato JSON:
     {{
-        "arguments": ["3-5 specific bullish arguments based on DNA and news"],
+        "arguments": ["3-5 argumentos alcistas específicos basados en el ADN y las noticias, en castellano"],
         "catalysts": [
-            {{"event": "...", "impact": "...", "timeline": "...", "causal_link": "..."}}
+            {{"event": "Evento en castellano", "impact": "Impacto en castellano", "timeline": "Horizonte temporal", "causal_link": "Nexo causal en castellano"}}
         ],
         "price_targets": {{
-            "base": {{"target": 0, "logic": "..."}},
-            "bull": {{"target": 0, "logic": "..."}},
-            "blue_sky": {{"target": 0, "logic": "..."}}
+            "base": {{"target": 0, "logic": "Lógica en castellano"}},
+            "bull": {{"target": 0, "logic": "Lógica en castellano"}},
+            "blue_sky": {{"target": 0, "logic": "Lógica en castellano"}}
         }},
-        "deep_analysis": "Institutional-grade monologue explaining why you are bullish (or why you are neutral despite good news).",
+        "deep_analysis": "Monólogo de grado institucional explicando por qué eres alcista (o por qué eres neutral a pesar de las buenas noticias) en CASTELLANO.",
         "overall_sentiment": "Strong Buy/Buy/Hold/Neutral",
         "confidence_score": 0.0-1.0
     }}
 
-    Response MUST be a valid JSON.
+    La respuesta DEBE ser un JSON válido.
     """
 
     try:

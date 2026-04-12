@@ -24,6 +24,8 @@ export async function GET(request: Request) {
         alpaca_order_id,
         ticker_analyses (
           avg_confidence,
+          positive_ratio,
+          negative_ratio,
           rationale,
           full_results_json
         ),
@@ -68,6 +70,8 @@ export async function GET(request: Request) {
       status: act.status,
       alpaca_order_id: act.alpaca_order_id,
       avg_confidence: act.ticker_analyses?.avg_confidence,
+      sentiment_score: (act.ticker_analyses?.positive_ratio || 0) - (act.ticker_analyses?.negative_ratio || 0),
+      confidence_in_decision: act.ticker_analyses?.avg_confidence,
       rationale: act.ticker_analyses?.rationale,
       analysis: act.ticker_analyses?.full_results_json,
       desk_sentiment: act.investment_desk_runs?.overall_sentiment

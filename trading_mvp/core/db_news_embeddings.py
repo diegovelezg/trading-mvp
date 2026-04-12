@@ -57,36 +57,38 @@ def create_news_embeddings_table():
         conn.close()
 
 
-def save_news_embedding(news_id: int, embedding: List[float], model: str = "gemini-embedding-001") -> bool:
-    """Save or update embedding for a news item.
+from psycopg2.extras import RealDictCursor, execute_values
+
+def save_news_embeddings_batch(embeddings_data: List[tuple]) -> int:
+    """Save multiple news embeddings efficiently in a single transaction.
 
     Args:
-        news_id: News ID
-        embedding: Embedding vector (768 dims)
-        model: Embedding model used
+        embeddings_data: List of tuples (news_id, embedding_vector_str, dim, model)
 
     Returns:
-        True if successful
+        Number of embeddings saved
     """
+    if not embeddings_data:
+        return 0
 
     conn = get_connection()
     try:
         with conn.cursor() as cur:
-            # Use INSERT ... ON CONFLICT for upsert
-            cur.execute("""
-                INSERT INTO news_embeddings (news_id, embedding, embedding_dim, embedding_model, updated_at)
-                VALUES (%s, %s, %s, %s, CURRENT_TIMESTAMP)
+            query = """
+                INSERT INTO news_embeddings (news_id, embedding, embedding_dim, embedding_model)
+                VALUES %s
                 ON CONFLICT (news_id) DO UPDATE
                 SET embedding = EXCLUDED.embedding,
                     updated_at = CURRENT_TIMESTAMP
-            """, (news_id, str(embedding), len(embedding), model))
-
+            """
+            execute_values(cur, query, embeddings_data)
+            count = cur.rowcount
         conn.commit()
-        return True
-
+        return count
     except Exception as e:
-        logger.error(f"❌ Failed to save news embedding {news_id}: {e}")
-        return False
+        logger.error(f"❌ Failed batch save news embeddings: {e}")
+        conn.rollback()
+        return 0
     finally:
         conn.close()
 
@@ -257,6 +259,62 @@ def get_unembedded_news(limit: int = 100) -> List[int]:
 
     except Exception as e:
         logger.error(f"❌ Failed to get unembedded news: {e}")
+        return []
+    finally:
+        conn.close()
+
+
+def find_similar_news_by_ticker(
+    ticker: str,
+    threshold: float = 0.75,
+    limit: int = 50
+) -> List[Dict]:
+    """Find news similar to any of the ticker's entity embeddings.
+    
+    Esta función implementa el 'Individual DNA Match' (comparación 1-a-muchos).
+    Busca noticias que tengan una similitud alta con CUALQUIERA de los vectores
+    que componen el ADN del ticker en la base de datos.
+
+    Args:
+        ticker: Ticker symbol
+        threshold: Minimum cosine similarity (0-1)
+        limit: Max results
+
+    Returns:
+        List of {news_id, similarity, entity_text} dicts
+    """
+
+    conn = get_connection()
+    try:
+        with conn.cursor() as cur:
+            # SQL que busca el MAX de similitud entre la noticia y los vectores del ticker
+            cur.execute("""
+                WITH ticker_vectors AS (
+                    SELECT embedding FROM ticker_entity_embeddings WHERE ticker = %s
+                )
+                SELECT 
+                    e.news_id,
+                    MAX(1 - (e.embedding <=> t.embedding)) as max_similarity
+                FROM news_embeddings e
+                CROSS JOIN ticker_vectors t
+                GROUP BY e.news_id
+                HAVING MAX(1 - (e.embedding <=> t.embedding)) >= %s
+                ORDER BY max_similarity DESC
+                LIMIT %s
+            """, (ticker.upper(), threshold, limit))
+
+            results = cur.fetchall()
+
+            return [
+                {
+                    'news_id': row[0],
+                    'similarity': row[1]
+                }
+                for row in results
+            ]
+
+    except Exception as e:
+        logger.error(f"❌ Failed to find similar news for ticker {ticker}: {e}")
         return []
     finally:
         conn.close()

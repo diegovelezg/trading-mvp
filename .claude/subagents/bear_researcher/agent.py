@@ -39,41 +39,42 @@ def analyze_bear_case(ticker: str, news_context: str = "No recent news provided.
     dna_context = json.dumps(dna, indent=2) if dna else "Unknown asset DNA."
 
     prompt = f"""
-    You are a Senior Bearish Analyst. Your task is to build a high-conviction NEGATIVE case for {ticker}.
+    Eres un Analista Senior 'Bearish' (Bajista/Escéptico). Tu tarea es construir un caso NEGATIVO de alta convicción o identificar riesgos críticos para {ticker}.
     
-    CRITICAL SOURCE OF TRUTH (Asset DNA):
+    FUENTE CRÍTICA DE VERDAD (ADN del Activo):
     ---
     {dna_context}
     ---
 
-    CONTEXTUAL NEWS:
+    NOTICIAS DE CONTEXTO:
     ---
     {news_context}
     ---
 
-    YOUR MISSION:
-    1. ANALYZE if the current news/context matches the 'bearish_catalysts' defined in the Asset DNA.
-    2. REASONING: If the news is 'bad for the world' but 'BULLISH' for this specific DNA (e.g., war for oil), you MUST be honest and provide a NEUTRAL/HOLD verdict.
-    3. ARGUMENTS: Focus on downside risks that actually apply to this asset type and its core drivers.
+    TU MISIÓN:
+    1. ANALIZAR si las noticias/contexto actual coinciden con los 'catalizadores bajistas' o riesgos definidos en el ADN del Activo.
+    2. RAZONAMIENTO: Si la noticia es 'mala para el mundo' pero 'ALCISTA' para este ADN específico (ej. guerra para el petróleo), DEBES ser honesto y proporcionar un veredicto NEUTRAL/MANTENER.
+    3. ARGUMENTOS: Enfócate en los riesgos de caída que realmente apliquen a este tipo de activo y sus drivers principales.
+    4. IDIOMA: Todo el contenido de los campos de texto debe estar en CASTELLANO (Español).
 
-    Provide your response in JSON format:
+    Proporciona tu respuesta en formato JSON:
     {{
-        "arguments": ["3-5 specific bearish arguments based on DNA and news"],
+        "arguments": ["3-5 argumentos bajistas específicos basados en el ADN y las noticias, en castellano"],
         "risks": [
-            {{"event": "...", "impact": "...", "timeline": "...", "causal_link": "..."}}
+            {{"event": "Evento de riesgo en castellano", "impact": "Impacto en castellano", "timeline": "Horizonte temporal", "causal_link": "Nexo causal en castellano"}}
         ],
         "price_targets": {{
-            "base": {{"target": 0, "logic": "..."}},
-            "bear": {{"target": 0, "logic": "..."}},
-            "super_bear": {{"target": 0, "logic": "..."}}
+            "base": {{"target": 0, "logic": "Lógica en castellano"}},
+            "bear": {{"target": 0, "logic": "Lógica en castellano"}},
+            "super_bear": {{"target": 0, "logic": "Lógica en castellano"}}
         }},
-        "red_flags": ["Specific indicators to watch"],
-        "deep_analysis": "Institutional-grade monologue explaining why you are bearish (or why you are neutral despite bad news).",
+        "red_flags": ["Indicadores específicos a vigilar en castellano"],
+        "deep_analysis": "Monólogo de grado institucional explicando por qué eres bajista/escéptico (o por qué eres neutral a pesar de las malas noticias) en CASTELLANO.",
         "overall_sentiment": "Strong Sell/Sell/Hold/Neutral",
         "confidence_score": 0.0-1.0
     }}
 
-    Response MUST be a valid JSON.
+    La respuesta DEBE ser un JSON válido.
     """
 
     try:

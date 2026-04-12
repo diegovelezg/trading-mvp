@@ -54,12 +54,12 @@ def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
         # Isolate ticker data
         ticker_df = df.xs(symbol).copy()
         
-        if len(ticker_df) < 30:
-            return {"error": f"Insufficient data history for {symbol} (need at least 30 days)"}
+        if len(ticker_df) < 200:
+            return {"error": f"Insufficient data history for {symbol} (need at least 200 days for SMA-200, have {len(ticker_df)})"}
 
         # --- I. STRUCTURE ---
-        ticker_df['sma_50'] = ticker_df['close'].rolling(window=min(50, len(ticker_df))).mean()
-        ticker_df['sma_200'] = ticker_df['close'].rolling(window=min(200, len(ticker_df))).mean()
+        ticker_df['sma_50'] = ticker_df['close'].rolling(window=50).mean()
+        ticker_df['sma_200'] = ticker_df['close'].rolling(window=200).mean()
         
         current_price = float(ticker_df['close'].iloc[-1])
         sma_50 = float(ticker_df['sma_50'].iloc[-1])
@@ -74,8 +74,8 @@ def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
         delta = ticker_df['close'].diff()
         gain = (delta.where(delta > 0, 0))
         loss = (-delta.where(delta < 0, 0))
-        avg_gain = gain.ewm(alpha=1/14, min_periods=14, adjust=False).mean()
-        avg_loss = loss.ewm(alpha=1/14, min_periods=14, adjust=False).mean()
+        avg_gain = gain.ewm(span=14, adjust=False).mean()
+        avg_loss = loss.ewm(span=14, adjust=False).mean()
         rs = avg_gain / avg_loss.replace(0, 0.001)
         ticker_df['rsi_14'] = 100 - (100 / (1 + rs))
         rsi_14 = float(ticker_df['rsi_14'].iloc[-1])
@@ -95,9 +95,17 @@ def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
         # RVOL (Relative Volume vs 20d Avg)
         avg_vol_20 = ticker_df['volume'].rolling(window=20).mean()
         current_vol = ticker_df['volume'].iloc[-1]
-        rvol = float(current_vol / avg_vol_20.iloc[-1]) if avg_vol_20.iloc[-1] > 0 else 1.0
+        avg_vol_value = avg_vol_20.iloc[-1]
+
+        # Handle zero volume case explicitly
+        if pd.isna(avg_vol_value) or avg_vol_value == 0:
+            rvol = None
+        else:
+            rvol = float(current_vol / avg_vol_value)
 
         # OBV (On-Balance Volume)
+        # Note: OBV is calculated and returned for reference/display but not currently used in scoring.
+        # This indicator may be useful for future enhancements or manual analysis.
         obv = (np.sign(ticker_df['close'].diff()) * ticker_df['volume']).fillna(0).cumsum()
         current_obv = float(obv.iloc[-1])
 
@@ -107,34 +115,40 @@ def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
         ticker_df['h_pc'] = abs(ticker_df['high'] - ticker_df['close'].shift(1))
         ticker_df['l_pc'] = abs(ticker_df['low'] - ticker_df['close'].shift(1))
         ticker_df['tr'] = ticker_df[['h_l', 'h_pc', 'l_pc']].max(axis=1)
-        ticker_df['atr_14'] = ticker_df['tr'].ewm(alpha=1/14, min_periods=14, adjust=False).mean()
-        atr_14 = float(ticker_df['atr_14'].iloc[-1])
+        ticker_df['atr_14'] = ticker_df['tr'].ewm(span=14, adjust=False).mean()
+
+        # Validate ATR is not NaN before converting
+        atr_value = ticker_df['atr_14'].iloc[-1]
+        atr_14 = float(atr_value) if not pd.isna(atr_value) else None
         
         # Standard Deviation (20d)
         std_dev_20 = float(ticker_df['close'].rolling(window=20).std().iloc[-1])
 
         # --- V. SENSITIVITY ---
-        beta_spy = 1.0
-        corr_spy = 1.0
-        
+        beta_spy = None
+        corr_spy_20d = None
+
         if "SPY" in df.index.get_level_values(0):
             spy_df = df.xs("SPY").copy()
             ticker_returns = ticker_df['close'].pct_change()
             spy_returns = spy_df['close'].pct_change()
             combined = pd.concat([ticker_returns, spy_returns], axis=1).dropna()
             combined.columns = ['ticker', 'spy']
-            
-            if len(combined) > 30:
-                # Beta
-                covariance = combined.cov().iloc[0, 1]
-                variance = combined['spy'].var()
-                if variance > 0:
-                    beta_spy = round(float(covariance / variance), 2)
-                
-                # Correlation (Rolling 20d last value)
-                corr_spy = round(float(combined['ticker'].rolling(window=20).corr(combined['spy']).iloc[-1]), 2)
 
-        return {
+            if len(combined) > 60:
+                # Beta (Rolling 60d for consistency with 20d correlation)
+                rolling_window = 60
+                beta_rolling = combined['ticker'].rolling(window=rolling_window).cov(combined['spy']) / combined['spy'].rolling(window=rolling_window).var()
+                if not beta_rolling.isna().all():
+                    beta_spy = round(float(beta_rolling.iloc[-1]), 2)
+
+                # Correlation (Rolling 20d last value)
+                corr_20d = combined['ticker'].rolling(window=20).corr(combined['spy'])
+                if not corr_20d.isna().all():
+                    corr_spy_20d = round(float(corr_20d.iloc[-1]), 2)
+
+        # Build result dictionary with None handling for optional fields
+        result = {
             "current_price": round(current_price, 2),
             "sma_50": round(sma_50, 2),
             "sma_200": round(sma_200, 2),
@@ -147,18 +161,21 @@ def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
                 "signal": round(macd_signal, 3),
                 "histogram": round(macd_hist, 3)
             },
-            "rvol": round(rvol, 2),
+            "rvol": round(rvol, 2) if rvol is not None else None,
             "obv": round(current_obv, 0),
-            "atr_14": round(atr_14, 2),
+            "atr_14": round(atr_14, 2) if atr_14 is not None else None,
             "std_dev_20": round(std_dev_20, 2),
-            "volatility_ratio": round((atr_14 / current_price) * 100, 2) if current_price > 0 else 0,
             "beta_spy": beta_spy,
-            "corr_spy": corr_spy
+            "corr_spy_20d": corr_spy_20d
         }
 
-    except Exception as e:
-        logger.error(f"Error calculating quant stats for {symbol}: {e}")
-        return {"error": str(e)}
+        # Volatility ratio only if ATR is available
+        if atr_14 is not None and current_price > 0:
+            result["volatility_ratio"] = round((atr_14 / current_price) * 100, 2)
+        else:
+            result["volatility_ratio"] = None
+
+        return result
 
     except Exception as e:
         logger.error(f"Error calculating quant stats for {symbol}: {e}")

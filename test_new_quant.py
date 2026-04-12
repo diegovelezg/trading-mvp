@@ -34,13 +34,21 @@ def test_quant_indicators():
         print(f"   - MACD Hist: {stats['macd']['histogram']} (Line: {stats['macd']['line']} / Sig: {stats['macd']['signal']})")
         
         print("\n   [III. CONVICTION]")
-        print(f"   - RVOL: {stats['rvol']}x | OBV: {stats['obv']:,.0f}")
+        rvol = stats.get('rvol')
+        rvol_str = f"{rvol}x" if rvol is not None else "N/A (insufficient data)"
+        print(f"   - RVOL: {rvol_str} | OBV: {stats['obv']:,.0f}")
         
         print("\n   [IV. VOLATILITY]")
-        print(f"   - ATR 14: ${stats['atr_14']} | Std Dev (20d): ${stats['std_dev_20']}")
+        atr = stats.get('atr_14')
+        atr_str = f"${atr}" if atr is not None else "N/A"
+        print(f"   - ATR 14: {atr_str} | Std Dev (20d): ${stats['std_dev_20']}")
         
         print("\n   [V. SENSITIVITY]")
-        print(f"   - Beta (vs SPY): {stats['beta_spy']} | Correlation (vs SPY): {stats['corr_spy']}")
+        beta = stats.get('beta_spy')
+        corr = stats.get('corr_spy_20d')
+        beta_str = f"{beta}" if beta is not None else "N/A"
+        corr_str = f"{corr}" if corr is not None else "N/A"
+        print(f"   - Beta (vs SPY): {beta_str} | Correlation 20d (vs SPY): {corr_str}")
         
     print("\n" + "="*70)
     print("✅ TEST COMPLETE")

@@ -1,0 +1,34 @@
+{
+  "execution_id": "20260411_221155",
+  "start_time": "2026-04-11T22:11:55.795000",
+  "end_time": "2026-04-11T22:11:57.007420",
+  "total_duration_seconds": 1.21242,
+  "total_steps": 1,
+  "completed_steps": 0,
+  "failed_steps": 1,
+  "steps": [
+    {
+      "step_id": "news_extraction_001",
+      "step_type": "news_extraction",
+      "status": "failed",
+      "start_time": "2026-04-11T22:11:55.795000",
+      "end_time": "2026-04-11T22:11:57.007420",
+      "duration_seconds": 1.21242,
+      "input_data": {
+        "hours_back": 48,
+        "min_news_count": 10,
+        "max_age_hours": 24
+      },
+      "output_data": null,
+      "error_message": "Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/diego/Documentos/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py\", line 308, in execute_step\n    raise ValueError(f\"Step returned success=False: {error_msg}\")\nValueError: Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.\n",
+      "metadata": {
+        "input_data": {
+          "hours_back": 48,
+          "min_news_count": 10,
+          "max_age_hours": 24
+        }
+      }
+    }
+  ]
+}

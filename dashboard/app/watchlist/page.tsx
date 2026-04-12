@@ -289,7 +289,7 @@ export default function WatchlistPage() {
 
   return (
     <TooltipProvider>
-      <main className="p-6 md:p-10 max-w-6xl mx-auto space-y-10">
+      <main className="p-6 md:p-10 max-w-screen-2xl mx-auto space-y-10">
       {/* Notification */}
       {notification && (
         <div className={`fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-in slide-in-from-top-2 ${

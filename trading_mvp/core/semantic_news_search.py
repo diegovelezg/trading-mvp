@@ -8,7 +8,11 @@ REEMPLAZA al sistema de entity matching.
 import logging
 from typing import List, Dict, Tuple, Optional
 from trading_mvp.core.db_ticker_embeddings import get_ticker_embeddings
-from trading_mvp.core.db_news_embeddings import get_news_embeddings_batch, find_similar_news
+from trading_mvp.core.db_news_embeddings import (
+    get_news_embeddings_batch, 
+    find_similar_news,
+    find_similar_news_by_ticker
+)
 from trading_mvp.core.db_geo_news import get_recent_news
 from trading_mvp.core.gemini_embeddings import generate_embedding
 
@@ -20,12 +24,12 @@ class SemanticNewsSearch:
 
     def __init__(
         self,
-        similarity_threshold: float = 0.75,
+        similarity_threshold: float = 0.80,
         min_news_count: int = 5
     ):
         """
         Args:
-            similarity_threshold: Umbral de similitud coseno (0-1)
+            similarity_threshold: Umbral de similitud coseno (0-1). 0.80 recomendado para ADN individual.
             min_news_count: Mínimo de noticias para considerar búsqueda exitosa
         """
         self.similarity_threshold = similarity_threshold
@@ -39,34 +43,30 @@ class SemanticNewsSearch:
     ) -> Tuple[List[Dict], Dict]:
         """
         Buscar noticias relacionadas con un ticker usando similarity semántica.
+        Utiliza el set de vectores (ADN) del ticker de forma individual.
 
         Args:
             ticker: Símbolo del ticker
-            all_news: Todas las noticias disponibles
-            method: 'semantic' (únicamente embeddings)
+            all_news: Todas las noticias disponibles (usado para mapear IDs)
+            method: 'semantic'
 
         Returns:
             (related_news, stats)
         """
 
-        # 1. Obtener embeddings del ticker (promedio de sus entities)
-        ticker_embeddings_list = get_ticker_embeddings(ticker)
-
-        if not ticker_embeddings_list:
-            logger.warning(f"No embeddings found for {ticker}")
-            return [], {"method": "none", "count": 0, "error": "No ticker embeddings"}
-
-        # Calcular embedding promedio del ticker
-        ticker_embedding = self._average_embedding_from_list(ticker_embeddings_list)
-
-        # 2. Buscar noticias similares por cosine similarity
-        similar_news = find_similar_news(
-            query_embedding=ticker_embedding,
+        # 1. Buscar noticias similares por ADN individual (Max Similarity en DB)
+        # Esto reemplaza al antiguo promedio de vectores.
+        similar_news = find_similar_news_by_ticker(
+            ticker=ticker,
             threshold=self.similarity_threshold,
-            limit=len(all_news)
+            limit=len(all_news) if all_news else 100
         )
 
-        # 3. Obtener news items completos
+        if not similar_news:
+            logger.warning(f"No related news found for {ticker} using threshold {self.similarity_threshold}")
+            return [], {"method": "semantic_dna", "count": 0, "threshold": self.similarity_threshold}
+
+        # 2. Obtener news items completos mapeando desde all_news
         news_map = {news['id']: news for news in all_news}
         related_news = []
 
@@ -77,21 +77,20 @@ class SemanticNewsSearch:
             if news_id in news_map:
                 news_with_meta = news_map[news_id].copy()
                 news_with_meta['_similarity'] = similarity
-                news_with_meta['_match_method'] = 'semantic_embedding'
+                news_with_meta['_match_method'] = 'semantic_dna_match'
                 related_news.append(news_with_meta)
 
         # Stats
         stats = {
             "ticker": ticker,
-            "method": "semantic_embedding",
+            "method": "semantic_dna_match",
             "similarity_threshold": self.similarity_threshold,
             "total_count": len(related_news),
-            "avg_similarity": sum(n['_similarity'] for n in related_news) / len(related_news) if related_news else 0,
-            "ticker_embeddings_count": len(ticker_embeddings_list)
+            "avg_similarity": sum(n['_similarity'] for n in related_news) / len(related_news) if related_news else 0
         }
 
         logger.info(
-            f"🧠 {ticker}: Semantic search - "
+            f"🧠 {ticker}: DNA-Individual search - "
             f"{len(related_news)} news found (avg similarity: {stats['avg_similarity']:.2f})"
         )
 

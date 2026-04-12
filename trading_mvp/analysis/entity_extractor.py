@@ -8,7 +8,8 @@ from typing import List, Dict, Optional
 from google.genai import Client
 from dotenv import load_dotenv
 
-load_dotenv()
+# FORZAR SSOT
+load_dotenv(override=True)
 logger = logging.getLogger(__name__)
 
 class EntityExtractor:
@@ -16,6 +17,8 @@ class EntityExtractor:
 
     def __init__(self):
         """Initialize entity extractor."""
+        # Recargar para asegurar que tenemos la última clave
+        load_dotenv(override=True)
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             raise ValueError("GEMINI_API_KEY is required")
@@ -23,7 +26,7 @@ class EntityExtractor:
         self.model = os.getenv("GEMINI_API_MODEL_01", "gemini-3.1-flash-lite-preview")
         self.client = Client(api_key=api_key)
 
-        logger.info(f"✅ EntityExtractor initialized with model: {self.model}")
+        logger.info(f"✅ EntityExtractor initialized with model: {self.model} (API Key ends in: ...{api_key[-4:]})")
 
     def extract_json_from_response(self, text: str) -> str:
         """Extract JSON from Gemini response."""

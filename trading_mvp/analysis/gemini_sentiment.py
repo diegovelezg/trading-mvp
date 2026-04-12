@@ -50,10 +50,10 @@ def analyze_sentiment(text: str, ticker: str = "Unknown", dna: Dict = None) -> D
     prompt = f"""
     Analyze sentiment for {ticker}.
     
-    Provide response STRICTLY in JSON:
+    Provide response STRICTLY in JSON. Both "summary" and "explanation" MUST BE IN SPANISH (CASTELLANO):
     - "sentiment": float between -1.0 and 1.0
-    - "summary": short impact summary
-    - "explanation": 1 sentence reasoning
+    - "summary": short impact summary in Spanish
+    - "explanation": 1 sentence reasoning in Spanish
     
     Text: {text}
     """

@@ -33,6 +33,17 @@ export const GET = withErrorHandler(async () => {
   const equity = parseFloat(account.equity);
   const lastEquity = history.equity[0];
   const totalPL = equity - lastEquity;
+  const returnPct = lastEquity !== 0 ? (totalPL / lastEquity) * 100 : 0;
+
+  // Calculate Max Drawdown from history
+  let maxDrawdown = 0;
+  let peak = history.equity[0] || equity;
+  for (let i = 0; i < history.equity.length; i++) {
+    if (history.equity[i] > peak) peak = history.equity[i];
+    const dd = peak !== 0 ? (peak - history.equity[i]) / peak : 0;
+    if (dd > maxDrawdown) maxDrawdown = dd;
+  }
+  maxDrawdown = maxDrawdown * 100;
 
   // Calculate a simple Sharpe from daily equity if history is available
   const returns = [];
@@ -46,56 +57,65 @@ export const GET = withErrorHandler(async () => {
   const sharpe = stdDev !== 0 ? (avgReturn / stdDev) * Math.sqrt(252) : 0;
 
   // 4. Intelligence Metadata (From Supabase)
-  const [newsRes, runsRes, decisionsRes] = await Promise.all([
+  const [newsRes, runsRes] = await Promise.all([
     supabase.from('news').select('*', { count: 'exact', head: true }),
-    supabase.from('investment_desk_runs').select('*', { count: 'exact', head: true }),
-    supabase.from('ticker_analyses').select('*', { count: 'exact', head: true })
+    supabase.from('investment_desk_runs').select('*', { count: 'exact', head: true })
   ]);
 
-  // 5. Calculate Win Rate from Alpaca Activities (Recent 50 fills)
-  const activitiesRes = await fetch(`${BASE_URL}/v2/account/activities?activity_types=FILL&page_size=50`, { headers });
-  const activities = await activitiesRes.json();
+  // 5. Fetch ALL decisions from Supabase to compute Win Rate, Profit Factor, and Totals
+  const { data: allDecisions } = await supabase
+    .from('investment_decisions')
+    .select('*');
 
+  let profitFactor = 0;
   let winRate = 0;
-  if (Array.isArray(activities) && activities.length > 0) {
-    // Simple logic: match buy/sell for the same ticker in the recent list
-    const trades: number[] = [];
-    const symbols = [...new Set(activities.map(a => a.symbol))];
+  let totalDecisions = 0;
 
-    symbols.forEach(symbol => {
-      const fills = activities.filter(a => a.symbol === symbol).sort((a, b) =>
-        new Date(a.transaction_time).getTime() - new Date(b.transaction_time).getTime()
-      );
+  if (allDecisions && allDecisions.length > 0) {
+    totalDecisions = allDecisions.length;
+    
+    // Closed decisions are transactions that have a profit_loss
+    const closedDecisions = allDecisions.filter(d => d.status === 'CLOSED');
+    
+    if (closedDecisions.length > 0) {
+      let grossProfit = 0;
+      let grossLoss = 0;
+      let wins = 0;
 
-      // Match consecutive buy/sell or sell/buy pairs in this window
-      for (let i = 0; i < fills.length - 1; i++) {
-        const current = fills[i];
-        const next = fills[i+1];
-
-        if (current.side !== next.side) {
-          const buyPrice = current.side === 'buy' ? parseFloat(current.price) : parseFloat(next.price);
-          const sellPrice = current.side === 'sell' ? parseFloat(current.price) : parseFloat(next.price);
-          trades.push(sellPrice - buyPrice);
-          i++; // Skip next as it's matched
+      closedDecisions.forEach(d => {
+        const pl = parseFloat(d.profit_loss) || 0;
+        if (pl > 0) {
+          grossProfit += pl;
+          wins += 1;
         }
-      }
-    });
-
-    if (trades.length > 0) {
-      const wins = trades.filter(t => t > 0).length;
-      winRate = (wins / trades.length) * 100;
+        if (pl < 0) {
+          grossLoss += Math.abs(pl);
+        }
+      });
+      
+      profitFactor = grossLoss === 0 ? (grossProfit > 0 ? 999 : 0) : (grossProfit / grossLoss);
+      winRate = (wins / closedDecisions.length) * 100;
     }
   }
 
+  // Format history for charting
+  const equityHistory = history.timestamp.map((ts: number, i: number) => ({
+    time: new Date(ts * 1000).toLocaleDateString('es-ES', { month: 'short', day: 'numeric' }),
+    equity: history.equity[i] !== null ? history.equity[i] : equity
+  })).filter((point: any) => point.equity > 0);
+
   return successResponse({
     equity: round(equity, 2),
-    buyingPower: round(parseFloat(account.buying_power), 2),
+    profitFactor: round(profitFactor, 2),
     totalPL: round(totalPL, 2),
+    returnPct: round(returnPct, 2),
+    maxDrawdown: round(maxDrawdown, 2),
     sharpeRatio: round(sharpe, 2),
     winRate: round(winRate, 1),
     newsProcessed: newsRes.count || 0,
     deskRuns: runsRes.count || 0,
-    totalAnalyses: decisionsRes.count || 0
+    totalDecisions: totalDecisions,
+    equityHistory: equityHistory
   });
 });
 

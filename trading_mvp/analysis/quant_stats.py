@@ -74,8 +74,8 @@ def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
         delta = ticker_df['close'].diff()
         gain = (delta.where(delta > 0, 0))
         loss = (-delta.where(delta < 0, 0))
-        avg_gain = gain.ewm(span=14, adjust=False).mean()
-        avg_loss = loss.ewm(span=14, adjust=False).mean()
+        avg_gain = gain.ewm(alpha=1/14, adjust=False).mean()
+        avg_loss = loss.ewm(alpha=1/14, adjust=False).mean()
         rs = avg_gain / avg_loss.replace(0, 0.001)
         ticker_df['rsi_14'] = 100 - (100 / (1 + rs))
         rsi_14 = float(ticker_df['rsi_14'].iloc[-1])
@@ -115,14 +115,16 @@ def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
         ticker_df['h_pc'] = abs(ticker_df['high'] - ticker_df['close'].shift(1))
         ticker_df['l_pc'] = abs(ticker_df['low'] - ticker_df['close'].shift(1))
         ticker_df['tr'] = ticker_df[['h_l', 'h_pc', 'l_pc']].max(axis=1)
-        ticker_df['atr_14'] = ticker_df['tr'].ewm(span=14, adjust=False).mean()
+        ticker_df['atr_14'] = ticker_df['tr'].ewm(alpha=1/14, adjust=False).mean()
 
         # Validate ATR is not NaN before converting
         atr_value = ticker_df['atr_14'].iloc[-1]
         atr_14 = float(atr_value) if not pd.isna(atr_value) else None
         
-        # Standard Deviation (20d)
-        std_dev_20 = float(ticker_df['close'].rolling(window=20).std().iloc[-1])
+        # Historical Volatility (Annualized Standard Deviation of 20d returns)
+        daily_returns = ticker_df['close'].pct_change()
+        # Annualize by multiplying by sqrt(252 trading days)
+        std_dev_20 = float(daily_returns.rolling(window=20).std().iloc[-1] * np.sqrt(252) * 100) if not pd.isna(daily_returns.rolling(window=20).std().iloc[-1]) else 0.0
 
         # --- V. SENSITIVITY ---
         beta_spy = None

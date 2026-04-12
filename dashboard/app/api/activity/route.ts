@@ -11,6 +11,7 @@ export async function GET(request: Request) {
       .from('investment_decisions')
       .select(`
         id,
+        desk_run_id,
         ticker,
         recommendation,
         desk_action,
@@ -35,14 +36,9 @@ export async function GET(request: Request) {
       `);
 
     if (dateStr) {
-      // Adjusted for UTC-5 offset to match local system time (SQLite used date(..., '-5 hours'))
-      // To match SQLite's logic: date(decision_timestamp - 5h) = dateStr
-      // That means decision_timestamp is between (dateStrT00:00:00 + 5h) and (dateStrT23:59:59 + 5h)
-      const startOfDay = new Date(`${dateStr}T00:00:00Z`);
-      startOfDay.setUTCHours(startOfDay.getUTCHours() + 5);
-      
+      // Simple UTC date range - decision_timestamp is already in UTC
+      const startOfDay = new Date(`${dateStr}T00:00:00.000Z`);
       const endOfDay = new Date(`${dateStr}T23:59:59.999Z`);
-      endOfDay.setUTCHours(endOfDay.getUTCHours() + 5);
 
       query = query
         .gte('decision_timestamp', startOfDay.toISOString())
@@ -58,6 +54,7 @@ export async function GET(request: Request) {
     // Parse JSON fields and flatten joined tables
     const parsedActivities = (activities || []).map((act: any) => ({
       decision_id: act.id,
+      desk_run_id: act.desk_run_id,
       ticker: act.ticker,
       recommendation: act.recommendation,
       desk_action: act.desk_action,

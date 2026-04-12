@@ -41,7 +41,7 @@ def test_quant_indicators():
         print("\n   [IV. VOLATILITY]")
         atr = stats.get('atr_14')
         atr_str = f"${atr}" if atr is not None else "N/A"
-        print(f"   - ATR 14: {atr_str} | Std Dev (20d): ${stats['std_dev_20']}")
+        print(f"   - ATR 14: {atr_str} | Hist Vol (20d): {stats['std_dev_20']}%")
         
         print("\n   [V. SENSITIVITY]")
         beta = stats.get('beta_spy')

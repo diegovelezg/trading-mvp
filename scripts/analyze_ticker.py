@@ -100,6 +100,7 @@ def analyze_ticker(ticker: str, hours_back: int = 48) -> Dict:
         })
 
     # 4. Aggregate Patterns
+    sentiment_variance = 0.0
     if news_insights:
         pos_items = [n for n in news_insights if n['sentiment'] == 'bullish']
         neg_items = [n for n in news_insights if n['sentiment'] == 'bearish']
@@ -109,19 +110,23 @@ def analyze_ticker(ticker: str, hours_back: int = 48) -> Dict:
         avg_confidence = sum(n['confidence'] for n in news_insights) / len(news_insights)
         # Combined Sentiment Score for UI
         sentiment_score = sum(n['sentiment_score'] for n in news_insights) / len(news_insights)
+        
+        # Calculate sentiment variance to detect dispersion
+        if len(news_insights) > 1:
+            mean_score = sentiment_score
+            variance = sum((n['sentiment_score'] - mean_score) ** 2 for n in news_insights) / (len(news_insights) - 1)
+            sentiment_variance = variance
     else:
         positive_ratio, negative_ratio, avg_confidence, sentiment_score = 0.0, 0.0, 0.5, 0.0
 
     # 5. Build UI Objects (Arguments and Monologues)
     top_risks = []
     bear_items = [n for n in news_insights if n['sentiment'] == 'bearish']
-    if not bear_items and news_insights: # Fallback: Show neutral as risks if no bearish
-        bear_items = [n for n in news_insights if n['sentiment'] == 'neutral'][:2]
 
     for n in sorted(bear_items, key=lambda x: -x['confidence'])[:5]:
         top_risks.append({
             'entity_name': n['criteria'],
-            'overall_impact': n['sentiment'] if n['sentiment'] != 'neutral' else 'negative',
+            'overall_impact': n['sentiment'],
             'intensity': 'medium',
             'avg_confidence': n['confidence'],
             'source_news': [{'title': n['title'], 'source': n['source']}]
@@ -129,37 +134,46 @@ def analyze_ticker(ticker: str, hours_back: int = 48) -> Dict:
 
     top_opportunities = []
     bull_items = [n for n in news_insights if n['sentiment'] == 'bullish']
-    if not bull_items and news_insights: # Fallback
-        bull_items = [n for n in news_insights if n['sentiment'] == 'neutral'][:2]
 
     for n in sorted(bull_items, key=lambda x: -x['confidence'])[:5]:
         top_opportunities.append({
             'entity_name': n['criteria'],
-            'overall_impact': n['sentiment'] if n['sentiment'] != 'neutral' else 'positive',
+            'overall_impact': n['sentiment'],
             'intensity': 'medium',
             'avg_confidence': n['confidence'],
             'source_news': [{'title': n['title'], 'source': n['source']}]
         })
 
     # 6. Generate Recommendation and Narratives
-    if negative_ratio > 0.4 and len(top_risks) >= 1:
+    # Check for sentiment illusion (high variance despite near-zero mean)
+    is_high_volatility = sentiment_variance > 0.3
+
+    if is_high_volatility and negative_ratio > 0.0 and positive_ratio > 0.0:
+        recommendation = "HIGH_VOLATILITY"
+        rationale = f"Se detectaron noticias altamente polarizadas. El sesgo semántico muestra una dispersión extrema (Varianza: {sentiment_variance:.2f})."
+    elif negative_ratio > 0.4 and len(top_risks) >= 1:
         recommendation = "BEARISH"
-        rationale = f"Semantic bias is leaning bearish ({negative_ratio:.0%})."
+        rationale = f"El sesgo semántico se inclina a bajista ({negative_ratio:.0%})."
     elif positive_ratio > 0.4 and len(top_opportunities) >= 1:
         recommendation = "BULLISH"
-        rationale = f"Semantic bias is leaning bullish ({positive_ratio:.0%})."
+        rationale = f"El sesgo semántico se inclina a alcista ({positive_ratio:.0%})."
     else:
         recommendation = "CAUTIOUS"
-        rationale = "Mixed or neutral semantic signals detected via embeddings."
+        rationale = "Señales semánticas mixtas o neutrales detectadas vía embeddings."
 
     # Quantitative Layer
     quant_stats = fetch_historical_stats(ticker)
 
     # Monologues (The Storytelling)
-    bull_summary = f"Analyst View: {len(bull_items)} potential catalysts found. " + \
-                   (bull_items[0]['criteria'] if bull_items else "Monitoring for bullish signals.")
-    bear_summary = f"Skeptic View: {len(bear_items)} risk factors noted. " + \
-                   (bear_items[0]['criteria'] if bear_items else "No immediate macro threats detected.")
+    bull_summary = f"Visión del Analista: {len(bull_items)} posibles catalizadores encontrados. " + \
+                   (bull_items[0]['criteria'] if bull_items else "Monitoreando señales alcistas.")
+    bear_summary = f"Visión Escéptica: {len(bear_items)} factores de riesgo notados. " + \
+                   (bear_items[0]['criteria'] if bear_items else "No se detectaron amenazas macro inmediatas.")
+
+    # Calculate dynamic stop loss percentage
+    stop_loss_pct = "N/A"
+    if quant_stats.get('atr_14') and quant_stats.get('current_price'):
+        stop_loss_pct = round((1.5 * quant_stats['atr_14']) / max(0.01, quant_stats['current_price']), 4)
 
     # Final Object
     analysis = {
@@ -181,16 +195,16 @@ def analyze_ticker(ticker: str, hours_back: int = 48) -> Dict:
         'bull_case': {
             "arguments": [r['entity_name'] for r in top_opportunities],
             "deep_analysis": bull_summary,
-            "evidence_chain": [e for e in evidence_chain if e['sentiment'] in ['bullish', 'neutral']]
+            "evidence_chain": [e for e in evidence_chain if e['sentiment'] == 'bullish']
         },
         'bear_case': {
             "arguments": [r['entity_name'] for r in top_risks],
             "deep_analysis": bear_summary,
-            "evidence_chain": [e for e in evidence_chain if e['sentiment'] in ['bearish', 'neutral']]
+            "evidence_chain": [e for e in evidence_chain if e['sentiment'] == 'bearish']
         },
         'risk_analysis': {
             "deep_analysis": f"Risk Level Assessment: {recommendation}. Technical Context: RSI {quant_stats.get('rsi_14')}, ATR {quant_stats.get('atr_14')}.",
-            "stop_loss": {"percentage": 0.05}
+            "stop_loss": {"percentage": stop_loss_pct}
         }
     }
 

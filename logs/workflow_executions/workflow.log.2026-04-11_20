@@ -1,0 +1,2371 @@
+2026-04-11 17:05:43,233 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 17:05:43,233 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 17:05:45,642 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.41s)
+2026-04-11 17:05:45,643 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 17:05:45,643 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 17:05:45,643 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 17:05:49,417 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (3.77s)
+2026-04-11 17:05:49,417 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 0,
+  "existing_entities": 211,
+  "new_entities": 0,
+  "total_entities": 211,
+  "coverage_pct": 1.0,
+  "health_status": "healthy",
+  "duration_seconds": 3.772958
+}
+2026-04-11 17:05:49,417 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 17:05:50,284 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (0.87s)
+2026-04-11 17:05:50,285 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 17:05:50,285 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 17:05:52,352 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.07s)
+2026-04-11 17:05:52,352 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 17:06:39,222 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 17:06:39,222 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 17:06:39,223 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [
+    {
+      "success": true,
+      "ticker": "PWR",
+      "analysis_timestamp": "2026-04-11T17:05:59.595318",
+      "time_window_hours": 48,
+      "duration_seconds": 7.2,
+      "mapped_entities": [
+        "Electric Utilities",
+        "Energy",
+        "Nuclear Power",
+        "Nuclear Reactors",
+        "Power Generation"
+      ],
+      "related_news_count": 6,
+      "news_sources": [
+        "google_news",
+        "serpapi_google_news",
+  
+2026-04-11 17:06:41,966 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 17:06:42,485 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.52s)
+2026-04-11 17:06:42,485 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "Strong BEARISH signal (confidence 0.92 \u2265 0.675 threshold). Negative sentiment elevated (87% of entities) from 6 news items. Key risks: Inflation, Iran War, Energy Costs. Recommend AVOID or reduce existing exposure.",
+      "confidence_in_decision": 0.92,
+      "risk_level": "high",
+      "ticker_analysis_id": null,
+      "ticker": "PWR",
+      "original_recommendation": "BEA
+2026-04-11 17:06:42,486 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 17:06:54,447 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (11.96s)
+2026-04-11 17:06:54,447 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": null,
+  "ticker_analysis_ids": {
+    "PWR": 19,
+    "PEG": 20,
+    "WEC": 21,
+    "BWXT": 22,
+    "MA": 23,
+    "USO": 24,
+    "BKR": 25
+  }
+}
+2026-04-11 17:06:54,458 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_170543.json
+2026-04-11 17:06:54,459 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 17:41:33,177 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 17:41:33,177 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 17:41:36,291 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (3.11s)
+2026-04-11 17:41:36,292 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 17:41:36,292 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 17:41:36,292 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 17:41:40,190 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (3.90s)
+2026-04-11 17:41:40,191 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 0,
+  "existing_entities": 211,
+  "new_entities": 0,
+  "total_entities": 211,
+  "coverage_pct": 1.0,
+  "health_status": "healthy",
+  "duration_seconds": 3.897479
+}
+2026-04-11 17:41:40,191 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 17:41:41,306 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.12s)
+2026-04-11 17:41:41,306 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 17:41:41,306 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 17:41:43,360 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.05s)
+2026-04-11 17:41:43,360 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 17:44:22,303 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 17:44:22,303 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 17:44:22,304 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [
+    {
+      "success": true,
+      "ticker": "BKR",
+      "analysis_timestamp": "2026-04-11T17:42:22.312558",
+      "time_window_hours": 48,
+      "duration_seconds": 12.3,
+      "mapped_entities": [
+        "Energy",
+        "Energy Services",
+        "Offshore Drilling",
+        "Oil & Gas"
+      ],
+      "related_news_count": 4,
+      "news_sources": [
+        "google_news",
+        "alpaca_news",
+        "serpapi_google_news"
+      ],
+    
+2026-04-11 17:44:24,947 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 17:44:24,951 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-11 17:44:24,951 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "MIXED SIGNALS - Positive: 27%, Negative: 47%. News sentiment balanced. Technicals: RSI: 46.7, ATR: $11.41, Trend: BEARISH.",
+      "confidence_in_decision": 0.86,
+      "risk_level": "medium",
+      "technical_context": "RSI: 46.7, ATR: $11.41, Trend: BEARISH",
+      "ticker_analysis_id": null,
+      "ticker": "MA",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_tim
+2026-04-11 17:44:24,952 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 17:44:39,489 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (14.54s)
+2026-04-11 17:44:39,489 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": null,
+  "ticker_analysis_ids": {
+    "MA": 26,
+    "BKR": 27,
+    "USO": 28,
+    "BWXT": 29,
+    "WEC": 30,
+    "PEG": 31,
+    "PWR": 32
+  }
+}
+2026-04-11 17:44:39,502 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_174133.json
+2026-04-11 17:44:39,503 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 17:47:51,920 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 17:47:51,920 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 17:47:53,832 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.91s)
+2026-04-11 17:47:53,834 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 17:47:53,835 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 17:47:53,835 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 17:47:58,428 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (4.59s)
+2026-04-11 17:47:58,429 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 0,
+  "existing_entities": 211,
+  "new_entities": 0,
+  "total_entities": 211,
+  "coverage_pct": 1.0,
+  "health_status": "healthy",
+  "duration_seconds": 4.592407
+}
+2026-04-11 17:47:58,429 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 17:47:59,517 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.09s)
+2026-04-11 17:47:59,517 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 17:47:59,518 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 17:48:01,435 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.92s)
+2026-04-11 17:48:01,435 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 17:49:33,439 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 17:49:33,439 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 17:49:33,441 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "PEG",
+      "analysis_timestamp": "2026-04-11T17:48:14.191653",
+      "time_window_hours": 48,
+      "duration_seconds": 12.8,
+      "mapped_entities": [
+        "Electric Utilities",
+        "Energy",
+        "Power Generation",
+        "Utilities"
+      ],
+      "related_news_count": 5,
+      "news_sources": [
+        "alpaca_news",
+        "serpapi_google_news",
+        "google
+2026-04-11 17:49:36,562 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 17:49:36,566 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-11 17:49:36,567 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "MIXED SIGNALS - Positive: 58%, Negative: 42%. News sentiment balanced. Technicals: RSI: 54.1, ATR: $1.54, Trend: BULLISH.",
+      "confidence_in_decision": 0.92,
+      "risk_level": "medium",
+      "technical_context": "RSI: 54.1, ATR: $1.54, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "PEG",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_time
+2026-04-11 17:49:36,567 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 17:49:48,747 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (12.18s)
+2026-04-11 17:49:48,747 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": null,
+  "ticker_analysis_ids": {
+    "PEG": 33,
+    "BKR": 34,
+    "MA": 35,
+    "USO": 36,
+    "PWR": 37,
+    "WEC": 38,
+    "BWXT": 39
+  }
+}
+2026-04-11 17:49:48,757 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_174751.json
+2026-04-11 17:49:48,758 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 17:57:42,184 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 17:57:42,184 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 17:57:44,595 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.41s)
+2026-04-11 17:57:44,596 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 17:57:44,596 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 17:57:44,597 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 17:57:48,585 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (3.99s)
+2026-04-11 17:57:48,585 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 0,
+  "existing_entities": 211,
+  "new_entities": 0,
+  "total_entities": 211,
+  "coverage_pct": 1.0,
+  "health_status": "healthy",
+  "duration_seconds": 3.988148
+}
+2026-04-11 17:57:48,586 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 17:57:49,503 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (0.92s)
+2026-04-11 17:57:49,503 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 17:57:49,504 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 17:57:51,762 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.26s)
+2026-04-11 17:57:51,763 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 17:59:24,717 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 17:59:24,717 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 17:59:24,717 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "WEC",
+      "analysis_timestamp": "2026-04-11T17:58:25.069265",
+      "time_window_hours": 48,
+      "duration_seconds": 12.7,
+      "mapped_entities": [
+        "Electric Utilities",
+        "Energy",
+        "Power Generation",
+        "Utilities",
+        "Wisconsin"
+      ],
+      "related_news_count": 5,
+      "news_sources": [
+        "alpaca_news",
+        "serpapi_google_n
+2026-04-11 17:59:27,385 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 17:59:27,387 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-11 17:59:27,388 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "LOW CONFIDENCE signal (0.84). RSI: 56.5, ATR: $8.00, Trend: BULLISH. Monitoring for clearer direction.",
+      "confidence_in_decision": 0.84,
+      "risk_level": "medium",
+      "technical_context": "RSI: 56.5, ATR: $8.00, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "USO",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-11
+2026-04-11 17:59:27,388 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 17:59:39,978 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (12.59s)
+2026-04-11 17:59:39,978 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": null,
+  "ticker_analysis_ids": {
+    "USO": 40,
+    "WEC": 41,
+    "BWXT": 42,
+    "PEG": 43,
+    "PWR": 44,
+    "MA": 45,
+    "BKR": 46
+  }
+}
+2026-04-11 17:59:39,995 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_175742.json
+2026-04-11 17:59:39,995 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 18:05:32,098 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 18:05:32,098 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 18:05:34,150 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.05s)
+2026-04-11 18:05:34,152 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 18:05:34,152 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 18:05:34,152 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 18:05:37,653 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (3.50s)
+2026-04-11 18:05:37,653 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 0,
+  "existing_entities": 211,
+  "new_entities": 0,
+  "total_entities": 211,
+  "coverage_pct": 1.0,
+  "health_status": "healthy",
+  "duration_seconds": 3.499547
+}
+2026-04-11 18:05:37,653 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 18:05:38,570 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (0.92s)
+2026-04-11 18:05:38,570 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 18:05:38,571 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 18:05:40,749 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.18s)
+2026-04-11 18:05:40,749 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 18:07:13,912 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 18:07:13,912 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 18:07:13,913 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "BKR",
+      "analysis_timestamp": "2026-04-11T18:05:52.820718",
+      "time_window_hours": 48,
+      "duration_seconds": 12.1,
+      "mapped_entities": [
+        "Energy",
+        "Energy Services",
+        "Offshore Drilling",
+        "Oil & Gas"
+      ],
+      "related_news_count": 5,
+      "news_sources": [
+        "google_news",
+        "serpapi_google_news",
+        "alpaca_n
+2026-04-11 18:07:16,663 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 18:07:16,665 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-11 18:07:16,665 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "MIXED SIGNALS - Positive: 58%, Negative: 42%. News sentiment balanced. Technicals: RSI: 57.8, ATR: $1.97, Trend: BULLISH.",
+      "confidence_in_decision": 0.92,
+      "risk_level": "medium",
+      "technical_context": "RSI: 57.8, ATR: $1.97, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "BKR",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_time
+2026-04-11 18:07:16,665 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 18:07:29,054 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (12.39s)
+2026-04-11 18:07:29,055 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": null,
+  "ticker_analysis_ids": {
+    "BKR": 47,
+    "PWR": 48,
+    "PEG": 49,
+    "USO": 50,
+    "MA": 51,
+    "WEC": 52,
+    "BWXT": 53
+  }
+}
+2026-04-11 18:07:29,071 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_180532.json
+2026-04-11 18:07:29,072 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 18:10:14,975 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 18:10:14,975 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 18:10:17,608 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.63s)
+2026-04-11 18:10:17,610 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 18:10:17,610 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 18:10:17,610 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 18:10:26,828 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (9.22s)
+2026-04-11 18:10:26,828 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 0,
+  "existing_entities": 211,
+  "new_entities": 0,
+  "total_entities": 211,
+  "coverage_pct": 1.0,
+  "health_status": "healthy",
+  "duration_seconds": 9.216896
+}
+2026-04-11 18:10:26,828 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 18:10:27,918 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.09s)
+2026-04-11 18:10:27,919 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 18:10:27,919 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 18:10:29,896 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.98s)
+2026-04-11 18:10:29,896 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 18:12:00,806 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 18:12:00,806 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 18:12:00,807 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "PWR",
+      "analysis_timestamp": "2026-04-11T18:10:43.468071",
+      "time_window_hours": 48,
+      "duration_seconds": 13.6,
+      "mapped_entities": [
+        "Electric Utilities",
+        "Energy",
+        "Nuclear Power",
+        "Nuclear Reactors",
+        "Power Generation"
+      ],
+      "related_news_count": 5,
+      "news_sources": [
+        "alpaca_news",
+        "googl
+2026-04-11 18:12:03,428 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 18:12:03,430 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-11 18:12:03,431 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "MIXED SIGNALS - Positive: 58%, Negative: 42%. News sentiment balanced. Technicals: RSI: 61.1, ATR: $20.73, Trend: BULLISH.",
+      "confidence_in_decision": 0.92,
+      "risk_level": "medium",
+      "technical_context": "RSI: 61.1, ATR: $20.73, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "PWR",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_ti
+2026-04-11 18:12:03,431 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 18:12:14,119 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (10.69s)
+2026-04-11 18:12:14,119 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": null,
+  "ticker_analysis_ids": {
+    "PWR": 54,
+    "MA": 55,
+    "USO": 56,
+    "PEG": 57,
+    "BWXT": 58,
+    "WEC": 59,
+    "BKR": 60
+  }
+}
+2026-04-11 18:12:14,132 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_181014.json
+2026-04-11 18:12:14,132 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 18:17:15,275 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 18:17:15,275 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 18:17:17,251 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.98s)
+2026-04-11 18:17:17,252 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 18:17:17,253 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 18:17:17,253 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 18:17:21,840 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (4.59s)
+2026-04-11 18:17:21,840 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 0,
+  "existing_entities": 211,
+  "new_entities": 0,
+  "total_entities": 211,
+  "coverage_pct": 1.0,
+  "health_status": "healthy",
+  "duration_seconds": 4.586441
+}
+2026-04-11 18:17:21,840 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 18:17:22,706 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (0.87s)
+2026-04-11 18:17:22,706 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 18:17:22,706 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 18:17:24,546 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.84s)
+2026-04-11 18:17:24,546 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 18:18:54,535 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 18:18:54,535 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 18:18:54,536 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "WEC",
+      "analysis_timestamp": "2026-04-11T18:17:37.179951",
+      "time_window_hours": 48,
+      "duration_seconds": 12.6,
+      "mapped_entities": [
+        "Electric Utilities",
+        "Energy",
+        "Power Generation",
+        "Utilities",
+        "Wisconsin"
+      ],
+      "related_news_count": 5,
+      "news_sources": [
+        "google_news",
+        "serpapi_google_n
+2026-04-11 18:18:57,109 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 18:18:57,111 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-11 18:18:57,111 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "MIXED SIGNALS - Positive: 58%, Negative: 42%. News sentiment balanced. Technicals: RSI: 58.1, ATR: $2.00, Trend: BULLISH.",
+      "confidence_in_decision": 0.92,
+      "risk_level": "medium",
+      "technical_context": "RSI: 58.1, ATR: $2.00, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "WEC",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_time
+2026-04-11 18:18:57,111 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 18:19:08,198 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (11.09s)
+2026-04-11 18:19:08,198 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": null,
+  "ticker_analysis_ids": {
+    "WEC": 61,
+    "PEG": 62,
+    "PWR": 63,
+    "BKR": 64,
+    "MA": 65,
+    "USO": 66,
+    "BWXT": 67
+  }
+}
+2026-04-11 18:19:08,211 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_181715.json
+2026-04-11 18:19:08,212 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 18:19:22,679 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 18:19:22,679 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 18:19:24,910 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.23s)
+2026-04-11 18:19:24,911 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 18:19:24,912 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 18:19:24,912 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 18:19:28,722 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (3.81s)
+2026-04-11 18:19:28,722 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 0,
+  "existing_entities": 211,
+  "new_entities": 0,
+  "total_entities": 211,
+  "coverage_pct": 1.0,
+  "health_status": "healthy",
+  "duration_seconds": 3.809422
+}
+2026-04-11 18:19:28,722 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 18:19:29,611 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (0.89s)
+2026-04-11 18:19:29,611 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 18:19:29,612 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 18:19:31,723 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.11s)
+2026-04-11 18:19:31,723 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 18:21:02,124 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 18:21:02,124 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 18:21:02,124 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "WEC",
+      "analysis_timestamp": "2026-04-11T18:19:44.501771",
+      "time_window_hours": 48,
+      "duration_seconds": 12.8,
+      "mapped_entities": [
+        "Electric Utilities",
+        "Energy",
+        "Power Generation",
+        "Utilities",
+        "Wisconsin"
+      ],
+      "related_news_count": 5,
+      "news_sources": [
+        "serpapi_google_news",
+        "google_n
+2026-04-11 18:21:05,382 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 18:21:05,385 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-11 18:21:05,385 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "MIXED SIGNALS - Positive: 58%, Negative: 42%. News sentiment balanced. Technicals: RSI: 58.1, ATR: $2.00, Trend: BULLISH.",
+      "confidence_in_decision": 0.92,
+      "risk_level": "medium",
+      "technical_context": "RSI: 58.1, ATR: $2.00, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "WEC",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_time
+2026-04-11 18:21:05,385 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 18:21:17,157 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (11.77s)
+2026-04-11 18:21:17,157 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": null,
+  "ticker_analysis_ids": {
+    "WEC": 68,
+    "PEG": 69,
+    "BWXT": 70,
+    "BKR": 71,
+    "USO": 72,
+    "PWR": 73,
+    "MA": 74
+  }
+}
+2026-04-11 18:21:17,171 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_181922.json
+2026-04-11 18:21:17,172 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 18:21:43,789 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 18:21:43,789 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 18:21:45,529 - workflow_logger - ERROR - ❌ STEP FAILED: news_extraction [news_extraction_001] (1.74s)
+2026-04-11 18:21:45,529 - workflow_logger - ERROR -    Error: Step returned success=False: News extraction failed: News too old: 49/100 items are from the last 24h (49.0% < 50% required)
+2026-04-11 18:21:45,529 - workflow_logger - DEBUG -    Traceback:
+Traceback (most recent call last):
+  File "/home/diegovelezg/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py", line 308, in execute_step
+    raise ValueError(f"Step returned success=False: {error_msg}")
+ValueError: Step returned success=False: News extraction failed: News too old: 49/100 items are from the last 24h (49.0% < 50% required)
+
+2026-04-11 18:21:45,529 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_182143.json
+2026-04-11 18:21:45,530 - workflow_logger - ERROR - 🛑 WORKFLOW ABORTED at step: news_extraction
+2026-04-11 18:21:45,530 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_182143.json
+2026-04-11 18:21:45,530 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 0 steps completed, 1 failed
+2026-04-11 18:21:55,352 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 18:21:55,352 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 18:21:57,204 - workflow_logger - ERROR - ❌ STEP FAILED: news_extraction [news_extraction_001] (1.85s)
+2026-04-11 18:21:57,205 - workflow_logger - ERROR -    Error: Step returned success=False: News extraction failed: News too old: 49/100 items are from the last 24h (49.0% < 50% required)
+2026-04-11 18:21:57,205 - workflow_logger - DEBUG -    Traceback:
+Traceback (most recent call last):
+  File "/home/diegovelezg/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py", line 308, in execute_step
+    raise ValueError(f"Step returned success=False: {error_msg}")
+ValueError: Step returned success=False: News extraction failed: News too old: 49/100 items are from the last 24h (49.0% < 50% required)
+
+2026-04-11 18:21:57,205 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_182155.json
+2026-04-11 18:21:57,205 - workflow_logger - ERROR - 🛑 WORKFLOW ABORTED at step: news_extraction
+2026-04-11 18:21:57,206 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_182155.json
+2026-04-11 18:21:57,206 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 0 steps completed, 1 failed
+2026-04-11 18:22:02,698 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 18:22:02,698 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 18:22:04,779 - workflow_logger - ERROR - ❌ STEP FAILED: news_extraction [news_extraction_001] (2.08s)
+2026-04-11 18:22:04,779 - workflow_logger - ERROR -    Error: Step returned success=False: News extraction failed: News too old: 49/100 items are from the last 24h (49.0% < 50% required)
+2026-04-11 18:22:04,779 - workflow_logger - DEBUG -    Traceback:
+Traceback (most recent call last):
+  File "/home/diegovelezg/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py", line 308, in execute_step
+    raise ValueError(f"Step returned success=False: {error_msg}")
+ValueError: Step returned success=False: News extraction failed: News too old: 49/100 items are from the last 24h (49.0% < 50% required)
+
+2026-04-11 18:22:04,779 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_182202.json
+2026-04-11 18:22:04,779 - workflow_logger - ERROR - 🛑 WORKFLOW ABORTED at step: news_extraction
+2026-04-11 18:22:04,780 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_182202.json
+2026-04-11 18:22:04,780 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 0 steps completed, 1 failed
+2026-04-11 18:22:32,976 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 18:22:32,976 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 72
+}
+2026-04-11 18:22:35,295 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.32s)
+2026-04-11 18:22:35,298 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 18:22:35,298 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 18:22:35,298 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 18:22:39,190 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (3.89s)
+2026-04-11 18:22:39,190 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 0,
+  "existing_entities": 211,
+  "new_entities": 0,
+  "total_entities": 211,
+  "coverage_pct": 1.0,
+  "health_status": "healthy",
+  "duration_seconds": 3.891446
+}
+2026-04-11 18:22:39,191 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 18:22:40,209 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.02s)
+2026-04-11 18:22:40,209 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 18:22:40,209 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 18:22:42,198 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.99s)
+2026-04-11 18:22:42,199 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 18:24:16,905 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 18:24:16,905 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 18:24:16,906 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "PWR",
+      "analysis_timestamp": "2026-04-11T18:23:13.296660",
+      "time_window_hours": 72,
+      "duration_seconds": 12.3,
+      "mapped_entities": [
+        "Electric Utilities",
+        "Energy",
+        "Nuclear Power",
+        "Nuclear Reactors",
+        "Power Generation"
+      ],
+      "related_news_count": 5,
+      "news_sources": [
+        "google_news",
+        "serpa
+2026-04-11 18:24:19,503 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 18:24:19,506 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-11 18:24:19,506 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "LOW CONFIDENCE signal (0.84). RSI: 56.5, ATR: $8.00, Trend: BULLISH. Monitoring for clearer direction.",
+      "confidence_in_decision": 0.84,
+      "risk_level": "medium",
+      "technical_context": "RSI: 56.5, ATR: $8.00, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "USO",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-11
+2026-04-11 18:24:19,506 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 18:24:42,695 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (23.19s)
+2026-04-11 18:24:42,695 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 3,
+  "ticker_analysis_ids": {
+    "USO": 75,
+    "PWR": 76,
+    "MA": 77,
+    "BKR": 78,
+    "PEG": 79,
+    "BWXT": 80,
+    "WEC": 81
+  }
+}
+2026-04-11 18:24:42,710 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_182232.json
+2026-04-11 18:24:42,710 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 19:00:55,469 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 19:00:55,469 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 19:00:57,685 - workflow_logger - ERROR - ❌ STEP FAILED: news_extraction [news_extraction_001] (2.22s)
+2026-04-11 19:00:57,685 - workflow_logger - ERROR -    Error: Step returned success=False: News extraction failed: News too old: 49/100 items are from the last 24h (49.0% < 50% required)
+2026-04-11 19:00:57,685 - workflow_logger - DEBUG -    Traceback:
+Traceback (most recent call last):
+  File "/home/diegovelezg/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py", line 308, in execute_step
+    raise ValueError(f"Step returned success=False: {error_msg}")
+ValueError: Step returned success=False: News extraction failed: News too old: 49/100 items are from the last 24h (49.0% < 50% required)
+
+2026-04-11 19:00:57,685 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_190055.json
+2026-04-11 19:00:57,685 - workflow_logger - ERROR - 🛑 WORKFLOW ABORTED at step: news_extraction
+2026-04-11 19:00:57,685 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_190055.json
+2026-04-11 19:00:57,686 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 0 steps completed, 1 failed
+2026-04-11 19:01:14,018 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 19:01:14,018 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 19:01:16,144 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.13s)
+2026-04-11 19:01:16,146 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 19:01:16,146 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 19:01:16,146 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 19:01:19,947 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (3.80s)
+2026-04-11 19:01:19,947 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 0,
+  "existing_entities": 211,
+  "new_entities": 0,
+  "total_entities": 211,
+  "coverage_pct": 1.0,
+  "health_status": "healthy",
+  "duration_seconds": 3.799986
+}
+2026-04-11 19:01:19,947 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 19:01:21,370 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.42s)
+2026-04-11 19:01:21,370 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 19:01:21,371 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 19:01:23,520 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.15s)
+2026-04-11 19:01:23,520 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 19:03:56,985 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 19:03:56,985 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 19:03:56,986 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [
+    {
+      "success": true,
+      "ticker": "MA",
+      "analysis_timestamp": "2026-04-11T19:03:37.683640",
+      "time_window_hours": 72,
+      "duration_seconds": 28.3,
+      "mapped_entities": [
+        "Credit Cards",
+        "Finance",
+        "Mastercard",
+        "Payments"
+      ],
+      "related_news_count": 24,
+      "news_sources": [
+        "alpaca_news",
+        "serpapi_google_news",
+        "google_news"
+      ],
+      "unique_
+2026-04-11 19:03:59,781 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 19:03:59,783 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-11 19:03:59,783 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "LOW CONFIDENCE signal (0.49). RSI: 57.8, ATR: $1.97, Trend: BULLISH. Monitoring for clearer direction.",
+      "confidence_in_decision": 0.49176,
+      "risk_level": "medium",
+      "technical_context": "RSI: 57.8, ATR: $1.97, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "BKR",
+      "original_recommendation": "BEARISH",
+      "analysis_timestamp": "2026-04-
+2026-04-11 19:03:59,783 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 19:04:25,153 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (25.37s)
+2026-04-11 19:04:25,154 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 4,
+  "ticker_analysis_ids": {
+    "BKR": 82,
+    "PWR": 83,
+    "USO": 84,
+    "WEC": 85,
+    "BWXT": 86,
+    "MA": 87,
+    "PEG": 88
+  }
+}
+2026-04-11 19:04:25,170 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_190114.json
+2026-04-11 19:04:25,170 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 19:16:26,077 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 19:16:26,078 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 19:16:28,454 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.38s)
+2026-04-11 19:16:28,455 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 19:16:28,455 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 19:16:28,455 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 19:16:32,865 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (4.41s)
+2026-04-11 19:16:32,865 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 0,
+  "existing_entities": 211,
+  "new_entities": 0,
+  "total_entities": 211,
+  "coverage_pct": 1.0,
+  "health_status": "healthy",
+  "duration_seconds": 4.409338
+}
+2026-04-11 19:16:32,865 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 19:16:33,473 - workflow_logger - ERROR - ❌ STEP FAILED: data_validation [load_portfolio_001] (0.61s)
+2026-04-11 19:16:33,473 - workflow_logger - ERROR -    Error: Step returned success=False: type object 'OrderStatus' has no attribute 'OPEN'
+2026-04-11 19:16:33,473 - workflow_logger - DEBUG -    Traceback:
+Traceback (most recent call last):
+  File "/home/diegovelezg/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py", line 308, in execute_step
+    raise ValueError(f"Step returned success=False: {error_msg}")
+ValueError: Step returned success=False: type object 'OrderStatus' has no attribute 'OPEN'
+
+2026-04-11 19:16:33,478 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_191626.json
+2026-04-11 19:16:33,478 - workflow_logger - ERROR - 🛑 WORKFLOW ABORTED at step: data_validation
+2026-04-11 19:16:33,482 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_191626.json
+2026-04-11 19:16:33,482 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 2 steps completed, 1 failed
+2026-04-11 19:18:52,228 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 19:18:52,228 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 19:18:54,677 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.45s)
+2026-04-11 19:18:54,680 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 19:18:54,680 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 19:18:54,680 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 19:19:02,443 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (7.76s)
+2026-04-11 19:19:02,443 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 0,
+  "existing_entities": 211,
+  "new_entities": 0,
+  "total_entities": 211,
+  "coverage_pct": 1.0,
+  "health_status": "healthy",
+  "duration_seconds": 7.761841
+}
+2026-04-11 19:19:02,443 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 19:19:04,000 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.56s)
+2026-04-11 19:19:04,000 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 19:19:04,000 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 19:19:06,463 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.46s)
+2026-04-11 19:19:06,463 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 19:21:32,134 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 19:21:32,134 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 19:21:32,136 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [
+    {
+      "success": true,
+      "ticker": "MA",
+      "analysis_timestamp": "2026-04-11T19:20:49.994590",
+      "time_window_hours": 72,
+      "duration_seconds": 24.0,
+      "mapped_entities": [
+        "Credit Cards",
+        "Finance",
+        "Mastercard",
+        "Payments"
+      ],
+      "related_news_count": 24,
+      "news_sources": [
+        "alpaca_news",
+        "google_news",
+        "serpapi_google_news"
+      ],
+      "unique_
+2026-04-11 19:21:34,938 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 19:21:34,940 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-11 19:21:34,941 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "LOW CONFIDENCE signal (0.49). RSI: 56.5, ATR: $8.00, Trend: BULLISH. Monitoring for clearer direction.",
+      "confidence_in_decision": 0.486804,
+      "risk_level": "medium",
+      "technical_context": "RSI: 56.5, ATR: $8.00, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "USO",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-0
+2026-04-11 19:21:34,941 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 19:22:00,020 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (25.08s)
+2026-04-11 19:22:00,021 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 5,
+  "ticker_analysis_ids": {
+    "USO": 89,
+    "BWXT": 90,
+    "PEG": 91,
+    "BKR": 92,
+    "MA": 93,
+    "WEC": 94,
+    "PWR": 95
+  }
+}
+2026-04-11 19:22:00,038 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_191852.json
+2026-04-11 19:22:00,038 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 19:58:21,317 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 19:58:21,317 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 19:58:23,581 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.26s)
+2026-04-11 19:58:23,583 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 19:58:23,584 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 19:58:25,041 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.46s)
+2026-04-11 19:58:25,041 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 19:58:25,041 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 19:58:27,472 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.43s)
+2026-04-11 19:58:27,472 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 20:01:42,741 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 20:01:42,741 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 20:01:44,862 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.12s)
+2026-04-11 20:01:44,863 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 20:01:44,863 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 20:01:46,331 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.47s)
+2026-04-11 20:01:46,331 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 20:01:46,331 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 20:01:48,491 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.16s)
+2026-04-11 20:01:48,491 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 20:05:03,021 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 20:05:03,021 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 20:05:05,373 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.35s)
+2026-04-11 20:05:05,374 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 20:05:05,375 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 20:05:06,802 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.43s)
+2026-04-11 20:05:06,802 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 20:05:06,802 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 20:05:08,779 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.98s)
+2026-04-11 20:05:08,779 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 20:16:24,039 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 20:16:24,040 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 20:16:24,041 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "USO",
+      "analysis_timestamp": "2026-04-11T20:06:46.274638",
+      "time_window_hours": 72,
+      "duration_seconds": 97.5,
+      "mapped_entities": [
+        "USO",
+        "Semantic Search Context"
+      ],
+      "related_news_count": 100,
+      "unique_entities_found": 12,
+      "top_risks": [],
+      "top_opportunities": [],
+      "most_mentioned": [],
+      "quant_stats": 
+2026-04-11 20:16:27,272 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 20:16:27,275 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-11 20:16:27,275 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "NEUTRAL SENTIMENT - No clear bias in 100 news items. Technicals inconclusive.",
+      "confidence_in_decision": 0.456,
+      "risk_level": "medium",
+      "technical_context": "RSI: 56.5, ATR: $8.00, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "USO",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-11T20:06:46.274638",
+     
+2026-04-11 20:16:27,275 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 20:16:38,050 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (10.77s)
+2026-04-11 20:16:38,050 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 6,
+  "ticker_analysis_ids": {}
+}
+2026-04-11 20:16:38,060 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_200503.json
+2026-04-11 20:16:38,060 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-11 20:17:04,669 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 20:17:04,669 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 20:17:07,001 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.33s)
+2026-04-11 20:17:07,002 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 20:17:07,002 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 20:17:08,536 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.53s)
+2026-04-11 20:17:08,536 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 20:17:08,536 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 20:17:10,896 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.36s)
+2026-04-11 20:17:10,896 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 20:25:03,976 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 20:25:03,976 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 20:25:06,252 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.28s)
+2026-04-11 20:25:06,253 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 20:25:06,253 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 20:25:07,607 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.35s)
+2026-04-11 20:25:07,607 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 20:25:07,607 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 20:25:09,615 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.01s)
+2026-04-11 20:25:09,615 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 20:28:01,576 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 20:28:01,577 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 20:28:01,578 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "USO",
+      "analysis_timestamp": "2026-04-11T20:25:44.468943",
+      "time_window_hours": 72,
+      "duration_seconds": 34.9,
+      "mapped_entities": [
+        "USO",
+        "Semantic Search Context"
+      ],
+      "related_news_count": 19,
+      "unique_entities_found": 5,
+      "top_risks": [],
+      "top_opportunities": [],
+      "most_mentioned": [],
+      "quant_stats": {
+
+2026-04-11 20:28:04,404 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 20:28:04,411 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-11 20:28:04,411 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "NEUTRAL SENTIMENT - No clear bias in 19 news items. Technicals inconclusive.",
+      "confidence_in_decision": 0.456,
+      "risk_level": "medium",
+      "technical_context": "RSI: 56.5, ATR: $8.00, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "USO",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-11T20:25:44.468943",
+      
+2026-04-11 20:28:04,411 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 20:28:15,864 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (11.45s)
+2026-04-11 20:28:15,865 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 7,
+  "ticker_analysis_ids": {}
+}
+2026-04-11 20:28:15,877 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_202503.json
+2026-04-11 20:28:15,877 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-11 20:28:53,444 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 20:28:53,444 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 20:28:55,496 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.05s)
+2026-04-11 20:28:55,497 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 20:28:55,498 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 20:28:57,168 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.67s)
+2026-04-11 20:28:57,168 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 20:28:57,169 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 20:28:59,466 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.30s)
+2026-04-11 20:28:59,466 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 20:32:02,712 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 20:32:02,712 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 20:32:02,713 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "MA",
+      "analysis_timestamp": "2026-04-11T20:29:16.358776",
+      "time_window_hours": 72,
+      "duration_seconds": 16.9,
+      "mapped_entities": [
+        "MA",
+        "Semantic Search Context"
+      ],
+      "related_news_count": 2,
+      "unique_entities_found": 2,
+      "top_risks": [],
+      "top_opportunities": [],
+      "most_mentioned": [],
+      "quant_stats": {
+   
+2026-04-11 20:32:05,452 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 20:32:05,456 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-11 20:32:05,456 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "NEUTRAL SENTIMENT - No clear bias in 2 news items. Technicals inconclusive.",
+      "confidence_in_decision": 0.468,
+      "risk_level": "medium",
+      "technical_context": "RSI: 46.7, ATR: $11.41, Trend: BEARISH",
+      "ticker_analysis_id": null,
+      "ticker": "MA",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-11T20:29:16.358776",
+      "
+2026-04-11 20:32:05,456 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 20:32:26,853 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (21.40s)
+2026-04-11 20:32:26,854 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 8,
+  "ticker_analysis_ids": {
+    "MA": 96,
+    "BWXT": 97,
+    "PWR": 98,
+    "BKR": 99,
+    "USO": 100,
+    "PEG": 101,
+    "WEC": 102
+  }
+}
+2026-04-11 20:32:26,865 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_202853.json
+2026-04-11 20:32:26,866 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-11 20:37:49,948 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 20:37:49,948 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 20:37:52,311 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.36s)
+2026-04-11 20:37:52,312 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 20:37:52,312 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 20:37:53,683 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.37s)
+2026-04-11 20:37:53,683 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 20:37:53,684 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 20:37:55,834 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.15s)
+2026-04-11 20:37:55,834 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 20:44:55,512 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 20:44:55,512 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 20:44:55,513 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "USO",
+      "analysis_timestamp": "2026-04-11T20:38:46.744325",
+      "mapped_entities": [
+        "USO",
+        "Semantic Context"
+      ],
+      "related_news_count": 63,
+      "unique_entities_found": 8,
+      "top_risks": [],
+      "top_opportunities": [],
+      "quant_stats": {
+        "current_price": 124.82,
+        "sma_50": 100.56,
+        "sma_200": 79.66,
+        "pric
+2026-04-11 20:44:58,238 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 20:44:58,243 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-11 20:44:58,244 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "NEUTRAL SENTIMENT - No clear bias in 63 news items. Technicals inconclusive.",
+      "confidence_in_decision": 0.456,
+      "risk_level": "medium",
+      "technical_context": "RSI: 56.5, ATR: $8.00, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "USO",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-11T20:38:46.744325",
+      
+2026-04-11 20:44:58,244 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 20:45:18,121 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (19.88s)
+2026-04-11 20:45:18,121 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 9,
+  "ticker_analysis_ids": {
+    "USO": 103,
+    "PWR": 104,
+    "MA": 105,
+    "PEG": 106,
+    "WEC": 107,
+    "BKR": 108,
+    "BWXT": 109
+  }
+}
+2026-04-11 20:45:18,126 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_203749.json
+2026-04-11 20:45:18,127 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-11 20:48:16,142 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 20:48:16,142 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 72,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 20:48:18,238 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.10s)
+2026-04-11 20:48:18,240 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 20:48:18,240 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 20:48:19,659 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.42s)
+2026-04-11 20:48:19,659 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 20:48:19,660 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 20:48:21,636 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.98s)
+2026-04-11 20:48:21,637 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 20:53:44,581 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 20:53:44,581 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 20:53:44,581 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "USO",
+      "analysis_timestamp": "2026-04-11T20:51:37.358333",
+      "mapped_entities": [
+        "USO",
+        "Semantic Context"
+      ],
+      "related_news_count": 63,
+      "unique_entities_found": 8,
+      "top_risks": [
+        {
+          "entity_name": "Successful circumvention of oil sanctions increases clandestine supply on the market, which traditionally exerts downward pressure on crude oil prices an
+2026-04-11 20:53:47,295 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 20:53:47,301 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-11 20:53:47,301 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "LOW CONFIDENCE signal (0.60). RSI: 58.1, ATR: $2.00, Trend: BULLISH. Monitoring for clearer direction.",
+      "confidence_in_decision": 0.6012,
+      "risk_level": "medium",
+      "technical_context": "RSI: 58.1, ATR: $2.00, Trend: BULLISH",
+      "sentiment_score": -0.09,
+      "ticker_analysis_id": null,
+      "ticker": "WEC",
+      "original_recommendation": "CAUTIOUS",
+     
+2026-04-11 20:53:47,302 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 20:54:11,360 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (24.06s)
+2026-04-11 20:54:11,360 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 10,
+  "ticker_analysis_ids": {
+    "WEC": 110,
+    "MA": 111,
+    "PEG": 112,
+    "USO": 113,
+    "BKR": 114,
+    "PWR": 115,
+    "BWXT": 116
+  }
+}
+2026-04-11 20:54:11,366 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_204816.json
+2026-04-11 20:54:11,366 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed

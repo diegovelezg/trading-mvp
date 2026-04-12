@@ -1,10 +1,39 @@
-# Trading MVP: Institutional-Grade Multi-Agent Investment Desk
+# Plataforma de Inteligencia Ciudadana (PIC) / Trading MVP: Mesa de Inversiones Autónoma de Grado Institucional
 
 **Sistema de trading autónomo con 7 roles especializados, motor cuantitativo de alta precisión y control humano determinista.**
 
-## 🎯 Visión
+## 🎯 Introducción y Visión del Proyecto
 
-Mesa de inversión impulsada por IA que emula un entorno institucional. El sistema gestiona una cartera completa bajo principios de **"Portfolio-First Analysis"**, integrando narrativa macro, sentimiento de noticias y un **Rigor Cuantitativo Híbrido**.
+Este proyecto nació como un MVP de trading, pero ha evolucionado hacia una **Arquitectura de Grado Institucional**. Es una mesa de inversión impulsada por IA que emula un entorno de un *Hedge Fund* Tier 1 (como Citadel o Millennium). El sistema gestiona una cartera completa bajo principios de **"Portfolio-First Analysis"**, integrando la narrativa macroeconómica global, el análisis de sentimiento de noticias polarizadas y un **Rigor Cuantitativo Híbrido** basado en datos históricos reales.
+
+El objetivo principal es lograr que un enjambre de agentes LLM (Flash 2.0/Claude) opere de manera determinista, eliminando las "alucinaciones" a través de *Sanity Checks* rigurosos y una gestión del riesgo dinámica basada en la Volatilidad Histórica (ATR).
+
+---
+
+## ⏱️ Ritmo de Ejecución Institucional (El "Sweet Spot")
+
+Para maximizar el Alpha (retorno) sin generar ruido estadístico ni sobre-operar (churning), el sistema está diseñado para ejecutarse **exactamente 2 veces al día**, alineado con la microestructura del mercado americano. 
+
+Se desaconseja ejecutar el sistema cada 4 o 6 horas, ya que el Motor Quant (que pesa el 60% de la decisión) se basa en velas diarias y la volatilidad a ese marco temporal. Una ejecución excesiva haría que el NLP reaccione histéricamente al ruido intradía.
+
+### 🌅 1. La Ingesta Pre-Market (08:30 AM EST)
+*   **Propósito:** Digerir el flujo de noticias de la sesión asiática, la apertura europea y los reportes de ganancias nocturnos.
+*   **Lógica Quant:** Utiliza el cierre consolidado de la vela diaria del día anterior. Los indicadores (RSI, MACD, Beta) están inmaculados y sin ruido intradía.
+*   **Acción del Agente:** Detectar oportunidades de "Gap up/down" (saltos de precio) provocados por noticias nocturnas y tomar posiciones justo en la apertura (09:30 AM).
+
+### 🌇 2. La Consolidación del Cierre (15:00 PM EST - Power Hour)
+*   **Propósito:** Capturar el verdadero sentimiento institucional ("Smart Money"), que suele operar en la última hora del día.
+*   **Lógica Quant:** La vela diaria actual está al 90% de su formación. El sistema sabe con alta probabilidad si el activo cerrará respetando su estructura técnica (ej. sobre la SMA 200) y si el volumen (RVOL) es legítimo.
+*   **Acción del Agente:** Liquidar posiciones que perdieron su estructura técnica o comprar activos que confirmaron una ruptura técnica real respaldada por el flujo de noticias del día.
+
+### ⚙️ Implementación en Cron Job (Servidor VPS)
+```bash
+# 1. Pre-Market Analysis (08:30 AM EST -> 12:30 UTC)
+30 12 * * 1-5 cd /path/to/trading-mvp && AUTOPILOT_MODE=on .venv/bin/python scripts/run_investment_desk.py --watchlist-id 3
+
+# 2. Power Hour Analysis (15:00 PM EST -> 19:00 UTC)
+0 19 * * 1-5 cd /path/to/trading-mvp && AUTOPILOT_MODE=on .venv/bin/python scripts/run_investment_desk.py --watchlist-id 3
+```
 
 ---
 

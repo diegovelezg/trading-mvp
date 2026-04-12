@@ -9,7 +9,6 @@ import {
   BarChart3,
   History,
   BrainCircuit,
-  Filter,
   ChevronDown,
   ChevronUp,
   ShieldCheck,
@@ -23,6 +22,7 @@ import {
   Target,
   AlertTriangle
 } from "lucide-react";
+import { AreaChart, Area, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer } from "recharts";
 import { format } from "date-fns";
 
 export default function Dashboard() {
@@ -30,7 +30,6 @@ export default function Dashboard() {
   const [portfolio, setPortfolio] = useState<any>(null);
   const [activities, setActivities] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [dateFilter, setDateFilter] = useState(format(new Date(), "yyyy-MM-dd"));
 
   useEffect(() => {
     async function fetchData() {
@@ -38,7 +37,7 @@ export default function Dashboard() {
       try {
         const [statsRes, activityRes, portfolioRes] = await Promise.all([
           fetch("/api/stats"),
-          fetch(`/api/activity?date=${dateFilter}`),
+          fetch("/api/activity"),
           fetch("/api/portfolio")
         ]);
 
@@ -56,7 +55,7 @@ export default function Dashboard() {
       }
     }
     fetchData();
-  }, [dateFilter]);
+  }, []);
 
   if (loading && !portfolio) return <div className="p-10 text-zinc-500 font-mono animate-pulse">_SYNCING_EVIDENCE_LOGS...</div>;
 
@@ -71,28 +70,93 @@ export default function Dashboard() {
             AGN_OS_DESK
           </h1>
           <p className="text-zinc-500 font-mono text-sm mt-1 uppercase tracking-widest">
-            Evidence-Based Autonomous Trading
+            Trading Autónomo Basado en Evidencia
           </p>
-        </div>
-        
-        <div className="flex items-center gap-4 bg-zinc-950 p-2 rounded-lg border border-zinc-900">
-          <Filter className="w-4 h-4 text-zinc-500" />
-          <input 
-            type="date" 
-            value={dateFilter}
-            onChange={(e) => setDateFilter(e.target.value)}
-            className="bg-transparent border-none focus:ring-0 text-sm font-mono text-zinc-300"
-          />
         </div>
       </div>
 
       {/* PORTFOLIO HEALTH */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPICard title="Total Equity" value={`$${portfolio?.equity?.toLocaleString() || 0}`} icon={<Wallet className="text-blue-500" />} />
-        <KPICard title="Buying Power" value={`$${portfolio?.buying_power?.toLocaleString() || 0}`} icon={<Zap className="text-yellow-500" />} />
-        <KPICard title="Bot Success" value={`${stats?.winRate || 0}%`} icon={<TrendingUp className="text-green-500" />} label={`Win Rate (${stats?.sharpeRatio || 0} Sharpe)`} />
-        <KPICard title="Total Decisions" value={stats?.totalDecisions || 0} icon={<BrainCircuit className="text-purple-500" />} />
+        <KPICard 
+          title="Equity Total" 
+          value={`$${portfolio?.equity?.toLocaleString() || 0}`} 
+          icon={<Wallet className="text-blue-500" />} 
+          label={`${stats?.returnPct >= 0 ? '+' : ''}${stats?.returnPct || 0}% ($${stats?.totalPL || 0})`} 
+        />
+        <KPICard 
+          title="Profit Factor" 
+          value={`${stats?.profitFactor || 0}`} 
+          icon={<Zap className={stats?.profitFactor > 1.5 ? "text-green-500" : "text-yellow-500"} />} 
+          label={`Max Drawdown: -${stats?.maxDrawdown || 0}%`}
+        />
+        <KPICard 
+          title="Éxito del Bot" 
+          value={`${stats?.winRate || 0}%`} 
+          icon={<TrendingUp className="text-green-500" />} 
+          label={`Sharpe Ratio: ${stats?.sharpeRatio || 0}`} 
+        />
+        <KPICard 
+          title="Decisiones Totales" 
+          value={stats?.totalDecisions || 0} 
+          icon={<BrainCircuit className="text-purple-500" />} 
+          label={`News Processed: ${stats?.newsProcessed || 0}`}
+        />
       </div>
+
+      {/* EQUITY CURVE CHART */}
+      {stats?.equityHistory && stats.equityHistory.length > 0 && (
+        <Card className="bg-zinc-950/20 border-zinc-900">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm text-zinc-400 font-mono uppercase tracking-widest flex items-center gap-2">
+              <BarChart3 className="w-4 h-4 text-blue-500" />
+              Equity Curve (1M)
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="h-[250px] w-full pt-4">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={stats.equityHistory} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorEquity" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <XAxis 
+                  dataKey="time" 
+                  stroke="#52525b" 
+                  fontSize={10} 
+                  tickLine={false} 
+                  axisLine={false} 
+                  minTickGap={30}
+                />
+                <YAxis 
+                  domain={['auto', 'auto']} 
+                  stroke="#52525b" 
+                  fontSize={10} 
+                  tickLine={false} 
+                  axisLine={false} 
+                  tickFormatter={(val) => `$${val.toLocaleString()}`}
+                  width={65}
+                />
+                <RechartsTooltip 
+                  contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', fontSize: '12px', fontFamily: 'monospace', borderRadius: '8px' }}
+                  itemStyle={{ color: '#e4e4e7' }}
+                  formatter={(value: any) => [`$${parseFloat(value).toLocaleString()}`, 'Equity']}
+                  labelStyle={{ color: '#a1a1aa', marginBottom: '4px' }}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="equity" 
+                  stroke="#3b82f6" 
+                  strokeWidth={2}
+                  fillOpacity={1} 
+                  fill="url(#colorEquity)" 
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
@@ -101,19 +165,19 @@ export default function Dashboard() {
           <div className="space-y-4">
             <h2 className="text-xs font-bold flex items-center gap-2 uppercase tracking-[0.2em] text-zinc-500">
               <Briefcase className="w-3 h-3" />
-              Live Positions
+              Posiciones en Vivo
             </h2>
             <Card className="bg-zinc-950/20 border-zinc-900 overflow-hidden">
               <CardContent className="p-0">
                 {portfolio?.positions?.length === 0 ? (
-                  <div className="p-8 text-center text-zinc-700 font-mono text-[10px]">NO_OPEN_POSITIONS</div>
+                  <div className="p-8 text-center text-zinc-700 font-mono text-[10px]">SIN_POSICIONES_ABIERTAS</div>
                 ) : (
                   <div className="divide-y divide-zinc-900">
                     {portfolio?.positions?.map((pos: any) => (
                       <div key={pos.symbol} className="p-4 flex justify-between items-center hover:bg-zinc-900/30 transition-colors">
                         <div>
                           <span className="font-bold text-zinc-200">{pos.symbol}</span>
-                          <p className="text-[10px] text-zinc-500 font-mono">{pos.qty} Shrs @ ${parseFloat(pos.avg_entry_price).toFixed(2)}</p>
+                          <p className="text-[10px] text-zinc-500 font-mono">{pos.qty} acciones @ ${parseFloat(pos.avg_entry_price).toFixed(2)}</p>
                         </div>
                         <div className="text-right">
                           <p className={`font-mono text-xs font-bold ${parseFloat(pos.unrealized_pl) >= 0 ? 'text-green-500' : 'text-red-500'}`}>
@@ -132,12 +196,12 @@ export default function Dashboard() {
           <div className="space-y-4">
             <h2 className="text-xs font-bold flex items-center gap-2 uppercase tracking-[0.2em] text-zinc-500">
               <Clock className="w-3 h-3 text-yellow-600" />
-              Pending Orders
+              Órdenes Pendientes
             </h2>
             <Card className="bg-zinc-950/20 border-zinc-900 overflow-hidden">
               <CardContent className="p-0">
                 {portfolio?.orders?.length === 0 ? (
-                  <div className="p-8 text-center text-zinc-700 font-mono text-[10px]">NO_PENDING_ORDERS</div>
+                  <div className="p-8 text-center text-zinc-700 font-mono text-[10px]">SIN_ORDENES_PENDIENTES</div>
                 ) : (
                   <div className="divide-y divide-zinc-900">
                     {portfolio?.orders?.map((ord: any) => (
@@ -147,10 +211,10 @@ export default function Dashboard() {
                             <span className="font-bold text-zinc-200">{ord.symbol}</span>
                             <Badge variant="outline" className="text-[8px] py-0 border-yellow-900/50 text-yellow-600">{ord.status}</Badge>
                           </div>
-                          <p className="text-[10px] text-zinc-500 font-mono uppercase">{ord.side} {ord.qty} units</p>
+                          <p className="text-[10px] text-zinc-500 font-mono uppercase">{ord.side} {ord.qty} unidades</p>
                         </div>
                         <div className="text-right">
-                          <p className="font-mono text-xs text-zinc-400">Target</p>
+                          <p className="font-mono text-xs text-zinc-400">Objetivo</p>
                           <p className="text-[10px] text-zinc-500">${parseFloat(ord.limit_price || ord.filled_avg_price || 0).toFixed(2)}</p>
                         </div>
                       </div>
@@ -166,12 +230,12 @@ export default function Dashboard() {
         <div className="lg:col-span-9 space-y-6">
           <h2 className="text-lg font-bold flex items-center gap-2 uppercase tracking-tighter">
             <History className="w-4 h-4 text-zinc-500" />
-            THE_DECISION_FEED
+            FEED_DE_DECISIONES
           </h2>
-          
+
           {activities.length === 0 ? (
             <div className="h-60 flex flex-col items-center justify-center border border-dashed border-zinc-900 rounded-2xl text-zinc-600">
-              <p className="font-mono text-xs uppercase opacity-50">NO_DATA_FOR_{dateFilter}</p>
+              <p className="font-mono text-xs uppercase opacity-50">SIN_DATOS</p>
             </div>
           ) : (
             <div className="space-y-6">
@@ -186,11 +250,20 @@ export default function Dashboard() {
                   return acc;
                 }, {});
 
-                return Object.entries(groupedByDesk).map(([deskId, deskActivities]: any) => (
+                // Sort desk runs by most recent activity (first activity in each group is already newest)
+                const sortedDeskIds = Object.entries(groupedByDesk)
+                  .sort(([, a]: any, [, b]: any) => {
+                    const aTime = new Date(a[0].decision_timestamp).getTime();
+                    const bTime = new Date(b[0].decision_timestamp).getTime();
+                    return bTime - aTime; // Descending order (newest first)
+                  })
+                  .map(([deskId]) => deskId);
+
+                return sortedDeskIds.map((deskId) => (
                   <DeskRunCard
                     key={deskId}
                     deskRunId={deskId}
-                    activities={deskActivities}
+                    activities={groupedByDesk[deskId]}
                     alpacaOrders={portfolio?.orders || []}
                   />
                 ));
@@ -232,7 +305,9 @@ function DeskRunCard({ deskRunId, activities, alpacaOrders = [] }: any) {
 
         {expanded && (
           <CardContent className="space-y-3 pb-6">
-            {activities.map((activity: any) => (
+            {activities
+              .sort((a: any, b: any) => new Date(b.decision_timestamp).getTime() - new Date(a.decision_timestamp).getTime())
+              .map((activity: any) => (
               <DecisionCard
                 key={activity.decision_id || activity.ticker}
                 activity={activity}
@@ -313,7 +388,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
               <QuantItem label="RSI" value={quant.rsi_14} />
               <QuantItem label="Beta" value={quant.beta_spy} />
               <QuantItem label="RVOL" value={quant.rvol} />
-              <QuantItem label="Corr SPY" value={quant.corr_spy} />
+              <QuantItem label="Corr SPY" value={quant.corr_spy_20d} />
               <QuantItem label="Sentiment" value={(activity.sentiment_score !== null && activity.sentiment_score !== undefined) ? `${(activity.sentiment_score * 100).toFixed(1)}%` : '--'} />
               <QuantItem label="Final Score" value={(activity.confidence_in_decision !== null && activity.confidence_in_decision !== undefined) ? `${(activity.confidence_in_decision * 100).toFixed(0)}%` : '--'} />
             </div>
@@ -323,19 +398,19 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
               <div className="flex items-center justify-between border-b border-zinc-900 pb-4">
                 <div className="flex items-center gap-2 text-zinc-400">
                   <BarChart3 className="w-4 h-4" />
-                  <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] font-mono text-zinc-500">Technical Breakdown</h4>
+                  <h4 className="text-[11px] font-bold uppercase tracking-[0.2em] font-mono text-zinc-500">Análisis Técnico</h4>
                 </div>
-                <Badge variant="outline" className="text-[8px] uppercase font-mono border-zinc-800 text-zinc-600">60% Decision Weight</Badge>
+                <Badge variant="outline" className="text-[8px] uppercase font-mono border-zinc-800 text-zinc-600">60% Peso Decisión</Badge>
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {/* Structure */}
                 <div className="space-y-3">
-                  <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Market Structure</p>
+                  <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Estructura de Mercado</p>
                   <div className="text-[11px] text-zinc-400 space-y-2">
                     <p className="flex justify-between"><span>SMA 200</span> <span className="text-zinc-200 font-mono">${quant.sma_200?.toFixed(2)}</span></p>
                     <p className="flex justify-between"><span>SMA 50</span> <span className="text-zinc-200 font-mono">${quant.sma_50?.toFixed(2)}</span></p>
-                    <p className="flex justify-between"><span>Trend Dist</span> <span className={`font-mono font-bold ${quant.price_to_sma200_dist > 0 ? 'text-green-500' : 'text-red-500'}`}>{quant.price_to_sma200_dist?.toFixed(1)}%</span></p>
+                    <p className="flex justify-between"><span>Dist. Tendencia</span> <span className={`font-mono font-bold ${quant.price_to_sma200_dist > 0 ? 'text-green-500' : 'text-red-500'}`}>{quant.price_to_sma200_dist?.toFixed(1)}%</span></p>
                   </div>
                 </div>
 
@@ -343,29 +418,29 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                 <div className="space-y-3">
                   <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Momentum</p>
                   <div className="text-[11px] text-zinc-400 space-y-2">
-                    <p className="flex justify-between"><span>MACD Line</span> <span className="text-zinc-200 font-mono">{quant.macd?.line?.toFixed(3)}</span></p>
-                    <p className="flex justify-between"><span>Signal</span> <span className="text-zinc-200 font-mono">{quant.macd?.signal?.toFixed(3)}</span></p>
-                    <p className="flex justify-between"><span>Histogram</span> <span className={`font-mono font-bold ${quant.macd?.histogram > 0 ? 'text-green-500' : 'text-red-500'}`}>{quant.macd?.histogram?.toFixed(3)}</span></p>
+                    <p className="flex justify-between"><span>Línea MACD</span> <span className="text-zinc-200 font-mono">{quant.macd?.line?.toFixed(3)}</span></p>
+                    <p className="flex justify-between"><span>Señal</span> <span className="text-zinc-200 font-mono">{quant.macd?.signal?.toFixed(3)}</span></p>
+                    <p className="flex justify-between"><span>Histograma</span> <span className={`font-mono font-bold ${quant.macd?.histogram > 0 ? 'text-green-500' : 'text-red-500'}`}>{quant.macd?.histogram?.toFixed(3)}</span></p>
                   </div>
                 </div>
 
                 {/* Conviction */}
                 <div className="space-y-3">
-                  <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Conviction</p>
+                  <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Convicción</p>
                   <div className="text-[11px] text-zinc-400 space-y-2">
-                    <p className="flex justify-between"><span>Trend</span> <span className={`font-mono font-bold ${quant.trend === 'BULLISH' ? 'text-green-500' : 'text-red-500'}`}>{quant.trend}</span></p>
+                    <p className="flex justify-between"><span>Tendencia</span> <span className={`font-mono font-bold ${quant.trend === 'BULLISH' ? 'text-green-500' : 'text-red-500'}`}>{quant.trend}</span></p>
                     <p className="flex justify-between"><span>OBV</span> <span className="text-zinc-200 font-mono">{(quant.obv / 1000000).toFixed(1)}M</span></p>
-                    <p className="text-[9px] text-zinc-700 italic mt-1">RVOL active in summary</p>
+                    <p className="text-[9px] text-zinc-700 italic mt-1">RVOL activo en resumen</p>
                   </div>
                 </div>
 
                 {/* Risk */}
                 <div className="space-y-3">
-                  <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Volatility</p>
+                  <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Volatilidad</p>
                   <div className="text-[11px] text-zinc-400 space-y-2">
                     <p className="flex justify-between"><span>ATR (14)</span> <span className="text-zinc-200 font-mono">${quant.atr_14?.toFixed(2)}</span></p>
-                    <p className="flex justify-between"><span>Std Dev</span> <span className="text-zinc-200 font-mono">${quant.std_dev_20?.toFixed(2)}</span></p>
-                    <p className="flex justify-between"><span>Risk/Price</span> <span className="text-zinc-200 font-mono">{quant.volatility_ratio?.toFixed(2)}%</span></p>
+                    <p className="flex justify-between"><span>Vol. Histórica</span> <span className="text-zinc-200 font-mono">{quant.std_dev_20?.toFixed(2)}%</span></p>
+                    <p className="flex justify-between"><span>Riesgo/Precio</span> <span className="text-zinc-200 font-mono">{quant.volatility_ratio?.toFixed(2)}%</span></p>
                   </div>
                 </div>
               </div>
@@ -377,7 +452,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
               <div className="space-y-4">
                 <div className="flex items-center gap-2 text-green-500">
                   <TrendingUp className="w-4 h-4" />
-                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Bull Evidence</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Evidencia Bullish</h3>
                 </div>
                 <ul className="space-y-2">
                   {bullCase.arguments && bullCase.arguments.length > 0 ? (
@@ -387,14 +462,14 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                       </li>
                     ))
                   ) : (
-                    <li className="text-[11px] text-zinc-600 italic">No positive signals detected in recent news</li>
+                    <li className="text-[11px] text-zinc-600 italic">No se detectaron señales positivas en noticias recientes</li>
                   )}
                 </ul>
 
                 {/* EVIDENCE CHAIN: NEWS → ENTITY */}
                 {bullCase.evidence_chain && bullCase.evidence_chain.length > 0 && (
                   <div className="mt-3 space-y-2">
-                    <p className="text-[9px] font-mono uppercase text-zinc-600">📰 Source News</p>
+                    <p className="text-[9px] font-mono uppercase text-zinc-600">📰 Noticias Fuente</p>
                     {bullCase.evidence_chain.map((evidence: any, i: number) => (
                       <div key={i} className="bg-zinc-900/50 p-2 rounded border-l-2 border-green-700">
                         <p className="text-[10px] text-zinc-400 font-mono truncate" title={evidence.news_title}>
@@ -411,7 +486,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
 
                 {bullCase.deep_analysis && (
                   <div className="mt-4 p-3 bg-green-950/5 rounded border border-green-900/20">
-                    <p className="text-[9px] text-green-700 font-mono uppercase mb-1 font-bold">Analyst Monologue</p>
+                    <p className="text-[9px] text-green-700 font-mono uppercase mb-1 font-bold">Monólogo del Analista</p>
                     <p className="text-[10px] text-zinc-400 leading-relaxed italic">{bullCase.deep_analysis}</p>
                   </div>
                 )}
@@ -421,7 +496,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
               <div className="space-y-4">
                 <div className="flex items-center gap-2 text-red-500">
                   <TrendingDown className="w-4 h-4" />
-                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Bear Risks</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Riesgos Bearish</h3>
                 </div>
                 <ul className="space-y-2">
                   {bearCase.arguments?.map((arg: string, i: number) => (
@@ -434,7 +509,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                 {/* EVIDENCE CHAIN: NEWS → ENTITY */}
                 {bearCase.evidence_chain && bearCase.evidence_chain.length > 0 && (
                   <div className="mt-3 space-y-2">
-                    <p className="text-[9px] font-mono uppercase text-zinc-600">📰 Source News</p>
+                    <p className="text-[9px] font-mono uppercase text-zinc-600">📰 Noticias Fuente</p>
                     {bearCase.evidence_chain.map((evidence: any, i: number) => (
                       <div key={i} className="bg-zinc-900/50 p-2 rounded border-l-2 border-red-700">
                         <p className="text-[10px] text-zinc-400 font-mono truncate" title={evidence.news_title}>
@@ -451,7 +526,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
 
                 {bearCase.deep_analysis && (
                   <div className="mt-4 p-3 bg-red-950/5 rounded border border-red-900/20">
-                    <p className="text-[9px] text-red-700 font-mono uppercase mb-1 font-bold">Skeptic Monologue</p>
+                    <p className="text-[9px] text-red-700 font-mono uppercase mb-1 font-bold">Monólogo del Escéptico</p>
                     <p className="text-[10px] text-zinc-400 leading-relaxed italic">{bearCase.deep_analysis}</p>
                   </div>
                 )}
@@ -464,12 +539,12 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-yellow-500">
                     <ShieldCheck className="w-4 h-4" />
-                    <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Risk Profile</h3>
+                    <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Perfil de Riesgo</h3>
                   </div>
-                  
+
                   <div className="bg-zinc-900/30 rounded-2xl border border-zinc-900 overflow-hidden">
                     <div className="p-4 border-b border-zinc-900 flex justify-between items-center bg-yellow-950/5">
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase">Safety Net</span>
+                      <span className="text-[10px] font-mono text-zinc-500 uppercase">Red de Seguridad</span>
                       <div className="text-right">
                         <span className="text-xs font-bold text-red-500 font-mono">STOP LOSS @ {riskAnalysis.stop_loss?.percentage * 100 || 5}%</span>
                       </div>
@@ -480,14 +555,14 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                           <AlertTriangle className="w-3 h-3 text-zinc-600" />
                         </div>
                         <p className="text-[11px] text-zinc-400 leading-relaxed italic">
-                          "{riskAnalysis.deep_analysis || riskAnalysis.stop_loss?.technical_defense || "Standard variance protection applied based on asset volatility."}"
+                          "{riskAnalysis.deep_analysis || riskAnalysis.stop_loss?.technical_defense || "Protección estándar de varianza aplicada basada en la volatilidad del activo."}"
                         </p>
                       </div>
                       <div className="flex gap-2 pt-2">
                         <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">RSI: {quant.rsi_14?.toFixed(1)}</Badge>
                         <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">ATR: ${quant.atr_14?.toFixed(2)}</Badge>
                         <Badge variant="outline" className={`text-[8px] bg-zinc-950 border-zinc-800 ${activity.recommendation === 'BUY' ? 'text-green-500' : 'text-yellow-500'}`}>
-                          LVL: {activity.recommendation === 'BUY' ? 'AGGRESSIVE' : 'CAUTIOUS'}
+                          NVL: {activity.recommendation === 'BUY' ? 'AGRESIVO' : 'CAUTELOSO'}
                         </Badge>
                       </div>
                     </div>
@@ -498,45 +573,45 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-purple-500">
                     <Zap className="w-4 h-4" />
-                    <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Order Ticket</h3>
+                    <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Ticket de Orden</h3>
                   </div>
-                  
+
                   <div className="bg-purple-950/5 rounded-2xl border border-purple-900/20 p-5 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
                       <Target className="w-12 h-12 text-purple-500" />
                     </div>
-                    
+
                     <div className="space-y-4 relative z-10">
                       <div className="flex justify-between items-end">
                         <div>
-                          <p className="text-[9px] font-mono text-purple-500 uppercase mb-1">Allocation</p>
+                          <p className="text-[9px] font-mono text-purple-500 uppercase mb-1">Asignación</p>
                           <p className="text-2xl font-black text-zinc-100 font-mono">
                             {activity.position_size ? `$${activity.position_size.toLocaleString()}` : '$0.00'}
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-[9px] font-mono text-zinc-600 uppercase mb-1">Entry Target</p>
+                          <p className="text-[9px] font-mono text-zinc-600 uppercase mb-1">Objetivo de Entrada</p>
                           <p className="text-sm font-bold text-zinc-400 font-mono">
-                            {activity.entry_price ? `$${activity.entry_price.toFixed(2)}` : 'MARKET'}
+                            {activity.entry_price ? `$${activity.entry_price.toFixed(2)}` : 'MERCADO'}
                           </p>
                         </div>
                       </div>
 
                       <div className="grid grid-cols-2 gap-4 pt-4 border-t border-purple-900/20">
                         <div>
-                          <p className="text-[8px] font-mono text-zinc-600 uppercase mb-1">Broker Reference</p>
+                          <p className="text-[8px] font-mono text-zinc-600 uppercase mb-1">Referencia del Broker</p>
                           <p className="text-[10px] font-mono text-zinc-400 truncate">
                             {activity.alpaca_order_id || '---'}
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-[8px] font-mono text-zinc-600 uppercase mb-1">Status</p>
+                          <p className="text-[8px] font-mono text-zinc-600 uppercase mb-1">Estado</p>
                           <Badge className={`text-[9px] font-mono font-bold ${
                             currentStatus === 'FILLED' ? 'bg-green-500/10 text-green-500 border-green-500/20' :
                             currentStatus === 'PENDING' || currentStatus === 'NEW' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
                             'bg-zinc-800 text-zinc-500 border-zinc-700'
                           }`}>
-                            {currentStatus || 'IDLE'}
+                            {currentStatus || 'ESPERA'}
                           </Badge>
                         </div>
                       </div>
@@ -549,24 +624,24 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
               <div className="space-y-4 md:col-span-2 pt-6 border-t border-zinc-900">
                 <div className="flex items-center gap-2 text-blue-500">
                   <BrainCircuit className="w-4 h-4" />
-                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Strategic Intelligence Summary</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Resumen de Inteligencia Estratégica</h3>
                 </div>
                 <div className="bg-blue-950/5 border border-blue-900/20 rounded-xl p-5">
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-6 text-[11px] items-center">
                     <div className="md:col-span-2 space-y-1">
-                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Decision Engine</p>
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Motor de Decisión</p>
                       <p className="text-zinc-300 font-bold">GLM-5.1 Strategic Brain</p>
                     </div>
-                    
+
                     <div className="md:col-span-7 space-y-1 border-l border-blue-900/20 pl-6">
-                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Execution Rationale & Context</p>
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Razón de Ejecución y Contexto</p>
                       <p className="text-[11px] text-zinc-300 leading-relaxed font-mono italic">
-                        "{activity.decision_notes || 'No additional decision context provided by the model.'}"
+                        "{activity.decision_notes || 'No se proporcionó contexto adicional de decisión por el modelo.'}"
                       </p>
                     </div>
 
                     <div className="md:col-span-3 space-y-1 border-l border-blue-900/20 pl-6 text-right">
-                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Final Verdict</p>
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Veredicto Final</p>
                       <p className={`font-black uppercase text-sm ${
                         activity.desk_action === 'BUY' ? 'text-green-500' :
                         activity.desk_action === 'SELL' ? 'text-red-500' :
@@ -609,7 +684,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
           </div>
           <div className="flex items-center gap-4">
             <div className="text-right hidden md:block">
-              <p className="text-xs text-zinc-500 font-mono uppercase">Position Size</p>
+              <p className="text-xs text-zinc-500 font-mono uppercase">Tamaño de Posición</p>
               <p className="text-sm font-bold text-zinc-300">
                 ${Number(activity.position_size || 0).toLocaleString()}
               </p>
@@ -627,7 +702,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
             <QuantItem label="RSI" value={quant.rsi_14} />
             <QuantItem label="Beta" value={quant.beta_spy} />
             <QuantItem label="RVOL" value={quant.rvol} />
-            <QuantItem label="Corr SPY" value={quant.corr_spy} />
+            <QuantItem label="Corr SPY" value={quant.corr_spy_20d} />
             <QuantItem label="Sentiment" value={(activity.sentiment_score !== null && activity.sentiment_score !== undefined) ? `${(activity.sentiment_score * 100).toFixed(1)}%` : '--'} />
             <QuantItem label="Final Score" value={(activity.confidence_in_decision !== null && activity.confidence_in_decision !== undefined) ? `${(activity.confidence_in_decision * 100).toFixed(0)}%` : '--'} />
           </div>
@@ -725,7 +800,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
             <div className="space-y-4">
               <div className="flex items-center gap-2 text-yellow-500">
                 <ShieldCheck className="w-4 h-4" />
-                <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Risk Strategy</h3>
+                <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Estrategia de Riesgo</h3>
               </div>
               <div className="bg-zinc-900/30 p-4 rounded-xl border border-zinc-900 space-y-3">
                 <div className="flex justify-between text-xs">
@@ -733,12 +808,12 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                   <span className="text-red-500 font-bold">{riskAnalysis.stop_loss?.percentage * 100 || 5}%</span>
                 </div>
                 <p className="text-[10px] text-zinc-500 italic leading-snug">
-                  Defense: {riskAnalysis.stop_loss?.technical_defense || "Standard variance protection."}
+                  Defensa: {riskAnalysis.stop_loss?.technical_defense || "Protección estándar de varianza."}
                 </p>
               </div>
               {riskAnalysis.deep_analysis && (
                 <div className="p-3 bg-yellow-950/5 rounded border border-yellow-900/20">
-                  <p className="text-[9px] text-yellow-700 font-mono uppercase mb-1 font-bold">Risk Ratiocination</p>
+                  <p className="text-[9px] text-yellow-700 font-mono uppercase mb-1 font-bold">Raciocinio de Riesgo</p>
                   <p className="text-[10px] text-zinc-400 leading-relaxed">{riskAnalysis.deep_analysis}</p>
                 </div>
               )}
@@ -751,12 +826,12 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-yellow-500">
                     <ShieldCheck className="w-4 h-4" />
-                    <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Risk Profile</h3>
+                    <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Perfil de Riesgo</h3>
                   </div>
-                  
+
                   <div className="bg-zinc-900/30 rounded-2xl border border-zinc-900 overflow-hidden">
                     <div className="p-4 border-b border-zinc-900 flex justify-between items-center bg-yellow-950/5">
-                      <span className="text-[10px] font-mono text-zinc-500 uppercase">Safety Net</span>
+                      <span className="text-[10px] font-mono text-zinc-500 uppercase">Red de Seguridad</span>
                       <div className="text-right">
                         <span className="text-xs font-bold text-red-500 font-mono">STOP LOSS @ {riskAnalysis.stop_loss?.percentage * 100 || 5}%</span>
                       </div>
@@ -767,14 +842,14 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                           <AlertTriangle className="w-3 h-3 text-zinc-600" />
                         </div>
                         <p className="text-[11px] text-zinc-400 leading-relaxed italic">
-                          "{riskAnalysis.deep_analysis || riskAnalysis.stop_loss?.technical_defense || "Standard variance protection applied based on asset volatility."}"
+                          "{riskAnalysis.deep_analysis || riskAnalysis.stop_loss?.technical_defense || "Protección estándar de varianza aplicada basada en la volatilidad del activo."}"
                         </p>
                       </div>
                       <div className="flex gap-2 pt-2">
                         <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">RSI: {quant.rsi_14?.toFixed(1)}</Badge>
                         <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">ATR: ${quant.atr_14?.toFixed(2)}</Badge>
                         <Badge variant="outline" className={`text-[8px] bg-zinc-950 border-zinc-800 ${activity.recommendation === 'BUY' ? 'text-green-500' : 'text-yellow-500'}`}>
-                          LVL: {activity.recommendation === 'BUY' ? 'AGGRESSIVE' : 'CAUTIOUS'}
+                          NVL: {activity.recommendation === 'BUY' ? 'AGRESIVO' : 'CAUTELOSO'}
                         </Badge>
                       </div>
                     </div>
@@ -785,45 +860,45 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-purple-500">
                     <Zap className="w-4 h-4" />
-                    <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Order Ticket</h3>
+                    <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Ticket de Orden</h3>
                   </div>
-                  
+
                   <div className="bg-purple-950/5 rounded-2xl border border-purple-900/20 p-5 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
                       <Target className="w-12 h-12 text-purple-500" />
                     </div>
-                    
+
                     <div className="space-y-4 relative z-10">
                       <div className="flex justify-between items-end">
                         <div>
-                          <p className="text-[9px] font-mono text-purple-500 uppercase mb-1">Allocation</p>
+                          <p className="text-[9px] font-mono text-purple-500 uppercase mb-1">Asignación</p>
                           <p className="text-2xl font-black text-zinc-100 font-mono">
                             {activity.position_size ? `$${activity.position_size.toLocaleString()}` : '$0.00'}
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-[9px] font-mono text-zinc-600 uppercase mb-1">Entry Target</p>
+                          <p className="text-[9px] font-mono text-zinc-600 uppercase mb-1">Objetivo de Entrada</p>
                           <p className="text-sm font-bold text-zinc-400 font-mono">
-                            {activity.entry_price ? `$${activity.entry_price.toFixed(2)}` : 'MARKET'}
+                            {activity.entry_price ? `$${activity.entry_price.toFixed(2)}` : 'MERCADO'}
                           </p>
                         </div>
                       </div>
 
                       <div className="grid grid-cols-2 gap-4 pt-4 border-t border-purple-900/20">
                         <div>
-                          <p className="text-[8px] font-mono text-zinc-600 uppercase mb-1">Broker Reference</p>
+                          <p className="text-[8px] font-mono text-zinc-600 uppercase mb-1">Referencia del Broker</p>
                           <p className="text-[10px] font-mono text-zinc-400 truncate">
                             {activity.alpaca_order_id || '---'}
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-[8px] font-mono text-zinc-600 uppercase mb-1">Status</p>
+                          <p className="text-[8px] font-mono text-zinc-600 uppercase mb-1">Estado</p>
                           <Badge className={`text-[9px] font-mono font-bold ${
                             currentStatus === 'FILLED' ? 'bg-green-500/10 text-green-500 border-green-500/20' :
                             currentStatus === 'PENDING' || currentStatus === 'NEW' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
                             'bg-zinc-800 text-zinc-500 border-zinc-700'
                           }`}>
-                            {currentStatus || 'IDLE'}
+                            {currentStatus || 'ESPERA'}
                           </Badge>
                         </div>
                       </div>
@@ -836,24 +911,24 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
               <div className="space-y-4 md:col-span-2 pt-6 border-t border-zinc-900">
                 <div className="flex items-center gap-2 text-blue-500">
                   <BrainCircuit className="w-4 h-4" />
-                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Strategic Intelligence Summary</h3>
+                  <h3 className="text-xs font-bold uppercase tracking-widest font-mono">Resumen de Inteligencia Estratégica</h3>
                 </div>
                 <div className="bg-blue-950/5 border border-blue-900/20 rounded-xl p-5">
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-6 text-[11px] items-center">
                     <div className="md:col-span-2 space-y-1">
-                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Decision Engine</p>
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Motor de Decisión</p>
                       <p className="text-zinc-300 font-bold">GLM-5.1 Strategic Brain</p>
                     </div>
-                    
+
                     <div className="md:col-span-7 space-y-1 border-l border-blue-900/20 pl-6">
-                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Execution Rationale & Context</p>
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Razón de Ejecución y Contexto</p>
                       <p className="text-[11px] text-zinc-300 leading-relaxed font-mono italic">
-                        "{activity.decision_notes || 'No additional decision context provided by the model.'}"
+                        "{activity.decision_notes || 'No se proporcionó contexto adicional de decisión por el modelo.'}"
                       </p>
                     </div>
 
                     <div className="md:col-span-3 space-y-1 border-l border-blue-900/20 pl-6 text-right">
-                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Final Verdict</p>
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Veredicto Final</p>
                       <p className={`font-black uppercase text-sm ${
                         activity.desk_action === 'BUY' ? 'text-green-500' :
                         activity.desk_action === 'SELL' ? 'text-red-500' :

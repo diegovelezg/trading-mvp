@@ -233,13 +233,21 @@ class DecisionAgent:
         # Handle None values for Beta/Correlation
         if beta is None or corr is None:
             # No sensitivity data available - neutral score
-            sens_score = 0.5
+            sens_score = 0.0
+            logger.warning("   ⚠️  SENSITIVITY DATA MISSING. Invalidating sensitivity score.")
             details.append(f"Sensitivity: N/A (no SPY data)")
         else:
-            # We prefer lower beta and moderate correlation for stability
-            if beta < 1.0: sens_score += 0.5
-            if abs(corr) < 0.7: sens_score += 0.5 # Some decoupling is good for Alpha
-            details.append(f"Sensitivity: {sens_score:.2f}")
+            # Sanity checks for extreme Beta anomalies
+            if beta < -1.0 or beta > 3.0:
+                logger.warning(f"   🚨 EXTREME BETA ANOMALY DETECTED (Beta: {beta:.2f}). Invalidating sensitivity score and penalizing overall quant score.")
+                sens_score = 0.0
+                score -= 0.10 # Additional penalty for extreme anomaly
+                details.append(f"Sensitivity: 0.00 (ANOMALY)")
+            else:
+                # We prefer lower beta and moderate correlation for stability
+                if beta < 1.0: sens_score += 0.5
+                if abs(corr) < 0.7: sens_score += 0.5 # Some decoupling is good for Alpha
+                details.append(f"Sensitivity: {sens_score:.2f}")
 
         score += sens_score * 0.20
 
@@ -418,16 +426,20 @@ class DecisionAgent:
                 }
 
             # 5. DYNAMIC VOLATILITY STOP LOSS (Feedback 2)
-            # Use 1.5x ATR below entry price, with a 7% max cap for safety
+            # Use 1.5x ATR below entry price
             if atr > 0:
                 stop_loss = entry_price - (1.5 * atr)
                 logger.info(f"   🛡️  Dynamic Stop Loss (1.5x ATR): ${stop_loss:.2f}")
                 take_profit = entry_price + (3.0 * atr) # 1:2 R/R
             else:
-                # Conservative fallback for volatile energy stocks (7% instead of 5%)
-                stop_loss = entry_price * (1 - 0.07)
-                take_profit = entry_price * (1 + 0.15)
-                logger.warning(f"   ⚠️  ATR not available. Using 7% fixed stop: ${stop_loss:.2f}")
+                logger.warning(f"   ⚠️  ATR not available. Rejecting trade due to missing risk data.")
+                return {
+                    'decision': 'IGNORED',
+                    'action': 'NONE',
+                    'rationale': "Missing ATR data for reliable risk management. Trade ignored to avoid blind risk.",
+                    'confidence_in_decision': 0.0,
+                    'risk_level': 'high'
+                }
 
             decision = {
                 'decision': 'FOLLOWED',

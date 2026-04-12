@@ -1,38 +1,34 @@
-# 🏛️ Investment Desk v2 - Workflow Architecture
+# 🏛️ Investment Desk v2 - Workflow Architecture Institucional
 
 ## 🎯 **Principios de Diseño**
 
-### 1. **Fail-Fast** 🛑
-- **Si cualquier paso falla críticamente, SE DETIENE la ejecución**
-- **NO se opera con datos incompletos o inválidos**
-- **Errores explícitos con stack traces completos**
+### 1. **Fail-Fast & No Fallbacks** 🛑
+- **Si cualquier paso falla críticamente, SE DETIENE la ejecución.**
+- **NO se opera con datos incompletos o inválidos.**
+- **Stop Loss Dinámico**: Ausencia de ATR resulta en rechazo inmediato de la operación (IGNORED). No existen fallbacks hardcodeados.
 
 ### 2. **Logging Estructurado** 📊
-- **Cada paso queda registrado con timestamps**
-- **Inputs y outputs documentados**
-- **Retención de 72 horas de logs**
-- **Logs en JSON + archivo rotatorio**
+- Registros con timestamps detallados (JSON + rotatorio, retención 72h).
+- Inputs y outputs documentados con stack traces completos.
 
-### 3. **Paso 0: Noticias Frescas** 📰
-- **PRIMER paso obligatorio: extraer noticias**
-- **Validación de frescura (max 24h)**
-- **Si no hay noticias recientes → NO operar**
+### 3. **Rhythm Institucional (Execution Rhythm)** ⏱️
+- **Sincronización de Mercado**: 2 ejecuciones al día.
+  - **Pre-Market**: 08:30 AM EST.
+  - **Power Hour**: 15:00 PM EST.
+- (Se abandonan los cron jobs antiguos de 6 horas continuas).
 
 ---
 
-## 🔄 **Flujo Completo (7 Pasos)**
+## 🔄 **Flujo Completo Institucional (7 Pasos)**
 
 ```
 PASO 0: NEWS EXTRACTION (CRÍTICO)
-├─ Extraer noticias de Supabase
-├─ Validar cantidad mínima (10+)
-├─ Validar frescura (≤ 24h)
-├─ Validar calidad de datos
+├─ Extraer noticias de Supabase (alineado al horario 08:30/15:00 EST)
+├─ Validar cantidad mínima (10+) y frescura (≤ 24h)
 └─ FAIL FAST si no pasa validaciones
 
 PASO 1: LOAD PORTFOLIO
-├─ Obtener posiciones desde Alpaca
-├─ Obtener cuenta (buying power)
+├─ Obtener posiciones desde Alpaca y account buying power
 └─ FAIL FAST si falla conexión
 
 PASO 2: LOAD WATCHLIST
@@ -43,197 +39,79 @@ PASO 3: COMBINE TICKERS
 ├─ Portfolio ∪ Watchlist
 └─ FAIL FAST si lista vacía
 
-PASO 4: TICKER ANALYSIS
+PASO 4: TICKER ANALYSIS (QUANT & NLP ENGINE)
 ├─ Para cada ticker:
-│   ├─ Entity mapping
-│   ├─ News matching
-│   ├─ Sentiment analysis
-│   └─ Recommendation (BULLISH/BEARISH/CAUTIOUS)
-└─ CONTINUE even if some fail (partial results OK)
+│   ├─ NLP Echo Chamber Elimination: Evidencia estrictamente polarizada sin fallbacks.
+│   ├─ Sentiment Variance: Filtrar ilusiones 'HIGH_VOLATILITY'.
+│   ├─ Quant Math: Wilder's Smoothing (alpha=1/14) para RSI y ATR.
+│   ├─ Volatility: True Annualized Historical Volatility (pct_change * sqrt(252)).
+│   └─ Sanity Checks: Beta anomaly (< -1.0 o > 3.0 invalida), RVOL penalizaciones.
+└─ CONTINUE (resultados parciales permitidos)
 
 PASO 5: AGGREGATION
-├─ Agrupar por recommendation
-├─ Calcular aggregate metrics
+├─ Agrupar por recomendación institucional
 └─ FAIL FAST si falla agregación
 
-PASO 6: DECISION ENGINE
-├─ DecisionAgent.process_desk_recommendations()
-├─ Filtros técnicos (RSI, trend)
-├─ Position sizing (risk guardrails)
-├─ Ejecutar ordenes si AUTOPILOT
-└─ CONTINUE even if fails (operaciones manuales posibles)
+PASO 6: DECISION ENGINE (RISK MANAGEMENT)
+├─ Process desk recommendations
+├─ Risk Guardrails: Stop Loss estrictamente en 1.5x ATR.
+├─ Reject Rule: Si falta ATR, el trade es IGNORED.
+└─ CONTINUE (operaciones manuales o autopilotadas)
 
 PASO 7: PERSISTENCE
-├─ Guardar en DB (investment_desk_runs)
-├─ Guardar ticker_analyses
-├─ Guardar decisions
-└─ CONTINUE even if fails (ya tenemos resultados)
+├─ Guardar en DB (investment_desk_runs, análisis y decisiones)
+└─ CONTINUE (preservación de auditoría inmutable)
 ```
 
 ---
 
-## 📂 **Sistema de Archivos**
+## 🚨 **Controles de Riesgo Institucional**
 
-```
-logs/workflow_executions/
-├── workflow.log (rotating, 1 file per hour)
-├── execution_20250411_143022.json (log completo)
-├── execution_20250411_150103.json
-└── ... (72 horas máx)
+### **Quant Sanity Checks (Paso 4)**
+- **Wilder's Smoothing**: Impuesto para evitar señales falsas en RSI y ATR.
+- **Beta Anomaly Detection**: Un Beta extremo (< -1.0 o > 3.0) señala datos corruptos o anomalías estructurales; la sensibilidad es penalizada/invalidada.
+- **Volatilidad Verdadera**: Basada en 252 días (anualizada) sobre cambios porcentuales, descartando desviación estándar nominal básica.
 
-Cada execution log contiene:
-{
-  "execution_id": "20250411_143022",
-  "start_time": "2025-04-11T14:30:22",
-  "end_time": "2025-04-11T14:35:47",
-  "total_duration_seconds": 325.3,
-  "total_steps": 7,
-  "completed_steps": 6,
-  "failed_steps": 1,
-  "steps": [
-    {
-      "step_id": "news_extraction_001",
-      "step_type": "news_extraction",
-      "status": "completed",
-      "start_time": "2025-04-11T14:30:22",
-      "end_time": "2025-04-11T14:30:45",
-      "duration_seconds": 23.2,
-      "input_data": {...},
-      "output_data": {...}
-    },
-    ...
-  ]
-}
-```
+### **Strict Risk Management (Paso 6)**
+- **Dynamic Stop Loss**: Anclado irrevocablemente a **1.5x ATR**.
+- **Regla Anti-Fallback**: Históricamente se usaban porcentajes estáticos si fallaba el cálculo cuantitativo. Ahora, **sin ATR válido, no hay trade (IGNORED)**.
 
 ---
 
-## 🚨 **Errores Críticos vs Continuables**
+## 🔧 **Uso y Operación**
 
-### **CRÍTICOS (Fail-Fast)**
-- ❌ **Paso 0 falla**: No hay noticias → ABORTAR
-- ❌ **Paso 1 falla**: No se puede cargar portfolio → ABORTAR
-- ❌ **Paso 2 falla**: No hay watchlist → ABORTAR
-- ❌ **Paso 3 falla**: No hay tickers → ABORTAR
-- ❌ **Paso 5 falla**: Agregación falla → ABORTAR
-
-### **CONTINUABLES (Warning)**
-- ⚠️ **Paso 4**: Algunos tickers fallan análisis → Continuar con exitosos
-- ⚠️ **Paso 6**: Decision engine falla → Continuar (operaciones manuales)
-- ⚠️ **Paso 7**: Persistencia falla → Continuar (ya tenemos resultados)
-
----
-
-## 🔧 **Uso**
-
-### **Ejecutar versión v2 (Fail-Fast)**
+### **Ejecutar versión Institucional (Fail-Fast)**
 ```bash
-python ejecutar_mesa_inversiones.py
-# O directamente:
 python scripts/run_investment_desk_v2.py --hours-back 48
 ```
 
-### **Ver logs de ejecución**
+### **Monitorización de Ejecuciones**
 ```bash
-# Log actual
 tail -f logs/workflow_executions/workflow.log
-
-# Logs históricos
-ls logs/workflow_executions/execution_*.json
-
-# Ver ejecución específica
-cat logs/workflow_executions/execution_20250411_143022.json | jq
-```
-
-### **Limpiar logs antiguos**
-```python
-from trading_mvp.core.workflow_orchestrator import WorkflowLogger
-logger = WorkflowLogger(retention_hours=72)
-logger.cleanup_old_logs()
+cat logs/workflow_executions/execution_20260411_143022.json | jq
 ```
 
 ---
 
-## 📊 **Métricas de Ejecución**
+## 🔄 **Evolución: De MVP a Institucional**
 
-Cada ejecución registra:
-- **Tiempo total**: Suma de todos los pasos
-- **Paso más lento**: Identificar cuellos de botella
-- **Tasa de éxito**: completed_steps / total_steps
-- **Ticker success rate**: analyzed_tickers / total_tickers
-
----
-
-## 🛡️ **Garantías**
-
-✅ **No silent failures**: Todo error se loggea explícitamente
-✅ **No operación sin datos**: Paso 0 garantiza noticias frescas
-✅ **Auditoría completa**: Cada paso queda registrado
-✅ **Reproducibilidad**: Mismos inputs → mismo output
-✅ **Post-mortem analysis**: Logs completos por 72 horas
-
----
-
-## 🔄 **Migración desde v1**
-
-| v1 | v2 |
+| MVP Antiguo | Grado Institucional Actual |
 |---|---|
-| Noticias on-demand | **Paso 0 obligatorio** |
-| Silent failures | **Fail-fast explícito** |
-| Logging básico | **Logging estructurado JSON** |
-| Sin audit trail | **72 horas de logs** |
-| Operación sin validación | **Validación antes de operar** |
+| Ejecución cada 6 horas | **2 veces al día (08:30 AM / 15:00 PM EST)** |
+| Sentiment promedio simple | **Sentiment Variance + Echo Chamber Elimination** |
+| RSI/ATR con medias simples | **Wilder's Smoothing (alpha=1/14)** |
+| Stop Loss estático / Fallbacks | **1.5x ATR Estricto (Sin ATR = IGNORED trade)** |
+| Volatilidad Nominal (StdDev) | **True Annualized Volatility (pct_change * sqrt(252))** |
+| Beta sin límites | **Detección de Anomalías de Beta (-1.0 a 3.0)** |
 
 ---
 
-## 📝 **Ejemplo de Log Completo**
+## 🎯 **Checklist de Ejecución**
 
-```json
-{
-  "execution_id": "20250411_143022",
-  "start_time": "2025-04-11T14:30:22.123456",
-  "end_time": "2025-04-11T14:35:47.654321",
-  "total_duration_seconds": 325.53,
-  "total_steps": 7,
-  "completed_steps": 7,
-  "failed_steps": 0,
-  "steps": [
-    {
-      "step_id": "news_extraction_001",
-      "step_type": "news_extraction",
-      "status": "completed",
-      "start_time": "2025-04-11T14:30:22.123456",
-      "end_time": "2025-04-11T14:30:45.234567",
-      "duration_seconds": 23.11,
-      "input_data": {
-        "hours_back": 48,
-        "min_news_count": 10,
-        "max_age_hours": 24
-      },
-      "output_data": {
-        "success": true,
-        "stats": {
-          "total_news": 1523,
-          "unique_news": 1498,
-          "duplicates": 25,
-          "source_count": 42
-        }
-      }
-    },
-    ...
-  ]
-}
-```
+- [ ] Horario correcto (08:30 AM o 15:00 PM EST).
+- [ ] Validación Quant superada (ATR calculado, Beta válido).
+- [ ] Sentimiento verificado sin Echo Chamber.
+- [ ] Risk Management aplicado (Stop Loss a 1.5x ATR).
+- [ ] Ejecución y Logs guardados.
 
----
-
-## 🎯 **Checklist Antes de Operar**
-
-- [ ] Paso 0 completado (news extraction OK)
-- [ ] Portfolio cargado (buying power > 0)
-- [ ] Watchlist válida (tickers > 0)
-- [ ] Al menos 1 ticker analizado exitosamente
-- [ ] Decision engine ejecutado (manual o auto)
-- [ ] Logs guardados correctamente
-
-**Solo cuando TODOS los checkpoints pasan → se puede operar.** 🚀
+**Solo cuando TODOS los checkpoints y parámetros institucionales pasan → se toma la posición.** 🚀

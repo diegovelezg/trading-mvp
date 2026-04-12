@@ -17,52 +17,6 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 CONFIG_DIR = os.path.join(BASE_DIR, "config")
 
 
-def load_ticker_entities() -> Dict[str, List[str]]:
-    """
-    Carga el mapeo de ticker → entidades desde config.
-
-    Returns:
-        Dict con ticker como key y lista de entidades como value
-
-    Examples:
-        >>> entities = load_ticker_entities()
-        >>> entities["AAPL"]
-        ['Technology', 'Consumer', 'Hardware', 'Semiconductors', 'Mobile']
-    """
-    config_path = os.path.join(CONFIG_DIR, "ticker_entities.json")
-
-    try:
-        with open(config_path, 'r', encoding='utf-8') as f:
-            config = json.load(f)
-            return config.get("TICKER_TO_ENTITIES", {})
-    except FileNotFoundError:
-        logger.warning(f"Config file not found: {config_path}, using empty dict")
-        return {}
-    except json.JSONDecodeError as e:
-        logger.error(f"Error parsing ticker_entities.json: {e}")
-        return {}
-
-
-def get_ticker_entities(ticker: str) -> List[str]:
-    """
-    Obtiene entidades para un ticker específico.
-
-    Args:
-        ticker: Símbolo del ticker
-
-    Returns:
-        Lista de entidades asociadas al ticker
-
-    Examples:
-        >>> get_ticker_entities("AAPL")
-        ['Technology', 'Consumer', 'Hardware', 'Semiconductors', 'Mobile']
-        >>> get_ticker_entities("UNKNOWN")
-        []
-    """
-    entities_dict = load_ticker_entities()
-    return entities_dict.get(ticker.upper(), [])
-
-
 def load_watchlist_config() -> Dict[str, Any]:
     """
     Carga configuración de watchlists por defecto.
@@ -131,7 +85,7 @@ _WATCHLIST_CONFIG_CACHE = None
 
 def get_ticker_entities_cached() -> Dict[str, List[str]]:
     """
-    Obtiene entities cacheadas (carga solo una vez).
+    Obtiene entities cacheadas desde PostgreSQL (carga solo una vez).
 
     Returns:
         Dict con ticker → entidades
@@ -153,10 +107,6 @@ def get_watchlist_config_cached() -> Dict[str, Any]:
     if _WATCHLIST_CONFIG_CACHE is None:
         _WATCHLIST_CONFIG_CACHE = load_watchlist_config()
     return _WATCHLIST_CONFIG_CACHE
-
-
-# Alias para compatibilidad con el código existente
-TICKER_TO_ENTITIES = get_ticker_entities_cached()
 
 
 if __name__ == "__main__":

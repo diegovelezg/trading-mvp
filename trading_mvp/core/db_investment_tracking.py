@@ -246,6 +246,23 @@ def save_desk_run(desk_analysis: Dict) -> Optional[int]:
             # Clean datetime objects for JSON serialization
             clean_analysis = _clean_datetime_objects(desk_analysis.copy())
 
+            # Calcular duration_seconds si no existe
+            if 'duration_seconds' not in desk_analysis or desk_analysis['duration_seconds'] is None:
+                # Obtener timestamp del análisis
+                analysis_timestamp = desk_analysis.get('analysis_timestamp')
+                if analysis_timestamp:
+                    # Convertir a datetime si es string
+                    from datetime import datetime
+                    if isinstance(analysis_timestamp, str):
+                        start_time = datetime.fromisoformat(analysis_timestamp)
+                    else:
+                        start_time = analysis_timestamp
+                    end_time = datetime.now()
+                    duration = (end_time - start_time).total_seconds()
+                    desk_analysis['duration_seconds'] = duration
+                else:
+                    desk_analysis['duration_seconds'] = 0.0
+
             cur.execute("""
                 INSERT INTO investment_desk_runs
                 (watchlist_id, watchlist_name, time_window_hours, duration_seconds,
@@ -318,29 +335,28 @@ def save_ticker_analysis(ticker_analysis: Dict, desk_run_id: int) -> Optional[in
                 INSERT INTO ticker_analyses
                 (desk_run_id, ticker, company_name, analysis_timestamp,
                  mapped_entities, related_news_count, news_sources, news_ids,
-                 unique_entities_found, total_entity_mentions,
+                 unique_entities_found,
                  avg_confidence, negative_ratio, positive_ratio,
                  recommendation, rationale,
                  top_risks_json, top_opportunities_json, most_mentioned_json,
                  full_results_json)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 RETURNING id
             """, (
                 desk_run_id,
                 ticker_analysis['ticker'],
-                ticker_analysis.get('company_name'),  # Optional
+                ticker_analysis.get('company_name'),
                 analysis_timestamp,
-                json.dumps(ticker_analysis['mapped_entities']),
-                ticker_analysis['related_news_count'],
-                json.dumps(ticker_analysis['news_sources']),
+                json.dumps(ticker_analysis.get('mapped_entities', [])),
+                ticker_analysis.get('related_news_count', 0),
+                json.dumps(ticker_analysis.get('news_sources', [])),
                 json.dumps([n.get('id') for n in ticker_analysis.get('related_news', [])]),
-                ticker_analysis['unique_entities_found'],
-                ticker_analysis['unique_entities_found'],  # Using same value for now
-                ticker_analysis['avg_confidence'],
-                ticker_analysis['negative_ratio'],
-                ticker_analysis['positive_ratio'],
-                ticker_analysis['recommendation'],
-                ticker_analysis['rationale'],
+                ticker_analysis.get('unique_entities_found', 0),
+                ticker_analysis.get('avg_confidence', 0.5),
+                ticker_analysis.get('negative_ratio', 0),
+                ticker_analysis.get('positive_ratio', 0),
+                ticker_analysis.get('recommendation', 'NEUTRAL'),
+                ticker_analysis.get('rationale', ''),
                 json.dumps(ticker_analysis.get('top_risks', [])),
                 json.dumps(ticker_analysis.get('top_opportunities', [])),
                 json.dumps(ticker_analysis.get('most_mentioned', [])),

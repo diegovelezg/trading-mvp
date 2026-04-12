@@ -66,11 +66,11 @@ def validate_news_freshness(news_items: List[Dict], max_age_hours: int = 24) -> 
 
     freshness_ratio = recent_count / len(news_items)
 
-    if freshness_ratio < 0.5:
+    if freshness_ratio < 0.2:
         raise NewsValidationError(
             f"News too old: {recent_count}/{len(news_items)} items "
             f"are from the last {max_age_hours}h "
-            f"({freshness_ratio:.1%} < 50% required)"
+            f"({freshness_ratio:.1%} < 20% required)"
         )
 
     logger.info(

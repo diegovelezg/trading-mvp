@@ -84,6 +84,10 @@ def discover_tickers(prompt: str) -> List[dict]:
             res['asset_type'] = dna.get('asset_type', 'Unknown')
             logger.info(f"🧬 Profiled {ticker} as {res['asset_type']}")
 
+        # 🏷️ Entity Extraction: ELIMINADO - ya no usamos entities textuales
+        # El sistema ahora usa embeddings semánticos directamente
+        logger.info("ℹ️  Entity extraction skipped (using semantic embeddings instead)")
+
         # Save to database with FULL metadata
         tickers_only = [r['ticker'].upper() for r in results]
         criteria = extract_search_criteria(prompt)

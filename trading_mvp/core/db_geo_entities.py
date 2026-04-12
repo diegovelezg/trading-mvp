@@ -171,6 +171,42 @@ def get_entities_for_news(news_id: int) -> List[Dict]:
         conn.close()
 
 
+def get_entities_for_news_batch(news_ids: List[int]) -> Dict[int, List[Dict]]:
+    """Get entities for multiple news items efficiently.
+
+    Args:
+        news_ids: List of news IDs
+
+    Returns:
+        Dict mapping news_id → list of entity dicts
+    """
+    if not news_ids:
+        return {}
+
+    conn = get_connection()
+    try:
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute("""
+                SELECT * FROM geo_macro_entities
+                WHERE news_id = ANY(%s)
+                ORDER BY news_id, confidence DESC
+            """, (news_ids,))
+
+            rows = cur.fetchall()
+
+            # Group by news_id
+            result = {}
+            for row in rows:
+                news_id = row['news_id']
+                if news_id not in result:
+                    result[news_id] = []
+                result[news_id].append(dict(row))
+
+            return result
+    finally:
+        conn.close()
+
+
 def get_recent_entities(hours_back: int = 24, limit: int = 100) -> List[Dict]:
     """Get recent entities from database.
 

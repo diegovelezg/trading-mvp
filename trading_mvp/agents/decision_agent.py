@@ -149,6 +149,75 @@ class DecisionAgent:
 
         return decision
 
+    def _calculate_quant_score(self, quant_stats: Dict) -> Tuple[float, str]:
+        """Calculates a normalized 0-1 score based on the 11 quant indicators.
+        
+        Returns: (score, summary)
+        """
+        if not quant_stats or 'error' in quant_stats:
+            return 0.5, "Insufficient quant data"
+
+        score = 0.0
+        details = []
+
+        # I. STRUCTURE (Weight: 0.25)
+        struct_score = 0.0
+        if quant_stats.get('trend') == 'BULLISH': struct_score += 0.4
+        if quant_stats.get('momentum') == 'POSITIVE': struct_score += 0.3
+        # Price to SMA 200 distance - reward being above, but not TOO far (mean reversion)
+        dist = quant_stats.get('price_to_sma200_dist', 0)
+        if 0 < dist < 15: struct_score += 0.3
+        elif 15 <= dist < 30: struct_score += 0.2
+        elif dist >= 30: struct_score += 0.1 # Overextended
+        
+        score += struct_score * 0.25
+        details.append(f"Structure: {struct_score:.2f}")
+
+        # II. MOMENTUM (Weight: 0.20)
+        mom_score = 0.0
+        rsi = quant_stats.get('rsi_14', 50)
+        if 40 <= rsi <= 60: mom_score += 0.5 # Healthy momentum
+        elif 30 <= rsi < 40 or 60 < rsi <= 70: mom_score += 0.3
+        
+        macd = quant_stats.get('macd', {})
+        if macd.get('histogram', 0) > 0: mom_score += 0.5
+        
+        score += mom_score * 0.20
+        details.append(f"Momentum: {mom_score:.2f}")
+
+        # III. CONVICTION (Weight: 0.15)
+        conv_score = 0.0
+        rvol = quant_stats.get('rvol', 1.0)
+        if rvol > 1.2: conv_score += 1.0 # High conviction
+        elif rvol > 0.8: conv_score += 0.5
+        
+        score += conv_score * 0.15
+        details.append(f"Conviction: {conv_score:.2f}")
+
+        # IV. VOLATILITY (Weight: 0.20)
+        vol_score = 1.0 # Start with perfect score, penalize risk
+        vol_ratio = quant_stats.get('volatility_ratio', 0)
+        if vol_ratio > 10: vol_score -= 0.5 # Too volatile
+        elif vol_ratio > 5: vol_score -= 0.2
+        
+        score += vol_score * 0.20
+        details.append(f"Volatility: {vol_score:.2f}")
+
+        # V. SENSITIVITY (Weight: 0.20)
+        sens_score = 0.0
+        beta = quant_stats.get('beta_spy', 1.0)
+        corr = quant_stats.get('corr_spy', 1.0)
+        
+        # We prefer lower beta and moderate correlation for stability
+        if beta < 1.0: sens_score += 0.5
+        if abs(corr) < 0.7: sens_score += 0.5 # Some decoupling is good for Alpha
+        
+        score += sens_score * 0.20
+        details.append(f"Sensitivity: {sens_score:.2f}")
+
+        summary = ", ".join(details)
+        return round(score, 2), summary
+
     def _make_decision(
         self,
         ticker: str,
@@ -159,38 +228,42 @@ class DecisionAgent:
         ticker_analysis: Dict,
         portfolio_context: Dict
     ) -> Dict:
-        """Core decision logic.
-
-        Args:
-            ticker: Ticker symbol
-            recommendation: Original recommendation (BULLISH/BEARISH/CAUTIOUS)
-            confidence: Average confidence
-            positive_ratio: Positive entity ratio
-            negative_ratio: Negative entity ratio
-            ticker_analysis: Full ticker analysis
-            portfolio_context: Portfolio state
-
-        Returns:
-            Decision dict with action, rationale, execution details
+        """Core decision logic using 60/40 Weighted Model.
+        
+        Quant (60%) + LLM/Context (40%)
         """
 
-        # Extract additional context
+        # 1. Get LLM Score (0-1) from sentiment ratios
+        llm_score = (positive_ratio * 0.7) + (confidence * 0.3)
+        if negative_ratio > 0.4: llm_score *= (1 - negative_ratio)
+        
+        # 2. Get Quant Score (0-1) from the 11 indicators
+        quant_stats = ticker_analysis.get('quant_stats', {})
+        quant_score, quant_summary = self._calculate_quant_score(quant_stats)
+
+        # 3. Final Weighted Score
+        final_score = (quant_score * 0.6) + (llm_score * 0.4)
+        
+        logger.info(f"⚖️  Weighted Model for {ticker}:")
+        logger.info(f"   - Quant (60%): {quant_score:.2f} ({quant_summary})")
+        logger.info(f"   - LLM/Context (40%): {llm_score:.2f}")
+        logger.info(f"   - FINAL SCORE: {final_score:.2f}")
+
+        # 4. Handle Decision based on Final Score
         top_risks = ticker_analysis.get('top_risks', [])
         top_opportunities = ticker_analysis.get('top_opportunities', [])
         news_count = ticker_analysis.get('related_news_count', 0)
         entities_found = ticker_analysis.get('unique_entities_found', 0)
 
-        # Decision matrix
-        # ENSURE QUANT STATS ARE ACCESSIBLE TO HANDLERS
-        if 'quant_stats' in ticker_analysis:
-            portfolio_context['quant_stats'] = ticker_analysis['quant_stats']
-        elif 'quant_stats' not in portfolio_context:
-            portfolio_context['quant_stats'] = {}
+        # Context for handlers
+        portfolio_context['quant_stats'] = quant_stats
+        portfolio_context['weighted_score'] = final_score
 
-        if recommendation == "BULLISH":
+        # Decisions based on final score thresholds
+        if final_score >= 0.75:
             return self._handle_bullish(
                 ticker=ticker,
-                confidence=confidence,
+                confidence=final_score, # Use weighted score as confidence
                 positive_ratio=positive_ratio,
                 negative_ratio=negative_ratio,
                 top_risks=top_risks,
@@ -199,11 +272,11 @@ class DecisionAgent:
                 entities_found=entities_found,
                 portfolio_context=portfolio_context
             )
-
-        elif recommendation == "BEARISH":
+        elif final_score <= 0.35:
+            # Strong Bearish
             return self._handle_bearish(
                 ticker=ticker,
-                confidence=confidence,
+                confidence=1.0 - final_score,
                 positive_ratio=positive_ratio,
                 negative_ratio=negative_ratio,
                 top_risks=top_risks,
@@ -212,11 +285,10 @@ class DecisionAgent:
                 entities_found=entities_found,
                 portfolio_context=portfolio_context
             )
-
-        else:  # CAUTIOUS or NEUTRAL
+        else:
             return self._handle_cautious(
                 ticker=ticker,
-                confidence=confidence,
+                confidence=final_score,
                 positive_ratio=positive_ratio,
                 negative_ratio=negative_ratio,
                 top_risks=top_risks,
@@ -238,25 +310,48 @@ class DecisionAgent:
         entities_found: int,
         portfolio_context: Dict
     ) -> Dict:
-        """Handle BULLISH recommendation with technical filters."""
+        """Handle BULLISH recommendation with technical filters and exposure check."""
 
-        # 1. Extract technical data if available
-        quant_stats = portfolio_context.get('quant_stats', {}) 
-        # Note: Depending on how it's passed, it might be in ticker_analysis or portfolio_context
-        # Let's ensure we check both or where it's actually provided
+        # 1. Check for EXISTING EXPOSURE (Live + Pending)
+        positions = portfolio_context.get('positions', [])
+        orders = portfolio_context.get('orders', [])
         
+        current_pos = next((p for p in positions if p['symbol'] == ticker), None)
+        pending_buy = next((o for o in orders if o['symbol'] == ticker and o['side'].lower() == 'buy'), None)
+        
+        if pending_buy:
+            decision = {
+                'decision': 'IGNORED',
+                'action': 'NONE',
+                'rationale': f"Already have a PENDING BUY order for {ticker}. Avoiding over-exposure.",
+                'confidence_in_decision': confidence,
+                'risk_level': 'low'
+            }
+            logger.info(f"   🛡️  DECISION: IGNORED - {decision['rationale']}")
+            return decision
+
+        if current_pos:
+            decision = {
+                'decision': 'IGNORED',
+                'action': 'NONE',
+                'rationale': f"Already have a LIVE position in {ticker}. To increase size, use manual adjustment.",
+                'confidence_in_decision': confidence,
+                'risk_level': 'low'
+            }
+            logger.info(f"   🛡️  DECISION: IGNORED - {decision['rationale']}")
+            return decision
+
+        # 2. Extract technical data
+        quant_stats = portfolio_context.get('quant_stats', {}) 
         rsi = quant_stats.get('rsi_14', 50)
         atr = quant_stats.get('atr_14', 0)
         trend = quant_stats.get('trend', 'UNKNOWN')
 
-        # 2. Basic criteria (Confidence + Sentiment)
-        strong_signal = (
-            confidence >= self.config.min_confidence_for_buy and
-            positive_ratio >= self.config.min_positive_ratio_for_bullish and
-            negative_ratio <= self.config.max_negative_ratio_for_bullish
-        )
+        # 3. Basic criteria (Now using the 60/40 Weighted Score via 'confidence')
+        # We assume 'confidence' passed here IS the weighted final_score
+        strong_signal = confidence >= self.config.min_confidence_for_buy
 
-        # 3. TECHNICAL FILTERS (Order and Progress)
+        # 4. TECHNICAL FILTERS
         technical_rejection = None
         if rsi > 75:
             technical_rejection = f"Asset is OVERBOUGHT (RSI: {rsi:.1f})"
@@ -273,13 +368,20 @@ class DecisionAgent:
                 portfolio_context=portfolio_context
             )
 
-            # 4. TECHNICAL STOP LOSS (2xATR or 5% minimum)
+            if position_size <= 0:
+                return {
+                    'decision': 'IGNORED',
+                    'action': 'NONE',
+                    'rationale': f"Risk Manager rejected trade size for {ticker}: {getattr(self, 'last_risk_reason', 'Unknown reason')}",
+                    'confidence_in_decision': confidence,
+                    'risk_level': 'high'
+                }
+
+            # 5. TECHNICAL STOP LOSS (2xATR or 5% minimum)
             if atr > 0:
                 stop_loss = entry_price - (2 * atr)
-                # Ensure stop loss isn't ridiculously close or far
                 min_stop = entry_price * (1 - self.config.default_stop_loss_pct)
                 stop_loss = min(stop_loss, min_stop) 
-                
                 take_profit = entry_price + (4 * atr) # 1:2 Risk/Reward
             else:
                 stop_loss = entry_price * (1 - self.config.default_stop_loss_pct)
@@ -303,19 +405,11 @@ class DecisionAgent:
             }
 
             logger.info(f"   ✅ DECISION: FOLLOWED - BUY {ticker}")
-            logger.info(f"      Technical Context: {decision['technical_context']}")
-            logger.info(f"      Size: ${position_size:.2f} @ ${entry_price:.2f}")
-            logger.info(f"      Stop: ${decision['stop_loss']:.2f} (2xATR) | Target: ${decision['take_profit']:.2f}")
-
-            # EXECUTE ORDER IN ALPACA
+            
+            # EXECUTE ORDER
             if self.config.autopilot_enabled and not self.config.dry_run:
                 if ALPACA_EXECUTION_AVAILABLE:
-                    decision = self._execute_buy_order(
-                        ticker=ticker,
-                        position_size=position_size,
-                        entry_price=entry_price,
-                        decision=decision
-                    )
+                    decision = self._execute_buy_order(ticker, position_size, entry_price, decision)
             
         elif technical_rejection:
             decision = {
@@ -327,18 +421,11 @@ class DecisionAgent:
             }
             logger.warning(f"   🛡️  DECISION: IGNORED - {decision['rationale']}")
         else:
-            # Signal not strong enough (News/Sentiment)
-            reasons = []
-            if confidence < self.config.min_confidence_for_buy:
-                reasons.append(f"low confidence ({confidence:.2f})")
-            if positive_ratio < self.config.min_positive_ratio_for_bullish:
-                reasons.append(f"weak positive sentiment ({positive_ratio:.1%})")
-
             decision = {
                 'decision': 'IGNORED',
                 'action': 'NONE',
-                'rationale': f"BULLISH signal but criteria not met: {', '.join(reasons)}",
-                'confidence_in_decision': confidence * 0.5,
+                'rationale': f"BULLISH signal but final score ({confidence:.2f}) < threshold",
+                'confidence_in_decision': confidence,
                 'risk_level': 'low'
             }
             logger.info(f"   ⚠️  DECISION: IGNORED - {decision['rationale']}")
@@ -357,17 +444,29 @@ class DecisionAgent:
         entities_found: int,
         portfolio_context: Dict
     ) -> Dict:
-        """Handle BEARISH recommendation with Sell-Off capability."""
+        """Handle BEARISH recommendation with Sell-Off capability and pending check."""
 
-        # 1. Check if we ALREADY HAVE this ticker in portfolio
+        # 1. Check for EXISTING POSITIONS and PENDING SELLS
         positions = portfolio_context.get('positions', [])
-        current_pos = next((p for p in positions if p['symbol'] == ticker), None)
+        orders = portfolio_context.get('orders', [])
         
+        current_pos = next((p for p in positions if p['symbol'] == ticker), None)
+        pending_sell = next((o for o in orders if o['symbol'] == ticker and o['side'].lower() == 'sell'), None)
+        
+        if pending_sell:
+            decision = {
+                'decision': 'IGNORED',
+                'action': 'NONE',
+                'rationale': f"Already have a PENDING SELL order for {ticker}. Avoiding redundant sell.",
+                'confidence_in_decision': confidence,
+                'risk_level': 'low'
+            }
+            logger.info(f"   🛡️  DECISION: IGNORED - {decision['rationale']}")
+            return decision
+
         # 2. Check if we should SELL or AVOID
-        strong_sell_signal = (
-            confidence >= self.config.min_confidence_for_sell and
-            negative_ratio >= 0.55  # Clear negative bias
-        )
+        # Using confidence as the (1.0 - final_score) or similar from handle_bearish
+        strong_sell_signal = confidence >= self.config.min_confidence_for_sell
 
         if current_pos and strong_sell_signal:
             # LIQUIDATE POSITION
@@ -377,34 +476,24 @@ class DecisionAgent:
                 'decision': 'FOLLOWED',
                 'action': 'SOLD',
                 'shares': qty,
-                'rationale': f"Strong BEARISH signal (confidence {confidence:.2f} ≥ {self.config.min_confidence_for_sell} threshold, negative_ratio {negative_ratio:.0%} ≥ 55%). Analyzed {news_count} news items with {len(top_risks)} high-risk entities. Top risk: {top_risks[0].get('entity_name', 'N/A') if top_risks else 'N/A'}. Technical context: RSI {quant.get('rsi_14', 'N/A')}, Trend {quant.get('trend', 'N/A')}. LIQUIDATING {qty} shares to protect capital.",
+                'rationale': f"Strong BEARISH weighted signal ({confidence:.2f}). Negative ratio {negative_ratio:.0%}. Technicals: RSI {quant.get('rsi_14', 'N/A')}. LIQUIDATING {qty} shares.",
                 'confidence_in_decision': confidence,
-                'risk_level': 'high',
-                'risk_guardrail': 'Portfolio Protection Rule'
+                'risk_level': 'high'
             }
 
-            logger.warning(f"   🚨 DECISION: FOLLOWED - SELL {ticker} (Liquidating {qty} shares)")
+            logger.warning(f"   🚨 DECISION: FOLLOWED - SELL {ticker}")
 
-            # EXECUTE SELL IN ALPACA
             if self.config.autopilot_enabled and not self.config.dry_run:
                 if ALPACA_EXECUTION_AVAILABLE:
-                    decision = self._execute_sell_order(
-                        ticker=ticker,
-                        decision=decision
-                    )
-                else:
-                    logger.warning("   ⚠️  Alpaca execution not available - recording decision only")
+                    decision = self._execute_sell_order(ticker, decision)
             
             return decision
 
         elif strong_sell_signal:
-            # Just avoid buying
             decision = {
                 'decision': 'FOLLOWED',
                 'action': 'NONE',
-                'rationale': self._generate_bearish_rationale(
-                    confidence, negative_ratio, top_risks, news_count
-                ),
+                'rationale': self._generate_bearish_rationale(confidence, negative_ratio, top_risks, news_count),
                 'confidence_in_decision': confidence,
                 'risk_level': 'high'
             }
@@ -414,8 +503,8 @@ class DecisionAgent:
             decision = {
                 'decision': 'IGNORED',
                 'action': 'NONE',
-                'rationale': f"BEARISH signal but weak (confidence: {confidence:.2f})",
-                'confidence_in_decision': confidence * 0.5,
+                'rationale': f"BEARISH signal but final score too low",
+                'confidence_in_decision': confidence,
                 'risk_level': 'medium'
             }
             logger.info(f"   ⚠️  DECISION: IGNORED - {decision['rationale']}")
@@ -563,18 +652,18 @@ class DecisionAgent:
         news_count: int,
         entities_found: int
     ) -> str:
-        """Generate rationale for BULLISH decision."""
+        """Generate rationale for BULLISH decision using 60/40 Weighted Model."""
 
         rationale_parts = [
-            f"Strong BULLISH signal (confidence {confidence:.2f} ≥ {self.config.min_confidence_for_buy} threshold)",
-            f"Positive sentiment dominates ({positive_ratio:.0%} vs {negative_ratio:.0%} negative) from {news_count} news items"
+            f"Strong BULLISH Weighted Score ({confidence:.2f} >= {self.config.min_confidence_for_buy} threshold)",
+            f"Sentiment: {positive_ratio:.0%} positive vs {negative_ratio:.0%} negative from {news_count} news items"
         ]
 
         if opportunities:
             opp_names = [o.get('entity_name', 'N/A') if isinstance(o, dict) else o for o in opportunities[:3]]
-            rationale_parts.append(f"Key drivers: {', '.join(opp_names)}")
+            rationale_parts.append(f"Top drivers: {', '.join(opp_names)}")
 
-        rationale_parts.append(f"Entities analyzed: {entities_found}. Technicals favorable (no overbought RSI, trend supports entry)")
+        rationale_parts.append("Technical 60% weight confirms healthy structure, momentum (MACD/RSI), and volume conviction (RVOL)")
 
         return ". ".join(rationale_parts) + "."
 
@@ -585,18 +674,18 @@ class DecisionAgent:
         risks: List,
         news_count: int
     ) -> str:
-        """Generate rationale for BEARISH decision."""
+        """Generate rationale for BEARISH decision using 60/40 Weighted Model."""
 
         rationale_parts = [
-            f"Strong BEARISH signal (confidence {confidence:.2f} ≥ {self.config.min_confidence_for_sell} threshold)",
-            f"Negative sentiment elevated ({negative_ratio:.0%} of entities) from {news_count} news items"
+            f"Strong BEARISH Weighted Score ({confidence:.2f} >= {self.config.min_confidence_for_sell} threshold)",
+            f"Sentiment: {negative_ratio:.0%} negative bias across {news_count} news items"
         ]
 
         if risks:
             risk_names = [r.get('entity_name', 'N/A') if isinstance(r, dict) else r for r in risks[:3]]
             rationale_parts.append(f"Key risks: {', '.join(risk_names)}")
 
-        rationale_parts.append("Recommend AVOID or reduce existing exposure")
+        rationale_parts.append("Technical 60% weight shows weakness, bearish momentum, or insufficient conviction to override macro risk")
 
         return ". ".join(rationale_parts) + "."
 

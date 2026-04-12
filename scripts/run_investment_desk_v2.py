@@ -31,12 +31,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Set up environment
-os.environ['ALPACA_PAPER_API_KEY'] = 'YOUR_ALPACA_PAPER_API_KEY'
-os.environ['PAPER_API_SECRET'] = 'YOUR_ALPACA_SECRET_KEY'
+# Set up environment (Keys should come from .env, but keeping the non-expired ones here for fallback)
 os.environ['SERPAPI_API_KEY'] = 'YOUR_SERPAPI_API_KEY'
-os.environ['GEMINI_API_KEY'] = 'AIzaSyCutHRoCMkN02KhsVYATzu5XRPjboQZxnc'
-os.environ['GEMINI_API_MODEL_01'] = 'gemini-3.1-flash-lite-preview'
+# GEMINI_API_KEY will be loaded from .env via standard load_dotenv mechanism in other modules
+os.environ['GEMINI_API_MODEL_01'] = 'gemini-2.0-flash-exp'
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '.claude', 'subagents'))
 
@@ -54,7 +52,6 @@ from trading_mvp.core.workflow_orchestrator import (
     StepType
 )
 from trading_mvp.core.news_extraction import extract_and_validate_news
-from trading_mvp.core.entity_extraction_workflow import extract_all_entities
 
 # Import analyze_ticker function
 import importlib.util
@@ -117,59 +114,7 @@ def run_investment_desk_v2(hours_back: int = 48) -> Dict:
             }
 
         logger.info("")
-        logger.info("✅ Step 0 completed successfully. Proceeding with entity extraction...")
-        logger.info("")
-
-        # ============================================================
-        # PASO 0.5: ENTITY EXTRACTION (CRÍTICO - DEPENDENCIA DE PASO 0)
-        # ============================================================
-        logger.info("🧠 EXECUTING STEP 0.5: ENTITY EXTRACTION")
-        logger.info("⚠️  CRITICAL: This step processes ALL news from Step 0")
-        logger.info("⏱️  This may take several minutes depending on news volume")
-        logger.info("")
-
-        entity_extraction_result = orchestrator.execute_step(
-            step_type=StepType.NEWS_EXTRACTION,
-            step_function=extract_all_entities,
-            step_id="entity_extraction_001",
-            input_data={
-                'hours_back': hours_back,
-                'min_coverage_pct': 0.5,  # 50% mínimo
-                'min_total_entities': 100
-            },
-            fail_fast=True  # CRÍTICO: Detener si no hay suficientes entidades
-        )
-
-        if not entity_extraction_result['success']:
-            error_msg = f"Step 0.5 failed: {entity_extraction_result.get('error')}"
-            logger.error(f"🛑 {error_msg}")
-            logger.error("🛑 CANNOT PROCEED TO STEP 4 WITHOUT ENTITIES")
-            return {
-                'success': False,
-                'error': error_msg,
-                'aborted_at': 'step_0_5_entity_extraction'
-            }
-
-        # VALIDACIÓN DE CHECKPOINTS CRÍTICOS
-        validation_checks = entity_extraction_result.get('validation_checks', {})
-        if not validation_checks.get('all_checks_passed', False):
-            logger.warning("⚠️  Entity extraction validation warnings:")
-            for check, passed in validation_checks.items():
-                if check != 'all_checks_passed' and not passed:
-                    logger.warning(f"   ❌ {check}: FAILED")
-
-            # Si la cobertura es muy baja, fallar
-            if entity_extraction_result.get('coverage_pct', 0) < 0.3:
-                error_msg = f"Entity coverage too low: {entity_extraction_result['coverage_pct']:.1%} < 30%"
-                logger.error(f"🛑 {error_msg}")
-                return {
-                    'success': False,
-                    'error': error_msg,
-                    'aborted_at': 'step_0_5_entity_extraction'
-                }
-
-        logger.info("")
-        logger.info(f"✅ Step 0.5 completed: {entity_extraction_result['coverage_pct']:.1%} coverage, ~{entity_extraction_result['total_entities']} entities")
+        logger.info("✅ Step 0 completed successfully. Proceeding with portfolio load...")
         logger.info("")
 
         # ============================================================
@@ -179,19 +124,29 @@ def run_investment_desk_v2(hours_back: int = 48) -> Dict:
 
         def load_portfolio_context():
             try:
+                from trading_mvp.execution.alpaca_orders import get_open_orders
                 portfolio_positions = get_positions()
+                portfolio_orders = get_open_orders()
                 portfolio_account = get_account()
 
                 portfolio_tickers = [p['symbol'] for p in portfolio_positions]
+                pending_tickers = [o['symbol'] for o in portfolio_orders]
+                
+                # Exposición total proyectada (Live + Pendientes)
+                all_portfolio_tickers = list(set(portfolio_tickers + pending_tickers))
 
                 logger.info(f"   ✅ Portfolio: {len(portfolio_tickers)} positions")
+                logger.info(f"   ✅ Pending Orders: {len(portfolio_orders)} orders")
                 logger.info(f"   ✅ Buying Power: ${portfolio_account['buying_power']:.2f}")
 
                 return {
                     'success': True,
                     'positions': portfolio_positions,
+                    'orders': portfolio_orders,
                     'account': portfolio_account,
-                    'tickers': portfolio_tickers
+                    'tickers': all_portfolio_tickers,
+                    'live_tickers': portfolio_tickers,
+                    'pending_tickers': pending_tickers
                 }
             except Exception as e:
                 logger.error(f"   ❌ Failed to load portfolio: {e}")
@@ -501,6 +456,18 @@ def run_investment_desk_v2(hours_back: int = 48) -> Dict:
         def persist_results():
             try:
                 # Save desk run
+                # Build recommendations from ticker results
+                recommendations = []
+                for ticker_result in ticker_results:
+                    recommendations.append({
+                        'ticker': ticker_result['ticker'],
+                        'recommendation': ticker_result.get('recommendation', 'NEUTRAL'),
+                        'confidence': ticker_result.get('avg_confidence', 0),
+                        'positive_ratio': ticker_result.get('positive_ratio', 0),
+                        'negative_ratio': ticker_result.get('negative_ratio', 0),
+                        'news_count': ticker_result.get('related_news_count', 0)
+                    })
+
                 desk_analysis = {
                     'success': True,
                     'watchlist': watchlist_result['watchlist'],
@@ -511,7 +478,13 @@ def run_investment_desk_v2(hours_back: int = 48) -> Dict:
                     'failed_tickers': failed_tickers,
                     'ticker_results': ticker_results,
                     **aggregation_result,
-                    'agent_decisions': agent_decisions
+                    'agent_decisions': agent_decisions,
+                    'desk_outlook': aggregation_result.get('overall_sentiment', 'NEUTRAL'),
+                    'bullish_count': len(aggregation_result.get('bullish', [])),
+                    'bearish_count': len(aggregation_result.get('bearish', [])),
+                    'cautious_count': len(aggregation_result.get('cautious', [])),
+                    'neutral_count': len(aggregation_result.get('neutral', [])),
+                    'recommendations': recommendations
                 }
 
                 desk_run_id = save_desk_run(desk_analysis)

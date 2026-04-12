@@ -14,11 +14,7 @@ from trading_mvp.core.dashboard_api_client import (
     add_ticker_to_watchlist,
     get_active_watchlists
 )
-from trading_mvp.utils.config_loader import (
-    TICKER_TO_ENTITIES,
-    get_ticker_entities,
-    get_default_watchlist_id
-)
+from trading_mvp.utils.config_loader import get_default_watchlist_id
 
 logger = logging.getLogger(__name__)
 
@@ -109,63 +105,8 @@ def analyze_watchlist(watchlist_id: int, hours_back: int = 48) -> Dict:
     }
 
 
-def get_ticker_entities(ticker: str) -> List[str]:
-    """Get entities for a ticker.
-
-    Args:
-        ticker: Ticker symbol
-
-    Returns:
-        List of entity names
-    """
-
-    ticker = ticker.upper()
-    return TICKER_TO_ENTITIES.get(ticker, [])
-
-
-def get_news_for_ticker(ticker: str, hours_back: int = 24) -> List[Dict]:
-    """Get news for a ticker via entity matching.
-
-    Args:
-        ticker: Ticker symbol
-        hours_back: Hours to look back
-
-    Returns:
-        List of news items
-    """
-
-    # Get ticker's entities
-    ticker_entities = get_ticker_entities(ticker)
-
-    if not ticker_entities:
-        logger.warning(f"⚠️  No entities found for {ticker}")
-        return []
-
-    # Query news with those entities
-    from trading_mvp.core.db_geo_news import get_recent_news
-
-    all_news = get_recent_news(hours_back=hours_back, limit=100)
-
-    # Filter news that mention ticker's entities
-    relevant_news = []
-    for news in all_news:
-        if not news:
-            continue
-
-        title = news.get('title', '') or ''
-        summary = news.get('summary', '') or ''
-
-        title_lower = title.lower() if isinstance(title, str) else ''
-        summary_lower = summary.lower() if isinstance(summary, str) else ''
-
-        # Check if any entity is mentioned
-        for entity in ticker_entities:
-            if entity.lower() in title_lower or entity.lower() in summary_lower:
-                relevant_news.append(news)
-                break
-
-    logger.info(f"📰 Found {len(relevant_news)} news items for {ticker} via entities")
-    return relevant_news
+# Nota: get_news_for_ticker ELIMINADO - ya no usamos entity matching
+# El sistema ahora usa semantic embeddings en su lugar
 
 
 def get_watchlist_status(watchlist_id: int) -> Dict:

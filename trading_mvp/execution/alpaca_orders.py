@@ -131,6 +131,27 @@ def submit_order(
         "status": order.status
     }
 
+def get_open_orders() -> List[Dict]:
+    """Get all open/pending orders from Alpaca."""
+    client = get_trading_client()
+    # Get only open orders
+    from alpaca.trading.requests import GetOrdersRequest
+    orders = client.get_orders(GetOrdersRequest(status="open"))
+
+    return [
+        {
+            "order_id": order.id,
+            "symbol": order.symbol,
+            "qty": order.qty,
+            "side": order.side,
+            "type": order.type,
+            "status": order.status,
+            "limit_price": order.limit_price,
+            "created_at": order.created_at.isoformat() if order.created_at else None
+        }
+        for order in orders
+    ]
+
 def get_positions() -> List[Dict]:
     """Get current positions from Alpaca."""
     client = get_trading_client()

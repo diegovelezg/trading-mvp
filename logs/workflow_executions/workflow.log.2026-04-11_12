@@ -1,0 +1,854 @@
+2026-04-11 11:36:20,253 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 11:36:20,253 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 11:36:22,660 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.41s)
+2026-04-11 11:36:22,662 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 11:36:22,666 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_113620.json
+2026-04-11 11:36:22,667 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 1 steps completed, 0 failed
+2026-04-11 12:02:02,596 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 12:02:02,596 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 12:02:04,603 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.01s)
+2026-04-11 12:02:04,605 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 12:02:04,605 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 12:02:05,625 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.02s)
+2026-04-11 12:02:05,626 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "account": {
+    "buying_power": 143130.11,
+    "cash": 91793.39,
+    "portfolio_value": 99889.22,
+    "equity": 99889.22
+  },
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current
+2026-04-11 12:02:05,631 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_120202.json
+2026-04-11 12:02:05,631 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 2 steps completed, 0 failed
+2026-04-11 12:07:47,767 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 12:07:47,767 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 12:07:50,109 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.34s)
+2026-04-11 12:07:50,110 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 12:07:50,110 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 12:07:51,245 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.13s)
+2026-04-11 12:07:51,245 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "account": {
+    "buying_power": 143130.11,
+    "cash": 91793.39,
+    "portfolio_value": 99889.22,
+    "equity": 99889.22
+  },
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current
+2026-04-11 12:07:51,249 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_120747.json
+2026-04-11 12:07:51,249 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 2 steps completed, 0 failed
+2026-04-11 12:08:13,075 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 12:08:13,076 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 12:08:15,309 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.23s)
+2026-04-11 12:08:15,310 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 12:08:15,310 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 12:08:16,337 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.03s)
+2026-04-11 12:08:16,338 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "account": {
+    "buying_power": 143130.11,
+    "cash": 91793.39,
+    "portfolio_value": 99889.22,
+    "equity": 99889.22
+  },
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current
+2026-04-11 12:08:16,338 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 12:08:18,414 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.08s)
+2026-04-11 12:08:18,414 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 12:08:18,419 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_120813.json
+2026-04-11 12:08:18,419 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 3 steps completed, 0 failed
+2026-04-11 12:16:10,761 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 12:16:10,761 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 12:16:12,906 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.14s)
+2026-04-11 12:16:12,907 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 12:16:12,907 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 12:16:12,907 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 12:23:13,125 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (420.22s)
+2026-04-11 12:23:13,125 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 178,
+  "existing_entities": 33,
+  "new_entities": 660,
+  "total_entities": 693,
+  "coverage_pct": 1.0,
+  "health_status": "degraded",
+  "validation_checks": {
+    "min_coverage_passed": true,
+    "min_entities_passed": true,
+    "all_checks_passed": false
+  },
+  "duration_seconds": 420.2,
+  "extraction_timestamp": "2026-04-11T12:23:13.124905"
+}
+2026-04-11 12:23:13,129 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_121610.json
+2026-04-11 12:23:13,129 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 2 steps completed, 0 failed
+2026-04-11 12:25:05,004 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 12:25:05,005 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 12:25:06,908 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.90s)
+2026-04-11 12:25:06,910 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 12:25:06,910 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 12:25:07,725 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (0.81s)
+2026-04-11 12:25:07,725 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "account": {
+    "buying_power": 143130.11,
+    "cash": 91793.39,
+    "portfolio_value": 99889.22,
+    "equity": 99889.22
+  },
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current
+2026-04-11 12:25:07,725 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 12:25:09,507 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.78s)
+2026-04-11 12:25:09,507 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 12:25:24,603 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_122505.json
+2026-04-11 12:25:24,604 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 3 steps completed, 0 failed
+2026-04-11 12:26:52,518 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 12:26:52,518 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 12:26:54,613 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.09s)
+2026-04-11 12:26:54,614 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 12:26:54,614 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 12:26:54,614 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 12:27:47,589 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (52.98s)
+2026-04-11 12:27:47,590 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 85,
+  "existing_entities": 126,
+  "new_entities": 0,
+  "total_entities": 126,
+  "coverage_pct": 1.0,
+  "health_status": "degraded",
+  "validation_checks": {
+    "min_coverage_passed": true,
+    "min_entities_passed": true,
+    "all_checks_passed": false
+  },
+  "duration_seconds": 53.0,
+  "extraction_timestamp": "2026-04-11T12:27:47.589755"
+}
+2026-04-11 12:27:47,590 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 12:27:48,509 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (0.92s)
+2026-04-11 12:27:48,509 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 12:27:48,510 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 12:27:50,416 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.91s)
+2026-04-11 12:27:50,417 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 1,
+    "name": "Default Watchlist",
+    "description": "Watchlist principal - tracking de activos principales",
+    "criteria_summary": null,
+    "created_at": "2026-04-10T21:38:44.949248+00:00",
+    "watchlist_items": [
+      {
+        "count": 0
+      }
+    ],
+    "ticker_count": 0,
+    "items": []
+  },
+  "tickers": []
+}
+2026-04-11 12:28:05,343 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 12:28:05,343 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 12:28:05,343 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [
+    {
+      "success": true,
+      "ticker": "USO",
+      "analysis_timestamp": "2026-04-11T12:28:03.067285",
+      "time_window_hours": 48,
+      "duration_seconds": 8.7,
+      "mapped_entities": [
+        "Crude Oil",
+        "Oil",
+        "Energy",
+        "Commodities",
+        "WTI"
+      ],
+      "related_news_count": 9,
+      "news_sources": [
+        "google_news",
+        "alpaca_news",
+        "serpapi_google_news"
+      ],
+      "u
+2026-04-11 12:28:08,153 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 12:28:08,635 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.48s)
+2026-04-11 12:28:08,636 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "LOW CONFIDENCE signal (0.91). RSI: 46.7, ATR: $11.41, Trend: BEARISH. Monitoring for clearer direction.",
+      "confidence_in_decision": 0.91,
+      "risk_level": "medium",
+      "technical_context": "RSI: 46.7, ATR: $11.41, Trend: BEARISH",
+      "ticker_analysis_id": null,
+      "ticker": "MA",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-1
+2026-04-11 12:28:08,636 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 12:28:13,868 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (5.23s)
+2026-04-11 12:28:13,869 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": null,
+  "ticker_analysis_ids": {
+    "MA": 7,
+    "USO": 8,
+    "BWXT": 9
+  }
+}
+2026-04-11 12:28:13,879 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_122652.json
+2026-04-11 12:28:13,880 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 12:31:43,145 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 12:31:43,145 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 12:31:45,259 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.11s)
+2026-04-11 12:31:45,261 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 12:31:45,261 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 12:31:45,261 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 12:33:07,131 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 12:33:07,131 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 12:33:09,411 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.28s)
+2026-04-11 12:33:09,412 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 12:33:09,412 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 12:33:09,412 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 12:33:30,217 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (20.80s)
+2026-04-11 12:33:30,217 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 33,
+  "existing_entities": 178,
+  "new_entities": 0,
+  "total_entities": 178,
+  "coverage_pct": 1.0,
+  "health_status": "degraded",
+  "validation_checks": {
+    "min_coverage_passed": true,
+    "min_entities_passed": true,
+    "all_checks_passed": false
+  },
+  "duration_seconds": 20.8,
+  "extraction_timestamp": "2026-04-11T12:33:30.217349"
+}
+2026-04-11 12:33:30,217 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 12:33:31,140 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (0.92s)
+2026-04-11 12:33:31,140 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 12:33:31,140 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 12:33:32,974 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.83s)
+2026-04-11 12:33:32,975 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 1,
+    "name": "Default Watchlist",
+    "description": "Watchlist principal - tracking de activos principales",
+    "criteria_summary": null,
+    "created_at": "2026-04-10T21:38:44.949248+00:00",
+    "watchlist_items": [
+      {
+        "count": 0
+      }
+    ],
+    "ticker_count": 0,
+    "items": []
+  },
+  "tickers": [],
+  "id": 1,
+  "name": "Default Watchlist"
+}
+2026-04-11 12:33:49,816 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 12:33:49,816 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 12:33:49,817 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [
+    {
+      "success": true,
+      "ticker": "USO",
+      "analysis_timestamp": "2026-04-11T12:33:49.816322",
+      "time_window_hours": 48,
+      "duration_seconds": 10.2,
+      "mapped_entities": [
+        "Crude Oil",
+        "Oil",
+        "Energy",
+        "Commodities",
+        "WTI"
+      ],
+      "related_news_count": 9,
+      "news_sources": [
+        "serpapi_google_news",
+        "alpaca_news",
+        "google_news"
+      ],
+      "
+2026-04-11 12:33:52,421 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 12:33:52,848 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.43s)
+2026-04-11 12:33:52,848 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "NO NEWS DATA - Technicals mixed (RSI 62.3, Trend BULLISH). Insufficient information for action.",
+      "confidence_in_decision": 0.5,
+      "risk_level": "medium",
+      "technical_context": "RSI: 62.3, ATR: $10.35, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "BWXT",
+      "original_recommendation": "NEUTRAL",
+      "analysis_timestamp": "2026-04-11T12:33:
+2026-04-11 12:33:52,848 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 12:33:57,892 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (5.04s)
+2026-04-11 12:33:57,892 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": null,
+  "ticker_analysis_ids": {
+    "BWXT": 10,
+    "MA": 11,
+    "USO": 12
+  }
+}
+2026-04-11 12:33:57,899 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_123307.json
+2026-04-11 12:33:57,899 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 12:34:31,471 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 12:34:31,471 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 12:34:33,701 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.23s)
+2026-04-11 12:34:33,702 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 12:34:33,703 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 12:34:33,703 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 12:34:49,289 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (15.59s)
+2026-04-11 12:34:49,289 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 21,
+  "existing_entities": 190,
+  "new_entities": 0,
+  "total_entities": 190,
+  "coverage_pct": 1.0,
+  "health_status": "degraded",
+  "validation_checks": {
+    "min_coverage_passed": true,
+    "min_entities_passed": true,
+    "all_checks_passed": false
+  },
+  "duration_seconds": 15.6,
+  "extraction_timestamp": "2026-04-11T12:34:49.289646"
+}
+2026-04-11 12:34:49,290 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 12:34:50,282 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (0.99s)
+2026-04-11 12:34:50,282 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 12:34:50,283 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 12:34:52,079 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.80s)
+2026-04-11 12:34:52,079 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 1,
+    "name": "Default Watchlist",
+    "description": "Watchlist principal - tracking de activos principales",
+    "criteria_summary": null,
+    "created_at": "2026-04-10T21:38:44.949248+00:00",
+    "watchlist_items": [
+      {
+        "count": 0
+      }
+    ],
+    "ticker_count": 0,
+    "items": []
+  },
+  "tickers": [],
+  "id": 1,
+  "name": "Default Watchlist"
+}
+2026-04-11 12:35:09,858 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 12:35:09,858 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 12:35:09,859 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [
+    {
+      "success": true,
+      "ticker": "USO",
+      "analysis_timestamp": "2026-04-11T12:35:09.858202",
+      "time_window_hours": 48,
+      "duration_seconds": 8.6,
+      "mapped_entities": [
+        "Crude Oil",
+        "Oil",
+        "Energy",
+        "Commodities",
+        "WTI"
+      ],
+      "related_news_count": 9,
+      "news_sources": [
+        "google_news",
+        "serpapi_google_news",
+        "alpaca_news"
+      ],
+      "u
+2026-04-11 12:35:12,503 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 12:35:12,917 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.41s)
+2026-04-11 12:35:12,917 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "NO NEWS DATA - Technicals mixed (RSI 62.3, Trend BULLISH). Insufficient information for action.",
+      "confidence_in_decision": 0.5,
+      "risk_level": "medium",
+      "technical_context": "RSI: 62.3, ATR: $10.35, Trend: BULLISH",
+      "ticker_analysis_id": null,
+      "ticker": "BWXT",
+      "original_recommendation": "NEUTRAL",
+      "analysis_timestamp": "2026-04-11T12:34:
+2026-04-11 12:35:12,917 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 12:35:17,927 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (5.01s)
+2026-04-11 12:35:17,927 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": null,
+  "ticker_analysis_ids": {
+    "BWXT": 13,
+    "MA": 14,
+    "USO": 15
+  }
+}
+2026-04-11 12:35:17,940 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_123431.json
+2026-04-11 12:35:17,940 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed
+2026-04-11 12:37:19,869 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-11 12:37:19,869 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-11 12:37:22,259 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.39s)
+2026-04-11 12:37:22,261 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 29,
+      "title": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live - BBC",
+      "summary": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "content": "Iran war: US and Tehran in direct peace talks with Pakistan on ending Middle East conflict - follow live &nbsp;&nbsp; BBC",
+      "url": "https://news
+2026-04-11 12:37:22,261 - workflow_logger - INFO - 🚀 STEP START: news_extraction [entity_extraction_001]
+2026-04-11 12:37:22,261 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_coverage_pct": 0.5,
+  "min_total_entities": 100
+}
+2026-04-11 12:37:26,355 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [entity_extraction_001] (4.09s)
+2026-04-11 12:37:26,355 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "total_news": 211,
+  "processed_news": 0,
+  "existing_entities": 211,
+  "new_entities": 0,
+  "total_entities": 211,
+  "coverage_pct": 1.0,
+  "health_status": "healthy",
+  "duration_seconds": 4.093546
+}
+2026-04-11 12:37:26,356 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-11 12:37:27,478 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.12s)
+2026-04-11 12:37:27,479 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.57",
+      "unrealized_pl": "-47.84",
+      "unrealized_plpc": "-0.01578"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "498.66",
+      "unrealized_pl": "-63.5",
+      "unrealized_plpc": "-0.01257"
+    },
+    {
+      "symbol": "USO",
+      
+2026-04-11 12:37:27,479 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-11 12:37:29,443 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.96s)
+2026-04-11 12:37:29,443 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 4
+      }
+    ],
+    "ticker_count": 4,
+    "items": [
+      {
+        "
+2026-04-11 12:37:45,951 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-11 12:37:45,951 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-11 12:37:45,951 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [
+    {
+      "success": true,
+      "ticker": "USO",
+      "analysis_timestamp": "2026-04-11T12:37:38.652664",
+      "time_window_hours": 48,
+      "duration_seconds": 9.2,
+      "mapped_entities": [
+        "Crude Oil",
+        "Oil",
+        "Energy",
+        "Commodities",
+        "WTI"
+      ],
+      "related_news_count": 9,
+      "news_sources": [
+        "google_news",
+        "alpaca_news",
+        "serpapi_google_news"
+      ],
+      "u
+2026-04-11 12:37:48,650 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-11 12:37:49,089 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.44s)
+2026-04-11 12:37:49,089 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "SOLD",
+      "shares": "1",
+      "rationale": "Strong BEARISH signal (confidence 0.90 \u2265 0.675 threshold, negative_ratio 70% \u2265 55%). Analyzed 9 news items with 5 high-risk entities. Top risk: Inflation. Technical context: RSI 56.5, Trend BULLISH. LIQUIDATING 1 shares to protect capital.",
+      "confidence_in_decision": 0.9,
+      "risk_level": "high",
+      "risk_guardrail": "Portfolio Protectio
+2026-04-11 12:37:49,089 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-11 12:37:54,166 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (5.08s)
+2026-04-11 12:37:54,166 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": null,
+  "ticker_analysis_ids": {
+    "USO": 16,
+    "MA": 17,
+    "BWXT": 18
+  }
+}
+2026-04-11 12:37:54,173 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260411_123719.json
+2026-04-11 12:37:54,174 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 7 steps completed, 0 failed

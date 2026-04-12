@@ -312,8 +312,60 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
             <div className="flex flex-wrap gap-4 mb-6">
               <QuantItem label="RSI" value={quant.rsi_14} />
               <QuantItem label="Beta" value={quant.beta_spy} />
+              <QuantItem label="RVOL" value={quant.rvol} />
+              <QuantItem label="Corr SPY" value={quant.corr_spy} />
               <QuantItem label="Sentiment" value={activity.sentiment_score ? `${(activity.sentiment_score * 100).toFixed(1)}%` : '--'} />
-              <QuantItem label="Confidence" value={analysis.avg_confidence ? `${(analysis.avg_confidence * 100).toFixed(0)}%` : '--'} />
+              <QuantItem label="Final Score" value={activity.confidence_in_decision ? `${(activity.confidence_in_decision * 100).toFixed(0)}%` : '--'} />
+            </div>
+
+            {/* DETAILED QUANT GRID */}
+            <div className="mb-8 p-4 bg-zinc-950/40 border border-zinc-900 rounded-xl space-y-4">
+              <div className="flex items-center gap-2 text-zinc-500 mb-2">
+                <BarChart3 className="w-3 h-3" />
+                <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] font-mono">Detailed Quantitative Engine (60% Weight)</h4>
+              </div>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {/* Structure */}
+                <div className="space-y-1">
+                  <p className="text-[8px] text-zinc-600 uppercase font-mono">Structure</p>
+                  <div className="text-[10px] text-zinc-400 space-y-0.5">
+                    <p>SMA 200: <span className="text-zinc-200 font-mono">${quant.sma_200?.toFixed(2)}</span></p>
+                    <p>SMA 50: <span className="text-zinc-200 font-mono">${quant.sma_50?.toFixed(2)}</span></p>
+                    <p>Dist 200: <span className={`font-mono ${quant.price_to_sma200_dist > 0 ? 'text-green-500' : 'text-red-500'}`}>{quant.price_to_sma200_dist?.toFixed(1)}%</span></p>
+                  </div>
+                </div>
+
+                {/* Momentum */}
+                <div className="space-y-1">
+                  <p className="text-[8px] text-zinc-600 uppercase font-mono">Momentum</p>
+                  <div className="text-[10px] text-zinc-400 space-y-0.5">
+                    <p>MACD: <span className="text-zinc-200 font-mono">{quant.macd?.line?.toFixed(3)}</span></p>
+                    <p>Signal: <span className="text-zinc-200 font-mono">{quant.macd?.signal?.toFixed(3)}</span></p>
+                    <p>Hist: <span className={`font-mono ${quant.macd?.histogram > 0 ? 'text-green-500' : 'text-red-500'}`}>{quant.macd?.histogram?.toFixed(3)}</span></p>
+                  </div>
+                </div>
+
+                {/* Conviction */}
+                <div className="space-y-1">
+                  <p className="text-[8px] text-zinc-600 uppercase font-mono">Conviction</p>
+                  <div className="text-[10px] text-zinc-400 space-y-0.5">
+                    <p>RVOL: <span className={`font-mono ${quant.rvol > 1.2 ? 'text-green-500' : 'text-zinc-500'}`}>{quant.rvol?.toFixed(2)}x</span></p>
+                    <p>OBV: <span className="text-zinc-200 font-mono">{(quant.obv / 1000000).toFixed(1)}M</span></p>
+                    <p>Trend: <span className={`font-mono ${quant.trend === 'BULLISH' ? 'text-green-500' : 'text-red-500'}`}>{quant.trend}</span></p>
+                  </div>
+                </div>
+
+                {/* Risk */}
+                <div className="space-y-1">
+                  <p className="text-[8px] text-zinc-600 uppercase font-mono">Volatility</p>
+                  <div className="text-[10px] text-zinc-400 space-y-0.5">
+                    <p>ATR (14): <span className="text-zinc-200 font-mono">${quant.atr_14?.toFixed(2)}</span></p>
+                    <p>Std Dev: <span className="text-zinc-200 font-mono">${quant.std_dev_20?.toFixed(2)}</span></p>
+                    <p>Risk/Price: <span className="text-zinc-200 font-mono">{quant.volatility_ratio?.toFixed(2)}%</span></p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">

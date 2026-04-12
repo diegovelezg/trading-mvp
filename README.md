@@ -28,24 +28,45 @@ trading_mvp/                     # 📦 Core Infrastructure
 
 ---
 
-## 📈 Quantitative Intelligence Engine
+## 🏛️ Arquitectura de la Mesa de Inversiones (v2.0)
 
-El sistema no opera solo por intuición narrativa. Integra un motor estadístico que valida cada tesis de inversión mediante **sensores técnicos en tiempo real**:
+El sistema opera bajo un **Modelo de Decisión Ponderado 60/40**, donde la disciplina matemática de los datos cuantitativos guía la estrategia, y la capacidad contextual de la IA (LLM) valida la tesis.
 
-### 1. Filtros de Momentum y Tendencia
-*   **SMA 50 vs SMA 200 (Golden/Death Cross)**: El sistema identifica la tendencia primaria. Si el precio está bajo la media de 200 días, la confianza del análisis alcista se penaliza automáticamente un 20%.
-*   **Momentum de Corto Plazo**: Cruce de SMA 50 para detectar aceleración del precio.
+### 1. Motor Quant: El Núcleo del 60%
+El algoritmo procesa **11 indicadores clave** divididos en 5 dimensiones críticas para filtrar el ruido y detectar valor real:
 
-### 2. Osciladores de Fuerza Relativa (RSI)
-*   **Anti-Euphoria Filter**: Si el RSI(14) es **> 75**, el `DecisionAgent` bloquea cualquier orden de compra, independientemente de lo buenas que sean las noticias (evita el FOMO y compras en techos).
-*   **Oversold Detection**: Identifica activos castigados con RSI **< 30** como oportunidades de alta probabilidad.
+*   **I. Estructura (Tendencia):** SMA 200 (Dirección LP), SMA 50 (Salud MP), y Distancia al Precio % (Sobre-extensión).
+*   **II. Impulso (Momentum):** RSI 14 (Agotamiento) y MACD (Convergencia/Divergencia de ciclos).
+*   **III. Convicción (Liquidez):** RVOL (Participación Institucional) e Indicador OBV (On-Balance Volume).
+*   **IV. Volatilidad (Riesgo):** ATR 14 (Rango Real) y Desviación Estándar 20d (Pánico/Euforia).
+*   **V. Sensibilidad (Contexto):** Beta vs SPY (Exposición al Mercado) y Correlación Rodante (Alineación Sistémica).
 
-### 3. Volatilidad y Gestión de Riesgo (ATR)
-*   **Stop Loss Dinámico (2x ATR)**: Olvida los porcentajes fijos. El sistema calcula la volatilidad diaria (Average True Range). El Stop Loss se coloca a 2 ATRs del precio de entrada, adaptándose al "ruido" específico de cada activo.
-*   **Take Profit Inteligente**: Ratio de Riesgo/Beneficio de **1:2** calculado sobre la volatilidad real.
+### 2. Motor LLM: El Cerebro Contextual del 40%
+La IA procesa el lenguaje natural de noticias y reportes para aportar el "por qué" detrás de los números:
 
-### 4. Correlación de Mercado (Beta)
-*   **Beta vs SPY**: Mide la sensibilidad del activo respecto al mercado general. Si el mercado es bajista, el sistema reduce el tamaño de posición en activos de alta Beta (> 1.2).
+*   **Análisis GeoMacro:** Impacto de conflictos (ej. Irán-EE.UU.), tasas de la FED y datos de inflación (CPI).
+*   **Sentimiento de Entidades:** Ratio de impacto positivo/negativo de actores clave en el mercado.
+*   **Análisis Dialéctico:** Contraste de tesis alcistas y bajistas basadas en la narrativa macro.
+
+---
+
+## 📈 Quantitative Intelligence Engine (60/40 Weighted Model)
+
+El sistema ya no es solo intuitivo; integra un motor estadístico que domina el **60% de la decisión final**, asegurando que ninguna narrativa de noticias ignore la realidad del precio:
+
+### 1. Filtros de Estructura y Momentum
+*   **Alineación de SMAs**: El sistema requiere confirmación de tendencia primaria y secundaria. 
+*   **MACD & RSI Confirmation**: Se buscan zonas de aceleración de tendencia sin entrar en niveles de agotamiento (RSI > 75).
+
+### 2. Convicción y Volumen Relativo (RVOL)
+*   **Institutional Confirmation**: El sistema ignora noticias si el volumen relativo es bajo (< 0.8), identificando movimientos de minoristas o ruido. Solo actúa ante convicción real (> 1.2 RVOL).
+
+### 3. Volatilidad Adaptativa (ATR)
+*   **Stop Loss Dinámico (2x ATR)**: El sistema calcula la volatilidad diaria (Average True Range). El Stop Loss se coloca a 2 ATRs del precio de entrada, adaptándose al "ruido" específico de cada activo.
+
+### 4. Sensibilidad y Correlación (Beta/Corr)
+*   **Market-Neutral Bias**: El sistema mide la correlación rodante de 20 días con el SPY. Se priorizan activos con "vida propia" o baja correlación para generar Alpha real.
+
 
 ---
 

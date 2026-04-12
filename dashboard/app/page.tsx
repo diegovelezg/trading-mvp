@@ -641,19 +641,29 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                     </div>
 
                     <div className="md:col-span-3 space-y-1 border-l border-blue-900/20 pl-6 text-right">
-                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Veredicto Final</p>
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Veredicto & Acción</p>
                       <p className={`font-black uppercase text-sm ${
                         activity.desk_action === 'BUY' ? 'text-green-500' :
                         activity.desk_action === 'SELL' ? 'text-red-500' :
                         activity.desk_action === 'WAIT' || activity.desk_action === 'WATCH' ? 'text-yellow-500' :
                         'text-blue-400'
                       }`}>
-                        {activity.desk_action === 'BUY' ? 'COMPRAR / EJECUTAR' :
-                         activity.desk_action === 'SELL' ? 'VENDER / LIQUIDAR' :
-                         activity.desk_action === 'WAIT' || activity.desk_action === 'WATCH' ? 'OBSERVAR / EN ESPERA' :
-                         activity.desk_action === 'HOLD' ? 'MANTENER POSICIÓN' :
+                        {activity.desk_action === 'BUY' ? 'COMPRAR' :
+                         activity.desk_action === 'SELL' ? 'VENDER' :
+                         activity.desk_action === 'WAIT' || activity.desk_action === 'WATCH' ? 'OBSERVAR' :
+                         activity.desk_action === 'HOLD' ? 'MANTENER' :
                          activity.desk_action || 'SIN ACCIÓN'}
                       </p>
+                      <div className="mt-2">
+                        <Badge variant="outline" className={`font-mono text-[9px] uppercase ${
+                          activity.action_taken === 'BOUGHT' ? 'border-green-500/50 text-green-400 bg-green-500/10' :
+                          activity.action_taken === 'SOLD' ? 'border-red-500/50 text-red-400 bg-red-500/10' :
+                          activity.action_taken === 'HELD' ? 'border-blue-500/50 text-blue-400 bg-blue-500/10' :
+                          'border-zinc-700 text-zinc-500 bg-zinc-900/50'
+                        }`}>
+                          → EJECUCIÓN: {activity.action_taken === 'HELD' ? 'MANTENIDA (HELD)' : activity.action_taken === 'NONE' ? 'NINGUNA (NONE)' : activity.action_taken === 'BOUGHT' ? 'COMPRADA (BOUGHT)' : activity.action_taken === 'SOLD' ? 'VENDIDA (SOLD)' : activity.action_taken || 'N/A'}
+                        </Badge>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -928,19 +938,29 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                     </div>
 
                     <div className="md:col-span-3 space-y-1 border-l border-blue-900/20 pl-6 text-right">
-                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Veredicto Final</p>
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Veredicto & Acción</p>
                       <p className={`font-black uppercase text-sm ${
                         activity.desk_action === 'BUY' ? 'text-green-500' :
                         activity.desk_action === 'SELL' ? 'text-red-500' :
                         activity.desk_action === 'WAIT' || activity.desk_action === 'WATCH' ? 'text-yellow-500' :
                         'text-blue-400'
                       }`}>
-                        {activity.desk_action === 'BUY' ? 'COMPRAR / EJECUTAR' :
-                         activity.desk_action === 'SELL' ? 'VENDER / LIQUIDAR' :
-                         activity.desk_action === 'WAIT' || activity.desk_action === 'WATCH' ? 'OBSERVAR / EN ESPERA' :
-                         activity.desk_action === 'HOLD' ? 'MANTENER POSICIÓN' :
+                        {activity.desk_action === 'BUY' ? 'COMPRAR' :
+                         activity.desk_action === 'SELL' ? 'VENDER' :
+                         activity.desk_action === 'WAIT' || activity.desk_action === 'WATCH' ? 'OBSERVAR' :
+                         activity.desk_action === 'HOLD' ? 'MANTENER' :
                          activity.desk_action || 'SIN ACCIÓN'}
                       </p>
+                      <div className="mt-2">
+                        <Badge variant="outline" className={`font-mono text-[9px] uppercase ${
+                          activity.action_taken === 'BOUGHT' ? 'border-green-500/50 text-green-400 bg-green-500/10' :
+                          activity.action_taken === 'SOLD' ? 'border-red-500/50 text-red-400 bg-red-500/10' :
+                          activity.action_taken === 'HELD' ? 'border-blue-500/50 text-blue-400 bg-blue-500/10' :
+                          'border-zinc-700 text-zinc-500 bg-zinc-900/50'
+                        }`}>
+                          → EJECUCIÓN: {activity.action_taken === 'HELD' ? 'MANTENIDA (HELD)' : activity.action_taken === 'NONE' ? 'NINGUNA (NONE)' : activity.action_taken === 'BOUGHT' ? 'COMPRADA (BOUGHT)' : activity.action_taken === 'SOLD' ? 'VENDIDA (SOLD)' : activity.action_taken || 'N/A'}
+                        </Badge>
+                      </div>
                     </div>
                   </div>
                 </div>

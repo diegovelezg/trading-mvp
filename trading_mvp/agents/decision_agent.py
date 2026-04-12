@@ -301,6 +301,37 @@ class DecisionAgent:
         portfolio_context['weighted_score'] = final_score
         portfolio_context['sentiment_score'] = getattr(ticker_analysis, 'get', lambda k, d: 0.0)('sentiment_score', 0.0) # Safety fetch
 
+        # --- DYNAMIC STOP LOSS EVALUATION (Pre-emptive) ---
+        positions = portfolio_context.get('positions', [])
+        current_pos = next((p for p in positions if p['symbol'] == ticker), None)
+        
+        if current_pos:
+            entry_price = float(current_pos.get('avg_entry_price', 0))
+            current_price = float(current_pos.get('current_price', 0))
+            atr = quant_stats.get('atr_14', 0)
+            
+            if atr > 0 and entry_price > 0:
+                stop_loss_price = entry_price - (1.5 * atr)
+                if current_price <= stop_loss_price:
+                    logger.warning(f"   🚨 STOP LOSS TRIGGERED for {ticker}! Current: ${current_price:.2f} <= Stop: ${stop_loss_price:.2f}")
+                    # Force a liquidating bearish decision immediately
+                    decision = self._handle_bearish(
+                        ticker=ticker,
+                        confidence=1.0, # Max confidence (1.0 = 100% BEARISH)
+                        positive_ratio=positive_ratio,
+                        negative_ratio=negative_ratio,
+                        top_risks=top_risks + [{'entity_name': 'STOP LOSS', 'overall_impact': 'MECHANICAL TRIGGER'}],
+                        top_opportunities=top_opportunities,
+                        news_count=news_count,
+                        entities_found=entities_found,
+                        portfolio_context=portfolio_context,
+                        is_stop_loss=True
+                    )
+                    
+                    decision['sentiment_score'] = ticker_analysis.get('sentiment_score', 0.0)
+                    decision['confidence_in_decision'] = 1.0
+                    return decision
+
         # Decisions based on final score thresholds
         decision = None
         if final_score >= 0.75:
@@ -496,7 +527,8 @@ class DecisionAgent:
         top_opportunities: List,
         news_count: int,
         entities_found: int,
-        portfolio_context: Dict
+        portfolio_context: Dict,
+        is_stop_loss: bool = False
     ) -> Dict:
         """Handle BEARISH recommendation with Sell-Off capability and pending check."""
 
@@ -520,22 +552,25 @@ class DecisionAgent:
 
         # 2. Check if we should SELL or AVOID
         # Using confidence as the (1.0 - final_score) or similar from handle_bearish
-        strong_sell_signal = confidence >= self.config.min_confidence_for_sell
+        strong_sell_signal = is_stop_loss or (confidence >= self.config.min_confidence_for_sell)
 
         if current_pos and strong_sell_signal:
             # LIQUIDATE POSITION
             qty = current_pos['qty']
             quant = portfolio_context.get('quant_stats', {})
+            
+            sell_rationale = f"🚨 MECHANICAL STOP LOSS TRIGGERED. LIQUIDATING {qty} shares." if is_stop_loss else f"Strong BEARISH weighted signal ({confidence:.2f}). Negative ratio {negative_ratio:.0%}. Technicals: RSI {quant.get('rsi_14', 'N/A')}. LIQUIDATING {qty} shares."
+            
             decision = {
                 'decision': 'FOLLOWED',
                 'action': 'SOLD',
                 'shares': qty,
-                'rationale': f"Strong BEARISH weighted signal ({confidence:.2f}). Negative ratio {negative_ratio:.0%}. Technicals: RSI {quant.get('rsi_14', 'N/A')}. LIQUIDATING {qty} shares.",
+                'rationale': sell_rationale,
                 'confidence_in_decision': confidence,
                 'risk_level': 'high'
             }
 
-            logger.warning(f"   🚨 DECISION: FOLLOWED - SELL {ticker}")
+            logger.warning(f"   🚨 DECISION: FOLLOWED - SELL {ticker} ({'STOP LOSS' if is_stop_loss else 'BEARISH'})")
 
             if self.config.autopilot_enabled and not self.config.dry_run:
                 if ALPACA_EXECUTION_AVAILABLE:
@@ -634,16 +669,23 @@ class DecisionAgent:
         else:
             reason = f"Señal de BAJA CONFIANZA ({confidence:.2f}). {technical_note}. Monitoreando para una dirección más clara."
 
+        # Check if we already hold this ticker
+        positions = portfolio_context.get('positions', [])
+        current_pos = next((p for p in positions if p['symbol'] == ticker), None)
+
+        action_taken = 'HELD' if current_pos else 'NONE'
+        log_action = 'HOLD' if current_pos else 'WATCH'
+
         decision = {
             'decision': 'FOLLOWED',
-            'action': 'NONE',
+            'action': action_taken,
             'rationale': reason,
             'confidence_in_decision': confidence,
             'risk_level': 'medium',
             'technical_context': technical_note
         }
 
-        logger.info(f"   👀 DECISION: FOLLOWED - WATCH {ticker}")
+        logger.info(f"   👀 DECISION: FOLLOWED - {log_action} {ticker}")
         logger.info(f"      Technical Context: {technical_note}")
 
         return decision

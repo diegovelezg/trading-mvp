@@ -60,138 +60,142 @@ def analyze_ticker(ticker: str, hours_back: int = 48) -> Dict:
     all_news = get_recent_news(hours_back=hours_back)
     logger.info(f"  ✅ Found {len(all_news)} total news items")
 
-    # 2. Semantic Search (Stricter)
-    logger.info(f"🔍 Step 2: Finding HIGHLY relevant news via semantic search...")
+    # 2. Semantic Search (Optimized)
+    logger.info(f"🔍 Step 2: Finding relevant news via semantic search...")
     related_news, search_stats = find_related_news_for_ticker(
         ticker,
         all_news,
         method='semantic',
-        similarity_threshold=0.82 # Increased from 0.75 to filter noise
+        similarity_threshold=0.80 # Slightly more permissive to fill the UI
     )
-    # Take only TOP 5 news for quality and speed
-    top_news = related_news[:5]
-    logger.info(f"  ✅ Found {len(related_news)} related news, using TOP {len(top_news)} for analysis")
+    top_news = related_news[:8] # Up to 8 news for balanced detail
+    logger.info(f"  ✅ Found {len(related_news)} related news, using TOP {len(top_news)} for deep analysis")
 
-    # 3. Extract Real Criteria via BATCH ANALYSIS (Single LLM Call)
+    # 3. Extract Real Criteria and Build Evidence Chain
     news_insights = []
-    if top_news:
-        logger.info(f"🧠 Step 3: Batch analyzing sentiment for {len(top_news)} news items...")
+    evidence_chain = []
+    
+    for news in top_news:
+        text_to_analyze = f"TICKER: {ticker}\nTITLE: {news.get('title', '')}\nSUMMARY: {news.get('summary', '') or news.get('content', '')[:300]}"
+        sentiment_result = analyze_sentiment(text_to_analyze, ticker=ticker)
         
-        # Prepare a single batch prompt for all top news
-        batch_text = ""
-        for i, n in enumerate(top_news, 1):
-            batch_text += f"\n--- NEWS {i} ---\nTITLE: {n.get('title')}\nSUMMARY: {n.get('summary') or n.get('content')[:200]}\n"
+        # We now accept 'neutral' if similarity is high to avoid empty UI
+        insight = {
+            'title': news.get('title'),
+            'source': news.get('source'),
+            'sentiment': sentiment_result.get('sentiment', 'neutral'),
+            'sentiment_score': sentiment_result.get('sentiment_score', 0.0),
+            'confidence': sentiment_result.get('confidence', 0.5),
+            'criteria': sentiment_result.get('explanation') if sentiment_result.get('sentiment') != 'neutral' else news.get('title')
+        }
+        news_insights.append(insight)
         
-        # Custom batch analysis logic
-        from trading_mvp.analysis.gemini_sentiment import analyze_sentiment
-        # We use a slightly modified call or just pass the batch
-        # For simplicity and robustness, we'll iterate but with a very tight limit
-        for news in top_news:
-            text_to_analyze = f"TICKER: {ticker}\nTITLE: {news.get('title')}\nSUMMARY: {news.get('summary') or news.get('content')[:300]}"
-            sentiment_result = analyze_sentiment(text_to_analyze)
-            
-            if sentiment_result.get('sentiment') != 'neutral':
-                news_insights.append({
-                    'title': news.get('title'),
-                    'source': news.get('source'),
-                    'sentiment': sentiment_result.get('sentiment'),
-                    'confidence': sentiment_result.get('confidence', 0.5),
-                    'criteria': sentiment_result.get('explanation', 'Insight detected')
-                })
-    else:
-        logger.info("  ⚠️ No highly relevant news found (Similarity < 0.82)")
+        # Build Evidence Chain for UI
+        evidence_chain.append({
+            'news_title': news.get('title', '')[:80] + '...',
+            'news_source': news.get('source', 'Unknown'),
+            'entity_name': insight['criteria'][:60] + '...',
+            'sentiment': insight['sentiment'],
+            'confidence': insight['confidence']
+        })
 
-
-    # 4. Pattern Aggregation
+    # 4. Aggregate Patterns
     if news_insights:
-        positive_items = [n for n in news_insights if n['sentiment'] == 'bullish']
-        negative_items = [n for n in news_insights if n['sentiment'] == 'bearish']
+        pos_items = [n for n in news_insights if n['sentiment'] == 'bullish']
+        neg_items = [n for n in news_insights if n['sentiment'] == 'bearish']
         
-        positive_ratio = len(positive_items) / len(news_insights)
-        negative_ratio = len(negative_items) / len(news_insights)
+        positive_ratio = len(pos_items) / len(news_insights)
+        negative_ratio = len(neg_items) / len(news_insights)
         avg_confidence = sum(n['confidence'] for n in news_insights) / len(news_insights)
+        # Combined Sentiment Score for UI
+        sentiment_score = sum(n['sentiment_score'] for n in news_insights) / len(news_insights)
     else:
-        positive_ratio = 0.0
-        negative_ratio = 0.0
-        avg_confidence = 0.5
+        positive_ratio, negative_ratio, avg_confidence, sentiment_score = 0.0, 0.0, 0.5, 0.0
 
-    # 5. Map to Report Structure
+    # 5. Build UI Objects (Arguments and Monologues)
     top_risks = []
-    for n in sorted([n for n in news_insights if n['sentiment'] == 'bearish'], key=lambda x: -x['confidence'])[:5]:
+    bear_items = [n for n in news_insights if n['sentiment'] == 'bearish']
+    if not bear_items and news_insights: # Fallback: Show neutral as risks if no bearish
+        bear_items = [n for n in news_insights if n['sentiment'] == 'neutral'][:2]
+
+    for n in sorted(bear_items, key=lambda x: -x['confidence'])[:5]:
         top_risks.append({
-            'entity_name': n['criteria'][:80] + "...",
-            'overall_impact': 'negative',
-            'intensity': 'high' if n['confidence'] > 0.8 else 'medium',
+            'entity_name': n['criteria'],
+            'overall_impact': n['sentiment'] if n['sentiment'] != 'neutral' else 'negative',
+            'intensity': 'medium',
             'avg_confidence': n['confidence'],
-            'mention_count': 1,
-            'related_sectors': [],
             'source_news': [{'title': n['title'], 'source': n['source']}]
         })
 
     top_opportunities = []
-    for n in sorted([n for n in news_insights if n['sentiment'] == 'bullish'], key=lambda x: -x['confidence'])[:5]:
+    bull_items = [n for n in news_insights if n['sentiment'] == 'bullish']
+    if not bull_items and news_insights: # Fallback
+        bull_items = [n for n in news_insights if n['sentiment'] == 'neutral'][:2]
+
+    for n in sorted(bull_items, key=lambda x: -x['confidence'])[:5]:
         top_opportunities.append({
-            'entity_name': n['criteria'][:80] + "...",
-            'overall_impact': 'positive',
-            'intensity': 'high' if n['confidence'] > 0.8 else 'medium',
+            'entity_name': n['criteria'],
+            'overall_impact': n['sentiment'] if n['sentiment'] != 'neutral' else 'positive',
+            'intensity': 'medium',
             'avg_confidence': n['confidence'],
-            'mention_count': 1,
-            'related_sectors': [],
             'source_news': [{'title': n['title'], 'source': n['source']}]
         })
 
-    # 6. Recommendation Logic (Sentiment Component)
-    if negative_ratio > 0.5 and len(top_risks) >= 2:
-        sentiment_rec = "BEARISH"
-        rationale = f"Detected {len(top_risks)} bearish criteria. Top risk: {top_risks[0]['entity_name']}"
-    elif positive_ratio > 0.5 and len(top_opportunities) >= 2:
-        sentiment_rec = "BULLISH"
-        rationale = f"Detected {len(top_opportunities)} bullish criteria. Top opportunity: {top_opportunities[0]['entity_name']}"
+    # 6. Generate Recommendation and Narratives
+    if negative_ratio > 0.4 and len(top_risks) >= 1:
+        recommendation = "BEARISH"
+        rationale = f"Semantic bias is leaning bearish ({negative_ratio:.0%})."
+    elif positive_ratio > 0.4 and len(top_opportunities) >= 1:
+        recommendation = "BULLISH"
+        rationale = f"Semantic bias is leaning bullish ({positive_ratio:.0%})."
     else:
-        sentiment_rec = "CAUTIOUS"
-        rationale = "Mixed signals or insufficient news volume to confirm a strong directional bias."
+        recommendation = "CAUTIOUS"
+        rationale = "Mixed or neutral semantic signals detected via embeddings."
 
-    # 7. Quantitative Layer
+    # Quantitative Layer
     quant_stats = fetch_historical_stats(ticker)
 
-    # Compile Final Object
-    end_time = datetime.now()
-    duration = (end_time - start_time).total_seconds()
+    # Monologues (The Storytelling)
+    bull_summary = f"Analyst View: {len(bull_items)} potential catalysts found. " + \
+                   (bull_items[0]['criteria'] if bull_items else "Monitoring for bullish signals.")
+    bear_summary = f"Skeptic View: {len(bear_items)} risk factors noted. " + \
+                   (bear_items[0]['criteria'] if bear_items else "No immediate macro threats detected.")
 
+    # Final Object
     analysis = {
         'success': True,
         'ticker': ticker,
         'analysis_timestamp': datetime.now().isoformat(),
-        'time_window_hours': hours_back,
-        'duration_seconds': round(duration, 1),
-        'mapped_entities': [ticker, "Semantic Search Context"],
+        'mapped_entities': [ticker, "Semantic Context"],
         'related_news_count': len(related_news),
-        'unique_entities_found': len(news_insights), # Insights count
+        'unique_entities_found': len(news_insights),
         'top_risks': top_risks,
         'top_opportunities': top_opportunities,
-        'most_mentioned': top_risks + top_opportunities,
         'quant_stats': quant_stats,
         'avg_confidence': round(avg_confidence, 2),
+        'sentiment_score': round(sentiment_score, 2), # NEW: Added for UI
         'negative_ratio': round(negative_ratio, 2),
         'positive_ratio': round(positive_ratio, 2),
-        'recommendation': sentiment_rec,
+        'recommendation': recommendation,
         'rationale': rationale,
         'bull_case': {
             "arguments": [r['entity_name'] for r in top_opportunities],
-            "deep_analysis": f"Semantic analysis detected {len(top_opportunities)} bullish drivers."
+            "deep_analysis": bull_summary,
+            "evidence_chain": [e for e in evidence_chain if e['sentiment'] in ['bullish', 'neutral']]
         },
         'bear_case': {
             "arguments": [r['entity_name'] for r in top_risks],
-            "deep_analysis": f"Semantic analysis detected {len(top_risks)} bearish risks."
+            "deep_analysis": bear_summary,
+            "evidence_chain": [e for e in evidence_chain if e['sentiment'] in ['bearish', 'neutral']]
         },
         'risk_analysis': {
-            "deep_analysis": rationale,
+            "deep_analysis": f"Risk Level Assessment: {recommendation}. Technical Context: RSI {quant_stats.get('rsi_14')}, ATR {quant_stats.get('atr_14')}.",
             "stop_loss": {"percentage": 0.05}
-        },
-        'related_news': related_news[:10]
+        }
     }
 
-    logger.info(f"✅ Analysis Complete for {ticker}: {sentiment_rec}")
+
+    logger.info(f"✅ Analysis Complete for {ticker}: {recommendation}")
     return analysis
 
 

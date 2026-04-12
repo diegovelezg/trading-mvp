@@ -416,8 +416,9 @@ def run_investment_desk_v2(hours_back: int = 48) -> Dict:
                 agent_decisions = decision_agent.process_desk_recommendations(
                     desk_analysis=desk_analysis,
                     portfolio_context={
-                        'account': portfolio_result['account'],
-                        'positions': portfolio_result['positions']
+                        'account': portfolio_result.get('account', {}),
+                        'positions': portfolio_result.get('positions', []),
+                        'orders': portfolio_result.get('orders', []) # Pass pending orders!
                     }
                 )
 

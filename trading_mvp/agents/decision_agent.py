@@ -258,12 +258,14 @@ class DecisionAgent:
         # Context for handlers
         portfolio_context['quant_stats'] = quant_stats
         portfolio_context['weighted_score'] = final_score
+        portfolio_context['sentiment_score'] = getattr(ticker_analysis, 'get', lambda k, d: 0.0)('sentiment_score', 0.0) # Safety fetch
 
         # Decisions based on final score thresholds
+        decision = None
         if final_score >= 0.75:
-            return self._handle_bullish(
+            decision = self._handle_bullish(
                 ticker=ticker,
-                confidence=final_score, # Use weighted score as confidence
+                confidence=final_score, 
                 positive_ratio=positive_ratio,
                 negative_ratio=negative_ratio,
                 top_risks=top_risks,
@@ -273,8 +275,7 @@ class DecisionAgent:
                 portfolio_context=portfolio_context
             )
         elif final_score <= 0.35:
-            # Strong Bearish
-            return self._handle_bearish(
+            decision = self._handle_bearish(
                 ticker=ticker,
                 confidence=1.0 - final_score,
                 positive_ratio=positive_ratio,
@@ -286,7 +287,7 @@ class DecisionAgent:
                 portfolio_context=portfolio_context
             )
         else:
-            return self._handle_cautious(
+            decision = self._handle_cautious(
                 ticker=ticker,
                 confidence=final_score,
                 positive_ratio=positive_ratio,
@@ -297,6 +298,12 @@ class DecisionAgent:
                 entities_found=entities_found,
                 portfolio_context=portfolio_context
             )
+        
+        # FINAL ENRICHMENT FOR UI
+        decision['sentiment_score'] = ticker_analysis.get('sentiment_score', 0.0)
+        decision['confidence_in_decision'] = final_score
+        
+        return decision
 
     def _handle_bullish(
         self,

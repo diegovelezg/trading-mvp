@@ -1,0 +1,228 @@
+2026-04-13 14:40:45,714 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-13 14:40:45,714 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-13 14:40:51,232 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (5.52s)
+2026-04-13 14:40:51,236 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 6913,
+      "title": "Blockade Plunges Oil Market Into Fresh Round of Turmoil - WSJ",
+      "summary": "Blockade Plunges Oil Market Into Fresh Round of Turmoil WSJ",
+      "content": "Blockade Plunges Oil Market Into Fresh Round of Turmoil &nbsp;&nbsp; WSJ",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOV2FpRFkxSDNrNEIxdGlMUlVqcDJSWVhvMVhtY1NOMGk0NV9BTzNsdFB4VXhsbEt4b1lkZW1pamdSaWdPeE11elB6YXIweVZRWnB4X0lrdzhGU2dZODFse
+2026-04-13 14:40:51,236 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-13 14:40:52,592 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.36s)
+2026-04-13 14:40:52,592 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "232.155",
+      "unrealized_pl": "-14.235",
+      "unrealized_plpc": "-0.00469"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "506.58",
+      "unrealized_pl": "15.7",
+      "unrealized_plpc": "0.00311"
+    },
+    {
+      "symbol": "TSM",
+      
+2026-04-13 14:40:52,593 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-13 14:40:53,360 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (0.77s)
+2026-04-13 14:40:53,361 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-13 14:49:48,664 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-13 14:49:48,664 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-13 14:49:48,665 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "QCOM",
+      "analysis_timestamp": "2026-04-13T14:48:57.052640",
+      "mapped_entities": [
+        "QCOM",
+        "Semantic Context"
+      ],
+      "related_news_count": 18,
+      "unique_entities_found": 8,
+      "top_risks": [
+        {
+          "entity_name": "Como empresa fabless, Qualcomm es vulnerable a las interrupciones en la cadena de suministro de sus fundiciones externas debido a la escasez de insumos
+2026-04-13 14:49:51,288 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-13 14:49:51,293 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-13 14:49:51,293 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "SE\u00d1ALES MIXTAS - Positivo: 25%, Negativo: 25%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 54.1, ATR: $1.54, Trend: BULLISH.",
+      "confidence_in_decision": 0.6712,
+      "risk_level": "medium",
+      "technical_context": "RSI: 54.1, ATR: $1.54, Trend: BULLISH",
+      "sentiment_score": -0.03,
+      "ticker_analysis_id": null,
+      "ticker": "PEG",
+      "ori
+2026-04-13 14:49:51,294 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-13 14:50:15,764 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (24.47s)
+2026-04-13 14:50:15,765 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 30,
+  "ticker_analysis_ids": {
+    "PEG": 273,
+    "BWXT": 274,
+    "SNPS": 275,
+    "MA": 276,
+    "TSM": 277,
+    "BKR": 278,
+    "WEC": 279,
+    "QCOM": 280,
+    "PWR": 281
+  }
+}
+2026-04-13 14:50:15,776 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260413_144045.json
+2026-04-13 14:50:15,777 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-13 15:00:16,153 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-13 15:00:16,153 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-13 15:00:22,392 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (6.24s)
+2026-04-13 15:00:22,396 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 6913,
+      "title": "Blockade Plunges Oil Market Into Fresh Round of Turmoil - WSJ",
+      "summary": "Blockade Plunges Oil Market Into Fresh Round of Turmoil WSJ",
+      "content": "Blockade Plunges Oil Market Into Fresh Round of Turmoil &nbsp;&nbsp; WSJ",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOV2FpRFkxSDNrNEIxdGlMUlVqcDJSWVhvMVhtY1NOMGk0NV9BTzNsdFB4VXhsbEt4b1lkZW1pamdSaWdPeE11elB6YXIweVZRWnB4X0lrdzhGU2dZODFse
+2026-04-13 15:00:22,397 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-13 15:00:24,656 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (2.26s)
+2026-04-13 15:00:24,657 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "232.83",
+      "unrealized_pl": "-5.46",
+      "unrealized_plpc": "-0.0018"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "508.58",
+      "unrealized_pl": "35.7",
+      "unrealized_plpc": "0.00707"
+    },
+    {
+      "symbol": "TSM",
+      "qty
+2026-04-13 15:00:24,657 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-13 15:00:26,906 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.25s)
+2026-04-13 15:00:26,906 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-13 15:09:10,330 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-13 15:09:10,330 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-13 15:09:10,331 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "QCOM",
+      "analysis_timestamp": "2026-04-13T15:02:26.489247",
+      "mapped_entities": [
+        "QCOM",
+        "Semantic Context"
+      ],
+      "related_news_count": 18,
+      "unique_entities_found": 8,
+      "top_risks": [
+        {
+          "entity_name": "La falta de helio genera cuellos de botella en la fabricaci\u00f3n de semiconductores, comprometiendo la capacidad de entrega de procesadores Snapdrago
+2026-04-13 15:09:13,241 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-13 15:09:13,251 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-13 15:09:13,251 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "HELD",
+      "rationale": "SE\u00d1ALES MIXTAS - Positivo: 25%, Negativo: 12%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 62.3, ATR: $10.35, Trend: BULLISH.",
+      "confidence_in_decision": 0.514,
+      "risk_level": "medium",
+      "technical_context": "RSI: 62.3, ATR: $10.35, Trend: BULLISH",
+      "sentiment_score": 0.09,
+      "ticker_analysis_id": null,
+      "ticker": "BWXT",
+      "or
+2026-04-13 15:09:13,251 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-13 15:09:38,841 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (25.59s)
+2026-04-13 15:09:38,841 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 31,
+  "ticker_analysis_ids": {
+    "BWXT": 282,
+    "QCOM": 283,
+    "MA": 284,
+    "PWR": 285,
+    "BKR": 286,
+    "SNPS": 287,
+    "TSM": 288,
+    "WEC": 289,
+    "PEG": 290
+  }
+}
+2026-04-13 15:09:38,847 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260413_150016.json
+2026-04-13 15:09:38,848 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed

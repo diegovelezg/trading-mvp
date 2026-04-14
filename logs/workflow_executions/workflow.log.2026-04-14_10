@@ -1,0 +1,121 @@
+2026-04-14 10:40:44,730 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-14 10:40:44,730 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-14 10:40:46,903 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.17s)
+2026-04-14 10:40:46,905 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7040,
+      "title": "Reciprocal and Resilient Mineral Supply Chains: Lessons from the Nacala Corridor - Africa Center for Strategic Studies",
+      "summary": "Reciprocal and Resilient Mineral Supply Chains: Lessons from the Nacala Corridor &nbsp;&nbsp; Africa Center for Strategic Studies",
+      "content": "Reciprocal and Resilient Mineral Supply Chains: Lessons from the Nacala Corridor &nbsp;&nbsp; Africa Center for Strategic Studies",
+
+2026-04-14 10:40:46,905 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-14 10:40:48,368 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.46s)
+2026-04-14 10:40:48,369 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "91",
+      "side": "long",
+      "avg_entry_price": "61.82044",
+      "current_price": "61.7801",
+      "unrealized_pl": "-3.67094",
+      "unrealized_plpc": "-0.00065"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "239.08",
+      "unrealized_pl": "75.79",
+      "unrealized_plpc": "0.02499"
+    },
+    {
+      "symbol": "MA",
+  
+2026-04-14 10:40:48,369 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-14 10:40:52,533 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (4.16s)
+2026-04-14 10:40:52,533 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-14 10:45:52,337 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-14 10:45:52,337 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-14 10:45:52,338 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "SNPS",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": true
+      },
+      "analysis_timestamp": "2026-04-14T10:42:24.899547",
+      "semantic_context": [
+        "SNPS",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 1,
+      "unique_entities_found": 1,
+      "top_risks": [],
+      "top_opportunities": [
+  
+2026-04-14 10:45:54,875 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-14 10:45:54,879 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-14 10:45:54,880 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "Se\u00f1al de BAJA CONFIANZA (0.53). RSI: 45.6, ATR: $1.60, Trend: BEARISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
+      "confidence_in_decision": 0.528,
+      "risk_level": "medium",
+      "technical_context": "RSI: 45.6, ATR: $1.60, Trend: BEARISH",
+      "sentiment_score": 0.35,
+      "ticker_analysis_id": null,
+      "ticker": "PEG",
+      "original_recommenda
+2026-04-14 10:45:54,880 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-14 10:46:18,836 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (23.96s)
+2026-04-14 10:46:18,836 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 35,
+  "ticker_analysis_ids": {
+    "PEG": 327,
+    "PWR": 328,
+    "SNPS": 329,
+    "WEC": 330,
+    "MA": 331,
+    "TSM": 332,
+    "QCOM": 333,
+    "BWXT": 334,
+    "BKR": 335
+  }
+}
+2026-04-14 10:46:18,841 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260414_104044.json
+2026-04-14 10:46:18,841 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_095910.json
+2026-04-14 10:46:18,841 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed

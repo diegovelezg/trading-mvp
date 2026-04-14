@@ -35,25 +35,27 @@ export const GET = withErrorHandler(async () => {
   const totalPL = equity - baseValue;
   const returnPct = baseValue !== 0 ? (totalPL / baseValue) * 100 : 0;
 
-  // Calculate Max Drawdown from history
+  // Calculate Max Drawdown from history (filter out zeros/nulls)
   let maxDrawdown = 0;
-  let peak = history.equity[0] || equity;
-  for (let i = 0; i < history.equity.length; i++) {
-    if (history.equity[i] > peak) peak = history.equity[i];
-    const dd = peak !== 0 ? (peak - history.equity[i]) / peak : 0;
-    if (dd > maxDrawdown) maxDrawdown = dd;
-  }
-  maxDrawdown = maxDrawdown * 100;
+  const validEquity = history.equity.filter((e: number) => e > 0);
 
-  // Calculate a simple Sharpe from daily equity if history is available
-  const returns = [];
-  for (let i = 1; i < history.equity.length; i++) {
-    if (history.equity[i-1] !== 0) {
-      returns.push((history.equity[i] - history.equity[i-1]) / history.equity[i-1]);
+  if (validEquity.length > 0) {
+    let peak = validEquity[0];
+    for (let i = 0; i < validEquity.length; i++) {
+      if (validEquity[i] > peak) peak = validEquity[i];
+      const dd = peak !== 0 ? (peak - validEquity[i]) / peak : 0;
+      if (dd > maxDrawdown) maxDrawdown = dd;
     }
+    maxDrawdown = maxDrawdown * 100;
   }
-  const avgReturn = returns.reduce((a, b) => a + b, 0) / (returns.length || 1);
-  const stdDev = Math.sqrt(returns.map(x => Math.pow(x - avgReturn, 2)).reduce((a, b) => a + b, 0) / (returns.length || 1));
+
+  // Calculate a simple Sharpe from daily equity (use same filtered data)
+  const returns = [];
+  for (let i = 1; i < validEquity.length; i++) {
+    returns.push((validEquity[i] - validEquity[i-1]) / validEquity[i-1]);
+  }
+  const avgReturn = returns.length > 0 ? returns.reduce((a, b) => a + b, 0) / returns.length : 0;
+  const stdDev = returns.length > 0 ? Math.sqrt(returns.map(x => Math.pow(x - avgReturn, 2)).reduce((a, b) => a + b, 0) / returns.length) : 0;
   const sharpe = stdDev !== 0 ? (avgReturn / stdDev) * Math.sqrt(252) : 0;
 
   // 4. Intelligence Metadata (From Supabase)

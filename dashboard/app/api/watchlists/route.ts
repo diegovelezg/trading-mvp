@@ -65,20 +65,36 @@ export const GET = withErrorHandler(async (req: NextRequest) => {
 
       if (itemsError) throw itemsError;
 
-      // Get live ticker data from Alpaca
+      // Get DNA data and live ticker data from Alpaca
       const tickers = items.map(item => item.ticker);
       const { getBatchTickerData } = await import('@/lib/alpaca');
-      const liveData = await getBatchTickerData(tickers);
+      const [liveData, dnaData] = await Promise.all([
+        getBatchTickerData(tickers),
+        // Fetch DNA from asset_dna table
+        supabase
+          .from('asset_dna')
+          .select('ticker, asset_type, core_drivers, bullish_catalysts, bearish_catalysts')
+          .in('ticker', tickers)
+      ]);
 
-      // Merge static data with live data
+      // Create DNA lookup map
+      const dnaMap = new Map((dnaData.data || []).map(dna => [dna.ticker, dna]));
+
+      // Merge static data with live data and DNA
       const itemsWithLive = items.map(item => {
         const live = liveData.find(d => d.ticker === item.ticker);
+        const dna = dnaMap.get(item.ticker);
         return {
           ...item,
           currentPrice: live?.currentPrice,
           change28d: live?.change28d,
           volume: live?.volume,
           lastUpdated: live?.lastUpdated,
+          // DNA info
+          assetType: dna?.asset_type,
+          coreDrivers: dna?.core_drivers,
+          bullishCatalysts: dna?.bullish_catalysts,
+          bearishCatalysts: dna?.bearish_catalysts,
         };
       });
 

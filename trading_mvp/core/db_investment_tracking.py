@@ -431,7 +431,7 @@ def record_decision(
                 action_taken,
                 position_size,
                 entry_price,
-                alpaca_order_id
+                str(alpaca_order_id) if alpaca_order_id else None
             ))
 
             decision_id = cur.fetchone()[0]

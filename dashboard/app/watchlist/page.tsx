@@ -53,6 +53,11 @@ type ActiveItem = {
   currentPrice?: number;
   change28d?: number;
   volume?: number;
+  // DNA fields
+  assetType?: string;
+  coreDrivers?: string[];
+  bullishCatalysts?: string[];
+  bearishCatalysts?: string[];
 };
 
 type TickerQuantData = {
@@ -431,9 +436,52 @@ export default function WatchlistPage() {
                     </button>
                   </CardHeader>
                   <CardContent className="pt-2">
-                    <div className="text-[11px] text-zinc-400 leading-relaxed line-clamp-2 min-h-[32px] italic border-l border-zinc-800 pl-3">
-                      {item.reason}
+                    {/* Asset DNA Description */}
+                    <div className="text-[11px] text-zinc-400 leading-relaxed line-clamp-2 min-h-[32px] border-l border-zinc-800 pl-3">
+                      {item.reason && !item.reason.match(/^(Added from exploration|Añadido desde exploración)/) ? (
+                        <span className="italic">{item.reason}</span>
+                      ) : item.coreDrivers && item.coreDrivers.length > 0 ? (
+                        <span>
+                          <span className="text-blue-400 not-italic font-semibold">Core Drivers:</span>{' '}
+                          {item.coreDrivers.slice(0, 2).join(', ')}
+                          {item.coreDrivers.length > 2 && '...'}
+                        </span>
+                      ) : (
+                        <span className="text-zinc-500 italic">
+                          {item.assetType || 'Activo en seguimiento'}
+                        </span>
+                      )}
                     </div>
+
+                    {/* DNA Info */}
+                    {item.assetType && (
+                      <div className="mt-3 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Badge variant="outline" className="text-[8px] px-2 py-0 border-blue-900/50 text-blue-400 bg-blue-950/10">
+                            🧬 {item.assetType}
+                          </Badge>
+                        </div>
+
+                        {/* Core Drivers */}
+                        {item.coreDrivers && item.coreDrivers.length > 0 && (
+                          <div className="space-y-1">
+                            <p className="text-[8px] font-mono text-zinc-600 uppercase">Core Drivers</p>
+                            <div className="flex flex-wrap gap-1">
+                              {item.coreDrivers.slice(0, 3).map((driver, i) => (
+                                <span key={i} className="text-[9px] px-1.5 py-0.5 bg-zinc-900 border border-zinc-800 text-zinc-400 rounded">
+                                  {driver}
+                                </span>
+                              ))}
+                              {item.coreDrivers.length > 3 && (
+                                <span className="text-[9px] px-1.5 py-0.5 text-zinc-600">
+                                  +{item.coreDrivers.length - 3}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
 
                     {/* Live Alpaca Data */}
                     {(item.currentPrice || item.change28d !== undefined) && (
@@ -576,7 +624,7 @@ export default function WatchlistPage() {
                                       <button
                                         onClick={(e) => {
                                           e.stopPropagation();
-                                          addToWatchlist(t, tickerDetail?.name || '', `Añadido desde exploración #${exp.id}`);
+                                          addToWatchlist(t, tickerDetail?.name || '', tickerDetail?.description_es || 'Ticker añadido desde exploración');
                                         }}
                                         disabled={addingTicker}
                                         className="px-3 py-1.5 text-[10px] font-mono uppercase bg-blue-900/20 hover:bg-blue-900/40 text-blue-400 border border-blue-900/50 rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"

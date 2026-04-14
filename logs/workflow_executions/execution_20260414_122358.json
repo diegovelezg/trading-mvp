@@ -1,0 +1,34 @@
+{
+  "execution_id": "20260414_122358",
+  "start_time": "2026-04-14T12:23:58.689436",
+  "end_time": "2026-04-14T12:24:01.104337",
+  "total_duration_seconds": 2.414901,
+  "total_steps": 1,
+  "completed_steps": 0,
+  "failed_steps": 1,
+  "steps": [
+    {
+      "step_id": "news_extraction_001",
+      "step_type": "news_extraction",
+      "status": "failed",
+      "start_time": "2026-04-14T12:23:58.689436",
+      "end_time": "2026-04-14T12:24:01.104337",
+      "duration_seconds": 2.414901,
+      "input_data": {
+        "hours_back": 48,
+        "min_news_count": 10,
+        "max_age_hours": 24
+      },
+      "output_data": null,
+      "error_message": "Step returned success=False: News extraction failed: News too old: 12/100 items are from the last 24h (12.0% < 20% required)",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/diegovelezg/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py\", line 308, in execute_step\n    raise ValueError(f\"Step returned success=False: {error_msg}\")\nValueError: Step returned success=False: News extraction failed: News too old: 12/100 items are from the last 24h (12.0% < 20% required)\n",
+      "metadata": {
+        "input_data": {
+          "hours_back": 48,
+          "min_news_count": 10,
+          "max_age_hours": 24
+        }
+      }
+    }
+  ]
+}

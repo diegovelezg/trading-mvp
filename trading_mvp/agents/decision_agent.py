@@ -29,6 +29,7 @@ try:
         get_account
     )
     from trading_mvp.core.portfolio_logic import validate_trade_size
+    from trading_mvp.core.db_manager import get_connection
     ALPACA_EXECUTION_AVAILABLE = True
     logger.info("✅ Alpaca Paper Trading execution available")
 except ImportError as e:
@@ -389,6 +390,17 @@ class DecisionAgent:
         portfolio_context['quant_stats'] = quant_stats
         portfolio_context['weighted_score'] = final_score
         portfolio_context['sentiment_score'] = getattr(ticker_analysis, 'get', lambda k, d: 0.0)('sentiment_score', 0.0) # Safety fetch
+        portfolio_context['original_confidence'] = confidence
+
+        # Phase 4: Reduce Analysis Paralysis (Override strict final_score if strong alignment)
+        trend = quant_stats.get('trend', 'UNKNOWN')
+        rsi = quant_stats.get('rsi_14', 50)
+        
+        is_strong_override = False
+        if final_score < 0.75 and trend == 'BULLISH' and confidence > 0.85 and positive_ratio > 0.60 and rsi < 75:
+            logger.info(f"   🚀  STARTER OVERRIDE: {ticker} has strong alignment (Conf: {confidence:.2f}, Trend: {trend}). Elevating to BULLISH evaluation.")
+            final_score = 0.76  # Bump final score slightly above threshold to trigger buy
+            is_strong_override = True
 
         # Decisions based on final score thresholds
         decision = None
@@ -467,35 +479,40 @@ class DecisionAgent:
             logger.info(f"   🛡️  DECISION: IGNORED - {decision['rationale']}")
             return decision
 
-        if current_pos:
-            decision = {
-                'decision': 'IGNORED',
-                'action': 'NONE',
-                'rationale': f"Already have a LIVE position in {ticker}. To increase size, use manual adjustment.",
-                'confidence_in_decision': confidence,
-                'risk_level': 'low'
-            }
-            logger.info(f"   🛡️  DECISION: IGNORED - {decision['rationale']}")
-            return decision
-
         # 2. Extract technical data
         quant_stats = portfolio_context.get('quant_stats', {}) 
         rsi = quant_stats.get('rsi_14', 50)
         atr = quant_stats.get('atr_14', 0)
         trend = quant_stats.get('trend', 'UNKNOWN')
 
-        # 3. Basic criteria (Now using the 60/40 Weighted Score via 'confidence')
-        # We assume 'confidence' passed here IS the weighted final_score
+        # 3. Check for EXISTING EXPOSURE (Live) and evaluate PYRAMIDING
+        is_pyramiding = False
+        if current_pos:
+            # Check if conditions are met for Scale-In
+            if confidence >= 0.80 and trend == "BULLISH" and rsi < 70 and quant_stats.get('momentum') == 'POSITIVE':
+                logger.info(f"   📈  PYRAMIDING: Strong conviction and momentum on existing position for {ticker}. Initiating Scale-In.")
+                is_pyramiding = True
+            else:
+                decision = {
+                    'decision': 'IGNORED',
+                    'action': 'NONE',
+                    'rationale': f"Already have a LIVE position in {ticker}. Momentum or conviction not strong enough for Scale-In.",
+                    'confidence_in_decision': confidence,
+                    'risk_level': 'low'
+                }
+                logger.info(f"   🛡️  DECISION: IGNORED - {decision['rationale']}")
+                return decision
+
+        # 4. Basic criteria
         strong_signal = confidence >= self.config.min_confidence_for_buy
 
-        # 4. TECHNICAL FILTERS
+        # 5. TECHNICAL FILTERS (REGIME FILTER)
         technical_rejection = None
         if rsi > 75:
             technical_rejection = f"Asset is OVERBOUGHT (RSI: {rsi:.1f})"
         elif trend == "BEARISH":
-            # Optional: Allow buying against trend but with lower confidence
-            confidence *= 0.8
-            logger.info(f"   ⚠️  Buying against trend (Price < SMA 200). Reducing confidence.")
+            technical_rejection = f"Asset is in BEARISH trend (Price < SMA 200). Refusing to buy against primary trend."
+            logger.warning(f"   🛑  {technical_rejection}")
 
         if strong_signal and not technical_rejection:
             # Calculate position size
@@ -504,6 +521,18 @@ class DecisionAgent:
                 confidence=confidence,
                 portfolio_context=portfolio_context
             )
+            
+            # Apply Pyramiding Sizing
+            if is_pyramiding:
+                position_size = position_size * 0.5  # Add 50% of a normal size tranche
+                logger.info(f"   ➕  Scale-In Size: ${position_size:.2f}")
+            elif confidence < 0.85 or rsi > 65:
+                # Starter position if slightly less conviction or slightly overextended
+                position_size = position_size * 0.5
+                logger.info(f"   🌱  Initiating STARTER POSITION: ${position_size:.2f}")
+                is_starter = True
+            else:
+                is_starter = False
 
             if position_size <= 0:
                 return {
@@ -514,8 +543,7 @@ class DecisionAgent:
                     'risk_level': 'high'
                 }
 
-            # 5. DYNAMIC VOLATILITY STOP LOSS (Feedback 2)
-            # Use 1.5x ATR below entry price
+            # 6. DYNAMIC VOLATILITY STOP LOSS
             if atr > 0:
                 stop_loss = entry_price - (1.5 * atr)
                 logger.info(f"   🛡️  Dynamic Stop Loss (1.5x ATR): ${stop_loss:.2f}")
@@ -530,15 +558,17 @@ class DecisionAgent:
                     'risk_level': 'high'
                 }
 
+            action_label = 'SCALE_IN' if is_pyramiding else ('STARTER_POSITION' if is_starter else 'BOUGHT')
+            
             decision = {
                 'decision': 'FOLLOWED',
-                'action': 'BOUGHT',
+                'action': action_label,
                 'position_size': position_size,
                 'entry_price': entry_price,
                 'rationale': self._generate_bullish_rationale(
                     confidence, positive_ratio, negative_ratio,
                     top_opportunities, news_count, entities_found
-                ),
+                ) + (f" Initiating {action_label}." if is_pyramiding or is_starter else ""),
                 'stop_loss': round(stop_loss, 2),
                 'take_profit': round(take_profit, 2),
                 'confidence_in_decision': confidence,
@@ -547,7 +577,7 @@ class DecisionAgent:
                 'technical_context': f"RSI: {rsi:.1f}, ATR: ${atr:.2f}, Trend: {trend}"
             }
 
-            logger.info(f"   ✅ DECISION: FOLLOWED - BUY {ticker}")
+            logger.info(f"   ✅ DECISION: FOLLOWED - {action_label} {ticker}")
             
             # EXECUTE ORDER
             if self.config.autopilot_enabled and not self.config.dry_run:
@@ -675,18 +705,82 @@ class DecisionAgent:
         logger.warning(f"   💰 Executing SELL/LIQUIDATE order in Alpaca Paper Trading...")
 
         try:
-            from trading_mvp.execution.alpaca_orders import get_trading_client
+            from trading_mvp.execution.alpaca_orders import get_trading_client, get_positions
             client = get_trading_client()
+
+            # Get current position to calculate P&L before closing
+            positions = get_positions()
+            current_pos = next((p for p in positions if p['symbol'] == ticker), None)
+
+            if not current_pos:
+                logger.error(f"   ❌ No position found for {ticker}")
+                decision['execution_status'] = 'FAILED'
+                decision['execution_error'] = 'No position found'
+                return decision
+
+            entry_price = float(current_pos['avg_entry_price'])
+            current_price = float(current_pos['current_price'])
+            qty = float(current_pos['qty'])
+
+            # Calculate P&L
+            profit_loss = (current_price - entry_price) * qty
+            profit_loss_pct = ((current_price - entry_price) / entry_price) * 100
+
+            logger.info(f"   📊 P&L Calculation: ${entry_price:.2f} → ${current_price:.2f} = ${profit_loss:.2f} ({profit_loss_pct:+.2f}%)")
 
             # Close position completely
             client.close_position(ticker)
 
             logger.info(f"   ✅ Position in {ticker} closed successfully")
 
-            # Update decision
+            # Update decision with outcome in Supabase
+            try:
+                from trading_mvp.core.db_manager import get_connection
+                conn = get_connection()
+                try:
+                    with conn.cursor() as cur:
+                        # Find the most recent OPEN decision for this ticker
+                        cur.execute("""
+                            SELECT id, recommendation
+                            FROM investment_decisions
+                            WHERE ticker = %s
+                            AND status IN ('PENDING', 'OPEN')
+                            AND action_taken = 'BOUGHT'
+                            ORDER BY decision_timestamp DESC
+                            LIMIT 1
+                        """, (ticker,))
+
+                        result = cur.fetchone()
+                        if result:
+                            decision_id, recommendation = result
+
+                            # Update with outcome
+                            cur.execute("""
+                                UPDATE investment_decisions
+                                SET exit_price = %s,
+                                    exit_timestamp = CURRENT_TIMESTAMP,
+                                    profit_loss = %s,
+                                    profit_loss_pct = %s,
+                                    status = 'CLOSED'
+                                WHERE id = %s
+                            """, (current_price, profit_loss, profit_loss_pct, decision_id))
+
+                            conn.commit()
+                            logger.info(f"   ✅ Updated decision {decision_id} with P&L: ${profit_loss:.2f} ({profit_loss_pct:+.2f}%)")
+                        else:
+                            logger.warning(f"   ⚠️  No OPEN decision found for {ticker} to update")
+                finally:
+                    conn.close()
+            except Exception as db_error:
+                logger.error(f"   ⚠️  Failed to update decision in DB: {db_error}")
+
+            # Update decision dict
             decision['execution_status'] = 'SUCCESS'
             decision['execution_timestamp'] = datetime.now().isoformat()
             decision['order_type'] = 'liquidate'
+            decision['exit_price'] = current_price
+            decision['profit_loss'] = profit_loss
+            decision['profit_loss_pct'] = profit_loss_pct
 
         except Exception as e:
             logger.error(f"   ❌ Sell execution failed: {e}")
@@ -718,6 +812,7 @@ class DecisionAgent:
         technical_note = f"RSI: {rsi:.1f}, ATR: ${atr:.2f}, Trend: {trend}"
 
         # Determine WHY neutral
+        original_conf = portfolio_context.get('original_confidence', confidence)
         if news_count == 0:
             reason = f"SIN DATOS DE NOTICIAS - Técnicos mixtos (RSI {rsi:.1f}, Tendencia {trend}). Información insuficiente para actuar."
         elif positive_ratio == 0 and negative_ratio == 0:
@@ -725,7 +820,7 @@ class DecisionAgent:
         elif abs(positive_ratio - negative_ratio) < 0.2:
             reason = f"SEÑALES MIXTAS - Positivo: {positive_ratio:.0%}, Negativo: {negative_ratio:.0%}. Sentimiento de noticias equilibrado. Técnicos: {technical_note}."
         else:
-            reason = f"Señal de BAJA CONFIANZA ({confidence:.2f}). {technical_note}. Monitoreando para una dirección más clara."
+            reason = f"Señal de BAJA CONFIANZA ({original_conf:.2f} NLP -> {confidence:.2f} Quant). {technical_note}. Monitoreando para una dirección más clara."
 
         # Check if we already hold this ticker
         positions = portfolio_context.get('positions', [])

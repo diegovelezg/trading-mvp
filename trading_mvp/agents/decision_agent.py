@@ -120,12 +120,100 @@ class DecisionAgent:
 
         ticker = ticker_analysis['ticker']
         recommendation = ticker_analysis['recommendation']
+        
+        # --- RIGOR CHECK: DATA INTEGRITY ---
+        is_actionable = ticker_analysis.get('is_actionable', True)
+        if recommendation == "DATA_ERROR" or not is_actionable:
+            logger.error(f"🛑 ABORTING DECISION for {ticker}: Incomplete Data (DNA or Quant missing)")
+            decision = {
+                'decision': 'ABORTED',
+                'action': 'NONE',
+                'rationale': ticker_analysis.get('rationale', 'Missing critical DNA or Quant data.'),
+                'confidence_in_decision': 0.0,
+                'risk_level': 'critical',
+                'ticker': ticker,
+                'original_recommendation': recommendation,
+                'analysis_timestamp': ticker_analysis.get('analysis_timestamp'),
+                'decision_timestamp': datetime.now().isoformat()
+            }
+            self.decision_history.append(decision)
+            return decision
+
         confidence = ticker_analysis['avg_confidence']
         positive_ratio = ticker_analysis['positive_ratio']
         negative_ratio = ticker_analysis['negative_ratio']
 
+        portfolio_context = portfolio_context or {}
+
         logger.info(f"🤔 Analyzing recommendation for {ticker}: {recommendation}")
         logger.info(f"   Confidence: {confidence:.2f} | Positive: {positive_ratio:.1%} | Negative: {negative_ratio:.1%}")
+
+        # --- 0. DYNAMIC STOP LOSS & TAKE PROFIT (Pre-emptive) ---
+        positions = portfolio_context.get('positions', [])
+        current_pos = next((p for p in positions if p['symbol'] == ticker), None)
+        
+        if current_pos:
+            entry_price = float(current_pos.get('avg_entry_price', 0))
+            current_price = float(current_pos.get('current_price', 0))
+            quant_stats = ticker_analysis.get('quant_stats', {})
+            atr = quant_stats.get('atr_14', 0)
+            
+            if atr > 0 and entry_price > 0:
+                stop_loss_price = entry_price - (1.5 * atr)
+                take_profit_price = entry_price + (3.0 * atr)
+                
+                # Check Stop Loss
+                if current_price <= stop_loss_price:
+                    logger.warning(f"   🚨 STOP LOSS TRIGGERED for {ticker}! Current: ${current_price:.2f} <= Stop: ${stop_loss_price:.2f}")
+                    decision = self._handle_bearish(
+                        ticker=ticker,
+                        confidence=1.0,
+                        positive_ratio=positive_ratio,
+                        negative_ratio=negative_ratio,
+                        top_risks=[{'entity_name': 'STOP LOSS', 'overall_impact': 'MECHANICAL TRIGGER'}],
+                        top_opportunities=[],
+                        news_count=ticker_analysis.get('related_news_count', 0),
+                        entities_found=ticker_analysis.get('unique_entities_found', 0),
+                        portfolio_context=portfolio_context,
+                        is_stop_loss=True
+                    )
+                    decision['sentiment_score'] = ticker_analysis.get('sentiment_score', 0.0)
+                    decision['confidence_in_decision'] = 1.0
+                    
+                    decision['ticker_analysis_id'] = ticker_analysis.get('id')
+                    decision['ticker'] = ticker
+                    decision['original_recommendation'] = recommendation
+                    decision['analysis_timestamp'] = ticker_analysis['analysis_timestamp']
+                    decision['decision_timestamp'] = datetime.now().isoformat()
+                    self.decision_history.append(decision)
+                    return decision
+                    
+                # Check Take Profit
+                elif current_price >= take_profit_price:
+                    logger.warning(f"   🎯 TAKE PROFIT TRIGGERED for {ticker}! Current: ${current_price:.2f} >= Target: ${take_profit_price:.2f}")
+                    decision = self._handle_bearish(
+                        ticker=ticker,
+                        confidence=1.0,
+                        positive_ratio=positive_ratio,
+                        negative_ratio=negative_ratio,
+                        top_risks=[{'entity_name': 'TAKE PROFIT', 'overall_impact': 'MECHANICAL TRIGGER'}],
+                        top_opportunities=[],
+                        news_count=ticker_analysis.get('related_news_count', 0),
+                        entities_found=ticker_analysis.get('unique_entities_found', 0),
+                        portfolio_context=portfolio_context,
+                        is_stop_loss=True  # Reuse sell mechanics
+                    )
+                    decision['sentiment_score'] = ticker_analysis.get('sentiment_score', 0.0)
+                    decision['confidence_in_decision'] = 1.0
+                    decision['rationale'] = f"🎯 MECHANICAL TAKE PROFIT TRIGGERED. Current: ${current_price:.2f} (Target: ${take_profit_price:.2f}). LOCKING GAINS."
+                    
+                    decision['ticker_analysis_id'] = ticker_analysis.get('id')
+                    decision['ticker'] = ticker
+                    decision['original_recommendation'] = recommendation
+                    decision['analysis_timestamp'] = ticker_analysis['analysis_timestamp']
+                    decision['decision_timestamp'] = datetime.now().isoformat()
+                    self.decision_history.append(decision)
+                    return decision
 
         # Determine if we should FOLLOW this recommendation
         decision = self._make_decision(
@@ -135,7 +223,7 @@ class DecisionAgent:
             positive_ratio=positive_ratio,
             negative_ratio=negative_ratio,
             ticker_analysis=ticker_analysis,
-            portfolio_context=portfolio_context or {}
+            portfolio_context=portfolio_context
         )
 
         # Add metadata
@@ -195,10 +283,11 @@ class DecisionAgent:
             logger.info("   ⚠️  RVOL UNAVAILABLE (insufficient volume data). Invalidating conviction score.")
         elif rvol > 1.2:
             conv_score += 1.0
-        elif rvol >= 1.0:
+        elif rvol >= 0.75:
+            # Volumen normal/neutral (no penaliza)
             conv_score += 0.5
         else:
-            # Harsh penalty for low volume (RVOL < 1.0)
+            # Harsh penalty for very low volume (RVOL < 0.75)
             conv_score = 0.0
             logger.info(f"   ⚠️  LOW VOLUME DETECTED (RVOL: {rvol:.2f}). Invalidating conviction score.")
 
@@ -217,8 +306,8 @@ class DecisionAgent:
             vol_score = 0.5
             logger.info("   ⚠️  Volatility ratio unavailable (ATR calculation failed). Using neutral score.")
 
-        # Penalize momentum if volume is missing or low
-        if rvol is not None and rvol < 1.0:
+        # Penalize momentum if volume is missing or very low
+        if rvol is not None and rvol < 0.75:
             mom_score *= 0.5
             logger.info("   ⚠️  Reducing Momentum score by 50% due to lack of volume confirmation.")
 
@@ -300,37 +389,6 @@ class DecisionAgent:
         portfolio_context['quant_stats'] = quant_stats
         portfolio_context['weighted_score'] = final_score
         portfolio_context['sentiment_score'] = getattr(ticker_analysis, 'get', lambda k, d: 0.0)('sentiment_score', 0.0) # Safety fetch
-
-        # --- DYNAMIC STOP LOSS EVALUATION (Pre-emptive) ---
-        positions = portfolio_context.get('positions', [])
-        current_pos = next((p for p in positions if p['symbol'] == ticker), None)
-        
-        if current_pos:
-            entry_price = float(current_pos.get('avg_entry_price', 0))
-            current_price = float(current_pos.get('current_price', 0))
-            atr = quant_stats.get('atr_14', 0)
-            
-            if atr > 0 and entry_price > 0:
-                stop_loss_price = entry_price - (1.5 * atr)
-                if current_price <= stop_loss_price:
-                    logger.warning(f"   🚨 STOP LOSS TRIGGERED for {ticker}! Current: ${current_price:.2f} <= Stop: ${stop_loss_price:.2f}")
-                    # Force a liquidating bearish decision immediately
-                    decision = self._handle_bearish(
-                        ticker=ticker,
-                        confidence=1.0, # Max confidence (1.0 = 100% BEARISH)
-                        positive_ratio=positive_ratio,
-                        negative_ratio=negative_ratio,
-                        top_risks=top_risks + [{'entity_name': 'STOP LOSS', 'overall_impact': 'MECHANICAL TRIGGER'}],
-                        top_opportunities=top_opportunities,
-                        news_count=news_count,
-                        entities_found=entities_found,
-                        portfolio_context=portfolio_context,
-                        is_stop_loss=True
-                    )
-                    
-                    decision['sentiment_score'] = ticker_analysis.get('sentiment_score', 0.0)
-                    decision['confidence_in_decision'] = 1.0
-                    return decision
 
         # Decisions based on final score thresholds
         decision = None

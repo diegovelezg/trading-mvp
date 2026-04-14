@@ -48,52 +48,24 @@ def get_default_watchlist_id() -> int:
 
     Returns:
         ID de la watchlist por defecto
-
-    Examples:
-        >>> get_default_watchlist_id()
-        2
     """
     config = load_watchlist_config()
     return config.get("DEFAULT_WATCHLIST_ID", 1)
 
 
-def get_watchlist_info(watchlist_name: str) -> Dict[str, Any]:
+def get_default_watchlist_info() -> Dict[str, Any]:
     """
-    Obtiene información de una watchlist por nombre.
-
-    Args:
-        watchlist_name: Nombre de la watchlist (ej: "ENERGIA_NUCLEAR")
+    Obtiene información de la watchlist por defecto.
 
     Returns:
         Dict con info de la watchlist o dict vacío si no existe
-
-    Examples:
-        >>> info = get_watchlist_info("ENERGIA_NUCLEAR")
-        >>> info["id"]
-        2
-        >>> info["name"]
-        'Energía Nuclear'
     """
     config = load_watchlist_config()
-    return config.get("DEFAULT_WATCHLISTS", {}).get(watchlist_name, {})
+    return config.get("DEFAULT_WATCHLIST", {})
 
 
 # Variables globales cargadas al inicio (caching simple)
-_TICKER_ENTITIES_CACHE = None
 _WATCHLIST_CONFIG_CACHE = None
-
-
-def get_ticker_entities_cached() -> Dict[str, List[str]]:
-    """
-    Obtiene entities cacheadas desde PostgreSQL (carga solo una vez).
-
-    Returns:
-        Dict con ticker → entidades
-    """
-    global _TICKER_ENTITIES_CACHE
-    if _TICKER_ENTITIES_CACHE is None:
-        _TICKER_ENTITIES_CACHE = load_ticker_entities()
-    return _TICKER_ENTITIES_CACHE
 
 
 def get_watchlist_config_cached() -> Dict[str, Any]:
@@ -113,16 +85,12 @@ if __name__ == "__main__":
     # Tests
     print("Testing config loader...")
 
-    # Test ticker entities
-    entities = get_ticker_entities("AAPL")
-    print(f"AAPL entities: {entities}")
-
     # Test watchlist config
     default_id = get_default_watchlist_id()
     print(f"Default watchlist ID: {default_id}")
 
-    # Test watchlist info
-    info = get_watchlist_info("ENERGIA_NUCLEAR")
-    print(f"Nuclear watchlist info: {info}")
+    # Test default watchlist info
+    info = get_default_watchlist_info()
+    print(f"Default watchlist info: {info}")
 
     print("✅ Config loader working!")

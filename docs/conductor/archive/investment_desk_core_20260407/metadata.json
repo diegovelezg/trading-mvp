@@ -1,8 +1,0 @@
-{
-  "track_id": "investment_desk_core_20260407",
-  "type": "feature",
-  "status": "new",
-  "created_at": "2026-04-07T14:00:00Z",
-  "updated_at": "2026-04-07T14:00:00Z",
-  "description": "Implement core Mesa de Inversión with news ingestion and sentiment analysis"
-}

@@ -11,7 +11,7 @@ from trading_mvp.core.db_ticker_embeddings import get_ticker_embeddings
 from trading_mvp.core.db_news_embeddings import (
     get_news_embeddings_batch, 
     find_similar_news,
-    find_similar_news_by_ticker
+    find_similar_news_by_dna
 )
 from trading_mvp.core.db_geo_news import get_recent_news
 from trading_mvp.core.gemini_embeddings import generate_embedding
@@ -43,7 +43,7 @@ class SemanticNewsSearch:
     ) -> Tuple[List[Dict], Dict]:
         """
         Buscar noticias relacionadas con un ticker usando similarity semántica.
-        Utiliza el set de vectores (ADN) del ticker de forma individual.
+        Utiliza el ADN persistente del ticker.
 
         Args:
             ticker: Símbolo del ticker
@@ -54,17 +54,16 @@ class SemanticNewsSearch:
             (related_news, stats)
         """
 
-        # 1. Buscar noticias similares por ADN individual (Max Similarity en DB)
-        # Esto reemplaza al antiguo promedio de vectores.
-        similar_news = find_similar_news_by_ticker(
+        # 1. Buscar noticias similares por ADN persistente (High Speed Search)
+        similar_news = find_similar_news_by_dna(
             ticker=ticker,
             threshold=self.similarity_threshold,
             limit=len(all_news) if all_news else 100
         )
 
         if not similar_news:
-            logger.warning(f"No related news found for {ticker} using threshold {self.similarity_threshold}")
-            return [], {"method": "semantic_dna", "count": 0, "threshold": self.similarity_threshold}
+            logger.warning(f"No related news found for {ticker} using DNA threshold {self.similarity_threshold}")
+            return [], {"method": "semantic_dna_persistent", "count": 0, "threshold": self.similarity_threshold}
 
         # 2. Obtener news items completos mapeando desde all_news
         news_map = {news['id']: news for news in all_news}
@@ -77,20 +76,20 @@ class SemanticNewsSearch:
             if news_id in news_map:
                 news_with_meta = news_map[news_id].copy()
                 news_with_meta['_similarity'] = similarity
-                news_with_meta['_match_method'] = 'semantic_dna_match'
+                news_with_meta['_match_method'] = 'semantic_dna_persistent'
                 related_news.append(news_with_meta)
 
         # Stats
         stats = {
             "ticker": ticker,
-            "method": "semantic_dna_match",
+            "method": "semantic_dna_persistent",
             "similarity_threshold": self.similarity_threshold,
             "total_count": len(related_news),
             "avg_similarity": sum(n['_similarity'] for n in related_news) / len(related_news) if related_news else 0
         }
 
         logger.info(
-            f"🧠 {ticker}: DNA-Individual search - "
+            f"🧠 {ticker}: DNA-Persistent search - "
             f"{len(related_news)} news found (avg similarity: {stats['avg_similarity']:.2f})"
         )
 

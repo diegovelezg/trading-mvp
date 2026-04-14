@@ -360,13 +360,15 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
         <div className="cursor-pointer" onClick={(e) => { e.stopPropagation(); setExpanded(!expanded); }}>
           <div className="flex flex-row items-center justify-between p-3">
             <div className="flex items-center gap-3">
-              <Badge variant={isBuy ? "success" : "secondary"} className="px-2 py-0.5 text-[10px]">
-                {activity.desk_action || 'WAIT'}
+              <Badge variant="outline" className={`px-2 py-0.5 text-[10px] font-mono uppercase ${
+                activity.action_taken === 'BOUGHT' ? 'border-green-500/50 text-green-400 bg-green-500/10' :
+                activity.action_taken === 'SOLD' ? 'border-red-500/50 text-red-400 bg-red-500/10' :
+                activity.action_taken === 'HELD' ? 'border-blue-500/50 text-blue-400 bg-blue-500/10' :
+                'border-zinc-700 text-zinc-500 bg-zinc-900/50'
+              }`}>
+                {activity.action_taken === 'BOUGHT' ? 'COMPRADA' : activity.action_taken === 'SOLD' ? 'VENDIDA' : activity.action_taken === 'HELD' ? 'MANTENIDA' : activity.action_taken === 'NONE' ? 'NINGUNA' : 'N/A'}
               </Badge>
               <span className="text-lg font-bold text-zinc-100">{activity.ticker}</span>
-              <span className="text-[9px] text-zinc-500 font-mono uppercase">
-                {activity.recommendation}
-              </span>
               {activity.sentiment_score !== null && activity.sentiment_score !== undefined && (
                 <span className={`text-[9px] font-bold ${activity.sentiment_score > 0 ? 'text-green-500' : activity.sentiment_score < 0 ? 'text-red-500' : 'text-zinc-500'}`}>
                   {activity.sentiment_score > 0 ? '+' : ''}{(activity.sentiment_score * 100).toFixed(0)}%
@@ -641,7 +643,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                     </div>
 
                     <div className="md:col-span-3 space-y-1 border-l border-blue-900/20 pl-6 text-right">
-                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Veredicto & Acción</p>
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">EJECUCIÓN</p>
                       <p className={`font-black uppercase text-sm ${
                         activity.desk_action === 'BUY' ? 'text-green-500' :
                         activity.desk_action === 'SELL' ? 'text-red-500' :
@@ -661,7 +663,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                           activity.action_taken === 'HELD' ? 'border-blue-500/50 text-blue-400 bg-blue-500/10' :
                           'border-zinc-700 text-zinc-500 bg-zinc-900/50'
                         }`}>
-                          → EJECUCIÓN: {activity.action_taken === 'HELD' ? 'MANTENIDA (HELD)' : activity.action_taken === 'NONE' ? 'NINGUNA (NONE)' : activity.action_taken === 'BOUGHT' ? 'COMPRADA (BOUGHT)' : activity.action_taken === 'SOLD' ? 'VENDIDA (SOLD)' : activity.action_taken || 'N/A'}
+                          {activity.action_taken === 'BOUGHT' ? 'COMPRADA' : activity.action_taken === 'SOLD' ? 'VENDIDA' : activity.action_taken === 'HELD' ? 'MANTENIDA' : activity.action_taken === 'NONE' ? 'NINGUNA' : 'N/A'}
                         </Badge>
                       </div>
                     </div>
@@ -938,7 +940,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                     </div>
 
                     <div className="md:col-span-3 space-y-1 border-l border-blue-900/20 pl-6 text-right">
-                      <p className="text-zinc-500 font-mono uppercase text-[9px]">Veredicto & Acción</p>
+                      <p className="text-zinc-500 font-mono uppercase text-[9px]">EJECUCIÓN</p>
                       <p className={`font-black uppercase text-sm ${
                         activity.desk_action === 'BUY' ? 'text-green-500' :
                         activity.desk_action === 'SELL' ? 'text-red-500' :
@@ -958,7 +960,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                           activity.action_taken === 'HELD' ? 'border-blue-500/50 text-blue-400 bg-blue-500/10' :
                           'border-zinc-700 text-zinc-500 bg-zinc-900/50'
                         }`}>
-                          → EJECUCIÓN: {activity.action_taken === 'HELD' ? 'MANTENIDA (HELD)' : activity.action_taken === 'NONE' ? 'NINGUNA (NONE)' : activity.action_taken === 'BOUGHT' ? 'COMPRADA (BOUGHT)' : activity.action_taken === 'SOLD' ? 'VENDIDA (SOLD)' : activity.action_taken || 'N/A'}
+                          {activity.action_taken === 'BOUGHT' ? 'COMPRADA' : activity.action_taken === 'SOLD' ? 'VENDIDA' : activity.action_taken === 'HELD' ? 'MANTENIDA' : activity.action_taken === 'NONE' ? 'NINGUNA' : 'N/A'}
                         </Badge>
                       </div>
                     </div>

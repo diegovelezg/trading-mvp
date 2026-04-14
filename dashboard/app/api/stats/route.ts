@@ -31,9 +31,9 @@ export const GET = withErrorHandler(async () => {
 
   // 3. Extract metrics from real equity curve
   const equity = parseFloat(account.equity);
-  const lastEquity = history.equity[0];
-  const totalPL = equity - lastEquity;
-  const returnPct = lastEquity !== 0 ? (totalPL / lastEquity) * 100 : 0;
+  const baseValue = history.base_value || 100000; // Use Alpaca's base_value, not first equity point
+  const totalPL = equity - baseValue;
+  const returnPct = baseValue !== 0 ? (totalPL / baseValue) * 100 : 0;
 
   // Calculate Max Drawdown from history
   let maxDrawdown = 0;
@@ -103,6 +103,12 @@ export const GET = withErrorHandler(async () => {
     time: new Date(ts * 1000).toLocaleDateString('es-ES', { month: 'short', day: 'numeric' }),
     equity: history.equity[i] !== null ? history.equity[i] : equity
   })).filter((point: any) => point.equity > 0);
+
+  // Add current equity point to ensure chart shows latest value
+  equityHistory.push({
+    time: new Date().toLocaleDateString('es-ES', { month: 'short', day: 'numeric' }),
+    equity: equity
+  });
 
   return successResponse({
     equity: round(equity, 2),

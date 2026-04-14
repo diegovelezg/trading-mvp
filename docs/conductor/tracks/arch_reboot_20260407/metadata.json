@@ -1,7 +1,0 @@
-{
-  "id": "arch_reboot_20260407",
-  "name": "Architectural Reboot (Claude-Native)",
-  "description": "Reorganize the project from the root to align with Claude Code's native subagent system.",
-  "status": "In Progress",
-  "created_at": "2026-04-07"
-}

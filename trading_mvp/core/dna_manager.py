@@ -7,6 +7,7 @@ from typing import Dict, List, Optional
 from datetime import datetime
 from google.genai import Client
 from trading_mvp.core.db_manager import get_connection
+from trading_mvp.core.gemini_embeddings import generate_embedding
 
 logger = logging.getLogger(__name__)
 
@@ -84,7 +85,11 @@ class DNAManager:
         conn = get_connection()
         try:
             with conn.cursor() as cursor:
-                cursor.execute("SELECT asset_type, core_drivers, bullish_catalysts, bearish_catalysts, geopolitical_sensitivity, interest_rate_sensitivity FROM asset_dna WHERE ticker = %s", (ticker,))
+                cursor.execute("""
+                    SELECT asset_type, core_drivers, bullish_catalysts, bearish_catalysts, 
+                           geopolitical_sensitivity, interest_rate_sensitivity, embedding 
+                    FROM asset_dna WHERE ticker = %s
+                """, (ticker,))
                 row = cursor.fetchone()
                 if row:
                     return {
@@ -93,7 +98,8 @@ class DNAManager:
                         "bullish_catalysts": row[2],
                         "bearish_catalysts": row[3],
                         "geopolitical_sensitivity": row[4],
-                        "interest_rate_sensitivity": row[5]
+                        "interest_rate_sensitivity": row[5],
+                        "embedding": row[6]
                     }
         except Exception as e:
             logger.error(f"Error fetching DNA from DB: {e}")
@@ -102,13 +108,33 @@ class DNAManager:
         return None
 
     def _save_to_db(self, ticker: str, dna: Dict):
-        """Save DNA to Postgres."""
+        """Save DNA to Postgres with persistent embedding."""
+        
+        # 1. Generate descriptive text for embedding
+        desc_text = f"{ticker} ({dna['asset_type']}). "
+        desc_text += f"Core Drivers: {', '.join(dna['core_drivers'])}. "
+        desc_text += f"Bullish: {', '.join(dna['bullish_catalysts'])}. "
+        desc_text += f"Bearish: {', '.join(dna['bearish_catalysts'])}."
+        
+        # 2. Generate embedding if not present
+        embedding = dna.get('embedding')
+        if not embedding:
+            try:
+                logger.info(f"🧠 Generating persistent embedding for {ticker} DNA...")
+                embedding = generate_embedding(desc_text)
+            except Exception as e:
+                logger.warning(f"Could not generate embedding for {ticker}: {e}")
+                embedding = None
+
         conn = get_connection()
         try:
             with conn.cursor() as cursor:
                 cursor.execute("""
-                    INSERT INTO asset_dna (ticker, asset_type, core_drivers, bullish_catalysts, bearish_catalysts, geopolitical_sensitivity, interest_rate_sensitivity)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s)
+                    INSERT INTO asset_dna (
+                        ticker, asset_type, core_drivers, bullish_catalysts, bearish_catalysts, 
+                        geopolitical_sensitivity, interest_rate_sensitivity, embedding
+                    )
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                     ON CONFLICT (ticker) DO UPDATE SET
                         asset_type = EXCLUDED.asset_type,
                         core_drivers = EXCLUDED.core_drivers,
@@ -116,6 +142,7 @@ class DNAManager:
                         bearish_catalysts = EXCLUDED.bearish_catalysts,
                         geopolitical_sensitivity = EXCLUDED.geopolitical_sensitivity,
                         interest_rate_sensitivity = EXCLUDED.interest_rate_sensitivity,
+                        embedding = EXCLUDED.embedding,
                         last_updated = CURRENT_TIMESTAMP
                 """, (
                     ticker, 
@@ -124,8 +151,10 @@ class DNAManager:
                     dna['bullish_catalysts'], 
                     dna['bearish_catalysts'],
                     dna.get('geopolitical_sensitivity', 0.5),
-                    dna.get('interest_rate_sensitivity', 0.5)
+                    dna.get('interest_rate_sensitivity', 0.5),
+                    embedding
                 ))
+                conn.commit()
         except Exception as e:
             logger.error(f"Error saving DNA to DB: {e}")
         finally:

@@ -145,11 +145,6 @@ def extract_and_validate_news(
         logger.info("📊 Step 0.3: Computing extraction statistics...")
 
         sources = set(n.get('source', 'Unknown') for n in news_items)
-        entities_count = sum(
-            len(n.get('entities', []))
-            for n in news_items
-            if isinstance(n.get('entities'), list)
-        )
 
         # Noticias únicas (por título)
         unique_titles = set(n.get('title', '') for n in news_items)
@@ -160,17 +155,13 @@ def extract_and_validate_news(
             'unique_news': len(unique_titles),
             'duplicates': duplicates,
             'sources': list(sources),
-            'source_count': len(sources),
-            'total_entities': entities_count,
-            'avg_entities_per_news': entities_count / len(news_items) if news_items else 0
+            'source_count': len(sources)
         }
 
         logger.info(f"   📰 Total news: {stats['total_news']}")
         logger.info(f"   🆕 Unique news: {stats['unique_news']}")
         logger.info(f"   🔁 Duplicates: {stats['duplicates']}")
         logger.info(f"   📰 Sources: {stats['source_count']} ({', '.join(sources)})")
-        logger.info(f"   🏷️  Total entities: {stats['total_entities']}")
-        logger.info(f"   📊 Avg entities/news: {stats['avg_entities_per_news']:.1f}")
 
         # 4. Validar calidad de datos
         logger.info("✅ Step 0.4: Validating data quality...")

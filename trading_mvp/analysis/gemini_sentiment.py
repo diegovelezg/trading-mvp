@@ -37,8 +37,8 @@ import unicodedata
 
 def analyze_sentiment(text: str, ticker: str = "Unknown", dna: Dict = None) -> Dict:
     """
-    Analyzes the sentiment of a text using Gemini 2.0 Flash with Asset DNA context.
-    Returns a normalized dictionary with both float and label sentiment.
+    Analyzes the sentiment of a text using Gemini 2.0 Flash with Institutional Asset DNA context.
+    Returns a normalized dictionary with impact mapping to core drivers.
     """
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
@@ -47,30 +47,57 @@ def analyze_sentiment(text: str, ticker: str = "Unknown", dna: Dict = None) -> D
     model = os.getenv("GEMINI_API_MODEL_02", "gemini-2.0-flash")
     client = Client(api_key=api_key)
     
+    # Construct Institutional Context from DNA
+    dna_context = ""
+    if dna:
+        dna_context = f"""
+        ASSET CONTEXT (DNA):
+        - Type: {dna.get('asset_type', 'N/A')}
+        - Core Drivers: {', '.join(dna.get('core_drivers', [])) if isinstance(dna.get('core_drivers'), list) else dna.get('core_drivers', 'N/A')}
+        - Bullish Catalysts: {', '.join(dna.get('bullish_catalysts', [])) if isinstance(dna.get('bullish_catalysts'), list) else dna.get('bullish_catalysts', 'N/A')}
+        - Bearish Catalysts: {', '.join(dna.get('bearish_catalysts', [])) if isinstance(dna.get('bearish_catalysts'), list) else dna.get('bearish_catalysts', 'N/A')}
+        """
+
     prompt = f"""
-    Analyze sentiment for {ticker}.
+    You are a Senior Institutional Analyst specializing in {ticker}.
+    {dna_context}
     
-    Provide response STRICTLY in JSON. Both "summary" and "explanation" MUST BE IN SPANISH (CASTELLANO):
-    - "sentiment": float between -1.0 and 1.0
-    - "summary": short impact summary in Spanish
-    - "explanation": 1 sentence reasoning in Spanish
+    TASK: Analyze the following text and determine its impact on {ticker} based on its specific DNA.
     
-    Text: {text}
+    TEXT TO ANALYZE:
+    {text}
+    
+    REQUIRED RESPONSE FORMAT (JSON ONLY):
+    {{
+        "sentiment": float (-1.0 to 1.0),
+        "impact_label": "bullish" | "bearish" | "neutral",
+        "dna_alignment": "Which specific core driver or catalyst from the DNA is being triggered?",
+        "summary": "Short impact summary in Spanish",
+        "explanation": "1 sentence technical reasoning in Spanish",
+        "confidence": float (0.0 to 1.0)
+    }}
+    
+    Rules:
+    1. If the text triggers a 'Bullish Catalyst' from the DNA, sentiment must be > 0.4.
+    2. If the text triggers a 'Bearish Catalyst' from the DNA, sentiment must be < -0.4.
+    3. Be objective. If the news is irrelevant to the core drivers, stay neutral.
+    4. Respond ONLY with the JSON object.
     """
     
     try:
         response = client.models.generate_content(model=model, contents=prompt)
         json_text = extract_json_from_response(response.text)
         
-        # Aggressive cleaning for illegal commas or characters
-        json_text = re.sub(r',\s*\}', '}', json_text) # Remove trailing commas
+        # Aggressive cleaning
+        json_text = re.sub(r',\s*\}', '}', json_text)
         json_text = re.sub(r',\s*\]', ']', json_text)
         
         result = json.loads(json_text)
         
         score = float(result.get("sentiment", 0))
+        label = result.get("impact_label", "neutral")
         
-        # Map score to label
+        # Ensure label matches score if inconsistent
         if score >= 0.25: label = "bullish"
         elif score <= -0.25: label = "bearish"
         else: label = "neutral"
@@ -78,9 +105,10 @@ def analyze_sentiment(text: str, ticker: str = "Unknown", dna: Dict = None) -> D
         return {
             "sentiment": label,
             "sentiment_score": score,
-            "confidence": 0.8, # Default confidence for Flash
-            "explanation": result.get("explanation", result.get("summary", "No details")),
-            "summary": result.get("summary", "No summary")
+            "confidence": float(result.get("confidence", 0.8)),
+            "explanation": result.get("explanation", "No details"),
+            "summary": result.get("summary", "No summary"),
+            "dna_alignment": result.get("dna_alignment", "N/A")
         }
 
     except Exception as e:

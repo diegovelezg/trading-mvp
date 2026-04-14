@@ -4,7 +4,7 @@ Daily GeoMacro News Pipeline
 
 Este script debe ejecutarse 1 o más veces al día para:
 1. Recolectar news de todas las fuentes
-2. Extraer entities de cada noticia
+2. Generar embeddings para búsqueda semántica
 3. Almacenar todo en la base de datos con timestamps
 
 Uso:
@@ -41,7 +41,6 @@ os.environ['GEMINI_API_KEY'] = 'AIzaSyCutHRoCMkN02KhsVYATzu5XRPjboQZxnc'
 os.environ['GEMINI_API_MODEL_01'] = 'gemini-3.1-flash-lite-preview'
 
 from trading_mvp.core.db_geo_news import create_geo_macro_news_table
-from trading_mvp.core.db_geo_entities import create_geo_macro_entities_table
 from trading_mvp.core.geo_macro_processor import GeoMacroProcessor
 
 def main():
@@ -57,7 +56,6 @@ def main():
         # 1. Create tables if needed
         logger.info("📋 Creating tables if needed...")
         create_geo_macro_news_table()
-        create_geo_macro_entities_table()
 
         # 2. Run pipeline (steps 1 & 2)
         logger.info("🔄 Running pipeline...")
@@ -66,8 +64,8 @@ def main():
         # Step 1: Fetch and store news
         source_counts = processor.step1_fetch_and_store_news(hours_back=24)
 
-        # Step 2: Extract entities and store in DB
-        all_entities, insights = processor.step2_extract_entities_and_generate_insights(
+        # Step 2: Generate embeddings for semantic search
+        all_news, embeddings_count = processor.step2_generate_embeddings_for_news(
             hours_back=24,
             limit=100
         )
@@ -83,16 +81,15 @@ def main():
         logger.info(f"   - Alpaca: {source_counts.get('alpaca', 0)}")
         logger.info(f"   - Google: {source_counts.get('google', 0)}")
         logger.info(f"   - SERPAPI: {source_counts.get('serpapi', 0)}")
-        logger.info(f"   Entities extracted: {len(all_entities)}")
-        logger.info(f"   Insights generated: {len(insights)}")
+        logger.info(f"   News processed: {len(all_news)}")
+        logger.info(f"   Embeddings generated: {embeddings_count}")
         logger.info("="*70)
 
         return {
             'success': True,
             'duration_seconds': duration,
             'news_count': sum(source_counts.values()),
-            'entities_count': len(all_entities),
-            'insights_count': len(insights)
+            'embeddings_count': embeddings_count
         }
 
     except Exception as e:

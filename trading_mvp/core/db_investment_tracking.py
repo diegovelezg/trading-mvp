@@ -7,24 +7,28 @@ from datetime import datetime
 from trading_mvp.core.db_manager import get_connection
 from psycopg2.extras import RealDictCursor
 
+from uuid import UUID
+
 logger = logging.getLogger(__name__)
 
 
-def _clean_datetime_objects(obj):
-    """Recursively clean datetime objects for JSON serialization.
+def _clean_for_json(obj):
+    """Recursively clean objects for JSON serialization (datetime, UUID, etc).
 
     Args:
         obj: Any Python object
 
     Returns:
-        Object with datetime objects converted to ISO strings
+        JSON-serializable version of the object
     """
     if isinstance(obj, datetime):
         return obj.isoformat()
+    elif isinstance(obj, UUID):
+        return str(obj)
     elif isinstance(obj, dict):
-        return {k: _clean_datetime_objects(v) for k, v in obj.items()}
+        return {k: _clean_for_json(v) for k, v in obj.items()}
     elif isinstance(obj, list):
-        return [_clean_datetime_objects(item) for item in obj]
+        return [_clean_for_json(item) for item in obj]
     else:
         return obj
 
@@ -243,8 +247,8 @@ def save_desk_run(desk_analysis: Dict) -> Optional[int]:
         with conn.cursor() as cur:
             watchlist = desk_analysis['watchlist']
 
-            # Clean datetime objects for JSON serialization
-            clean_analysis = _clean_datetime_objects(desk_analysis.copy())
+            # Clean objects for JSON serialization (datetime, UUID, etc)
+            clean_analysis = _clean_for_json(desk_analysis.copy())
 
             # Calcular duration_seconds si no existe
             if 'duration_seconds' not in desk_analysis or desk_analysis['duration_seconds'] is None:
@@ -323,8 +327,8 @@ def save_ticker_analysis(ticker_analysis: Dict, desk_run_id: int) -> Optional[in
     conn = get_connection()
     try:
         with conn.cursor() as cur:
-            # Clean datetime objects for JSON serialization
-            clean_analysis = _clean_datetime_objects(ticker_analysis.copy())
+            # Clean objects for JSON serialization (datetime, UUID, etc)
+            clean_analysis = _clean_for_json(ticker_analysis.copy())
 
             # Convert datetime to string for timestamp field
             analysis_timestamp = ticker_analysis['analysis_timestamp']

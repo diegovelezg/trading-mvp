@@ -264,6 +264,57 @@ def get_unembedded_news(limit: int = 100) -> List[int]:
         conn.close()
 
 
+def find_similar_news_by_dna(
+    ticker: str,
+    threshold: float = 0.75,
+    limit: int = 50
+) -> List[Dict]:
+    """Find news similar to the ticker's persistent DNA embedding.
+    
+    Esta función utiliza el embedding único y persistente guardado en la tabla asset_dna
+    para realizar una búsqueda de alta velocidad.
+
+    Args:
+        ticker: Ticker symbol
+        threshold: Minimum cosine similarity (0-1)
+        limit: Max results
+
+    Returns:
+        List of {news_id, similarity} dicts
+    """
+
+    conn = get_connection()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT 
+                    ne.news_id,
+                    (1 - (ne.embedding <=> d.embedding))::FLOAT as similarity
+                FROM news_embeddings ne
+                JOIN asset_dna d ON d.ticker = %s
+                WHERE d.embedding IS NOT NULL
+                AND 1 - (ne.embedding <=> d.embedding) >= %s
+                ORDER BY similarity DESC
+                LIMIT %s
+            """, (ticker.upper(), threshold, limit))
+
+            results = cur.fetchall()
+
+            return [
+                {
+                    'news_id': row[0],
+                    'similarity': row[1]
+                }
+                for row in results
+            ]
+
+    except Exception as e:
+        logger.error(f"❌ Failed to find similar news by DNA for ticker {ticker}: {e}")
+        return []
+    finally:
+        conn.close()
+
+
 def find_similar_news_by_ticker(
     ticker: str,
     threshold: float = 0.75,

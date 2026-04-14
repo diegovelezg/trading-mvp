@@ -5,6 +5,19 @@ import logging
 from typing import List, Dict
 from datetime import datetime, timedelta
 from urllib.parse import quote
+import sys
+import os
+
+# Add parent directory to path for config import
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+from config.news_criteria import (
+    NEWS_CATEGORIES,
+    get_active_categories,
+    get_search_queries,
+    calculate_items_per_category,
+    MAX_ITEMS_PER_CATEGORY,
+    DUPLICATE_BY
+)
 
 from trading_mvp.data_sources.base_connector import BaseDataConnector
 
@@ -169,154 +182,98 @@ class GoogleNewsConnector(BaseDataConnector):
         logger.info(f"✅ Normalized {len(normalized)}/{len(raw_data)} Google News items")
         return normalized
 
-    def fetch_geopolitical_news(self, max_items: int = 50) -> List[Dict]:
-        """Fetch geopolitical news.
+    def fetch_all_categorized_news(self, max_items: int = None) -> List[Dict]:
+        """
+        Fetch news from ALL categories defined in news_criteria.py
 
-        Topics: wars, conflicts, international relations, diplomacy
+        This is the MAIN method that uses the centralized criteria.
 
         Args:
-            max_items: Maximum items to fetch
+            max_items: Maximum total items to fetch across all categories (defaults to config)
 
         Returns:
-            List of geopolitical news items
+            List of categorized news items
         """
-        geopolitical_topics = [
-            "geopolitical conflicts war",
-            "international relations diplomacy",
-            "middle east conflict",
-            "ukraine russia war",
-            "china taiwan tensions"
-        ]
+        if max_items is None:
+            max_items = MAX_ITEMS_PER_CATEGORY
+
+        logger.info("="*70)
+        logger.info("📰 GOOGLE NEWS - CATEGORIZED SEARCH")
+        logger.info("="*70)
+
+        active_categories = get_active_categories()
+        items_per_category = calculate_items_per_category(max_items, len(active_categories))
+
+        logger.info(f"📋 Categories: {len(active_categories)}")
+        logger.info(f"📊 Items per category: {items_per_category}")
+        logger.info("")
 
         all_news = []
-        for topic in geopolitical_topics:
-            news = self.fetch_data(topic=topic, max_items=max_items//len(geopolitical_topics))
-            all_news.extend(news)
 
-        # Remove duplicates based on title
-        seen_titles = set()
-        unique_news = []
-        for item in all_news:
-            title_lower = item.get("title", "").lower()
-            if title_lower not in seen_titles:
-                seen_titles.add(title_lower)
-                item["geopolitical_relevant"] = True
-                unique_news.append(item)
+        for category in active_categories:
+            logger.info(f"🔍 Fetching '{category}'...")
 
-        logger.info(f"🌍 Found {len(unique_news)} unique geopolitical news items")
+            queries = get_search_queries(category)
+            category_news = []
 
-        return unique_news
+            for query in queries:
+                try:
+                    news = self.fetch_data(
+                        topic=query,
+                        max_items=items_per_category // len(queries)
+                    )
+                    category_news.extend(news)
+                except Exception as e:
+                    logger.warning(f"   ⚠️  Query failed: {query} - {e}")
+                    continue
 
-    def fetch_economic_news(self, max_items: int = 50) -> List[Dict]:
-        """Fetch economic news.
+            # Remove duplicates within category
+            unique_news = self._remove_duplicates(category_news)
+            logger.info(f"   ✅ {category}: {len(unique_news)} unique news")
 
-        Topics: inflation, interest rates, GDP, employment, central banks
+            # Tag with category
+            for news in unique_news:
+                news['category'] = category
+                news['search_query'] = query
+
+            all_news.extend(unique_news)
+
+        # Final deduplication across all categories
+        final_news = self._remove_duplicates(all_news)
+
+        logger.info("")
+        logger.info(f"📊 TOTAL: {len(final_news)} unique news items across {len(active_categories)} categories")
+        logger.info("="*70)
+
+        return final_news
+
+    def _remove_duplicates(self, news_list: List[Dict]) -> List[Dict]:
+        """
+        Remove duplicates from news list.
 
         Args:
-            max_items: Maximum items to fetch
+            news_list: List of news items
 
         Returns:
-            List of economic news items
+            List with duplicates removed
         """
-        economic_topics = [
-            "federal reserve interest rates",
-            "inflation consumer prices",
-            "GDP economic growth",
-            "unemployment jobs report",
-            "central bank monetary policy"
-        ]
-
-        all_news = []
-        for topic in economic_topics:
-            news = self.fetch_data(topic=topic, max_items=max_items//len(economic_topics))
-            all_news.extend(news)
-
-        # Remove duplicates
-        seen_titles = set()
-        unique_news = []
-        for item in all_news:
-            title_lower = item.get("title", "").lower()
-            if title_lower not in seen_titles:
-                seen_titles.add(title_lower)
-                item["economic_relevant"] = True
-                unique_news.append(item)
-
-        logger.info(f"💰 Found {len(unique_news)} unique economic news items")
-
-        return unique_news
-
-    def fetch_trade_policy_news(self, max_items: int = 50) -> List[Dict]:
-        """Fetch trade policy news.
-
-        Topics: tariffs, trade wars, sanctions, trade agreements
-
-        Args:
-            max_items: Maximum items to fetch
-
-        Returns:
-            List of trade policy news items
-        """
-        trade_topics = [
-            "trade tariffs sanctions",
-            "us china trade war",
-            "import export regulations",
-            "trade agreements deals",
-            "economic sanctions countries"
-        ]
-
-        all_news = []
-        for topic in trade_topics:
-            news = self.fetch_data(topic=topic, max_items=max_items//len(trade_topics))
-            all_news.extend(news)
-
-        # Remove duplicates
-        seen_titles = set()
-        unique_news = []
-        for item in all_news:
-            title_lower = item.get("title", "").lower()
-            if title_lower not in seen_titles:
-                seen_titles.add(title_lower)
-                item["trade_relevant"] = True
-                unique_news.append(item)
-
-        logger.info(f"📦 Found {len(unique_news)} unique trade policy news items")
-
-        return unique_news
-
-    def fetch_regulatory_news(self, max_items: int = 50) -> List[Dict]:
-        """Fetch regulatory news.
-
-        Topics: government regulations, policy changes, laws
-
-        Args:
-            max_items: Maximum items to fetch
-
-        Returns:
-            List of regulatory news items
-        """
-        regulatory_topics = [
-            "government regulation policy",
-            "federal regulations changes",
-            "financial regulations banking",
-            "technology regulation ai",
-            "environmental regulations climate"
-        ]
-
-        all_news = []
-        for topic in regulatory_topics:
-            news = self.fetch_data(topic=topic, max_items=max_items//len(regulatory_topics))
-            all_news.extend(news)
-
-        # Remove duplicates
-        seen_titles = set()
-        unique_news = []
-        for item in all_news:
-            title_lower = item.get("title", "").lower()
-            if title_lower not in seen_titles:
-                seen_titles.add(title_lower)
-                item["regulatory_relevant"] = True
-                unique_news.append(item)
-
-        logger.info(f"🏛️  Found {len(unique_news)} unique regulatory news items")
-
-        return unique_news
+        if DUPLICATE_BY == "title":
+            seen = set()
+            unique = []
+            for item in news_list:
+                title_lower = item.get("title", "").lower()
+                if title_lower and title_lower not in seen:
+                    seen.add(title_lower)
+                    unique.append(item)
+            return unique
+        elif DUPLICATE_BY == "url":
+            seen = set()
+            unique = []
+            for item in news_list:
+                url = item.get("url", "")
+                if url and url not in seen:
+                    seen.add(url)
+                    unique.append(item)
+            return unique
+        else:
+            return news_list

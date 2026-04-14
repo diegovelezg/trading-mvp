@@ -1,16 +1,9 @@
 {
-  "DEFAULT_WATCHLISTS": {
-    "ENERGIA_NUCLEAR": {
-      "id": 2,
-      "name": "Energía Nuclear",
-      "description": "Watchlist para seguimiento de empresas de energía nuclear y uranio"
-    },
-    "OIL_ENERGY": {
-      "id": 3,
-      "name": "Oil & Energy Watchlist",
-      "description": "Leading energy ETFs and oil exploration companies"
-    }
+  "DEFAULT_WATCHLIST": {
+    "id": 2,
+    "name": "Energía Nuclear",
+    "description": "Watchlist para seguimiento de empresas de energía nuclear y uranio"
   },
   "DEFAULT_WATCHLIST_ID": 2,
-  "NOTES": "Estos IDs deben corresponder con las watchlists creadas en Supabase"
+  "NOTES": "Solo una watchlist activa para simplificar el flujo"
 }

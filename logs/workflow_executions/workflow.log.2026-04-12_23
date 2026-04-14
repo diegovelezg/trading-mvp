@@ -1,0 +1,1375 @@
+2026-04-12 20:13:24,319 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 20:13:24,319 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 20:13:26,087 - workflow_logger - ERROR - ❌ STEP FAILED: news_extraction [news_extraction_001] (1.77s)
+2026-04-12 20:13:26,087 - workflow_logger - ERROR -    Error: Step returned success=False: News extraction failed: News too old: 12/100 items are from the last 24h (12.0% < 20% required)
+2026-04-12 20:13:26,088 - workflow_logger - DEBUG -    Traceback:
+Traceback (most recent call last):
+  File "/home/diego/Documentos/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py", line 308, in execute_step
+    raise ValueError(f"Step returned success=False: {error_msg}")
+ValueError: Step returned success=False: News extraction failed: News too old: 12/100 items are from the last 24h (12.0% < 20% required)
+
+2026-04-12 20:13:26,088 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260412_201324.json
+2026-04-12 20:13:26,088 - workflow_logger - ERROR - 🛑 WORKFLOW ABORTED at step: news_extraction
+2026-04-12 20:13:26,089 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260412_201324.json
+2026-04-12 20:13:26,090 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 0 steps completed, 1 failed
+2026-04-12 20:16:22,422 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 20:16:22,422 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 20:16:24,441 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.02s)
+2026-04-12 20:16:24,443 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 1749,
+      "title": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' - BBC",
+      "summary": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "content": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "url": "https://news.google.co
+2026-04-12 20:16:24,444 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-12 20:16:25,842 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.40s)
+2026-04-12 20:16:25,842 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "222",
+      "unrealized_pl": "-146.25",
+      "unrealized_plpc": "-0.04823"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "496",
+      "unrealized_pl": "-90.1",
+      "unrealized_plpc": "-0.01784"
+    },
+    {
+      "symbol": "USO",
+      "qty"
+2026-04-12 20:16:25,842 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-12 20:16:25,847 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (0.00s)
+2026-04-12 20:16:25,847 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": null,
+    "name": "No Watchlist"
+  },
+  "tickers": [],
+  "id": null,
+  "name": "No Watchlist"
+}
+2026-04-12 20:17:23,858 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-12 20:17:23,859 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-12 20:17:23,859 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [
+    {
+      "success": true,
+      "ticker": "BWXT",
+      "analysis_timestamp": "2026-04-12T20:17:23.858369",
+      "mapped_entities": [
+        "BWXT",
+        "Semantic Context"
+      ],
+      "related_news_count": 1,
+      "unique_entities_found": 1,
+      "top_risks": [
+        {
+          "entity_name": "La menci\u00f3n de un ataque nuclear y la participaci\u00f3n de EE. UU. en un conflicto en Taiw\u00e1n introduce incertidumbre y riesgo
+2026-04-12 20:17:26,508 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-12 20:17:26,515 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-12 20:17:26,516 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "HELD",
+      "rationale": "SE\u00d1ALES MIXTAS - Positivo: 30%, Negativo: 10%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 46.7, ATR: $11.41, Trend: BEARISH.",
+      "confidence_in_decision": 0.54,
+      "risk_level": "medium",
+      "technical_context": "RSI: 46.7, ATR: $11.41, Trend: BEARISH",
+      "sentiment_score": 0.07,
+      "ticker_analysis_id": null,
+      "ticker": "MA",
+      "origi
+2026-04-12 20:17:26,516 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-12 20:17:35,028 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (8.51s)
+2026-04-12 20:17:35,028 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 18,
+  "ticker_analysis_ids": {
+    "MA": 152,
+    "USO": 153,
+    "BWXT": 154
+  }
+}
+2026-04-12 20:17:35,045 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260412_201622.json
+2026-04-12 20:17:35,045 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-12 20:37:58,211 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 20:37:58,211 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 20:38:00,231 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.02s)
+2026-04-12 20:38:00,232 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 1749,
+      "title": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' - BBC",
+      "summary": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "content": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "url": "https://news.google.co
+2026-04-12 20:38:00,232 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-12 20:38:01,502 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.27s)
+2026-04-12 20:38:01,502 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "222",
+      "unrealized_pl": "-146.25",
+      "unrealized_plpc": "-0.04823"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "496",
+      "unrealized_pl": "-90.1",
+      "unrealized_plpc": "-0.01784"
+    },
+    {
+      "symbol": "USO",
+      "qty"
+2026-04-12 20:38:01,502 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-12 20:38:03,335 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.83s)
+2026-04-12 20:38:03,335 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-12 20:39:59,008 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-12 20:39:59,008 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-12 20:39:59,009 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "TSM",
+      "analysis_timestamp": "2026-04-12T20:39:34.579969",
+      "mapped_entities": [
+        "TSM",
+        "Semantic Context"
+      ],
+      "related_news_count": 2,
+      "unique_entities_found": 2,
+      "top_risks": [],
+      "top_opportunities": [
+        {
+          "entity_name": "La expansi\u00f3n de CoreWeave en IA, un sector importante para TSM, sugiere un potencial aumento en la demanda de semicond
+2026-04-12 20:40:01,625 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-12 20:40:03,486 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (1.86s)
+2026-04-12 20:40:03,486 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "IGNORED",
+      "action": "NONE",
+      "rationale": "BEARISH signal but final score too low",
+      "confidence_in_decision": 0.336,
+      "risk_level": "medium",
+      "sentiment_score": -0.53,
+      "ticker_analysis_id": null,
+      "ticker": "PWR",
+      "original_recommendation": "BEARISH",
+      "analysis_timestamp": "2026-04-12T20:38:14.469264",
+      "decision_timestamp": "2026-04-12T20:40:01.626975"
+    },
+    {
+      "decis
+2026-04-12 20:40:03,487 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-12 20:40:16,637 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (13.15s)
+2026-04-12 20:40:16,638 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": null,
+  "ticker_analysis_ids": {
+    "PWR": 155,
+    "PEG": 156,
+    "BWXT": 157,
+    "SNPS": 158,
+    "QCOM": 159,
+    "USO": 160,
+    "BKR": 161,
+    "WEC": 162,
+    "TSM": 163,
+    "MA": 164
+  }
+}
+2026-04-12 20:40:16,654 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260412_203758.json
+2026-04-12 20:40:16,655 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-12 20:48:10,130 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 20:48:10,130 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 20:48:12,181 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.05s)
+2026-04-12 20:48:12,183 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 1749,
+      "title": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' - BBC",
+      "summary": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "content": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "url": "https://news.google.co
+2026-04-12 20:48:12,184 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-12 20:48:13,525 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.34s)
+2026-04-12 20:48:13,525 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "222",
+      "unrealized_pl": "-146.25",
+      "unrealized_plpc": "-0.04823"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "496",
+      "unrealized_pl": "-90.1",
+      "unrealized_plpc": "-0.01784"
+    },
+    {
+      "symbol": "USO",
+      "qty"
+2026-04-12 20:48:13,526 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-12 20:48:15,347 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.82s)
+2026-04-12 20:48:15,347 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-12 20:50:07,313 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-12 20:50:07,313 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-12 20:50:07,313 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "TSM",
+      "analysis_timestamp": "2026-04-12T20:48:56.739550",
+      "mapped_entities": [
+        "TSM",
+        "Semantic Context"
+      ],
+      "related_news_count": 2,
+      "unique_entities_found": 2,
+      "top_risks": [],
+      "top_opportunities": [
+        {
+          "entity_name": "El crecimiento de clientes clave de TSM en el sector de la IA sugiere una demanda futura s\u00f3lida para sus productos, im
+2026-04-12 20:50:09,822 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-12 20:50:09,830 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-12 20:50:09,830 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 57.8, Tendencia BULLISH). Informaci\u00f3n insuficiente para actuar.",
+      "confidence_in_decision": 0.55,
+      "risk_level": "medium",
+      "technical_context": "RSI: 57.8, ATR: $1.97, Trend: BULLISH",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+      "ticker": "BKR",
+      "original_recommendation": "CAUT
+2026-04-12 20:50:09,830 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-12 20:50:35,431 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (25.60s)
+2026-04-12 20:50:35,432 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 19,
+  "ticker_analysis_ids": {
+    "BKR": 165,
+    "BWXT": 166,
+    "PWR": 167,
+    "QCOM": 168,
+    "SNPS": 169,
+    "TSM": 170,
+    "WEC": 171,
+    "PEG": 172,
+    "USO": 173,
+    "MA": 174
+  }
+}
+2026-04-12 20:50:35,447 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260412_204810.json
+2026-04-12 20:50:35,448 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-12 20:57:17,808 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 20:57:17,808 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 20:57:19,631 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.82s)
+2026-04-12 20:57:19,632 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 1749,
+      "title": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' - BBC",
+      "summary": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "content": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "url": "https://news.google.co
+2026-04-12 20:57:19,632 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-12 20:57:20,954 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.32s)
+2026-04-12 20:57:20,955 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "222",
+      "unrealized_pl": "-146.25",
+      "unrealized_plpc": "-0.04823"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "496",
+      "unrealized_pl": "-90.1",
+      "unrealized_plpc": "-0.01784"
+    },
+    {
+      "symbol": "USO",
+      "qty"
+2026-04-12 20:57:20,956 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-12 20:57:22,844 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.89s)
+2026-04-12 20:57:22,845 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-12 20:59:10,912 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-12 20:59:10,912 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-12 20:59:10,913 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "TSM",
+      "analysis_timestamp": "2026-04-12T20:59:10.912094",
+      "mapped_entities": [
+        "TSM",
+        "Semantic Context"
+      ],
+      "related_news_count": 2,
+      "unique_entities_found": 2,
+      "top_risks": [],
+      "top_opportunities": [
+        {
+          "entity_name": "Aunque no se menciona directamente a TSM, el crecimiento del mercado de IA y la expansi\u00f3n de empresas como CoreWeave s
+2026-04-12 20:59:13,626 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-12 20:59:15,468 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (1.84s)
+2026-04-12 20:59:15,468 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "IGNORED",
+      "action": "NONE",
+      "rationale": "BEARISH signal but final score too low",
+      "confidence_in_decision": 0.348,
+      "risk_level": "medium",
+      "sentiment_score": -0.7,
+      "ticker_analysis_id": null,
+      "ticker": "BWXT",
+      "original_recommendation": "BEARISH",
+      "analysis_timestamp": "2026-04-12T20:57:29.505385",
+      "decision_timestamp": "2026-04-12T20:59:13.630222"
+    },
+    {
+      "decis
+2026-04-12 20:59:15,469 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-12 20:59:40,676 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (25.21s)
+2026-04-12 20:59:40,677 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 20,
+  "ticker_analysis_ids": {
+    "BWXT": 175,
+    "SNPS": 176,
+    "PEG": 177,
+    "WEC": 178,
+    "MA": 179,
+    "USO": 180,
+    "PWR": 181,
+    "BKR": 182,
+    "QCOM": 183,
+    "TSM": 184
+  }
+}
+2026-04-12 20:59:40,693 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260412_205717.json
+2026-04-12 20:59:40,694 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-12 21:00:24,974 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 21:00:24,975 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 21:00:27,005 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.03s)
+2026-04-12 21:00:27,008 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 1749,
+      "title": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' - BBC",
+      "summary": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "content": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "url": "https://news.google.co
+2026-04-12 21:00:27,008 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-12 21:00:28,259 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.25s)
+2026-04-12 21:00:28,259 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "222",
+      "unrealized_pl": "-146.25",
+      "unrealized_plpc": "-0.04823"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "496",
+      "unrealized_pl": "-90.1",
+      "unrealized_plpc": "-0.01784"
+    },
+    {
+      "symbol": "USO",
+      "qty"
+2026-04-12 21:00:28,260 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-12 21:00:30,223 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.96s)
+2026-04-12 21:00:30,223 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-12 21:02:26,064 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-12 21:02:26,064 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-12 21:02:26,065 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "TSM",
+      "analysis_timestamp": "2026-04-12T21:01:28.702026",
+      "mapped_entities": [
+        "TSM",
+        "Semantic Context"
+      ],
+      "related_news_count": 2,
+      "unique_entities_found": 2,
+      "top_risks": [],
+      "top_opportunities": [
+        {
+          "entity_name": "La expansi\u00f3n de CoreWeave con acuerdos importantes en el sector de la IA sugiere un impacto positivo en la industria d
+2026-04-12 21:02:28,754 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-12 21:02:28,765 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-12 21:02:28,765 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "IGNORED",
+      "action": "NONE",
+      "rationale": "BEARISH signal but final score too low",
+      "confidence_in_decision": 0.348,
+      "risk_level": "medium",
+      "sentiment_score": -0.7,
+      "ticker_analysis_id": null,
+      "ticker": "BWXT",
+      "original_recommendation": "BEARISH",
+      "analysis_timestamp": "2026-04-12T21:00:37.166677",
+      "decision_timestamp": "2026-04-12T21:02:28.758218"
+    },
+    {
+      "decis
+2026-04-12 21:02:28,766 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-12 21:02:54,394 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (25.63s)
+2026-04-12 21:02:54,394 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 21,
+  "ticker_analysis_ids": {
+    "BWXT": 185,
+    "QCOM": 186,
+    "USO": 187,
+    "SNPS": 188,
+    "TSM": 189,
+    "PWR": 190,
+    "BKR": 191,
+    "MA": 192,
+    "WEC": 193,
+    "PEG": 194
+  }
+}
+2026-04-12 21:02:54,415 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260412_210024.json
+2026-04-12 21:02:54,415 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-12 21:37:47,028 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 21:37:47,028 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 21:37:49,061 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.03s)
+2026-04-12 21:37:49,065 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 1749,
+      "title": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' - BBC",
+      "summary": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "content": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "url": "https://news.google.co
+2026-04-12 21:37:49,065 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-12 21:37:50,278 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.21s)
+2026-04-12 21:37:50,278 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "222",
+      "unrealized_pl": "-146.25",
+      "unrealized_plpc": "-0.04823"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "496",
+      "unrealized_pl": "-90.1",
+      "unrealized_plpc": "-0.01784"
+    },
+    {
+      "symbol": "USO",
+      "qty"
+2026-04-12 21:37:50,279 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-12 21:37:52,153 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.87s)
+2026-04-12 21:37:52,153 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-12 21:39:38,354 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-12 21:39:38,354 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-12 21:39:38,354 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [
+    {
+      "success": true,
+      "ticker": "BWXT",
+      "analysis_timestamp": "2026-04-12T21:37:58.748067",
+      "mapped_entities": [
+        "BWXT",
+        "Semantic Context"
+      ],
+      "related_news_count": 1,
+      "unique_entities_found": 1,
+      "top_risks": [
+        {
+          "entity_name": "El titular menciona la posibilidad de simulacros de ataque nuclear por parte de China, lo que genera preocupaci\u00f3n y una connotaci\
+2026-04-12 21:39:41,256 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-12 21:39:50,384 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (9.13s)
+2026-04-12 21:39:50,384 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "IGNORED",
+      "action": "NONE",
+      "rationale": "Already have a LIVE position in BWXT. To increase size, use manual adjustment.",
+      "confidence_in_decision": 0.5664,
+      "risk_level": "low",
+      "sentiment_score": -0.7,
+      "ticker_analysis_id": null,
+      "ticker": "BWXT",
+      "original_recommendation": "BEARISH",
+      "analysis_timestamp": "2026-04-12T21:37:58.748067",
+      "decision_timestamp": "2026-04-12T21:3
+2026-04-12 21:39:50,385 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-12 21:40:15,691 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (25.31s)
+2026-04-12 21:40:15,691 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 22,
+  "ticker_analysis_ids": {
+    "BWXT": 195,
+    "MA": 196,
+    "PWR": 197,
+    "BKR": 198,
+    "PEG": 199,
+    "TSM": 200,
+    "QCOM": 201,
+    "WEC": 202,
+    "USO": 203,
+    "SNPS": 204
+  }
+}
+2026-04-12 21:40:15,710 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260412_213747.json
+2026-04-12 21:40:15,711 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-12 21:48:28,102 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 21:48:28,102 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 21:48:30,047 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.95s)
+2026-04-12 21:48:30,049 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 1749,
+      "title": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' - BBC",
+      "summary": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "content": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "url": "https://news.google.co
+2026-04-12 21:48:30,050 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-12 21:48:31,286 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.24s)
+2026-04-12 21:48:31,286 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "222",
+      "unrealized_pl": "-146.25",
+      "unrealized_plpc": "-0.04823"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "496",
+      "unrealized_pl": "-90.1",
+      "unrealized_plpc": "-0.01784"
+    },
+    {
+      "symbol": "USO",
+      "qty"
+2026-04-12 21:48:31,287 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-12 21:48:33,171 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (1.88s)
+2026-04-12 21:48:33,171 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-12 21:50:20,053 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-12 21:50:20,053 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-12 21:50:20,054 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "TSM",
+      "analysis_timestamp": "2026-04-12T21:48:50.605636",
+      "mapped_entities": [
+        "TSM",
+        "Semantic Context"
+      ],
+      "related_news_count": 1,
+      "unique_entities_found": 1,
+      "top_risks": [],
+      "top_opportunities": [
+        {
+          "entity_name": "El auge de la IA, con el que TSM tiene relaci\u00f3n, y la expansi\u00f3n de empresas como CoreWeave insin\u00faan un posib
+2026-04-12 21:50:22,918 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-12 21:50:32,399 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (9.48s)
+2026-04-12 21:50:32,400 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "BOUGHT",
+      "position_size": 4823.529411764706,
+      "entry_price": 50.0,
+      "rationale": "Fuerte Puntuaci\u00f3n Ponderada ALCISTA (0.82 >= umbral 0.55). Sentimiento: 0% positivo vs 0% negativo basado en 0 noticias. El peso t\u00e9cnico del 60% confirma una estructura saludable, momentum (MACD/RSI) y convicci\u00f3n de volumen (RVOL).",
+      "stop_loss": 47.05,
+      "take_profit": 55.91,
+      "c
+2026-04-12 21:50:32,400 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-12 21:50:58,059 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (25.66s)
+2026-04-12 21:50:58,059 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 23,
+  "ticker_analysis_ids": {
+    "BKR": 205,
+    "SNPS": 206,
+    "TSM": 207,
+    "MA": 208,
+    "PEG": 209,
+    "USO": 210,
+    "WEC": 211,
+    "PWR": 212,
+    "BWXT": 213,
+    "QCOM": 214
+  }
+}
+2026-04-12 21:50:58,072 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260412_214828.json
+2026-04-12 21:50:58,073 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-12 22:18:38,433 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 22:18:38,433 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 22:18:40,890 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.46s)
+2026-04-12 22:18:40,892 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 1749,
+      "title": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' - BBC",
+      "summary": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "content": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "url": "https://news.google.co
+2026-04-12 22:18:40,893 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-12 22:18:42,634 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.74s)
+2026-04-12 22:18:42,634 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "222",
+      "unrealized_pl": "-146.25",
+      "unrealized_plpc": "-0.04823"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "496",
+      "unrealized_pl": "-90.1",
+      "unrealized_plpc": "-0.01784"
+    },
+    {
+      "symbol": "USO",
+      "qty"
+2026-04-12 22:18:42,634 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-12 22:18:44,769 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.13s)
+2026-04-12 22:18:44,770 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-12 22:20:51,748 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-12 22:20:51,749 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-12 22:20:51,750 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [
+    {
+      "success": true,
+      "ticker": "WEC",
+      "analysis_timestamp": "2026-04-12T22:19:26.919768",
+      "mapped_entities": [
+        "WEC",
+        "Semantic Context"
+      ],
+      "related_news_count": 2,
+      "unique_entities_found": 2,
+      "top_risks": [
+        {
+          "entity_name": "La desaceleraci\u00f3n en la producci\u00f3n industrial sugiere una menor necesidad de energ\u00eda, impactando negativamente a WEC.",
+  
+2026-04-12 22:20:54,940 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-12 22:20:54,948 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-12 22:20:54,948 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "Fuerte Puntuaci\u00f3n Ponderada BAJISTA (0.60 >= umbral 0.45). Sentimiento: 0% de sesgo negativo a trav\u00e9s de 0 noticias. El peso t\u00e9cnico del 60% muestra debilidad, momentum bajista o convicci\u00f3n insuficiente para anular el riesgo macro.",
+      "confidence_in_decision": 0.4,
+      "risk_level": "high",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+2026-04-12 22:20:54,948 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-12 22:21:26,881 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (31.93s)
+2026-04-12 22:21:26,882 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 24,
+  "ticker_analysis_ids": {
+    "SNPS": 215,
+    "MA": 216,
+    "WEC": 217,
+    "PWR": 218,
+    "BWXT": 219,
+    "USO": 220,
+    "PEG": 221,
+    "TSM": 222,
+    "BKR": 223,
+    "QCOM": 224
+  }
+}
+2026-04-12 22:21:26,899 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260412_221838.json
+2026-04-12 22:21:26,900 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-12 22:33:37,689 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 22:33:37,689 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 22:33:39,990 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.30s)
+2026-04-12 22:33:39,995 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 1749,
+      "title": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' - BBC",
+      "summary": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "content": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "url": "https://news.google.co
+2026-04-12 22:33:39,996 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-12 22:33:41,598 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.60s)
+2026-04-12 22:33:41,598 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "222",
+      "unrealized_pl": "-146.25",
+      "unrealized_plpc": "-0.04823"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "496",
+      "unrealized_pl": "-90.1",
+      "unrealized_plpc": "-0.01784"
+    },
+    {
+      "symbol": "USO",
+      "qty"
+2026-04-12 22:33:41,599 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-12 22:33:43,931 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.33s)
+2026-04-12 22:33:43,932 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-12 22:35:42,984 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-12 22:35:42,984 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-12 22:35:42,985 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "TSM",
+      "analysis_timestamp": "2026-04-12T22:34:45.241272",
+      "mapped_entities": [
+        "TSM",
+        "Semantic Context"
+      ],
+      "related_news_count": 1,
+      "unique_entities_found": 1,
+      "top_risks": [],
+      "top_opportunities": [
+        {
+          "entity_name": "El acuerdo de CoreWeave con Meta y Anthropic y el financiamiento para infraestructura indican una tendencia positiva en la 
+2026-04-12 22:35:45,952 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-12 22:35:45,965 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-12 22:35:45,966 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "IGNORED",
+      "action": "NONE",
+      "rationale": "Already have a LIVE position in BWXT. To increase size, use manual adjustment.",
+      "confidence_in_decision": 0.5664,
+      "risk_level": "low",
+      "sentiment_score": -0.7,
+      "ticker_analysis_id": null,
+      "ticker": "BWXT",
+      "original_recommendation": "BEARISH",
+      "analysis_timestamp": "2026-04-12T22:33:56.270158",
+      "decision_timestamp": "2026-04-12T22:3
+2026-04-12 22:35:45,966 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-12 22:36:13,906 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (27.94s)
+2026-04-12 22:36:13,907 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 25,
+  "ticker_analysis_ids": {
+    "BWXT": 225,
+    "MA": 226,
+    "QCOM": 227,
+    "BKR": 228,
+    "SNPS": 229,
+    "TSM": 230,
+    "PEG": 231,
+    "USO": 232,
+    "WEC": 233,
+    "PWR": 234
+  }
+}
+2026-04-12 22:36:13,937 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260412_223337.json
+2026-04-12 22:36:13,938 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-12 22:41:52,863 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 22:41:52,863 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 22:41:54,791 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.93s)
+2026-04-12 22:41:54,794 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 1749,
+      "title": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' - BBC",
+      "summary": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "content": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "url": "https://news.google.co
+2026-04-12 22:41:54,795 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-12 22:41:56,415 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.62s)
+2026-04-12 22:41:56,415 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "222",
+      "unrealized_pl": "-146.25",
+      "unrealized_plpc": "-0.04823"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "496",
+      "unrealized_pl": "-90.1",
+      "unrealized_plpc": "-0.01784"
+    },
+    {
+      "symbol": "USO",
+      "qty"
+2026-04-12 22:41:56,415 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-12 22:41:58,758 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.34s)
+2026-04-12 22:41:58,759 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-12 22:42:29,400 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 22:42:29,400 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 22:42:31,648 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.25s)
+2026-04-12 22:42:31,652 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 1749,
+      "title": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' - BBC",
+      "summary": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "content": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "url": "https://news.google.co
+2026-04-12 22:42:31,652 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-12 22:42:33,280 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.63s)
+2026-04-12 22:42:33,280 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "222",
+      "unrealized_pl": "-146.25",
+      "unrealized_plpc": "-0.04823"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "496",
+      "unrealized_pl": "-90.1",
+      "unrealized_plpc": "-0.01784"
+    },
+    {
+      "symbol": "USO",
+      "qty"
+2026-04-12 22:42:33,281 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-12 22:42:35,482 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.20s)
+2026-04-12 22:42:35,483 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-12 22:54:44,510 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 22:54:44,510 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 22:54:46,892 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.38s)
+2026-04-12 22:54:46,895 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 1749,
+      "title": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' - BBC",
+      "summary": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "content": "US military says blockade of Iran's ports to begin Monday, after Tehran says it will not 'surrender' &nbsp;&nbsp; BBC",
+      "url": "https://news.google.co
+2026-04-12 22:54:46,895 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-12 22:54:48,619 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.72s)
+2026-04-12 22:54:48,619 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "222",
+      "unrealized_pl": "-146.25",
+      "unrealized_plpc": "-0.04823"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "496",
+      "unrealized_pl": "-90.1",
+      "unrealized_plpc": "-0.01784"
+    },
+    {
+      "symbol": "USO",
+      "qty"
+2026-04-12 22:54:48,619 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-12 22:54:51,520 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.90s)
+2026-04-12 22:54:51,521 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-12 22:59:56,494 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-12 22:59:56,494 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-12 22:59:56,495 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "TSM",
+      "analysis_timestamp": "2026-04-12T22:56:29.018785",
+      "mapped_entities": [
+        "TSM",
+        "Semantic Context"
+      ],
+      "related_news_count": 1,
+      "unique_entities_found": 1,
+      "top_risks": [],
+      "top_opportunities": [
+        {
+          "entity_name": "El financiamiento multimillonario para infraestructura de IA genera una demanda forzada y recurrente sobre la capacidad pro
+2026-04-12 23:19:00,873 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-12 23:19:00,873 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-12 23:19:03,542 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.67s)
+2026-04-12 23:19:03,544 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 1966,
+      "title": "Iran Warns Americans Will Soon Be 'Nostalgic' For $4-5 Gas Prices After Trump Pushes Hormuz Strait Blockade: 'Enjoy The Current Pump Figures'",
+      "summary": "Iranian parliament speaker warns of US blockade of Iranian ports increasing oil prices, trolling President Donald Trump&#39;s move.",
+      "content": "Iranian parliament speaker warns of US blockade of Iranian ports increasing oil prices, trolling President 
+2026-04-12 23:19:03,545 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-12 23:19:05,204 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.66s)
+2026-04-12 23:19:05,204 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "222",
+      "unrealized_pl": "-146.25",
+      "unrealized_plpc": "-0.04823"
+    },
+    {
+      "symbol": "MA",
+      "qty": "10",
+      "side": "long",
+      "avg_entry_price": "505.01",
+      "current_price": "496.21",
+      "unrealized_pl": "-88",
+      "unrealized_plpc": "-0.01743"
+    },
+    {
+      "symbol": "USO",
+      "qty
+2026-04-12 23:19:05,205 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-12 23:19:07,421 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.22s)
+2026-04-12 23:19:07,422 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-12 23:22:39,571 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-12 23:22:39,571 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-12 23:22:39,571 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "TSM",
+      "analysis_timestamp": "2026-04-12T23:19:57.902233",
+      "mapped_entities": [
+        "TSM",
+        "Semantic Context"
+      ],
+      "related_news_count": 1,
+      "insights_found": 1,
+      "top_risks": [],
+      "top_opportunities": [
+        {
+          "entity_name": "Los nuevos acuerdos de CoreWeave con Meta y Anthropic impulsan la demanda global de chips avanzados, beneficiando a TSM como el pr
+2026-04-12 23:22:42,531 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-12 23:22:45,496 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (2.96s)
+2026-04-12 23:22:45,496 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "Se\u00f1al de BAJA CONFIANZA (0.43). RSI: 61.1, ATR: $20.73, Trend: BULLISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
+      "confidence_in_decision": 0.43200000000000005,
+      "risk_level": "medium",
+      "technical_context": "RSI: 61.1, ATR: $20.73, Trend: BULLISH",
+      "sentiment_score": -0.25,
+      "ticker_analysis_id": null,
+      "ticker": "PWR",
+      "or
+2026-04-12 23:22:45,497 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-12 23:23:17,176 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (31.68s)
+2026-04-12 23:23:17,177 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 26,
+  "ticker_analysis_ids": {
+    "PWR": 235,
+    "BKR": 236,
+    "QCOM": 237,
+    "TSM": 238,
+    "USO": 239,
+    "WEC": 240,
+    "PEG": 241,
+    "SNPS": 242,
+    "MA": 243,
+    "BWXT": 244
+  }
+}
+2026-04-12 23:23:17,202 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260412_231900.json
+2026-04-12 23:23:17,203 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed

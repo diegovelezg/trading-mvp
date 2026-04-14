@@ -1,8 +1,8 @@
-# 🏗️ Arquitectura: Procesamiento, Almacenamiento y Distribución
+# 🏗️ Arquitectura: Procesamiento con Embeddings Semánticos
 
-**Fecha**: 2026-04-08
+**Fecha**: 2026-04-13
 **Agente**: GeoMacro Analyst
-**Modelo**: GEMINI_API_MODEL_01 (gemini-3.1-flash-lite-preview)
+**Modelo**: GEMINI_API_MODEL_01 (gemini-2.0-flash-exp)
 
 ---
 
@@ -19,6 +19,7 @@
   ┌──────────┐         ┌──────────┐         ┌──────────┐
   │ Alpaca   │         │  Google  │         │ SERPAPI  │
   │   News   │         │   News   │         │          │
+  │ (max 50) │         │   RSS    │         │ Search   │
   └──────────┘         └──────────┘         └──────────┘
         │                     │                     │
         └─────────────────────┼─────────────────────┘
@@ -31,42 +32,21 @@
                               │
                               ▼
         ┌─────────────────────────────────────────┐
-        │       2. EXTRACCIÓN DE ENTITIES        │
-        │       (GEMINI_API_MODEL_01)            │
+        │       2. GENERACIÓN DE EMBEDDINGS       │
+        │    (gemini-embedding-001, 768 dims)     │
         └─────────────────────────────────────────┘
                               │
-            ┌─────────────────┼─────────────────┐
-            │                 │                 │
-            ▼                 ▼                 ▼
-      ┌─────────┐      ┌─────────┐      ┌─────────┐
-      │ Entities│      │ Sectors │      │Regions  │
-      │temáticas│      │         │      │         │
-      └─────────┘      └─────────┘      └─────────┘
-            │                 │                 │
-            └─────────────────┼─────────────────┘
-                              │
                               ▼
                     ┌──────────────────┐
-                    │ 3. ENRIQUECIMIENTO│
-                    │   - Clustering    │
-                    │   - Correlación   │
-                    │   - Scoring       │
+                    │ 3. ALMACENAMIENTO │
+                    │   (pgvector DB)   │
                     └──────────────────┘
                               │
                               ▼
                     ┌──────────────────┐
-                    │  4. ALMACENAMIENTO│
-                    │   - Noticias      │
-                    │   - Entities      │
-                    │   - Insights      │
-                    └──────────────────┘
-                              │
-                              ▼
-                    ┌──────────────────┐
-                    │ 5. DISTRIBUCIÓN   │
-                    │   - Por ticker    │
-                    │   - Por sector    │
-                    │   - Por entity    │
+                    │  4. BÚSQUEDA      │
+                    │  SEMÁNTICA       │
+                    │  (Cosine Sim)    │
                     └──────────────────┘
 ```
 
@@ -74,456 +54,345 @@
 
 ## **2. ESQUEMA DE BASE DE DATOS**
 
-### **2.1 Tabla Principal: `geo_macro_news`**
+### **2.1 Tabla: `geo_macro_news`**
 
 ```sql
 CREATE TABLE geo_macro_news (
     id SERIAL PRIMARY KEY,
+
+    -- News content
     title TEXT NOT NULL,
     summary TEXT,
     content TEXT,
     url TEXT,
-    source VARCHAR(50),          -- 'alpaca_news', 'google_news', 'serpapi'
-    source_type VARCHAR(50),     -- 'news_api', 'rss', 'search_api'
-    author VARCHAR(255),
+
+    -- Source
+    source TEXT,                    -- 'alpaca_news', 'google_news', 'serpapi'
+    source_type TEXT,
+    author TEXT,
     published_at TIMESTAMP,
     collected_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    -- Alpaca-specific
-    symbols JSONB,               -- ['AAPL', 'MSFT']
-    alpaca_id BIGINT,
+    -- Source-specific IDs
+    alpaca_id INTEGER,
 
-    -- SERPAPI-specific
-    serpapi_source VARCHAR(255),
-    serpapi_date VARCHAR(100),
-
-    -- Raw data
+    -- Raw data (JSONB)
     raw_data JSONB,
 
-    -- Indexing
-    INDEX idx_source (source),
-    INDEX idx_published (published_at DESC),
-    INDEX idx_symbols (symbols),
-    INDEX idx_collected (collected_at DESC)
+    -- Prevent duplicates
+    UNIQUE (source, alpaca_id)
 );
 ```
 
-### **2.2 Tabla: `geo_macro_entities`**
-
+**Índices:**
 ```sql
-CREATE TABLE geo_macro_entities (
-    id SERIAL PRIMARY KEY,
-    news_id INTEGER REFERENCES geo_macro_news(id) ON DELETE CASCADE,
-
-    -- Entity information
-    entity_name VARCHAR(255) NOT NULL,
-    entity_type VARCHAR(50),    -- 'theme', 'commodity', 'region', 'event', 'policy'
-
-    -- Analysis
-    impact VARCHAR(20),          -- 'positive', 'negative', 'neutral'
-    confidence FLOAT,            -- 0.0 to 1.0
-
-    -- Relations
-    sectors JSONB,               -- ['Energy', 'Transportation']
-    regions JSONB,               -- ['Middle East', 'Iran']
-    tickers JSONB,               -- ['USO', 'XLE', 'BNO']
-
-    -- Metadata
-    extracted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    model_used VARCHAR(100),     -- 'gemini-3.1-flash-lite-preview'
-
-    -- Indexing
-    INDEX idx_entity_name (entity_name),
-    INDEX idx_entity_type (entity_type),
-    INDEX idx_impact (impact),
-    INDEX idx_sectors (sectors),
-    INDEX idx_regions (regions),
-    INDEX idx_tickers (tickers),
-    UNIQUE (news_id, entity_name)  -- One entity per news item
-);
-```
-
-### **2.3 Tabla: `geo_macro_insights`**
-
-```sql
-CREATE TABLE geo_macro_insights (
-    id SERIAL PRIMARY KEY,
-
-    -- Core insight
-    title TEXT NOT NULL,
-    summary TEXT NOT NULL,
-    impact_level VARCHAR(20),    -- 'critical', 'high', 'medium', 'low', 'positive'
-    confidence FLOAT,            -- 0.0 to 1.0
-
-    -- Entities relation
-    related_entities JSONB,      -- ['Oil', 'Geopolitical tension']
-    related_sectors JSONB,       -- ['Energy', 'Shipping']
-    related_regions JSONB,       -- ['Middle East', 'Global']
-
-    -- Tickers relation
-    affected_tickers JSONB,      -- ['USO', 'XLE', 'BNO', 'WTI']
-    ticker_impacts JSONB,        -- {'USO': 'positive', 'XLE': 'positive'}
-
-    -- Source
-    source_news_ids JSONB,       -- [1, 2, 3] - IDs de noticias relacionadas
-    source_count INTEGER,        -- Number of news items used
-
-    -- Timing
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    expires_at TIMESTAMP,        -- Insight expiration (optional)
-
-    -- Status
-    status VARCHAR(20) DEFAULT 'active', -- 'active', 'expired', 'actioned'
-
-    -- Indexing
-    INDEX idx_impact_level (impact_level),
-    INDEX idx_created (created_at DESC),
-    INDEX idx_entities (related_entities),
-    INDEX idx_sectors (related_sectors),
-    INDEX idx_tickers (affected_tickers),
-    INDEX idx_status (status)
-);
-```
-
-### **2.4 Tabla: `entity_relationships`**
-
-```sql
-CREATE TABLE entity_relationships (
-    id SERIAL PRIMARY KEY,
-
-    -- Related entities
-    entity_a VARCHAR(255) NOT NULL,
-    entity_b VARCHAR(255) NOT NULL,
-
-    -- Relationship
-    relationship_type VARCHAR(50), -- 'correlation', 'causal', 'co-occurrence'
-    strength FLOAT,                -- 0.0 to 1.0
-    direction VARCHAR(20),         -- 'positive', 'negative', 'neutral'
-
-    -- Context
-    co_occurrence_count INTEGER DEFAULT 1,
-    first_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    -- Indexing
-    UNIQUE (entity_a, entity_b, relationship_type),
-    INDEX idx_entity_a (entity_a),
-    INDEX idx_entity_b (entity_b),
-    INDEX idx_strength (strength DESC)
-);
+CREATE INDEX idx_geo_news_source ON geo_macro_news(source);
+CREATE INDEX idx_geo_news_published ON geo_macro_news(published_at DESC);
+CREATE INDEX idx_geo_news_collected ON geo_macro_news(collected_at DESC);
 ```
 
 ---
 
-## **3. ESTRATEGIA DE EXTRACCIÓN DE ENTITIES**
+### **2.2 Tabla: `news_embeddings`**
 
-### **3.1 Proceso de Extracción**
+```sql
+CREATE TABLE news_embeddings (
+    news_id INTEGER PRIMARY KEY,
+    embedding vector(768),                  -- pgvector
+    embedding_dim INTEGER DEFAULT 768,
+    embedding_model TEXT DEFAULT 'gemini-embedding-001',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (news_id) REFERENCES geo_macro_news(id) ON DELETE CASCADE
+);
+```
+
+**Índices:**
+```sql
+-- HNSW index para fast cosine similarity
+CREATE INDEX idx_news_embeddings_hnsw
+ON news_embeddings USING hnsw (embedding vector_cosine_ops);
+
+-- Index para lookups por news_id
+CREATE INDEX idx_news_embeddings_news_id
+ON news_embeddings(news_id);
+```
+
+---
+
+### **2.3 Tabla: `ticker_entity_embeddings` (ADN del Ticker)**
+
+```sql
+CREATE TABLE ticker_entity_embeddings (
+    id SERIAL PRIMARY KEY,
+    ticker VARCHAR(10) NOT NULL,
+    entity_text TEXT NOT NULL,
+    embedding vector(768),
+    entity_type TEXT,
+    weight FLOAT DEFAULT 1.0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    UNIQUE (ticker, entity_text)
+);
+```
+
+**Índices:**
+```sql
+CREATE INDEX idx_ticker_embeddings_ticker
+ON ticker_entity_embeddings(ticker);
+
+CREATE INDEX idx_ticker_embeddings_hnsw
+ON ticker_entity_embeddings USING hnsw (embedding vector_cosine_ops);
+```
+
+---
+
+## **3. BÚSQUEDA SEMÁNTICA**
+
+### **3.1 Individual DNA Matching**
+
+El ADN del ticker se compara de forma individual (MAX similarity):
+
+```sql
+WITH ticker_vectors AS (
+    SELECT embedding FROM ticker_entity_embeddings WHERE ticker = 'USO'
+)
+SELECT
+    e.news_id,
+    MAX(1 - (e.embedding <=> t.embedding)) as max_similarity
+FROM news_embeddings e
+CROSS JOIN ticker_vectors t
+GROUP BY e.news_id
+HAVING MAX(1 - (e.embedding <=> t.embedding)) >= 0.80
+ORDER BY max_similarity DESC
+LIMIT 50;
+```
+
+**Operador `<=>`** = Cosine distance (pgvector)
+**`1 - distance`** = Cosine similarity
+**Threshold 0.80** = Mínimo de similitud para relevancia
+
+---
+
+### **3.2 Implementación en Python**
 
 ```python
-def extract_entities_from_news(news: Dict) -> List[Dict]:
-    """
-    Extrae entities de una noticia usando Gemini.
+def find_related_news_for_ticker(
+    ticker: str,
+    all_news: List[Dict],
+    method: str = "semantic",
+    similarity_threshold: float = 0.80
+) -> Tuple[List[Dict], Dict]:
+    """Búsqueda semántica de noticias relacionadas."""
 
-    Args:
-        news: Noticia normalizada
-
-    Returns:
-        Lista de entities extraídas
-    """
-    prompt = f"""
-Extrae las entities de inversión clave de esta noticia:
-
-Título: {news['title']}
-Summary: {news.get('summary', '')}
-
-Identifica:
-1. ENTITIES (temas/sectores/commodities/regiones afectados)
-2. ENTITY_TYPE (theme/commodity/region/event/policy)
-3. IMPACT (positive/negative/neutral)
-4. CONFIDENCE (0.0-1.0)
-5. SECTORS (sectores específicos afectados)
-6. REGIONS (regiones/países afectados)
-7. TICKERS (tickers mencionados o relacionados - max 5)
-
-Responde en JSON estricto:
-{{
-  "entities": [
-    {{
-      "entity_name": "Oil",
-      "entity_type": "commodity",
-      "impact": "positive",
-      "confidence": 0.9,
-      "sectors": ["Energy", "Transportation"],
-      "regions": ["Middle East"],
-      "tickers": ["USO", "XLE"]
-    }}
-  ]
-}}
-"""
-
-    response = gemini_client.generate_content(
-        model=GEMINI_API_MODEL_01,
-        contents=prompt
+    # 1. Buscar noticias similares por ADN individual
+    similar_news = find_similar_news_by_ticker(
+        ticker=ticker,
+        threshold=similarity_threshold,
+        limit=len(all_news)
     )
 
-    return parse_gemini_entities_response(response)
-```
+    if not similar_news:
+        return [], {"method": "semantic_dna", "count": 0}
 
-### **3.2 Tipos de Entities**
+    # 2. Mapear a news items completos
+    news_map = {news['id']: news for news in all_news}
+    related_news = []
 
-| Tipo | Descripción | Ejemplos |
-|------|-------------|----------|
-| **theme** | Temáticas macro | "Trade war", "Elections", "Brexit" |
-| **commodity** | Commodities | "Oil", "Gold", "Copper", "Wheat" |
-| **region** | Regiones geográficas | "Middle East", "Latin America", "APAC" |
-| **event** | Eventos específicos | "Strait of Hormuz closure", "Fed meeting" |
-| **policy** | Políticas públicas | "Interest rate hike", "Tariff imposition" |
-| **sector** | Sectores económicos | "Technology", "Energy", "Financials" |
-| **indicator** | Indicadores económicos | "Inflation", "GDP", "Unemployment" |
+    for item in similar_news:
+        news_id = item['news_id']
+        similarity = item['similarity']
 
----
+        if news_id in news_map:
+            news_with_meta = news_map[news_id].copy()
+            news_with_meta['_similarity'] = similarity
+            news_with_meta['_match_method'] = 'semantic_dna_match'
+            related_news.append(news_with_meta)
 
-## **4. ESTRATEGIA DE DISTRIBUCIÓN**
-
-### **4.1 Por Ticker**
-
-```python
-def get_insights_for_ticker(ticker: str) -> List[Dict]:
-    """
-    Obtiene insights relevantes para un ticker específico.
-
-    Args:
-        ticker: Símbolo de ticker (ej: 'AAPL')
-
-    Returns:
-        Lista de insights relevantes
-    """
-    query = """
-        SELECT * FROM geo_macro_insights
-        WHERE ticker_impacts->? IS NOT NULL
-        OR ? = ANY(affected_tickers)
-        ORDER BY created_at DESC
-        LIMIT 20
-    """
-
-    return db.execute(query, (ticker, ticker))
-```
-
-**Uso**: Explorer Agent puede pedir insights para tickers descubiertos
-
-### **4.2 Por Sector**
-
-```python
-def get_insights_for_sector(sector: str) -> List[Dict]:
-    """
-    Obtiene insights relevantes para un sector.
-
-    Args:
-        sector: Nombre del sector (ej: 'Technology')
-
-    Returns:
-        Lista de insights relevantes
-    """
-    query = """
-        SELECT * FROM geo_macro_insights
-        WHERE ? = ANY(related_sectors)
-        ORDER BY impact_level DESC, created_at DESC
-        LIMIT 20
-    """
-
-    return db.execute(query, (sector,))
-```
-
-**Uso**: Hypothesis Generator puede filtrar ideas por sector
-
-### **4.3 Por Entity Temática**
-
-```python
-def get_insights_for_entity(entity_name: str) -> List[Dict]:
-    """
-    Obtiene insights relacionados con una entity temática.
-
-    Args:
-        entity_name: Nombre de entity (ej: 'Oil', 'Fed', 'Trade war')
-
-    Returns:
-        Lista de insights relacionados
-    """
-    query = """
-        SELECT * FROM geo_macro_insights
-        WHERE ? = ANY(related_entities)
-        ORDER BY created_at DESC
-        LIMIT 20
-    """
-
-    return db.execute(query, (entity_name,))
-```
-
-**Uso**: Descubrir oportunidades temáticas (ej: "¿qué afecta a Oil?")
-
-### **4.4 Por Región**
-
-```python
-def get_insights_for_region(region: str) -> List[Dict]:
-    """
-    Obtiene insights relevantes para una región.
-
-    Args:
-        region: Nombre de región (ej: 'Middle East', 'China')
-
-    Returns:
-        Lista de insights relevantes
-    """
-    query = """
-        SELECT * FROM geo_macro_insights
-        WHERE ? = ANY(related_regions)
-        ORDER BY impact_level DESC, created_at DESC
-        LIMIT 20
-    """
-
-    return db.execute(query, (region,))
-```
-
-**Uso**: Análisis geográfico de riesgos/opportunities
-
----
-
-## **5. WORKFLOW COMPLETO**
-
-### **5.1 Ingesta Diaria**
-
-```python
-def daily_ingestion():
-    """Ingesta noticias y extrae entities."""
-
-    # 1. Fetch news from all sources
-    alpaca_news = AlpacaNewsConnector().fetch_macro_news(hours_back=24)
-    google_news = GoogleNewsConnector().fetch_geopolitical_news(max_items=50)
-    serpapi_news = SerpApiConnector().fetch_macro_news()
-
-    # 2. Normalize and store
-    all_news = normalize_and_store(alpaca_news + google_news + serpapi_news)
-
-    # 3. Extract entities from each news
-    for news in all_news:
-        entities = extract_entities_from_news(news)
-        store_entities(news['id'], entities)
-
-    # 4. Generate insights
-    insights = generate_insights_from_entities(all_news, entities)
-    store_insights(insights)
-
-    # 5. Update entity relationships
-    update_entity_relationships(entities)
-
-    return {
-        'news_count': len(all_news),
-        'entities_count': sum(len(e) for e in entities),
-        'insights_count': len(insights)
+    return related_news, {
+        "ticker": ticker,
+        "method": "semantic_dna_match",
+        "similarity_threshold": similarity_threshold,
+        "total_count": len(related_news)
     }
 ```
 
-### **5.2 Consulta Multi-dimensional**
+---
+
+## **4. ESTRATEGIA DE GENERACIÓN DE EMBEDDINGS**
+
+### **4.1 Generación Batch**
 
 ```python
-def query_insights(
-    tickers: List[str] = None,
-    sectors: List[str] = None,
-    entities: List[str] = None,
-    regions: List[str] = None,
-    impact_level: str = None,
-    hours_back: int = 24
-) -> List[Dict]:
-    """
-    Consulta insights con múltiples filtros.
+def generate_embeddings_for_news(
+    news_list: List[Dict],
+    batch_size: int = 50
+) -> int:
+    """Genera embeddings para noticias sin ellos."""
 
-    Args:
-        tickers: Lista de tickers
-        sectors: Lista de sectores
-        entities: Lista de entities
-        regions: Lista de regiones
-        impact_level: Nivel de impacto ('critical', 'high', 'medium', 'low')
-        hours_back: Horas hacia atrás
+    # Get unembedded news
+    unembedded_ids = get_unembedded_news(limit=len(news_list))
 
-    Returns:
-        Lista de insights filtrados
-    """
-    query = "SELECT * FROM geo_macro_insights WHERE 1=1"
-    params = []
+    if not unembedded_ids:
+        return 0  # All news already have embeddings
 
-    if tickers:
-        query += " AND affected_tickers ?| array[{}]"
-        params.extend(tickers)
+    # Process in batches
+    for i in range(0, len(unembedded_ids), batch_size):
+        batch_ids = unembedded_ids[i:i + batch_size]
 
-    if sectors:
-        query += " AND related_sectors ?| array[{}]"
-        params.extend(sectors)
+        # Prepare texts
+        texts = []
+        for news_id in batch_ids:
+            news = next(n for n in news_list if n['id'] == news_id)
+            text = f"{news.get('title', '')} {news.get('summary', '')}"
+            texts.append(text)
 
-    if entities:
-        query += " AND related_entities ?| array[{}]"
-        params.extend(entities)
+        # Generate embeddings
+        embeddings = generate_embeddings_batch(
+            texts,
+            task_type="SEMANTIC_SIMILARITY",
+            output_dimensionality=768
+        )
 
-    if regions:
-        query += " AND related_regions ?| array[{}]"
-        params.extend(regions)
+        # Save to DB
+        embeddings_data = [
+            (news_id, str(emb), 768, 'gemini-embedding-001')
+            for news_id, emb in zip(batch_ids, embeddings)
+        ]
+        save_news_embeddings_batch(embeddings_data)
 
-    if impact_level:
-        query += " AND impact_level = ?"
-        params.append(impact_level)
-
-    query += " AND created_at > NOW() - INTERVAL '? hours'"
-    params.append(hours_back)
-
-    query += " ORDER BY impact_level DESC, created_at DESC LIMIT 50"
-
-    return db.execute(query, params)
+    return len(unembedded_ids)
 ```
 
 ---
 
-## **6. VENTAJAS DE ESTE ENFOQUE**
+### **4.2 Tipos de Embeddings**
 
-### **6.1 Inversión Temática**
-- ✅ Descubrir oportunidades basadas en **TEMAS**, no solo tickers
-- ✅ Identificar **sectores y regiones** afectados por eventos
-- ✅ Correlacionar **entities diferentes** (ej: "Oil" ↔ "Inflation")
-
-### **6.2 Análisis Cross-Asset**
-- ✅ Ver cómo **un evento afecta múltiples activos**
-- ✅ Entender **transmisión de impactos** entre sectores
-- ✅ Identificar **oportunidades de diversificación**
-
-### **6.3 Distribución Inteligente**
-- ✅ **Por ticker**: Para Explorer/Hypothesis agents
-- ✅ **Por sector**: Para análisis sectorial
-- ✅ **Por entity**: Para inversión temática
-- ✅ **Por región**: Para análisis geográfico
-
-### **6.4 Escalabilidad**
-- ✅ Entities como ** índice de búsqueda**
-- ✅ Relaciones entre entities para **descubrimiento**
-- ✅ Historial de entities para **tendencias**
+| Tipo | Uso | Dimensiones | Modelo |
+|------|-----|-------------|--------|
+| Noticias | Búsqueda semántica | 768 | gemini-embedding-001 |
+| Ticker ADN | Perfil del activo | 768 | gemini-embedding-001 |
+| Queries | Búsqueda personalizada | 768 | gemini-embedding-001 |
 
 ---
 
-## **7. PRÓXIMOS PASOS**
+## **5. WORKFLOW DE ANÁLISIS**
 
-### **Inmediato**
-1. ✅ Crear esquema de DB
-2. ✅ Implementar extractor de entities
-3. ✅ Implementar pipeline de ingesta
+### **5.1 Pipeline Completo**
 
-### **Corto Plazo**
-4. ⏳ Implementar funciones de distribución
-5. ⏳ Crear endpoints de consulta
-6. ⏳ Integrar con otros agentes
+```python
+def run_workflow(hours_back: int = 48):
+    """Workflow completo de análisis."""
 
-### **Mediano Plazo**
-7. ⏳ Implementar clustering de entities
-8. ⏳ Sistema de recomendación de entities relacionadas
-9. ⏳ Dashboard de entities trending
+    # PASO 0: Extraer y validar noticias
+    news_result = extract_and_validate_news(
+        hours_back=hours_back,
+        min_news_count=10,
+        max_age_hours=24
+    )
+
+    if not news_result['success']:
+        return {'success': False, 'error': 'No hay noticias frescas'}
+
+    # PASO 1: Generar embeddings si no existen
+    all_news = news_result['news_items']
+    embeddings_count = generate_embeddings_for_news(all_news)
+
+    # PASO 2: Para cada ticker, buscar noticias relacionadas
+    for ticker in tickers:
+        related_news, stats = find_related_news_for_ticker(
+            ticker,
+            all_news,
+            method='semantic',
+            similarity_threshold=0.80
+        )
+
+        # PASO 3: Analizar sentimiento de TOP 8 noticias
+        for news in related_news[:8]:
+            sentiment = analyze_sentiment(
+                f"TICKER: {ticker}\nTITLE: {news['title']}\n...",
+                ticker=ticker
+            )
+
+        # PASO 4: Generar recomendación (60/40 Quant/Semantic)
+        recommendation = generate_recommendation(
+            ticker=ticker,
+            semantic_signals=semantic_signals,
+            quant_indicators=quant_stats
+        )
+
+    return {
+        'success': True,
+        'embeddings_generated': embeddings_count,
+        'analyzed_tickers': len(tickers)
+    }
+```
 
 ---
 
-**Status**: ✅ **Arquitectura definida, lista para implementación**
-**Actualización**: 2026-04-08
+## **6. VENTAJAS DEL SISTEMA ACTUAL**
+
+### **6.1 vs Sistema Anterior de Entities**
+
+| Aspecto | Entities (Antiguo) | Embeddings (Actual) |
+|---------|-------------------|---------------------|
+| **Búsqueda** | Keyword matching exacto | Semantic similarity |
+| **Escalabilidad** | Limited por keywords | Ilimitado |
+| **Flexibilidad** | Rígido | Adaptativo |
+| **Mantenimiento** | Manual | Automático |
+| **Precision** | Alta solo para matches exactos | Alta incluso para variaciones |
+
+---
+
+### **6.2 Capacidades Únicas**
+
+- ✅ **Búsqueda conceptual**: Encuentra "oil prices" aunque busca "crude oil"
+- ✅ **Multi-idioma**: Funciona across lenguajes
+- ✅ **Descubrimiento**: Encuentra relaciones no obvias
+- ✅ **ADN del ticker**: Perfil semántico multi-dimensional
+- ✅ **Umbral ajustable**: 0.80 default, configurable por caso de uso
+
+---
+
+## **7. MÉTRICAS DE ÉXITO**
+
+### **7.1 Cobertura de Embeddings**
+
+```
+Target: ≥ 80% de noticias con embeddings
+Método: count_news_embeddings() / total_news
+Frecuencia: Cada ejecución de pipeline
+```
+
+### **7.2 Calidad de Búsqueda**
+
+```
+Target: ≥ 5 noticias relevantes por ticker (threshold 0.80)
+Método: len(find_related_news_for_ticker(...))
+Frecuencia: Cada análisis de ticker
+```
+
+### **7.3 Performance de Embeddings**
+
+```
+Target: ≤ 10s para generar 50 embeddings
+Método: Medir tiempo en generate_embeddings_for_news()
+Frecuencia: Monitoreo continuo
+```
+
+---
+
+## **8. PRÓXIMOS PASOS**
+
+1. ✅ **Implementado**: Sistema de embeddings semánticos
+2. ✅ **Implementado**: Búsqueda con umbral 0.80
+3. ✅ **Implementado**: ADN individual de tickers
+4. ⏳ **Pendiente**: Tuning de threshold según resultados
+5. ⏳ **Pendiente**: Expansión a más fuentes de noticias
+6. ⏳ **Pendiente**: Métricas de precisión de búsqueda
+
+---
+
+**Última actualización**: 2026-04-13
+**Estado**: 100% funcional
+**Próxima revisión**: 2026-04-20

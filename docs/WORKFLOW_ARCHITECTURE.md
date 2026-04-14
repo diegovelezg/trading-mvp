@@ -82,7 +82,7 @@ PASO 7: PERSISTENCE
 
 ### **Ejecutar versión Institucional (Fail-Fast)**
 ```bash
-python scripts/run_investment_desk_v2.py --hours-back 48
+python scripts/run_investment_desk.py --hours-back 48
 ```
 
 ### **Monitorización de Ejecuciones**

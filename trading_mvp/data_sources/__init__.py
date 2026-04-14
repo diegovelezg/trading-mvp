@@ -1,17 +1,23 @@
 """Data sources for GeoMacro Analyst."""
 
 from .base_connector import BaseDataConnector
-from .alpaca_news_connector import AlpacaNewsConnector
+
+# ELIMINADO: AlpacaNewsConnector (replaced by Google News only)
+# from .alpaca_news_connector import AlpacaNewsConnector
+
 from .google_news_connector import GoogleNewsConnector
-from .serpapi_connector import SerpApiConnector
+
+# DESACTIVADO: SerpApiConnector (renamed to .DISABLED)
+# from .serpapi_connector import SerpApiConnector
+
 from .fred_connector import FREDConnector
 from .alpha_vantage_connector import AlphaVantageConnector
 
 __all__ = [
     'BaseDataConnector',
-    'AlpacaNewsConnector',
+    # 'AlpacaNewsConnector',  # ELIMINADO
     'GoogleNewsConnector',
-    'SerpApiConnector',
+    # 'SerpApiConnector',    # DESACTIVADO
     'FREDConnector',
     'AlphaVantageConnector'
 ]

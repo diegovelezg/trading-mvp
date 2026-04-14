@@ -26,18 +26,18 @@ def main():
     logger.info("="*70 + "\n")
 
     try:
-        # Importar el script de la mesa de inversiones v2 (con fail-fast)
+        # Importar el script de la mesa de inversiones (con fail-fast)
         import importlib.util
-        script_path = os.path.join('scripts', 'run_investment_desk_v2.py')
+        script_path = os.path.join('scripts', 'run_investment_desk.py')
 
-        spec = importlib.util.spec_from_file_location("run_investment_desk_v2", script_path)
+        spec = importlib.util.spec_from_file_location("run_investment_desk", script_path)
         desk_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(desk_module)
 
-        # Ejecutar la mesa de inversiones v2
+        # Ejecutar la mesa de inversiones
         # PASO 0: News Extraction (fail if fails)
         # PASO 1-7: Analysis con fail-fast
-        result = desk_module.run_investment_desk_v2(hours_back=48)
+        result = desk_module.run_investment_desk(hours_back=48)
 
         if result.get('success'):
             logger.info("\n" + "="*70)
@@ -46,11 +46,22 @@ def main():
 
             # Mostrar resumen
             logger.info(f"\n📊 RESUMEN EJECUTIVO:")
-            logger.info(f"   • Tickers analizados: {result['analyzed_tickers']}/{result['total_tickers']}")
-            logger.info(f"   • Sentimiento global: {result['overall_sentiment']}")
-            logger.info(f"   • Confianza promedio: {result['avg_confidence']:.2%}")
-            logger.info(f"   • Noticias analizadas: {result['total_news_analyzed']}")
-            logger.info(f"   • Entidades detectadas: {result['total_entities_found']}")
+            logger.info(f"   • Tickers analizados: {result.get('analyzed_tickers', 0)}/{result.get('total_tickers', 0)}")
+            
+            # Count aborted
+            aborted = [d for d in result.get('agent_decisions', []) if d.get('decision') == 'ABORTED']
+            if aborted:
+                logger.warning(f"   • Tickers ABORTADOS: {len(aborted)} (Falta ADN o Quant)")
+            
+            logger.info(f"   • Sentimiento global: {result.get('overall_sentiment', 'N/A')}")
+
+            avg_conf = result.get('avg_confidence')
+            if avg_conf is not None:
+                logger.info(f"   • Confianza promedio: {avg_conf:.2%}")
+
+            logger.info(f"   • Noticias analizadas: {result.get('total_news_analyzed', 0)}")
+            logger.info(f"   • Entidades detectadas: {result.get('total_entities_found', 0)}")
+
 
             # Mostrar recomendaciones
             if result.get('recommendations'):
@@ -72,7 +83,7 @@ def main():
                     if decision.get('entry_price'):
                         logger.info(f"      Precio entrada: ${decision['entry_price']:.2f}")
 
-            logger.info(f"\n⏰ Duración: {result['duration_seconds']}s")
+            logger.info(f"\n⏰ Duración: {result.get('duration_seconds', 'N/A')}s")
             logger.info(f"📝 Audit Trail ID: {result.get('desk_run_id', 'N/A')}")
 
             return 0

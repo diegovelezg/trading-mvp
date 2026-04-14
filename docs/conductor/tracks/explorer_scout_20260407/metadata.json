@@ -1,8 +1,0 @@
-{
-  "id": "explorer_scout_20260407",
-  "name": "Explorer/Scout Agent",
-  "description": "Add an Explorer agent to discover ticker clusters based on thematic prompts.",
-  "status": "In Progress",
-  "created_at": "2026-04-07",
-  "tags": ["agent", "discovery", "gemini"]
-}

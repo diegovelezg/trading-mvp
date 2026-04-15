@@ -158,7 +158,8 @@ def analyze_ticker(ticker: str, hours_back: int = 48, portfolio_position: Dict =
                 'sentiment_score': sentiment_result.get('sentiment_score', 0.0),
                 'confidence': sentiment_result.get('confidence', 0.5),
                 'criteria': sentiment_result.get('explanation') if sentiment_result.get('sentiment') != 'neutral' else news.get('title'),
-                'dna_alignment': sentiment_result.get('dna_alignment', 'N/A')
+                'dna_alignment': sentiment_result.get('dna_alignment', 'N/A'),
+                'published_at': news.get('published_at')
             }
             news_insights.append(insight)
             
@@ -168,10 +169,10 @@ def analyze_ticker(ticker: str, hours_back: int = 48, portfolio_position: Dict =
                 'insight_text': insight['criteria'][:60] + '...',
                 'sentiment': insight['sentiment'],
                 'confidence': insight['confidence'],
-                'dna_alignment': insight['dna_alignment']
+                'dna_alignment': insight['dna_alignment'],
+                'published_at': insight['published_at']
             })
 
-    # ... (Step 4 & 5 logic continues) ...
     # 4. Aggregate Patterns (INSTITUTIONAL QUANT LOGIC)
     import math
 
@@ -180,60 +181,80 @@ def analyze_ticker(ticker: str, hours_back: int = 48, portfolio_position: Dict =
         pos_items = [n for n in news_insights if n['sentiment'] == 'bullish']
         neg_items = [n for n in news_insights if n['sentiment'] == 'bearish']
 
-        # Logarithmic Evidence Decay (N=1 is heavily discounted, N>=5 is fully trusted)
         news_count = len(news_insights)
-        evidence_multiplier = min(1.0, math.log(news_count + 1, 6))
-
-        total_weight = 0.0
-        weighted_sentiment_sum = 0.0
+        
+        # INSTITUTIONAL NLP SHOCK AGGREGATION + BAYESIAN DECAY
+        total_raw_impact = 0.0
         weighted_confidence_sum = 0.0
+        
+        tier_1 = ['reuters', 'bloomberg', 'wsj', 'sec', 'financial times', 'barrons']
+        tier_2 = ['cnbc', 'yahoo', 'marketwatch', 'benzinga', 'investors business daily']
+
+        # Half-life for news decay (3 days is institutional standard for news memory)
+        half_life_days = 3.0
+        decay_constant = math.log(2) / half_life_days
 
         for n in news_insights:
-            # 1. Similarity Weighting
-            similarity = n.get('_similarity', 0.8) # Default if missing
+            # 1. The LLM Sentiment (-1.0 to 1.0)
+            base_sentiment = n['sentiment_score']
+            
+            # 2. DNA Relevance (Confidence from LLM prompt, 0.0 to 1.0)
+            dna_relevance = n['confidence']
+            
+            # 3. Source Authority
+            source_str = str(n.get('source', '')).lower()
+            if any(t in source_str for t in tier_1):
+                source_authority = 1.0
+            elif any(t in source_str for t in tier_2):
+                source_authority = 0.6
+            else:
+                source_authority = 0.2
+            
+            # 4. BAYESIAN DECAY (Based on news age)
+            pub_date = n.get('published_at')
+            decay_factor = 1.0
+            if pub_date:
+                try:
+                    if isinstance(pub_date, str):
+                        pub_dt = datetime.fromisoformat(pub_date.replace('Z', '+00:00'))
+                    else:
+                        pub_dt = pub_date
+                    
+                    if pub_dt.tzinfo is None:
+                        from datetime import timezone
+                        pub_dt = pub_dt.replace(tzinfo=timezone.utc)
+                    
+                    now_dt = datetime.now(pub_dt.tzinfo)
+                    delta_days = (now_dt - pub_dt).total_seconds() / 86400.0
+                    
+                    if delta_days > 0:
+                        decay_factor = math.exp(-decay_constant * delta_days)
+                except Exception as e:
+                    logger.debug(f"Could not calculate decay for news: {e}")
+                
+            # Individual weighted impact (Decayed)
+            impact = base_sentiment * dna_relevance * source_authority * decay_factor
+            total_raw_impact += impact
+            weighted_confidence_sum += (dna_relevance * decay_factor)
 
-            # 2. Catalyst Premium (Inferred from DNA alignment text)
-            catalyst_premium = 1.0
-            alignment = str(n.get('dna_alignment', '')).lower()
-            if 'catalyst' in alignment or 'catalizador' in alignment:
-                catalyst_premium = 1.5
-            elif 'driver' in alignment:
-                catalyst_premium = 1.2
+        # 5. SATURATION (math.tanh limits extremes to -1.0 to 1.0)
+        sentiment_score = math.tanh(total_raw_impact)
+        
+        # Calculate Average Confidence (Weighted by decay)
+        avg_confidence = weighted_confidence_sum / news_count if news_count > 0 else 0.5
+        avg_confidence = min(1.0, avg_confidence)
 
-            # 3. Macro Sensitivity (Basic implementation)
-            # In a full version, we'd check if the news source/category is macro and apply dna['geopolitical_sensitivity']
-            macro_factor = 1.0
-
-            # Final Weight for this specific news item
-            weight = similarity * catalyst_premium * macro_factor
-
-            weighted_sentiment_sum += n['sentiment_score'] * weight
-            weighted_confidence_sum += n['confidence'] * weight
-            total_weight += weight
-
-        # Calculate Weighted Averages
-        if total_weight > 0:
-            raw_sentiment_score = weighted_sentiment_sum / total_weight
-            raw_confidence = weighted_confidence_sum / total_weight
-        else:
-            raw_sentiment_score = 0.0
-            raw_confidence = 0.5
-
-        # Apply Evidence Discount to final confidence
-        avg_confidence = raw_confidence * evidence_multiplier
-        sentiment_score = raw_sentiment_score
-
-        # Ratios (Kept for compatibility, but now represent raw count)
+        # Ratios
         positive_ratio = len(pos_items) / news_count
         negative_ratio = len(neg_items) / news_count
 
-        # Calculate sentiment variance to detect dispersion (using raw scores for true variance)
+        # Calculate sentiment variance to detect dispersion
         if len(news_insights) > 1:
             mean_score = sum(n['sentiment_score'] for n in news_insights) / news_count
             variance = sum((n['sentiment_score'] - mean_score) ** 2 for n in news_insights) / (news_count - 1)
             sentiment_variance = variance
 
-        logger.info(f"   📐 Quant Sentiment Algo: Raw Conf: {raw_confidence:.2f} -> Final Conf (N={news_count}): {avg_confidence:.2f}")
+        logger.info(f"   📐 Bayesian Aggregator: Raw Impact: {total_raw_impact:+.3f} -> FINAL SATURATED SHOCK: {sentiment_score:+.3f}")
     else:
         positive_ratio, negative_ratio, avg_confidence, sentiment_score = 0.0, 0.0, 0.5, 0.0
 

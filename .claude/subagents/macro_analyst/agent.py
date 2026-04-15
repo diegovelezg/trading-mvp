@@ -69,10 +69,10 @@ def ingest_and_analyze(symbols: List[str]) -> None:
             insert_sentiment(
                 news_id=news_id,
                 agent_id="macro_analyst_dna_aware",
-                score=analysis['sentiment'],
+                score=analysis['sentiment_score'],
                 reasoning=analysis.get('reasoning', analysis['summary'])
             )
-            logger.info(f"✅ DNA-Aware Sentiment: {analysis['sentiment']} | Reasoning: {analysis.get('reasoning')[:50]}...")
+            logger.info(f"✅ DNA-Aware Sentiment: {analysis['sentiment_score']:.2f} | Reasoning: {analysis.get('reasoning', analysis['summary'])[:50]}...")
         except Exception as e:
             logger.error(f"Failed to process news item '{item['title']}': {e}")
 

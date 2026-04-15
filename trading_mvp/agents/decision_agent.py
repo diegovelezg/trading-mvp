@@ -354,30 +354,27 @@ class DecisionAgent:
         ticker_analysis: Dict,
         portfolio_context: Dict
     ) -> Dict:
-        """Core decision logic using 60/40 Weighted Model.
-        
-        Quant (60%) + LLM/Context (40%)
+        """
+        Elite Quant Decision Logic: Bayesian News Shock Filter.
+        Final Score = Quant Score (Base) + Sentiment Shock (NLP).
         """
 
-        # 1. Get LLM Score (0-1) from sentiment ratios
-        llm_score = (positive_ratio * 0.7) + (confidence * 0.3)
-        if negative_ratio > 0.4: llm_score *= (1 - negative_ratio)
-        
-        # 2. Get Quant Score (0-1) from the 11 indicators
+        # 1. Get Quant Score (0-1) from the 11 indicators
         quant_stats = ticker_analysis.get('quant_stats', {})
         quant_score, quant_summary = self._calculate_quant_score(quant_stats)
 
-        # 3. Final Weighted Score
-        final_score = (quant_score * 0.6) + (llm_score * 0.4)
-        
-        # ALIGNMENT CHECK (Feedback 3): Final score should not exceed confidence by much
-        if final_score > (confidence * 1.1):
-            logger.warning(f"   ⚖️  Final score ({final_score:.2f}) over-extended vs Confidence ({confidence:.2f}). Clipping to {confidence*1.1:.2f}")
-            final_score = min(final_score, confidence * 1.1)
-        
-        logger.info(f"⚖️  Weighted Model for {ticker}:")
-        logger.info(f"   - Quant (60%): {quant_score:.2f} ({quant_summary})")
-        logger.info(f"   - LLM/Context (40%): {llm_score:.2f}")
+        # 2. Get Institutional Sentiment Shock (-1.0 to 1.0)
+        # This score already accounts for DNA Relevance, Source Authority and Bayesian Decay
+        sentiment_shock = ticker_analysis.get('sentiment_score', 0.0)
+
+        # 3. Final Bayesian Score
+        # The Quant Score is our 'Prior', the Sentiment Shock is our 'Likelihood' update
+        final_score = quant_score + sentiment_shock
+        final_score = max(0.0, min(1.0, final_score))
+
+        logger.info(f"⚖️  Bayesian Decision Model for {ticker}:")
+        logger.info(f"   - Quant Base (Prior): {quant_score:.2f} ({quant_summary})")
+        logger.info(f"   - Sentiment Shock (Likelihood): {sentiment_shock:+.2f}")
         logger.info(f"   - FINAL SCORE: {final_score:.2f}")
 
         # 4. Handle Decision based on Final Score
@@ -389,13 +386,13 @@ class DecisionAgent:
         # Context for handlers
         portfolio_context['quant_stats'] = quant_stats
         portfolio_context['weighted_score'] = final_score
-        portfolio_context['sentiment_score'] = getattr(ticker_analysis, 'get', lambda k, d: 0.0)('sentiment_score', 0.0) # Safety fetch
+        portfolio_context['sentiment_score'] = sentiment_shock
         portfolio_context['original_confidence'] = confidence
 
         # Phase 4: Reduce Analysis Paralysis (Override strict final_score if strong alignment)
         trend = quant_stats.get('trend', 'UNKNOWN')
         rsi = quant_stats.get('rsi_14', 50)
-        
+
         is_strong_override = False
         if final_score < 0.75 and trend == 'BULLISH' and confidence > 0.85 and positive_ratio > 0.60 and rsi < 75:
             logger.info(f"   🚀  STARTER OVERRIDE: {ticker} has strong alignment (Conf: {confidence:.2f}, Trend: {trend}). Elevating to BULLISH evaluation.")
@@ -407,7 +404,7 @@ class DecisionAgent:
         if final_score >= 0.75:
             decision = self._handle_bullish(
                 ticker=ticker,
-                confidence=final_score, 
+                confidence=final_score,
                 positive_ratio=positive_ratio,
                 negative_ratio=negative_ratio,
                 top_risks=top_risks,
@@ -440,13 +437,12 @@ class DecisionAgent:
                 entities_found=entities_found,
                 portfolio_context=portfolio_context
             )
-        
-        # FINAL ENRICHMENT FOR UI
-        decision['sentiment_score'] = ticker_analysis.get('sentiment_score', 0.0)
-        decision['confidence_in_decision'] = final_score
-        
-        return decision
 
+        # FINAL ENRICHMENT FOR UI
+        decision['sentiment_score'] = sentiment_shock
+        decision['confidence_in_decision'] = final_score
+
+        return decision
     def _handle_bullish(
         self,
         ticker: str,

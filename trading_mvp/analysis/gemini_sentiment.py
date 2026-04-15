@@ -81,7 +81,8 @@ def analyze_sentiment(text: str, ticker: str = "Unknown", dna: Dict = None) -> D
     1. If the text triggers a 'Bullish Catalyst' from the DNA, sentiment must be > 0.4.
     2. If the text triggers a 'Bearish Catalyst' from the DNA, sentiment must be < -0.4.
     3. Be objective. If the news is irrelevant to the core drivers, stay neutral.
-    4. Respond ONLY with the JSON object.
+    4. The 'confidence' MUST reflect the DNA MATCH RELEVANCE. 1.0 if it hits a Core Driver/Catalyst directly. 0.0-0.2 if it's peripheral/irrelevant noise.
+    5. Respond ONLY with the JSON object.
     """
     
     try:

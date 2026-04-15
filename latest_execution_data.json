@@ -1,137 +1,16 @@
 {
-  "run_id": 35,
-  "run_timestamp": "2026-04-14T15:45:56.288944+00:00",
+  "run_id": 36,
+  "run_timestamp": "2026-04-14T17:29:58.658042+00:00",
   "total_tickers": 9,
   "desk_outlook": "BULLISH",
   "decisions": [
     {
-      "ticker": "BKR",
+      "ticker": "BWXT",
       "recommendation": "BULLISH",
       "decision": "IGNORED",
       "action_taken": "NONE",
-      "decision_notes": "Already have a LIVE position in BKR. To increase size, use manual adjustment.",
-      "avg_confidence": 0.84,
-      "positive_ratio": 0.67,
-      "negative_ratio": null,
-      "full_results": {
-        "ticker": "BKR",
-        "success": true,
-        "bear_case": {
-          "arguments": []
-        },
-        "bull_case": {
-          "arguments": [
-            "Un entorno de precios del crudo al alza derivado de riesgos de suministro incentiva el gasto de capital (CapEx) global en exploraci\u00f3n y producci\u00f3n, beneficiando directamente a los segmentos de servicios y equipos de BKR.",
-            "La masiva demanda de energ\u00eda para centros de datos de IA posiciona al segmento IET de BKR como proveedor cr\u00edtico de turbomaquinaria y soluciones de captura de carbono para mitigar el impacto ambiental.",
-            "El aumento en la demanda de coberturas inflacionarias y la inestabilidad geopol\u00edtica impulsan el valor de activos vinculados a la infraestructura energ\u00e9tica y servicios petroleros globales.",
-            "El aumento en los costos del combustible convencional acelera la transici\u00f3n hacia alternativas sostenibles, lo que beneficia al segmento IET de BKR encargado de suministrar turbomaquinaria y equipos para biorrefiner\u00edas."
-          ]
-        },
-        "rationale": "El sesgo sem\u00e1ntico se inclina a alcista (67%).",
-        "top_risks": [],
-        "quant_stats": {
-          "obv": 304688117.0,
-          "macd": {
-            "line": 0.774,
-            "signal": 0.637,
-            "histogram": 0.136
-          },
-          "rvol": 0.91,
-          "trend": "BULLISH",
-          "atr_14": 1.94,
-          "rsi_14": 56.5,
-          "sma_50": 60.72,
-          "sma_200": 49.97,
-          "beta_spy": 0.75,
-          "momentum": "POSITIVE",
-          "std_dev_20": 33.54,
-          "corr_spy_20d": 0.19,
-          "current_price": 62.56,
-          "volatility_ratio": 3.1,
-          "price_to_sma200_dist": 25.19
-        },
-        "is_actionable": true,
-        "avg_confidence": 0.84,
-        "data_integrity": {
-          "dna_valid": true,
-          "news_valid": true,
-          "quant_valid": true
-        },
-        "negative_ratio": 0.0,
-        "positive_ratio": 0.67,
-        "recommendation": "BULLISH",
-        "is_in_portfolio": true,
-        "sentiment_score": 0.35,
-        "semantic_context": [
-          "BKR",
-          "Semantic Search via DNA"
-        ],
-        "top_opportunities": [
-          {
-            "intensity": "medium",
-            "insight_text": "Un entorno de precios del crudo al alza derivado de riesgos de suministro incentiva el gasto de capital (CapEx) global en exploraci\u00f3n y producci\u00f3n, beneficiando directamente a los segmentos de servicios y equipos de BKR.",
-            "avg_confidence": 0.9,
-            "overall_impact": "bullish"
-          },
-          {
-            "intensity": "medium",
-            "insight_text": "La masiva demanda de energ\u00eda para centros de datos de IA posiciona al segmento IET de BKR como proveedor cr\u00edtico de turbomaquinaria y soluciones de captura de carbono para mitigar el impacto ambiental.",
-            "avg_confidence": 0.85,
-            "overall_impact": "bullish"
-          },
-          {
-            "intensity": "medium",
-            "insight_text": "El aumento en la demanda de coberturas inflacionarias y la inestabilidad geopol\u00edtica impulsan el valor de activos vinculados a la infraestructura energ\u00e9tica y servicios petroleros globales.",
-            "avg_confidence": 0.8,
-            "overall_impact": "bullish"
-          },
-          {
-            "intensity": "medium",
-            "insight_text": "El aumento en los costos del combustible convencional acelera la transici\u00f3n hacia alternativas sostenibles, lo que beneficia al segmento IET de BKR encargado de suministrar turbomaquinaria y equipos para biorrefiner\u00edas.",
-            "avg_confidence": 0.75,
-            "overall_impact": "bullish"
-          }
-        ],
-        "analysis_timestamp": "2026-04-14T10:45:52.335739",
-        "related_news_count": 6,
-        "unique_entities_found": 6
-      },
-      "rationale": "El sesgo sem\u00e1ntico se inclina a alcista (67%).",
-      "top_risks": [],
-      "top_opportunities": [
-        {
-          "intensity": "medium",
-          "insight_text": "Un entorno de precios del crudo al alza derivado de riesgos de suministro incentiva el gasto de capital (CapEx) global en exploraci\u00f3n y producci\u00f3n, beneficiando directamente a los segmentos de servicios y equipos de BKR.",
-          "avg_confidence": 0.9,
-          "overall_impact": "bullish"
-        },
-        {
-          "intensity": "medium",
-          "insight_text": "La masiva demanda de energ\u00eda para centros de datos de IA posiciona al segmento IET de BKR como proveedor cr\u00edtico de turbomaquinaria y soluciones de captura de carbono para mitigar el impacto ambiental.",
-          "avg_confidence": 0.85,
-          "overall_impact": "bullish"
-        },
-        {
-          "intensity": "medium",
-          "insight_text": "El aumento en la demanda de coberturas inflacionarias y la inestabilidad geopol\u00edtica impulsan el valor de activos vinculados a la infraestructura energ\u00e9tica y servicios petroleros globales.",
-          "avg_confidence": 0.8,
-          "overall_impact": "bullish"
-        },
-        {
-          "intensity": "medium",
-          "insight_text": "El aumento en los costos del combustible convencional acelera la transici\u00f3n hacia alternativas sostenibles, lo que beneficia al segmento IET de BKR encargado de suministrar turbomaquinaria y equipos para biorrefiner\u00edas.",
-          "avg_confidence": 0.75,
-          "overall_impact": "bullish"
-        }
-      ]
-    },
-    {
-      "ticker": "BWXT",
-      "recommendation": "BULLISH",
-      "decision": "FOLLOWED",
-      "action_taken": "HELD",
-      "decision_notes": "Se\u00f1al de BAJA CONFIANZA (0.67). RSI: 63.9, ATR: $10.06, Trend: BULLISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
-      "avg_confidence": 0.85,
+      "decision_notes": "Already have a LIVE position in BWXT. Momentum or conviction not strong enough for Scale-In.",
+      "avg_confidence": 0.87,
       "positive_ratio": 0.8,
       "negative_ratio": null,
       "full_results": {
@@ -142,10 +21,10 @@
         },
         "bull_case": {
           "arguments": [
-            "La creciente brecha entre la demanda energ\u00e9tica de los centros de datos de IA y los objetivos de emisiones posiciona a los reactores nucleares de BWXT como la fuente de energ\u00eda base descarbonizada esencial.",
-            "La recuperaci\u00f3n de los precios del uranio y el aumento de capital hacia el sector nuclear validan la demanda a largo plazo de los componentes de fabricaci\u00f3n y la tecnolog\u00eda SMR de BWXT.",
-            "Las amenazas a la estabilidad de las rutas comerciales cr\u00edticas refuerzan la necesidad de una flota naval nuclear robusta para la disuasi\u00f3n mar\u00edtima de EE.UU., beneficiando la demanda de reactores de BWXT.",
-            "La escalada de tensiones y la necesidad de bloqueos navales impulsan el gasto a largo plazo en la flota de submarinos y portaaviones de propulsi\u00f3n nuclear, beneficiando el ciclo de pedidos de BWXT."
+            "El incremento masivo en la demanda el\u00e9ctrica de los centros de datos posiciona a la tecnolog\u00eda de reactores de BWXT como una soluci\u00f3n esencial de energ\u00eda de base descarbonizada para el sector tecnol\u00f3gico.",
+            "Un mercado de uranio al alza refleja un renovado inter\u00e9s institucional en la infraestructura nuclear, lo que valida el posicionamiento estrat\u00e9gico de BWXT en la cadena de valor de energ\u00eda de carga base libre de carbono.",
+            "El incremento de las tensiones mar\u00edtimas refuerza la prioridad estrat\u00e9gica de la defensa naval estadounidense y la necesidad de seguridad energ\u00e9tica basada en energ\u00eda nuclear e infraestructura de propulsi\u00f3n.",
+            "La inestabilidad en el comercio mar\u00edtimo global impulsa el gasto en defensa para submarinos nucleares y acelera la adopci\u00f3n de energ\u00eda nuclear para garantizar la independencia energ\u00e9tica."
           ]
         },
         "rationale": "El sesgo sem\u00e1ntico se inclina a alcista (80%).",
@@ -172,7 +51,7 @@
           "price_to_sma200_dist": 26.19
         },
         "is_actionable": true,
-        "avg_confidence": 0.85,
+        "avg_confidence": 0.87,
         "data_integrity": {
           "dna_valid": true,
           "news_valid": true,
@@ -190,30 +69,30 @@
         "top_opportunities": [
           {
             "intensity": "medium",
-            "insight_text": "La creciente brecha entre la demanda energ\u00e9tica de los centros de datos de IA y los objetivos de emisiones posiciona a los reactores nucleares de BWXT como la fuente de energ\u00eda base descarbonizada esencial.",
+            "insight_text": "El incremento masivo en la demanda el\u00e9ctrica de los centros de datos posiciona a la tecnolog\u00eda de reactores de BWXT como una soluci\u00f3n esencial de energ\u00eda de base descarbonizada para el sector tecnol\u00f3gico.",
             "avg_confidence": 0.9,
             "overall_impact": "bullish"
           },
           {
             "intensity": "medium",
-            "insight_text": "La recuperaci\u00f3n de los precios del uranio y el aumento de capital hacia el sector nuclear validan la demanda a largo plazo de los componentes de fabricaci\u00f3n y la tecnolog\u00eda SMR de BWXT.",
+            "insight_text": "Un mercado de uranio al alza refleja un renovado inter\u00e9s institucional en la infraestructura nuclear, lo que valida el posicionamiento estrat\u00e9gico de BWXT en la cadena de valor de energ\u00eda de carga base libre de carbono.",
             "avg_confidence": 0.85,
             "overall_impact": "bullish"
           },
           {
             "intensity": "medium",
-            "insight_text": "Las amenazas a la estabilidad de las rutas comerciales cr\u00edticas refuerzan la necesidad de una flota naval nuclear robusta para la disuasi\u00f3n mar\u00edtima de EE.UU., beneficiando la demanda de reactores de BWXT.",
-            "avg_confidence": 0.8,
+            "insight_text": "El incremento de las tensiones mar\u00edtimas refuerza la prioridad estrat\u00e9gica de la defensa naval estadounidense y la necesidad de seguridad energ\u00e9tica basada en energ\u00eda nuclear e infraestructura de propulsi\u00f3n.",
+            "avg_confidence": 0.85,
             "overall_impact": "bullish"
           },
           {
             "intensity": "medium",
-            "insight_text": "La escalada de tensiones y la necesidad de bloqueos navales impulsan el gasto a largo plazo en la flota de submarinos y portaaviones de propulsi\u00f3n nuclear, beneficiando el ciclo de pedidos de BWXT.",
+            "insight_text": "La inestabilidad en el comercio mar\u00edtimo global impulsa el gasto en defensa para submarinos nucleares y acelera la adopci\u00f3n de energ\u00eda nuclear para garantizar la independencia energ\u00e9tica.",
             "avg_confidence": 0.8,
             "overall_impact": "bullish"
           }
         ],
-        "analysis_timestamp": "2026-04-14T10:45:05.791685",
+        "analysis_timestamp": "2026-04-14T12:27:37.785743",
         "related_news_count": 5,
         "unique_entities_found": 5
       },
@@ -222,25 +101,25 @@
       "top_opportunities": [
         {
           "intensity": "medium",
-          "insight_text": "La creciente brecha entre la demanda energ\u00e9tica de los centros de datos de IA y los objetivos de emisiones posiciona a los reactores nucleares de BWXT como la fuente de energ\u00eda base descarbonizada esencial.",
+          "insight_text": "El incremento masivo en la demanda el\u00e9ctrica de los centros de datos posiciona a la tecnolog\u00eda de reactores de BWXT como una soluci\u00f3n esencial de energ\u00eda de base descarbonizada para el sector tecnol\u00f3gico.",
           "avg_confidence": 0.9,
           "overall_impact": "bullish"
         },
         {
           "intensity": "medium",
-          "insight_text": "La recuperaci\u00f3n de los precios del uranio y el aumento de capital hacia el sector nuclear validan la demanda a largo plazo de los componentes de fabricaci\u00f3n y la tecnolog\u00eda SMR de BWXT.",
+          "insight_text": "Un mercado de uranio al alza refleja un renovado inter\u00e9s institucional en la infraestructura nuclear, lo que valida el posicionamiento estrat\u00e9gico de BWXT en la cadena de valor de energ\u00eda de carga base libre de carbono.",
           "avg_confidence": 0.85,
           "overall_impact": "bullish"
         },
         {
           "intensity": "medium",
-          "insight_text": "Las amenazas a la estabilidad de las rutas comerciales cr\u00edticas refuerzan la necesidad de una flota naval nuclear robusta para la disuasi\u00f3n mar\u00edtima de EE.UU., beneficiando la demanda de reactores de BWXT.",
-          "avg_confidence": 0.8,
+          "insight_text": "El incremento de las tensiones mar\u00edtimas refuerza la prioridad estrat\u00e9gica de la defensa naval estadounidense y la necesidad de seguridad energ\u00e9tica basada en energ\u00eda nuclear e infraestructura de propulsi\u00f3n.",
+          "avg_confidence": 0.85,
           "overall_impact": "bullish"
         },
         {
           "intensity": "medium",
-          "insight_text": "La escalada de tensiones y la necesidad de bloqueos navales impulsan el gasto a largo plazo en la flota de submarinos y portaaviones de propulsi\u00f3n nuclear, beneficiando el ciclo de pedidos de BWXT.",
+          "insight_text": "La inestabilidad en el comercio mar\u00edtimo global impulsa el gasto en defensa para submarinos nucleares y acelera la adopci\u00f3n de energ\u00eda nuclear para garantizar la independencia energ\u00e9tica.",
           "avg_confidence": 0.8,
           "overall_impact": "bullish"
         }
@@ -251,7 +130,7 @@
       "recommendation": "BULLISH",
       "decision": "FOLLOWED",
       "action_taken": "HELD",
-      "decision_notes": "Se\u00f1al de BAJA CONFIANZA (0.36). RSI: 52.7, ATR: $11.59, Trend: BEARISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
+      "decision_notes": "Se\u00f1al de BAJA CONFIANZA (0.33 NLP -> 0.36 Quant). RSI: 52.7, ATR: $11.59, Trend: BEARISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
       "avg_confidence": 0.33,
       "positive_ratio": 1.0,
       "negative_ratio": null,
@@ -263,7 +142,7 @@
         },
         "bull_case": {
           "arguments": [
-            "Dado que MA cobra comisiones porcentuales sobre el volumen bruto de d\u00f3lares (GDV), un entorno inflacionario eleva autom\u00e1ticamente sus ingresos nominales sin incrementar proporcionalmente sus costes operativos."
+            "Mastercard se beneficia de entornos inflacionarios ya que el aumento en los precios nominales de bienes y servicios eleva directamente el volumen de d\u00f3lares brutos (GDV) sobre el cual aplica sus tasas de procesamiento."
           ]
         },
         "rationale": "El sesgo sem\u00e1ntico se inclina a alcista (100%).",
@@ -308,12 +187,12 @@
         "top_opportunities": [
           {
             "intensity": "medium",
-            "insight_text": "Dado que MA cobra comisiones porcentuales sobre el volumen bruto de d\u00f3lares (GDV), un entorno inflacionario eleva autom\u00e1ticamente sus ingresos nominales sin incrementar proporcionalmente sus costes operativos.",
+            "insight_text": "Mastercard se beneficia de entornos inflacionarios ya que el aumento en los precios nominales de bienes y servicios eleva directamente el volumen de d\u00f3lares brutos (GDV) sobre el cual aplica sus tasas de procesamiento.",
             "avg_confidence": 0.85,
             "overall_impact": "bullish"
           }
         ],
-        "analysis_timestamp": "2026-04-14T10:43:07.303393",
+        "analysis_timestamp": "2026-04-14T12:29:52.007246",
         "related_news_count": 1,
         "unique_entities_found": 1
       },
@@ -322,7 +201,7 @@
       "top_opportunities": [
         {
           "intensity": "medium",
-          "insight_text": "Dado que MA cobra comisiones porcentuales sobre el volumen bruto de d\u00f3lares (GDV), un entorno inflacionario eleva autom\u00e1ticamente sus ingresos nominales sin incrementar proporcionalmente sus costes operativos.",
+          "insight_text": "Mastercard se beneficia de entornos inflacionarios ya que el aumento en los precios nominales de bienes y servicios eleva directamente el volumen de d\u00f3lares brutos (GDV) sobre el cual aplica sus tasas de procesamiento.",
           "avg_confidence": 0.85,
           "overall_impact": "bullish"
         }
@@ -333,8 +212,8 @@
       "recommendation": "BULLISH",
       "decision": "FOLLOWED",
       "action_taken": "NONE",
-      "decision_notes": "Se\u00f1al de BAJA CONFIANZA (0.53). RSI: 45.6, ATR: $1.60, Trend: BEARISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
-      "avg_confidence": 0.48,
+      "decision_notes": "Se\u00f1al de BAJA CONFIANZA (0.51 NLP -> 0.56 Quant). RSI: 45.6, ATR: $1.60, Trend: BEARISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
+      "avg_confidence": 0.51,
       "positive_ratio": 0.5,
       "negative_ratio": null,
       "full_results": {
@@ -345,7 +224,7 @@
         },
         "bull_case": {
           "arguments": [
-            "La recuperaci\u00f3n en los mercados vinculados al uranio se\u00f1ala un aumento en la inversi\u00f3n estrat\u00e9gica en energ\u00eda nuclear, lo que refuerza el valor intr\u00ednseco de los activos de generaci\u00f3n base de PEG que ya cuentan con el respaldo de los cr\u00e9ditos fiscales (PTC)."
+            "Un entorno de inversi\u00f3n m\u00e1s favorable para la energ\u00eda nuclear valida y potencia el valor de la flota de generaci\u00f3n de carbono cero de PEG, apoyada por los incentivos de la IRA."
           ]
         },
         "rationale": "El sesgo sem\u00e1ntico se inclina a alcista (50%).",
@@ -372,7 +251,7 @@
           "price_to_sma200_dist": -1.49
         },
         "is_actionable": true,
-        "avg_confidence": 0.48,
+        "avg_confidence": 0.51,
         "data_integrity": {
           "dna_valid": true,
           "news_valid": true,
@@ -382,7 +261,7 @@
         "positive_ratio": 0.5,
         "recommendation": "BULLISH",
         "is_in_portfolio": false,
-        "sentiment_score": 0.35,
+        "sentiment_score": 0.4,
         "semantic_context": [
           "PEG",
           "Semantic Search via DNA"
@@ -390,12 +269,12 @@
         "top_opportunities": [
           {
             "intensity": "medium",
-            "insight_text": "La recuperaci\u00f3n en los mercados vinculados al uranio se\u00f1ala un aumento en la inversi\u00f3n estrat\u00e9gica en energ\u00eda nuclear, lo que refuerza el valor intr\u00ednseco de los activos de generaci\u00f3n base de PEG que ya cuentan con el respaldo de los cr\u00e9ditos fiscales (PTC).",
+            "insight_text": "Un entorno de inversi\u00f3n m\u00e1s favorable para la energ\u00eda nuclear valida y potencia el valor de la flota de generaci\u00f3n de carbono cero de PEG, apoyada por los incentivos de la IRA.",
             "avg_confidence": 0.8,
             "overall_impact": "bullish"
           }
         ],
-        "analysis_timestamp": "2026-04-14T10:41:20.040853",
+        "analysis_timestamp": "2026-04-14T12:26:01.222762",
         "related_news_count": 2,
         "unique_entities_found": 2
       },
@@ -404,7 +283,7 @@
       "top_opportunities": [
         {
           "intensity": "medium",
-          "insight_text": "La recuperaci\u00f3n en los mercados vinculados al uranio se\u00f1ala un aumento en la inversi\u00f3n estrat\u00e9gica en energ\u00eda nuclear, lo que refuerza el valor intr\u00ednseco de los activos de generaci\u00f3n base de PEG que ya cuentan con el respaldo de los cr\u00e9ditos fiscales (PTC).",
+          "insight_text": "Un entorno de inversi\u00f3n m\u00e1s favorable para la energ\u00eda nuclear valida y potencia el valor de la flota de generaci\u00f3n de carbono cero de PEG, apoyada por los incentivos de la IRA.",
           "avg_confidence": 0.8,
           "overall_impact": "bullish"
         }
@@ -412,154 +291,62 @@
     },
     {
       "ticker": "PWR",
-      "recommendation": "BULLISH",
-      "decision": "FOLLOWED",
+      "recommendation": "DATA_ERROR",
+      "decision": "ABORTED",
       "action_taken": "NONE",
-      "decision_notes": "Se\u00f1al de BAJA CONFIANZA (0.68). RSI: 64.2, ATR: $20.26, Trend: BULLISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
-      "avg_confidence": 0.87,
-      "positive_ratio": 0.67,
+      "decision_notes": "ABORTED: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')). Risk management impossible.",
+      "avg_confidence": null,
+      "positive_ratio": null,
       "negative_ratio": null,
       "full_results": {
         "ticker": "PWR",
         "success": true,
-        "bear_case": {
-          "arguments": []
-        },
-        "bull_case": {
-          "arguments": [
-            "El d\u00e9ficit de capacidad el\u00e9ctrica frente a la demanda de IA act\u00faa como un catalizador cr\u00edtico para que PWR ejecute proyectos complejos de transmisi\u00f3n y soluciones de energ\u00eda a gran escala.",
-            "La inclusi\u00f3n de PWR en an\u00e1lisis de tendencias de la nube subraya su rol cr\u00edtico en la construcci\u00f3n de la red el\u00e9ctrica necesaria para soportar la infraestructura de datos e IA.",
-            "El fortalecimiento del sector nuclear incrementa el CAPEX de las empresas de servicios p\u00fablicos, lo que genera demanda de servicios de modernizaci\u00f3n de red y mantenimiento especializado para PWR.",
-            "La rotaci\u00f3n t\u00e1ctica hacia activos de infraestructura industrial beneficia a PWR, ya que sus contratos y drivers de crecimiento est\u00e1n vinculados a ciclos de inversi\u00f3n de capital (CAPEX) a largo plazo y activos reales."
-          ]
-        },
-        "rationale": "El sesgo sem\u00e1ntico se inclina a alcista (67%).",
-        "top_risks": [],
+        "rationale": "ABORTED: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')). Risk management impossible.",
         "quant_stats": {
-          "obv": 41944792.0,
-          "macd": {
-            "line": 9.003,
-            "signal": 6.71,
-            "histogram": 2.294
-          },
-          "rvol": 0.96,
-          "trend": "BULLISH",
-          "atr_14": 20.26,
-          "rsi_14": 64.2,
-          "sma_50": 547.62,
-          "sma_200": 450.6,
-          "beta_spy": 1.2,
-          "momentum": "POSITIVE",
-          "std_dev_20": 35.56,
-          "corr_spy_20d": 0.71,
-          "current_price": 595.84,
-          "volatility_ratio": 3.4,
-          "price_to_sma200_dist": 32.23
+          "error": "('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))"
         },
-        "is_actionable": true,
-        "avg_confidence": 0.87,
-        "data_integrity": {
-          "dna_valid": true,
-          "news_valid": true,
-          "quant_valid": true
-        },
+        "is_actionable": false,
+        "avg_confidence": 0.0,
         "negative_ratio": 0.0,
-        "positive_ratio": 0.67,
-        "recommendation": "BULLISH",
+        "positive_ratio": 0.0,
+        "recommendation": "DATA_ERROR",
         "is_in_portfolio": false,
-        "sentiment_score": 0.33,
-        "semantic_context": [
-          "PWR",
-          "Semantic Search via DNA"
-        ],
-        "top_opportunities": [
-          {
-            "intensity": "medium",
-            "insight_text": "El d\u00e9ficit de capacidad el\u00e9ctrica frente a la demanda de IA act\u00faa como un catalizador cr\u00edtico para que PWR ejecute proyectos complejos de transmisi\u00f3n y soluciones de energ\u00eda a gran escala.",
-            "avg_confidence": 0.92,
-            "overall_impact": "bullish"
-          },
-          {
-            "intensity": "medium",
-            "insight_text": "La inclusi\u00f3n de PWR en an\u00e1lisis de tendencias de la nube subraya su rol cr\u00edtico en la construcci\u00f3n de la red el\u00e9ctrica necesaria para soportar la infraestructura de datos e IA.",
-            "avg_confidence": 0.8,
-            "overall_impact": "bullish"
-          },
-          {
-            "intensity": "medium",
-            "insight_text": "El fortalecimiento del sector nuclear incrementa el CAPEX de las empresas de servicios p\u00fablicos, lo que genera demanda de servicios de modernizaci\u00f3n de red y mantenimiento especializado para PWR.",
-            "avg_confidence": 0.75,
-            "overall_impact": "bullish"
-          },
-          {
-            "intensity": "medium",
-            "insight_text": "La rotaci\u00f3n t\u00e1ctica hacia activos de infraestructura industrial beneficia a PWR, ya que sus contratos y drivers de crecimiento est\u00e1n vinculados a ciclos de inversi\u00f3n de capital (CAPEX) a largo plazo y activos reales.",
-            "avg_confidence": 0.75,
-            "overall_impact": "bullish"
-          }
-        ],
-        "analysis_timestamp": "2026-04-14T10:42:12.169166",
-        "related_news_count": 6,
-        "unique_entities_found": 6
+        "analysis_timestamp": "2026-04-14T12:27:02.067750",
+        "related_news_count": 0,
+        "unique_entities_found": 0
       },
-      "rationale": "El sesgo sem\u00e1ntico se inclina a alcista (67%).",
+      "rationale": "ABORTED: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')). Risk management impossible.",
       "top_risks": [],
-      "top_opportunities": [
-        {
-          "intensity": "medium",
-          "insight_text": "El d\u00e9ficit de capacidad el\u00e9ctrica frente a la demanda de IA act\u00faa como un catalizador cr\u00edtico para que PWR ejecute proyectos complejos de transmisi\u00f3n y soluciones de energ\u00eda a gran escala.",
-          "avg_confidence": 0.92,
-          "overall_impact": "bullish"
-        },
-        {
-          "intensity": "medium",
-          "insight_text": "La inclusi\u00f3n de PWR en an\u00e1lisis de tendencias de la nube subraya su rol cr\u00edtico en la construcci\u00f3n de la red el\u00e9ctrica necesaria para soportar la infraestructura de datos e IA.",
-          "avg_confidence": 0.8,
-          "overall_impact": "bullish"
-        },
-        {
-          "intensity": "medium",
-          "insight_text": "El fortalecimiento del sector nuclear incrementa el CAPEX de las empresas de servicios p\u00fablicos, lo que genera demanda de servicios de modernizaci\u00f3n de red y mantenimiento especializado para PWR.",
-          "avg_confidence": 0.75,
-          "overall_impact": "bullish"
-        },
-        {
-          "intensity": "medium",
-          "insight_text": "La rotaci\u00f3n t\u00e1ctica hacia activos de infraestructura industrial beneficia a PWR, ya que sus contratos y drivers de crecimiento est\u00e1n vinculados a ciclos de inversi\u00f3n de capital (CAPEX) a largo plazo y activos reales.",
-          "avg_confidence": 0.75,
-          "overall_impact": "bullish"
-        }
-      ]
+      "top_opportunities": []
     },
     {
       "ticker": "QCOM",
       "recommendation": "CAUTIOUS",
       "decision": "FOLLOWED",
       "action_taken": "NONE",
-      "decision_notes": "SE\u00d1ALES MIXTAS - Positivo: 29%, Negativo: 14%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 50.1, ATR: $3.73, Trend: BEARISH.",
-      "avg_confidence": 0.87,
-      "positive_ratio": 0.29,
+      "decision_notes": "SE\u00d1ALES MIXTAS - Positivo: 14%, Negativo: 14%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 50.1, ATR: $3.73, Trend: BEARISH.",
+      "avg_confidence": 0.83,
+      "positive_ratio": 0.14,
       "negative_ratio": 0.14,
       "full_results": {
         "ticker": "QCOM",
         "success": true,
         "bear_case": {
           "arguments": [
-            "El giro de los inversores hacia estrategias de cobertura contra la inflaci\u00f3n y el riesgo geopol\u00edtico se\u00f1ala una posible contracci\u00f3n en el gasto discrecional de los consumidores, afectando directamente la demanda de smartphones premium y tecnolog\u00eda automotriz."
+            "La incertidumbre macroecon\u00f3mica y geopol\u00edtica suele reducir la confianza del consumidor y el gasto en hardware, lo que impacta negativamente la demanda global de los chipsets de Qualcomm."
           ]
         },
         "bull_case": {
           "arguments": [
-            "Una tasa de crecimiento anual del 7.61% en la fabricaci\u00f3n de semiconductores asegura la infraestructura necesaria para escalar las soluciones de Qualcomm en 5G, IoT y automoci\u00f3n.",
-            "La adopci\u00f3n de arquitecturas basadas en la nube para veh\u00edculos impulsa la demanda de la plataforma Snapdragon Digital Chassis de Qualcomm, fundamental para su estrategia de diversificaci\u00f3n fuera de los smartphones."
+            "La aceleraci\u00f3n en la comercializaci\u00f3n de veh\u00edculos conectados impulsa la adopci\u00f3n de la plataforma Snapdragon Digital Chassis y la conectividad 5G de Qualcomm en el sector automotriz."
           ]
         },
         "rationale": "Se\u00f1ales sem\u00e1nticas mixtas o neutrales.",
         "top_risks": [
           {
             "intensity": "medium",
-            "insight_text": "El giro de los inversores hacia estrategias de cobertura contra la inflaci\u00f3n y el riesgo geopol\u00edtico se\u00f1ala una posible contracci\u00f3n en el gasto discrecional de los consumidores, afectando directamente la demanda de smartphones premium y tecnolog\u00eda automotriz.",
-            "avg_confidence": 0.7,
+            "insight_text": "La incertidumbre macroecon\u00f3mica y geopol\u00edtica suele reducir la confianza del consumidor y el gasto en hardware, lo que impacta negativamente la demanda global de los chipsets de Qualcomm.",
+            "avg_confidence": 0.75,
             "overall_impact": "bearish"
           }
         ],
@@ -585,14 +372,14 @@
           "price_to_sma200_dist": -16.72
         },
         "is_actionable": true,
-        "avg_confidence": 0.87,
+        "avg_confidence": 0.83,
         "data_integrity": {
           "dna_valid": true,
           "news_valid": true,
           "quant_valid": true
         },
         "negative_ratio": 0.14,
-        "positive_ratio": 0.29,
+        "positive_ratio": 0.14,
         "recommendation": "CAUTIOUS",
         "is_in_portfolio": false,
         "sentiment_score": 0.09,
@@ -603,18 +390,12 @@
         "top_opportunities": [
           {
             "intensity": "medium",
-            "insight_text": "Una tasa de crecimiento anual del 7.61% en la fabricaci\u00f3n de semiconductores asegura la infraestructura necesaria para escalar las soluciones de Qualcomm en 5G, IoT y automoci\u00f3n.",
-            "avg_confidence": 0.85,
-            "overall_impact": "bullish"
-          },
-          {
-            "intensity": "medium",
-            "insight_text": "La adopci\u00f3n de arquitecturas basadas en la nube para veh\u00edculos impulsa la demanda de la plataforma Snapdragon Digital Chassis de Qualcomm, fundamental para su estrategia de diversificaci\u00f3n fuera de los smartphones.",
-            "avg_confidence": 0.85,
+            "insight_text": "La aceleraci\u00f3n en la comercializaci\u00f3n de veh\u00edculos conectados impulsa la adopci\u00f3n de la plataforma Snapdragon Digital Chassis y la conectividad 5G de Qualcomm en el sector automotriz.",
+            "avg_confidence": 0.75,
             "overall_impact": "bullish"
           }
         ],
-        "analysis_timestamp": "2026-04-14T10:44:32.311831",
+        "analysis_timestamp": "2026-04-14T12:28:49.060942",
         "related_news_count": 7,
         "unique_entities_found": 7
       },
@@ -622,22 +403,16 @@
       "top_risks": [
         {
           "intensity": "medium",
-          "insight_text": "El giro de los inversores hacia estrategias de cobertura contra la inflaci\u00f3n y el riesgo geopol\u00edtico se\u00f1ala una posible contracci\u00f3n en el gasto discrecional de los consumidores, afectando directamente la demanda de smartphones premium y tecnolog\u00eda automotriz.",
-          "avg_confidence": 0.7,
+          "insight_text": "La incertidumbre macroecon\u00f3mica y geopol\u00edtica suele reducir la confianza del consumidor y el gasto en hardware, lo que impacta negativamente la demanda global de los chipsets de Qualcomm.",
+          "avg_confidence": 0.75,
           "overall_impact": "bearish"
         }
       ],
       "top_opportunities": [
         {
           "intensity": "medium",
-          "insight_text": "Una tasa de crecimiento anual del 7.61% en la fabricaci\u00f3n de semiconductores asegura la infraestructura necesaria para escalar las soluciones de Qualcomm en 5G, IoT y automoci\u00f3n.",
-          "avg_confidence": 0.85,
-          "overall_impact": "bullish"
-        },
-        {
-          "intensity": "medium",
-          "insight_text": "La adopci\u00f3n de arquitecturas basadas en la nube para veh\u00edculos impulsa la demanda de la plataforma Snapdragon Digital Chassis de Qualcomm, fundamental para su estrategia de diversificaci\u00f3n fuera de los smartphones.",
-          "avg_confidence": 0.85,
+          "insight_text": "La aceleraci\u00f3n en la comercializaci\u00f3n de veh\u00edculos conectados impulsa la adopci\u00f3n de la plataforma Snapdragon Digital Chassis y la conectividad 5G de Qualcomm en el sector automotriz.",
+          "avg_confidence": 0.75,
           "overall_impact": "bullish"
         }
       ]
@@ -647,7 +422,7 @@
       "recommendation": "BULLISH",
       "decision": "FOLLOWED",
       "action_taken": "NONE",
-      "decision_notes": "Se\u00f1al de BAJA CONFIANZA (0.39). RSI: 52.3, ATR: $16.38, Trend: BEARISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
+      "decision_notes": "Se\u00f1al de BAJA CONFIANZA (0.35 NLP -> 0.39 Quant). RSI: 52.3, ATR: $16.38, Trend: BEARISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
       "avg_confidence": 0.35,
       "positive_ratio": 1.0,
       "negative_ratio": null,
@@ -659,7 +434,7 @@
         },
         "bull_case": {
           "arguments": [
-            "Una tasa de crecimiento anual compuesta del 7.61% en el sector de fundici\u00f3n garantiza un aumento sostenido en el volumen de dise\u00f1os de chips, lo que expande directamente el mercado direccionable para el software de Synopsys."
+            "La expansi\u00f3n sostenida del sector de fundici\u00f3n de semiconductores garantiza un flujo constante de inversi\u00f3n en software de dise\u00f1o para soportar nuevos y m\u00e1s complejos procesos de fabricaci\u00f3n."
           ]
         },
         "rationale": "El sesgo sem\u00e1ntico se inclina a alcista (100%).",
@@ -696,7 +471,7 @@
         "positive_ratio": 1.0,
         "recommendation": "BULLISH",
         "is_in_portfolio": false,
-        "sentiment_score": 0.55,
+        "sentiment_score": 0.65,
         "semantic_context": [
           "SNPS",
           "Semantic Search via DNA"
@@ -704,12 +479,12 @@
         "top_opportunities": [
           {
             "intensity": "medium",
-            "insight_text": "Una tasa de crecimiento anual compuesta del 7.61% en el sector de fundici\u00f3n garantiza un aumento sostenido en el volumen de dise\u00f1os de chips, lo que expande directamente el mercado direccionable para el software de Synopsys.",
+            "insight_text": "La expansi\u00f3n sostenida del sector de fundici\u00f3n de semiconductores garantiza un flujo constante de inversi\u00f3n en software de dise\u00f1o para soportar nuevos y m\u00e1s complejos procesos de fabricaci\u00f3n.",
             "avg_confidence": 0.9,
             "overall_impact": "bullish"
           }
         ],
-        "analysis_timestamp": "2026-04-14T10:42:24.899547",
+        "analysis_timestamp": "2026-04-14T12:25:37.023162",
         "related_news_count": 1,
         "unique_entities_found": 1
       },
@@ -718,7 +493,7 @@
       "top_opportunities": [
         {
           "intensity": "medium",
-          "insight_text": "Una tasa de crecimiento anual compuesta del 7.61% en el sector de fundici\u00f3n garantiza un aumento sostenido en el volumen de dise\u00f1os de chips, lo que expande directamente el mercado direccionable para el software de Synopsys.",
+          "insight_text": "La expansi\u00f3n sostenida del sector de fundici\u00f3n de semiconductores garantiza un flujo constante de inversi\u00f3n en software de dise\u00f1o para soportar nuevos y m\u00e1s complejos procesos de fabricaci\u00f3n.",
           "avg_confidence": 0.9,
           "overall_impact": "bullish"
         }
@@ -729,8 +504,8 @@
       "recommendation": "HIGH_VOLATILITY",
       "decision": "FOLLOWED",
       "action_taken": "HELD",
-      "decision_notes": "Se\u00f1al de BAJA CONFIANZA (0.66). RSI: 61.9, ATR: $12.65, Trend: BULLISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
-      "avg_confidence": 0.66,
+      "decision_notes": "Se\u00f1al de BAJA CONFIANZA (0.67 NLP -> 0.66 Quant). RSI: 61.9, ATR: $12.65, Trend: BULLISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
+      "avg_confidence": 0.67,
       "positive_ratio": 0.67,
       "negative_ratio": 0.33,
       "full_results": {
@@ -738,21 +513,21 @@
         "success": true,
         "bear_case": {
           "arguments": [
-            "El aumento de la tensi\u00f3n geopol\u00edtica global act\u00faa como un catalizador bajista para TSM debido a su vulnerabilidad geogr\u00e1fica y el riesgo de interrupciones en la cadena de suministro."
+            "La menci\u00f3n de conflictos geopol\u00edticos activa un catalizador bajista cr\u00edtico para TSM, dado que su valoraci\u00f3n est\u00e1 fuertemente ligada a la estabilidad en el estrecho de Taiw\u00e1n y el sentimiento de riesgo global."
           ]
         },
         "bull_case": {
           "arguments": [
-            "Como l\u00edder dominante en la industria de fundici\u00f3n, TSMC es el principal beneficiario del crecimiento secular y la expansi\u00f3n de la capacidad de mercado proyectada a largo plazo.",
-            "El crecimiento masivo del valor del mercado semiconductor valida una demanda global robusta que beneficia directamente a TSM como el principal fabricante de chips de vanguardia."
+            "Como l\u00edder indiscutible con m\u00e1s del 50% de cuota de mercado en fundici\u00f3n, el crecimiento proyectado del sector del 7.61% CAGR valida la tesis de expansi\u00f3n de ingresos a largo plazo para TSM.",
+            "El crecimiento masivo del mercado total direccionable (TAM) valida la tesis de una demanda secular fuerte donde TSMC act\u00faa como el nodo cr\u00edtico de manufactura."
           ]
         },
-        "rationale": "Se detectaron noticias altamente polarizadas (Varianza: 0.44).",
+        "rationale": "Se detectaron noticias altamente polarizadas (Varianza: 0.42).",
         "top_risks": [
           {
             "intensity": "medium",
-            "insight_text": "El aumento de la tensi\u00f3n geopol\u00edtica global act\u00faa como un catalizador bajista para TSM debido a su vulnerabilidad geogr\u00e1fica y el riesgo de interrupciones en la cadena de suministro.",
-            "avg_confidence": 0.8,
+            "insight_text": "La menci\u00f3n de conflictos geopol\u00edticos activa un catalizador bajista cr\u00edtico para TSM, dado que su valoraci\u00f3n est\u00e1 fuertemente ligada a la estabilidad en el estrecho de Taiw\u00e1n y el sentimiento de riesgo global.",
+            "avg_confidence": 0.85,
             "overall_impact": "bearish"
           }
         ],
@@ -778,7 +553,7 @@
           "price_to_sma200_dist": 25.41
         },
         "is_actionable": true,
-        "avg_confidence": 0.66,
+        "avg_confidence": 0.67,
         "data_integrity": {
           "dna_valid": true,
           "news_valid": true,
@@ -788,7 +563,7 @@
         "positive_ratio": 0.67,
         "recommendation": "HIGH_VOLATILITY",
         "is_in_portfolio": true,
-        "sentiment_score": 0.27,
+        "sentiment_score": 0.3,
         "semantic_context": [
           "TSM",
           "Semantic Search via DNA"
@@ -796,40 +571,40 @@
         "top_opportunities": [
           {
             "intensity": "medium",
-            "insight_text": "Como l\u00edder dominante en la industria de fundici\u00f3n, TSMC es el principal beneficiario del crecimiento secular y la expansi\u00f3n de la capacidad de mercado proyectada a largo plazo.",
+            "insight_text": "Como l\u00edder indiscutible con m\u00e1s del 50% de cuota de mercado en fundici\u00f3n, el crecimiento proyectado del sector del 7.61% CAGR valida la tesis de expansi\u00f3n de ingresos a largo plazo para TSM.",
             "avg_confidence": 0.9,
             "overall_impact": "bullish"
           },
           {
             "intensity": "medium",
-            "insight_text": "El crecimiento masivo del valor del mercado semiconductor valida una demanda global robusta que beneficia directamente a TSM como el principal fabricante de chips de vanguardia.",
+            "insight_text": "El crecimiento masivo del mercado total direccionable (TAM) valida la tesis de una demanda secular fuerte donde TSMC act\u00faa como el nodo cr\u00edtico de manufactura.",
             "avg_confidence": 0.85,
             "overall_impact": "bullish"
           }
         ],
-        "analysis_timestamp": "2026-04-14T10:43:32.356675",
+        "analysis_timestamp": "2026-04-14T12:26:22.111191",
         "related_news_count": 3,
         "unique_entities_found": 3
       },
-      "rationale": "Se detectaron noticias altamente polarizadas (Varianza: 0.44).",
+      "rationale": "Se detectaron noticias altamente polarizadas (Varianza: 0.42).",
       "top_risks": [
         {
           "intensity": "medium",
-          "insight_text": "El aumento de la tensi\u00f3n geopol\u00edtica global act\u00faa como un catalizador bajista para TSM debido a su vulnerabilidad geogr\u00e1fica y el riesgo de interrupciones en la cadena de suministro.",
-          "avg_confidence": 0.8,
+          "insight_text": "La menci\u00f3n de conflictos geopol\u00edticos activa un catalizador bajista cr\u00edtico para TSM, dado que su valoraci\u00f3n est\u00e1 fuertemente ligada a la estabilidad en el estrecho de Taiw\u00e1n y el sentimiento de riesgo global.",
+          "avg_confidence": 0.85,
           "overall_impact": "bearish"
         }
       ],
       "top_opportunities": [
         {
           "intensity": "medium",
-          "insight_text": "Como l\u00edder dominante en la industria de fundici\u00f3n, TSMC es el principal beneficiario del crecimiento secular y la expansi\u00f3n de la capacidad de mercado proyectada a largo plazo.",
+          "insight_text": "Como l\u00edder indiscutible con m\u00e1s del 50% de cuota de mercado en fundici\u00f3n, el crecimiento proyectado del sector del 7.61% CAGR valida la tesis de expansi\u00f3n de ingresos a largo plazo para TSM.",
           "avg_confidence": 0.9,
           "overall_impact": "bullish"
         },
         {
           "intensity": "medium",
-          "insight_text": "El crecimiento masivo del valor del mercado semiconductor valida una demanda global robusta que beneficia directamente a TSM como el principal fabricante de chips de vanguardia.",
+          "insight_text": "El crecimiento masivo del mercado total direccionable (TAM) valida la tesis de una demanda secular fuerte donde TSMC act\u00faa como el nodo cr\u00edtico de manufactura.",
           "avg_confidence": 0.85,
           "overall_impact": "bullish"
         }
@@ -837,11 +612,11 @@
     },
     {
       "ticker": "WEC",
-      "recommendation": "CAUTIOUS",
+      "recommendation": "HIGH_VOLATILITY",
       "decision": "FOLLOWED",
       "action_taken": "NONE",
       "decision_notes": "SE\u00d1ALES MIXTAS - Positivo: 33%, Negativo: 33%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 52.6, ATR: $2.01, Trend: BULLISH.",
-      "avg_confidence": 0.62,
+      "avg_confidence": 0.63,
       "positive_ratio": 0.33,
       "negative_ratio": 0.33,
       "full_results": {
@@ -849,19 +624,19 @@
         "success": true,
         "bear_case": {
           "arguments": [
-            "Un entorno de alta inflaci\u00f3n y riesgos geopol\u00edticos impulsa al alza los rendimientos de los bonos del Tesoro, lo que reduce el atractivo del rendimiento por dividendo de WEC y aumenta el riesgo de 'lag' regulatorio."
+            "El aumento en el posicionamiento hacia coberturas inflacionarias presiona al alza el rendimiento del Tesoro a 10 a\u00f1os, lo que reduce el atractivo relativo del dividendo de WEC."
           ]
         },
         "bull_case": {
           "arguments": [
-            "La expansi\u00f3n de centros de datos en el territorio de WEC es un catalizador clave que impulsa el crecimiento de la carga industrial y permite una mayor ejecuci\u00f3n de CapEx regulado."
+            "La creciente necesidad de energ\u00eda para IA valida el catalizador alcista de expansi\u00f3n de carga industrial y justifica una mayor ejecuci\u00f3n de CapEx en infraestructura de red y generaci\u00f3n."
           ]
         },
-        "rationale": "Se\u00f1ales sem\u00e1nticas mixtas o neutrales.",
+        "rationale": "Se detectaron noticias altamente polarizadas (Varianza: 0.30).",
         "top_risks": [
           {
             "intensity": "medium",
-            "insight_text": "Un entorno de alta inflaci\u00f3n y riesgos geopol\u00edticos impulsa al alza los rendimientos de los bonos del Tesoro, lo que reduce el atractivo del rendimiento por dividendo de WEC y aumenta el riesgo de 'lag' regulatorio.",
+            "insight_text": "El aumento en el posicionamiento hacia coberturas inflacionarias presiona al alza el rendimiento del Tesoro a 10 a\u00f1os, lo que reduce el atractivo relativo del dividendo de WEC.",
             "avg_confidence": 0.75,
             "overall_impact": "bearish"
           }
@@ -888,7 +663,7 @@
           "price_to_sma200_dist": 5.15
         },
         "is_actionable": true,
-        "avg_confidence": 0.62,
+        "avg_confidence": 0.63,
         "data_integrity": {
           "dna_valid": true,
           "news_valid": true,
@@ -896,9 +671,9 @@
         },
         "negative_ratio": 0.33,
         "positive_ratio": 0.33,
-        "recommendation": "CAUTIOUS",
+        "recommendation": "HIGH_VOLATILITY",
         "is_in_portfolio": false,
-        "sentiment_score": 0.05,
+        "sentiment_score": 0.08,
         "semantic_context": [
           "WEC",
           "Semantic Search via DNA"
@@ -906,20 +681,20 @@
         "top_opportunities": [
           {
             "intensity": "medium",
-            "insight_text": "La expansi\u00f3n de centros de datos en el territorio de WEC es un catalizador clave que impulsa el crecimiento de la carga industrial y permite una mayor ejecuci\u00f3n de CapEx regulado.",
+            "insight_text": "La creciente necesidad de energ\u00eda para IA valida el catalizador alcista de expansi\u00f3n de carga industrial y justifica una mayor ejecuci\u00f3n de CapEx en infraestructura de red y generaci\u00f3n.",
             "avg_confidence": 0.85,
             "overall_impact": "bullish"
           }
         ],
-        "analysis_timestamp": "2026-04-14T10:42:56.785601",
+        "analysis_timestamp": "2026-04-14T12:27:01.744294",
         "related_news_count": 3,
         "unique_entities_found": 3
       },
-      "rationale": "Se\u00f1ales sem\u00e1nticas mixtas o neutrales.",
+      "rationale": "Se detectaron noticias altamente polarizadas (Varianza: 0.30).",
       "top_risks": [
         {
           "intensity": "medium",
-          "insight_text": "Un entorno de alta inflaci\u00f3n y riesgos geopol\u00edticos impulsa al alza los rendimientos de los bonos del Tesoro, lo que reduce el atractivo del rendimiento por dividendo de WEC y aumenta el riesgo de 'lag' regulatorio.",
+          "insight_text": "El aumento en el posicionamiento hacia coberturas inflacionarias presiona al alza el rendimiento del Tesoro a 10 a\u00f1os, lo que reduce el atractivo relativo del dividendo de WEC.",
           "avg_confidence": 0.75,
           "overall_impact": "bearish"
         }
@@ -927,7 +702,7 @@
       "top_opportunities": [
         {
           "intensity": "medium",
-          "insight_text": "La expansi\u00f3n de centros de datos en el territorio de WEC es un catalizador clave que impulsa el crecimiento de la carga industrial y permite una mayor ejecuci\u00f3n de CapEx regulado.",
+          "insight_text": "La creciente necesidad de energ\u00eda para IA valida el catalizador alcista de expansi\u00f3n de carga industrial y justifica una mayor ejecuci\u00f3n de CapEx en infraestructura de red y generaci\u00f3n.",
           "avg_confidence": 0.85,
           "overall_impact": "bullish"
         }

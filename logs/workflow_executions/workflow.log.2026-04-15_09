@@ -1,0 +1,130 @@
+2026-04-15 09:50:52,467 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-15 09:50:52,467 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-15 09:50:54,931 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.46s)
+2026-04-15 09:50:54,933 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7040,
+      "title": "Reciprocal and Resilient Mineral Supply Chains: Lessons from the Nacala Corridor - Africa Center for Strategic Studies",
+      "summary": "Reciprocal and Resilient Mineral Supply Chains: Lessons from the Nacala Corridor &nbsp;&nbsp; Africa Center for Strategic Studies",
+      "content": "Reciprocal and Resilient Mineral Supply Chains: Lessons from the Nacala Corridor &nbsp;&nbsp; Africa Center for Strategic Studies",
+
+2026-04-15 09:50:54,933 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-15 09:50:56,365 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.43s)
+2026-04-15 09:50:56,365 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "60.895",
+      "unrealized_pl": "-103.790032",
+      "unrealized_plpc": "-0.01238"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "239.66",
+      "unrealized_pl": "83.33",
+      "unrealized_plpc": "0.02748"
+    },
+    {
+      "symbol": "MA"
+2026-04-15 09:50:56,366 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-15 09:51:01,693 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (5.33s)
+2026-04-15 09:51:01,693 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-15 09:51:51,857 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-15 09:51:51,857 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-15 09:51:51,857 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [],
+  "neutral": [
+    {
+      "success": true,
+      "ticker": "BKR",
+      "is_actionable": false,
+      "recommendation": "DATA_ERROR",
+      "rationale": "ABORTED: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')). Risk management impossible.",
+      "quant_stats": {
+        "error": "('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))"
+      },
+      "avg_confidence":
+2026-04-15 09:51:54,818 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-15 09:51:54,819 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-15 09:51:54,819 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "ABORTED",
+      "action": "NONE",
+      "rationale": "ABORTED: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer')). Risk management impossible.",
+      "confidence_in_decision": 0.0,
+      "risk_level": "critical",
+      "ticker": "BKR",
+      "original_recommendation": "DATA_ERROR",
+      "analysis_timestamp": "2026-04-15T09:51:45.749255",
+      "decision_timestamp": "2026-04-15T09:51:54.819308"
+    }
+  ],
+2026-04-15 09:51:54,819 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-15 09:51:58,814 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (3.99s)
+2026-04-15 09:51:58,814 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 37,
+  "ticker_analysis_ids": {
+    "BKR": 345
+  }
+}
+2026-04-15 09:51:58,819 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260415_095052.json
+2026-04-15 09:51:58,819 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_123307.json
+2026-04-15 09:51:58,819 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_123431.json
+2026-04-15 09:51:58,819 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_123719.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_170543.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_174133.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_174751.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_175742.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_180532.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_181014.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_181715.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_181922.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_182143.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_182155.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_182202.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_182232.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_190055.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_190114.json
+2026-04-15 09:51:58,820 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_191626.json
+2026-04-15 09:51:58,821 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_191852.json
+2026-04-15 09:51:58,821 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_200503.json
+2026-04-15 09:51:58,821 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_202503.json
+2026-04-15 09:51:58,821 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_202853.json
+2026-04-15 09:51:58,821 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_203749.json
+2026-04-15 09:51:58,821 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_204816.json
+2026-04-15 09:51:58,821 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed

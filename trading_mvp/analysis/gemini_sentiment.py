@@ -71,18 +71,20 @@ def analyze_sentiment(text: str, ticker: str = "Unknown", dna: Dict = None) -> D
     {{
         "sentiment": float (-1.0 to 1.0),
         "impact_label": "bullish" | "bearish" | "neutral",
+        "category": "macro" | "geopolitical" | "sector",
         "dna_alignment": "Which specific core driver or catalyst from the DNA is being triggered?",
         "summary": "Short impact summary in Spanish",
         "explanation": "1 sentence technical reasoning in Spanish",
         "confidence": float (0.0 to 1.0)
     }}
-    
+
     Rules:
     1. If the text triggers a 'Bullish Catalyst' from the DNA, sentiment must be > 0.4.
     2. If the text triggers a 'Bearish Catalyst' from the DNA, sentiment must be < -0.4.
     3. Be objective. If the news is irrelevant to the core drivers, stay neutral.
     4. The 'confidence' MUST reflect the DNA MATCH RELEVANCE. 1.0 if it hits a Core Driver/Catalyst directly. 0.0-0.2 if it's peripheral/irrelevant noise.
-    5. Respond ONLY with the JSON object.
+    5. 'category' should be "macro" for interest rates/inflation, "geopolitical" for international conflicts/tariffs, or "sector" for company-specific/industry news.
+    6. Respond ONLY with the JSON object.
     """
     
     try:
@@ -107,6 +109,7 @@ def analyze_sentiment(text: str, ticker: str = "Unknown", dna: Dict = None) -> D
             "sentiment": label,
             "sentiment_score": score,
             "confidence": float(result.get("confidence", 0.8)),
+            "category": result.get("category", "sector"),
             "explanation": result.get("explanation", "No details"),
             "summary": result.get("summary", "No summary"),
             "dna_alignment": result.get("dna_alignment", "N/A")

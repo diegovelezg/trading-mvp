@@ -856,13 +856,12 @@ class DecisionAgent:
             (position_size_usd, entry_price)
         """
 
-        # 1. Start with a base size adjusted by confidence
+        # 1. Start with a base size adjusted directly by DNA Matrix confidence
         base_size = self.config.base_position_size
-        confidence_multiplier = confidence / 0.85  # Normalize to our MIN_CONFIDENCE_SCORE
         
-        # Proposed size based only on analysis
+        # Proposed size based only on analysis confidence
         proposed_size = min(
-            base_size * confidence_multiplier,
+            base_size * confidence,
             self.config.max_position_size
         )
 

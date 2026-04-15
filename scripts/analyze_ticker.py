@@ -157,6 +157,7 @@ def analyze_ticker(ticker: str, hours_back: int = 48, portfolio_position: Dict =
                 'sentiment': sentiment_result.get('sentiment', 'neutral'),
                 'sentiment_score': sentiment_result.get('sentiment_score', 0.0),
                 'confidence': sentiment_result.get('confidence', 0.5),
+                'category': sentiment_result.get('category', 'sector'),
                 'criteria': sentiment_result.get('explanation') if sentiment_result.get('sentiment') != 'neutral' else news.get('title'),
                 'dna_alignment': sentiment_result.get('dna_alignment', 'N/A'),
                 'published_at': news.get('published_at')
@@ -183,8 +184,7 @@ def analyze_ticker(ticker: str, hours_back: int = 48, portfolio_position: Dict =
 
         news_count = len(news_insights)
         
-        # INSTITUTIONAL NLP SHOCK AGGREGATION + BAYESIAN DECAY
-        total_raw_impact = 0.0
+        # INSTITUTIONAL NLP SHOCK AGGREGATION: DNA SENSITIVITY MATRIX + BAYESIAN DECAY
         weighted_confidence_sum = 0.0
         
         tier_1 = ['reuters', 'bloomberg', 'wsj', 'sec', 'financial times', 'barrons']
@@ -193,6 +193,14 @@ def analyze_ticker(ticker: str, hours_back: int = 48, portfolio_position: Dict =
         # Half-life for news decay (3 days is institutional standard for news memory)
         half_life_days = 3.0
         decay_constant = math.log(2) / half_life_days
+
+        # Sensitivity defaults
+        geo_sens = float(dna.get('geopolitical_sensitivity', 0.5)) if dna else 0.5
+        rate_sens = float(dna.get('interest_rate_sensitivity', 0.5)) if dna else 0.5
+        sector_sens = 1.0 # Base sensitivity for sector news
+        
+        # Accumulators per category
+        category_impact = {'macro': 0.0, 'geopolitical': 0.0, 'sector': 0.0}
 
         for n in news_insights:
             # 1. The LLM Sentiment (-1.0 to 1.0)
@@ -232,13 +240,31 @@ def analyze_ticker(ticker: str, hours_back: int = 48, portfolio_position: Dict =
                 except Exception as e:
                     logger.debug(f"Could not calculate decay for news: {e}")
                 
-            # Individual weighted impact (Decayed)
-            impact = base_sentiment * dna_relevance * source_authority * decay_factor
-            total_raw_impact += impact
+            # 5. DNA Sensitivity Multiplier based on Category
+            cat = n.get('category', 'sector').lower()
+            if cat == 'macro':
+                sens_mult = rate_sens * 2.0  # Scale 0.5 default to 1.0
+            elif cat == 'geopolitical':
+                sens_mult = geo_sens * 2.0   # Scale 0.5 default to 1.0
+            else:
+                sens_mult = sector_sens
+                cat = 'sector'
+                
+            # Individual weighted impact (Decayed & Scaled by Sensitivity)
+            impact = base_sentiment * dna_relevance * source_authority * decay_factor * sens_mult
+            
+            category_impact[cat] += impact
             weighted_confidence_sum += (dna_relevance * decay_factor)
 
-        # 5. SATURATION (math.tanh limits extremes to -1.0 to 1.0)
-        sentiment_score = math.tanh(total_raw_impact)
+        # 6. CAP IMPACT PER CATEGORY to prevent volume saturation (e.g. max +/- 1.5 per category before tanh)
+        capped_total_impact = 0.0
+        for cat, impact in category_impact.items():
+            # Apply a soft cap per category: math.tanh(impact/1.5) * 1.5 limits each category to +/- 1.5
+            capped_cat_impact = math.tanh(impact / 1.5) * 1.5
+            capped_total_impact += capped_cat_impact
+
+        # 7. FINAL SATURATION (math.tanh limits extremes to -1.0 to 1.0)
+        sentiment_score = math.tanh(capped_total_impact)
         
         # Calculate Average Confidence (Weighted by decay)
         avg_confidence = weighted_confidence_sum / news_count if news_count > 0 else 0.5
@@ -254,7 +280,7 @@ def analyze_ticker(ticker: str, hours_back: int = 48, portfolio_position: Dict =
             variance = sum((n['sentiment_score'] - mean_score) ** 2 for n in news_insights) / (news_count - 1)
             sentiment_variance = variance
 
-        logger.info(f"   📐 Bayesian Aggregator: Raw Impact: {total_raw_impact:+.3f} -> FINAL SATURATED SHOCK: {sentiment_score:+.3f}")
+        logger.info(f"   📐 DNA Matrix: Macro {category_impact['macro']:+.2f} | Geo {category_impact['geopolitical']:+.2f} | Sec {category_impact['sector']:+.2f} -> FINAL SHOCK: {sentiment_score:+.3f}")
     else:
         positive_ratio, negative_ratio, avg_confidence, sentiment_score = 0.0, 0.0, 0.5, 0.0
 
@@ -276,15 +302,15 @@ def analyze_ticker(ticker: str, hours_back: int = 48, portfolio_position: Dict =
     elif is_high_volatility and negative_ratio > 0.0 and positive_ratio > 0.0:
         recommendation = "HIGH_VOLATILITY"
         rationale = f"Se detectaron noticias altamente polarizadas (Varianza: {sentiment_variance:.2f})."
-    elif negative_ratio > 0.4:
-        recommendation = "BEARISH"
-        rationale = f"El sesgo semántico se inclina a bajista ({negative_ratio:.0%})."
-    elif positive_ratio > 0.4:
+    elif sentiment_score > 0.10:
         recommendation = "BULLISH"
-        rationale = f"El sesgo semántico se inclina a alcista ({positive_ratio:.0%})."
+        rationale = f"La Matriz de ADN arrojó un shock fundamental alcista ({sentiment_score:+.2f})."
+    elif sentiment_score < -0.10:
+        recommendation = "BEARISH"
+        rationale = f"La Matriz de ADN arrojó un shock fundamental bajista ({sentiment_score:+.2f})."
     else:
         recommendation = "CAUTIOUS"
-        rationale = "Señales semánticas mixtas o neutrales."
+        rationale = f"Ruido de mercado sin choque fundamental significativo ({sentiment_score:+.2f})."
 
     # Quantitative Layer (Already fetched at the beginning)
 

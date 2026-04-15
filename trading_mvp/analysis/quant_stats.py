@@ -15,11 +15,18 @@ load_dotenv()
 
 logger = logging.getLogger(__name__)
 
+# Singleton client for Alpaca data connection (reusable across all ticker analysis)
+_alpaca_client = None
+
 def get_alpaca_data_client() -> StockHistoricalDataClient:
-    """Get authenticated Alpaca data client."""
-    api_key = os.getenv("ALPACA_PAPER_API_KEY")
-    secret_key = os.getenv("PAPER_API_SECRET")
-    return StockHistoricalDataClient(api_key, secret_key)
+    """Get authenticated Alpaca data client (singleton pattern for connection reuse)."""
+    global _alpaca_client
+    if _alpaca_client is None:
+        api_key = os.getenv("ALPACA_PAPER_API_KEY")
+        secret_key = os.getenv("PAPER_API_SECRET")
+        _alpaca_client = StockHistoricalDataClient(api_key, secret_key)
+        logger.info("✅ Alpaca data client created (singleton)")
+    return _alpaca_client
 
 def fetch_historical_stats(symbol: str, days: int = 400) -> Dict:
     """Fetch and calculate 11 quantitative indicators for a ticker.

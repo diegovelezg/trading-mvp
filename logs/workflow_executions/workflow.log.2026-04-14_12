@@ -1,0 +1,205 @@
+2026-04-14 12:23:58,689 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-14 12:23:58,689 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-14 12:24:01,104 - workflow_logger - ERROR - ❌ STEP FAILED: news_extraction [news_extraction_001] (2.41s)
+2026-04-14 12:24:01,104 - workflow_logger - ERROR -    Error: Step returned success=False: News extraction failed: News too old: 12/100 items are from the last 24h (12.0% < 20% required)
+2026-04-14 12:24:01,104 - workflow_logger - DEBUG -    Traceback:
+Traceback (most recent call last):
+  File "/home/diegovelezg/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py", line 308, in execute_step
+    raise ValueError(f"Step returned success=False: {error_msg}")
+ValueError: Step returned success=False: News extraction failed: News too old: 12/100 items are from the last 24h (12.0% < 20% required)
+
+2026-04-14 12:24:01,105 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260414_122358.json
+2026-04-14 12:24:01,105 - workflow_logger - ERROR - 🛑 WORKFLOW ABORTED at step: news_extraction
+2026-04-14 12:24:01,105 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260414_122358.json
+2026-04-14 12:24:01,105 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_113620.json
+2026-04-14 12:24:01,105 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_120202.json
+2026-04-14 12:24:01,106 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_120747.json
+2026-04-14 12:24:01,106 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_120813.json
+2026-04-14 12:24:01,106 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_121610.json
+2026-04-14 12:24:01,106 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 0 steps completed, 1 failed
+2026-04-14 12:25:16,487 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-14 12:25:16,487 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-14 12:25:19,035 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.55s)
+2026-04-14 12:25:19,037 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7040,
+      "title": "Reciprocal and Resilient Mineral Supply Chains: Lessons from the Nacala Corridor - Africa Center for Strategic Studies",
+      "summary": "Reciprocal and Resilient Mineral Supply Chains: Lessons from the Nacala Corridor &nbsp;&nbsp; Africa Center for Strategic Studies",
+      "content": "Reciprocal and Resilient Mineral Supply Chains: Lessons from the Nacala Corridor &nbsp;&nbsp; Africa Center for Strategic Studies",
+
+2026-04-14 12:25:19,037 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-14 12:25:22,270 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (3.23s)
+2026-04-14 12:25:22,270 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "91",
+      "side": "long",
+      "avg_entry_price": "61.82044",
+      "current_price": "61.315",
+      "unrealized_pl": "-45.99504",
+      "unrealized_plpc": "-0.00818"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "239.325",
+      "unrealized_pl": "78.975",
+      "unrealized_plpc": "0.02605"
+    },
+    {
+      "symbol": "MA",
+
+2026-04-14 12:25:22,271 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-14 12:25:24,566 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.30s)
+2026-04-14 12:25:24,566 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "
+2026-04-14 12:29:52,007 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-14 12:29:52,007 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-14 12:29:52,007 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "SNPS",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": true
+      },
+      "analysis_timestamp": "2026-04-14T12:25:37.023162",
+      "semantic_context": [
+        "SNPS",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 1,
+      "unique_entities_found": 1,
+      "top_risks": [],
+      "top_opportunities": [
+  
+2026-04-14 12:29:54,774 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-14 12:29:57,041 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (2.27s)
+2026-04-14 12:29:57,041 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "Se\u00f1al de BAJA CONFIANZA (0.35 NLP -> 0.39 Quant). RSI: 52.3, ATR: $16.38, Trend: BEARISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
+      "confidence_in_decision": 0.385,
+      "risk_level": "medium",
+      "technical_context": "RSI: 52.3, ATR: $16.38, Trend: BEARISH",
+      "sentiment_score": 0.65,
+      "ticker_analysis_id": null,
+      "ticker": "SNPS",
+     
+2026-04-14 12:29:57,041 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-14 12:30:22,433 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (25.39s)
+2026-04-14 12:30:22,434 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 36,
+  "ticker_analysis_ids": {
+    "SNPS": 336,
+    "PEG": 337,
+    "TSM": 338,
+    "WEC": 339,
+    "PWR": 340,
+    "BWXT": 341,
+    "QCOM": 342,
+    "BKR": 343,
+    "MA": 344
+  }
+}
+2026-04-14 12:30:22,448 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260414_122516.json
+2026-04-14 12:30:22,449 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_122505.json
+2026-04-14 12:30:22,449 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260411_122652.json
+2026-04-14 12:30:22,449 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-14 12:33:01,800 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-14 12:33:01,800 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-14 12:33:04,309 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.51s)
+2026-04-14 12:33:04,312 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7040,
+      "title": "Reciprocal and Resilient Mineral Supply Chains: Lessons from the Nacala Corridor - Africa Center for Strategic Studies",
+      "summary": "Reciprocal and Resilient Mineral Supply Chains: Lessons from the Nacala Corridor &nbsp;&nbsp; Africa Center for Strategic Studies",
+      "content": "Reciprocal and Resilient Mineral Supply Chains: Lessons from the Nacala Corridor &nbsp;&nbsp; Africa Center for Strategic Studies",
+
+2026-04-14 12:33:04,312 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-14 12:33:05,721 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.41s)
+2026-04-14 12:33:05,722 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "61.355",
+      "unrealized_pl": "-41.230032",
+      "unrealized_plpc": "-0.00492"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "239.18",
+      "unrealized_pl": "77.09",
+      "unrealized_plpc": "0.02542"
+    },
+    {
+      "symbol": "MA",
+2026-04-14 12:33:05,722 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-14 12:33:08,176 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.45s)
+2026-04-14 12:33:08,176 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "created_at": "2026-04-10T02:34:33.842929+00:00",
+    "watchlist_items": [
+      {
+        "count": 7
+      }
+    ],
+    "ticker_count": 7,
+    "items": [
+      {
+        "

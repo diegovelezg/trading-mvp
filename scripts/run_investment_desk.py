@@ -38,7 +38,7 @@ os.environ['GEMINI_API_MODEL_01'] = 'gemini-2.0-flash-exp'
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '.claude', 'subagents'))
 
-from trading_mvp.core.dashboard_api_client import get_active_watchlists
+from trading_mvp.core.db_watchlist import get_active_watchlists, get_watchlist_tickers
 from trading_mvp.core.db_investment_tracking import (
     create_investment_tracking_tables,
     save_desk_run,
@@ -210,9 +210,10 @@ def run_investment_desk(hours_back: int = 48) -> Dict:
                         'name': 'No Watchlist'
                     }
 
+                watchlist_items = get_watchlist_tickers(watchlist.get('id'))
                 watchlist_tickers = [
                     item.get('ticker')
-                    for item in watchlist.get('items', [])
+                    for item in watchlist_items
                     if item.get('ticker')
                 ]
 

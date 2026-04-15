@@ -290,10 +290,9 @@ function DeskRunCard({ deskRunId, activities, alpacaOrders = [] }: any) {
       <div className="cursor-pointer" onClick={() => setExpanded(!expanded)}>
         <CardHeader className="flex flex-row items-center justify-between py-4">
           <div className="flex items-center gap-3">
-            <History className="w-5 h-5 text-zinc-400" />
             <div>
               <h3 className="text-sm font-bold text-zinc-100">
-                🏛️ MESA DE INVERSIONES #{deskRunId !== 'no-desk' ? deskRunId : 'N/A'}
+                MESA DE INVERSIONES #{deskRunId !== 'no-desk' ? deskRunId : 'N/A'}
               </h3>
               <p className="text-[10px] text-zinc-500 font-mono">
                 {new Date(deskTimestamp).toLocaleString()} • {tickerCount} tickers analizados
@@ -371,11 +370,20 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                 {activity.decision === 'ABORTED' ? 'ERROR / ABORTED' : activity.action_taken === 'BOUGHT' ? 'COMPRADA' : activity.action_taken === 'STARTER_POSITION' ? 'COMPRA_INICIAL' : activity.action_taken === 'SCALE_IN' ? 'ESCALA_COMPRA' : activity.action_taken === 'SOLD' ? 'VENDIDA' : activity.action_taken === 'HELD' ? 'MANTENIDA' : activity.action_taken === 'NONE' ? 'NINGUNA' : 'N/A'}
               </Badge>
               <span className="text-lg font-bold text-zinc-100">{activity.ticker}</span>
-              {activity.sentiment_score !== null && activity.sentiment_score !== undefined && (
-                <span className={`text-[9px] font-bold ${activity.sentiment_score > 0 ? 'text-green-500' : activity.sentiment_score < 0 ? 'text-red-500' : 'text-zinc-500'}`}>
-                  {activity.sentiment_score > 0 ? '+' : ''}{(activity.sentiment_score * 100).toFixed(0)}%
-                </span>
-              )}
+              <span className={`text-[9px] font-bold ${
+                activity.action_taken === 'BOUGHT' || activity.action_taken === 'STARTER_POSITION' || activity.action_taken === 'SCALE_IN' ? 'text-green-500' :
+                activity.action_taken === 'SOLD' ? 'text-red-500' :
+                activity.action_taken === 'HELD' ? 'text-blue-500' :
+                activity.action_taken === 'NONE' ? 'text-zinc-500' :
+                'text-zinc-500'
+              }`}>
+                {activity.action_taken === 'BOUGHT' ? 'COMPRAR' :
+                 activity.action_taken === 'STARTER_POSITION' ? 'INICIAR' :
+                 activity.action_taken === 'SCALE_IN' ? 'ESCALAR' :
+                 activity.action_taken === 'SOLD' ? 'VENDER' :
+                 activity.action_taken === 'HELD' ? 'OBSERVAR' :
+                 activity.action_taken === 'NONE' ? 'SIN_ACCION' : ''}
+              </span>
             </div>
             {expanded ? <ChevronUp className="w-4 h-4 text-zinc-600" /> : <ChevronDown className="w-4 h-4 text-zinc-600" />}
           </div>

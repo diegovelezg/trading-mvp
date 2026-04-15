@@ -1,0 +1,32 @@
+name: Investment Desk Auto-Run
+
+on:
+  schedule:
+    - cron: '30 12 * * 1-5'  # 07:30 AM Lima (12:30 UTC)
+    - cron: '0 19 * * 1-5'   # 14:00 PM Lima (19:00 UTC)
+  workflow_dispatch:        # Permitir ejecución manual
+
+jobs:
+  run-investment-desk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Investment Desk
+        env:
+          ALPACA_PAPER_API_KEY: ${{ secrets.ALPACA_PAPER_API_KEY }}
+          PAPER_API_SECRET: ${{ secrets.PAPER_API_SECRET }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          AUTOPILOT_MODE: on
+        run: PYTHONPATH=. python ejecutar_mesa_inversiones.py

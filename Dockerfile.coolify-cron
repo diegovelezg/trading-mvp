@@ -1,0 +1,53 @@
+# Dockerfile para Coolify con Cron integrado
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies + cron
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    cron \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for better caching
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY ejecutar_mesa_inversiones.py .
+COPY scripts/ ./scripts/
+COPY trading_mvp/ ./trading_mvp/
+COPY pyproject.toml .
+
+# Create logs directory
+RUN mkdir -p /app/logs
+
+# Set environment variables
+ENV PYTHONPATH=/app:/app/scripts
+ENV PYTHONUNBUFFERED=1
+
+# Crear archivo de cron jobs
+RUN echo "📝 Configurando Cron Jobs..." && \
+    echo "# Pre-Market Analysis (07:30 AM Lima | 12:30 UTC)" > /etc/cron.d/trading-cron && \
+    echo "30 12 * * 1-5 root cd /app && python ejecutar_mesa_inversiones >> /app/logs/investment_desk_pre.log 2>&1" >> /etc/cron.d/trading-cron && \
+    echo "" >> /etc/cron.d/trading-cron && \
+    echo "# Power Hour Analysis (14:00 PM Lima | 19:00 UTC)" >> /etc/cron.d/trading-cron && \
+    echo "0 19 * * 1-5 root cd /app && python ejecutar_mesa_inversiones >> /app/logs/investment_desk_power.log 2>&1" >> /etc/cron.d/trading-cron && \
+    echo "" >> /etc/cron.d/trading-cron && \
+    echo "# Nota: Los archivos vacíos de log se crearán automáticamente" >> /etc/cron.d/trading-cron && \
+    # Dar permisos al archivo de cron
+    chmod 0644 /etc/cron.d/trading-cron && \
+    # Aplicar el cron
+    crontab /etc/cron.d/trading-cron && \
+    echo "✅ Cron jobs configurados correctamente"
+
+# Mostrar configuración de cron para verificación
+RUN echo "📋 Contenido de /etc/cron.d/trading-cron:" && \
+    cat /etc/cron.d/trading-cron && \
+    echo "" && \
+    echo "📋 Crontab activo:" && \
+    crontab -l
+
+# Iniciar cron y mantener el contenedor vivo
+CMD cron && tail -f /app/logs/*.log /dev/null

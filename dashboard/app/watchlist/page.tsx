@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { AssetBadge } from "@/components/AssetBadge";
 import { normalizeTicker } from "@/lib/ticker-utils";
 import { getDefaultWatchlistId } from "@/lib/config";
 import {
@@ -16,6 +17,7 @@ import {
   Target,
   Quote,
   CheckCircle2,
+  Circle,
   ChevronRight,
   ChevronDown,
   Sparkles,
@@ -51,6 +53,7 @@ type ActiveItem = {
   added_at: string;
   watchlistId: number;
   currentPrice?: number;
+  change14d?: number;
   change28d?: number;
   volume?: number;
   // DNA fields
@@ -416,17 +419,13 @@ export default function WatchlistPage() {
               filteredAndSortedItems.map((item) => (
                 <Card key={`${item.watchlistId}-${item.ticker}`} className="group hover:border-zinc-700 transition-all bg-zinc-950/20 border-zinc-900">
                   <CardHeader className="flex flex-row items-center justify-between py-4 pb-2 space-y-0">
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="flex items-end gap-2">
-                          <span className="text-2xl font-bold tracking-tighter text-zinc-100">{item.ticker}</span>
-                          <span className="text-[10px] text-zinc-500 truncate max-w-[120px] font-mono">{item.company_name}</span>
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Seguimiento desde {format(new Date(item.added_at), "MMM d, HH:mm")}</p>
-                      </TooltipContent>
-                    </Tooltip>
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl font-bold tracking-tighter text-zinc-100">{item.ticker}</span>
+                      <AssetBadge
+                        tickerDetail={{ assetType: item.assetType }}
+                        size="sm"
+                      />
+                    </div>
                     <button
                       onClick={() => removeTicker(item.watchlistId, item.ticker)}
                       className="p-2 text-zinc-700 hover:text-red-500 hover:bg-red-950/20 rounded-lg transition-all"
@@ -435,29 +434,26 @@ export default function WatchlistPage() {
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </CardHeader>
-                  <CardContent className="pt-2">
-                    {/* Asset DNA Description */}
-                    <div className="text-[11px] text-zinc-400 leading-relaxed line-clamp-2 min-h-[32px] border-l border-zinc-800 pl-3">
-                      {item.reason && !item.reason.match(/^(Added from exploration|Añadido desde exploración)/) ? (
-                        <span className="italic">{item.reason}</span>
-                      ) : item.coreDrivers && item.coreDrivers.length > 0 ? (
-                        <span>
-                          <span className="text-blue-400 not-italic font-semibold">Core Drivers:</span>{' '}
-                          {item.coreDrivers.slice(0, 2).join(', ')}
-                          {item.coreDrivers.length > 2 && '...'}
-                        </span>
-                      ) : (
-                        <span className="text-zinc-500 italic">
-                          {item.assetType || 'Activo en seguimiento'}
-                        </span>
-                      )}
+                  <CardContent className="pt-2 space-y-3">
+                    {/* Company Info */}
+                    <div className="space-y-2">
+                      <p className="text-sm font-semibold text-zinc-300">{item.company_name}</p>
+
+                      {/* Asset DNA Description */}
+                      <div className="text-[12px] text-zinc-400 leading-relaxed">
+                        {item.reason && !item.reason.match(/^(Added from exploration|Añadido desde exploración)/) ? (
+                          <span>{item.reason}</span>
+                        ) : (
+                          <span>{item.assetType || 'Activo en seguimiento'}</span>
+                        )}
+                      </div>
                     </div>
 
                     {/* DNA Info */}
                     {item.assetType && (
                       <div className="mt-3 space-y-2">
                         <div className="flex items-center gap-2">
-                          <Badge variant="outline" className="text-[8px] px-2 py-0 border-blue-900/50 text-blue-400 bg-blue-950/10">
+                          <Badge variant="outline" className="text-[9px] px-2 py-0 border-blue-900/50 text-blue-400 bg-blue-950/10">
                             🧬 {item.assetType}
                           </Badge>
                         </div>
@@ -465,15 +461,15 @@ export default function WatchlistPage() {
                         {/* Core Drivers */}
                         {item.coreDrivers && item.coreDrivers.length > 0 && (
                           <div className="space-y-1">
-                            <p className="text-[8px] font-mono text-zinc-600 uppercase">Core Drivers</p>
+                            <p className="text-[9px] font-mono text-zinc-600 uppercase">Core Drivers</p>
                             <div className="flex flex-wrap gap-1">
                               {item.coreDrivers.slice(0, 3).map((driver, i) => (
-                                <span key={i} className="text-[9px] px-1.5 py-0.5 bg-zinc-900 border border-zinc-800 text-zinc-400 rounded">
+                                <span key={i} className="text-[10px] px-1.5 py-0.5 bg-zinc-900 border border-zinc-800 text-zinc-400 rounded">
                                   {driver}
                                 </span>
                               ))}
                               {item.coreDrivers.length > 3 && (
-                                <span className="text-[9px] px-1.5 py-0.5 text-zinc-600">
+                                <span className="text-[10px] px-1.5 py-0.5 text-zinc-600">
                                   +{item.coreDrivers.length - 3}
                                 </span>
                               )}
@@ -484,12 +480,23 @@ export default function WatchlistPage() {
                     )}
 
                     {/* Live Alpaca Data */}
-                    {(item.currentPrice || item.change28d !== undefined) && (
-                      <div className="mt-3 pt-3 border-t border-zinc-900/50 grid grid-cols-3 gap-2">
+                    {(item.currentPrice || item.change28d !== undefined || item.change14d !== undefined) && (
+                      <div className="grid grid-cols-4 gap-2 pt-2 border-t border-zinc-800/50">
                         {item.currentPrice && (
                           <div>
                             <div className="text-[8px] font-mono text-zinc-600 uppercase">Precio</div>
-                            <div className="text-sm font-bold text-zinc-300">${item.currentPrice?.toFixed(2)}</div>
+                            <div className="text-sm font-bold text-zinc-300">
+                              ${item.currentPrice.toFixed(2)}
+                            </div>
+                          </div>
+                        )}
+                        {item.change14d !== undefined && item.change14d !== null && (
+                          <div>
+                            <div className="text-[8px] font-mono text-zinc-600 uppercase">14d</div>
+                            <div className={`text-sm font-bold flex items-center gap-1 ${item.change14d >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                              {item.change14d >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                              {item.change14d >= 0 ? '+' : ''}{item.change14d.toFixed(1)}%
+                            </div>
                           </div>
                         )}
                         {item.change28d !== undefined && item.change28d !== null && (
@@ -497,14 +504,16 @@ export default function WatchlistPage() {
                             <div className="text-[8px] font-mono text-zinc-600 uppercase">28d</div>
                             <div className={`text-sm font-bold flex items-center gap-1 ${item.change28d >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                               {item.change28d >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                              {item.change28d >= 0 ? '+' : ''}{item.change28d?.toFixed(1)}%
+                              {item.change28d >= 0 ? '+' : ''}{item.change28d.toFixed(1)}%
                             </div>
                           </div>
                         )}
                         {item.volume && (
                           <div>
-                            <div className="text-[8px] font-mono text-zinc-600 uppercase">Vol</div>
-                            <div className="text-sm font-bold text-zinc-300">{(item.volume / 1000000).toFixed(1)}M</div>
+                            <div className="text-[8px] font-mono text-zinc-600 uppercase">Volumen</div>
+                            <div className="text-sm font-bold text-zinc-300">
+                              {(item.volume / 1000000).toFixed(1)}M
+                            </div>
                           </div>
                         )}
                       </div>
@@ -609,18 +618,31 @@ export default function WatchlistPage() {
                                 }`}
                               >
                                 <div className="space-y-3">
-                                  {/* Header: Ticker + Add Button */}
-                                  <div className="flex items-center justify-between">
+                                  {/* Header: Ticker + Classification + Status/Action */}
+                                  <div className="flex items-center justify-between gap-2">
                                     <div className="flex items-center gap-2">
                                       <span className="text-xl font-bold text-zinc-200">{t}</span>
-                                      {inWatchlist && (
-                                        <CheckCircle2 className="w-4 h-4 text-green-500" />
+
+                                      {/* Asset Classification: PEGADO al ticker */}
+                                      {tickerDetail && (
+                                        <AssetBadge
+                                          tickerDetail={tickerDetail}
+                                          size="sm"
+                                        />
                                       )}
+
                                       {isLoadingData && (
                                         <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
                                       )}
                                     </div>
-                                    {!inWatchlist && (
+
+                                    {/* Watchlist Status or Add Button */}
+                                    {inWatchlist ? (
+                                      <Badge className="text-[9px] px-2 py-0.5 bg-green-950/50 border-green-700 text-green-400 flex items-center gap-1 pointer-events-none">
+                                        <CheckCircle2 className="w-3 h-3" />
+                                        En watchlist
+                                      </Badge>
+                                    ) : (
                                       <button
                                         onClick={(e) => {
                                           e.stopPropagation();
@@ -645,12 +667,7 @@ export default function WatchlistPage() {
                                   {tickerDetail && (
                                     <div className="space-y-2">
                                       <p className="text-sm font-semibold text-zinc-300">{tickerDetail.name}</p>
-                                      <div className="flex items-center gap-2">
-                                        <Badge variant="outline" className="text-[8px] px-2 py-0 border-zinc-700 text-zinc-400">
-                                          {tickerDetail.sector}
-                                        </Badge>
-                                      </div>
-                                      <p className="text-[11px] text-zinc-400 leading-relaxed">{tickerDetail.description_es}</p>
+                                      <p className="text-[12px] text-zinc-400 leading-relaxed">{tickerDetail.description_es}</p>
                                     </div>
                                   )}
 
@@ -660,27 +677,35 @@ export default function WatchlistPage() {
                                       <div>
                                         <div className="text-[8px] font-mono text-zinc-600 uppercase">Precio</div>
                                         <div className="text-sm font-bold text-zinc-300">
-                                          ${quantData.currentPrice.toFixed(2)}
+                                          {quantData.currentPrice ? `$${quantData.currentPrice.toFixed(2)}` : '-'}
                                         </div>
                                       </div>
                                       <div>
                                         <div className="text-[8px] font-mono text-zinc-600 uppercase">14d</div>
-                                        <div className={`text-sm font-bold flex items-center gap-1 ${quantData.change14d >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                          {quantData.change14d >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                                          {quantData.change14d >= 0 ? '+' : ''}{quantData.change14d.toFixed(1)}%
-                                        </div>
+                                        {quantData.change14d !== undefined && quantData.change14d !== null ? (
+                                          <div className={`text-sm font-bold flex items-center gap-1 ${quantData.change14d >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                            <TrendingUp className="w-3 h-3" />
+                                            {quantData.change14d >= 0 ? '+' : ''}{quantData.change14d.toFixed(1)}%
+                                          </div>
+                                        ) : (
+                                          <div className="text-sm font-bold text-zinc-300">-</div>
+                                        )}
                                       </div>
                                       <div>
                                         <div className="text-[8px] font-mono text-zinc-600 uppercase">28d</div>
-                                        <div className={`text-sm font-bold flex items-center gap-1 ${quantData.change28d >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                          {quantData.change28d >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                                          {quantData.change28d >= 0 ? '+' : ''}{quantData.change28d.toFixed(1)}%
-                                        </div>
+                                        {quantData.change28d !== undefined && quantData.change28d !== null ? (
+                                          <div className={`text-sm font-bold flex items-center gap-1 ${quantData.change28d >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                            <TrendingUp className="w-3 h-3" />
+                                            {quantData.change28d >= 0 ? '+' : ''}{quantData.change28d.toFixed(1)}%
+                                          </div>
+                                        ) : (
+                                          <div className="text-sm font-bold text-zinc-300">-</div>
+                                        )}
                                       </div>
                                       <div>
                                         <div className="text-[8px] font-mono text-zinc-600 uppercase">Volumen</div>
                                         <div className="text-sm font-bold text-zinc-300">
-                                          {(quantData.volume / 1000000).toFixed(1)}M
+                                          {quantData.volume ? `${(quantData.volume / 1000000).toFixed(1)}M` : '-'}
                                         </div>
                                       </div>
                                     </div>
@@ -689,7 +714,7 @@ export default function WatchlistPage() {
                                   {/* Relation to search criteria */}
                                   <div className="bg-blue-950/10 border border-blue-900/20 p-2 rounded">
                                     <p className="text-[9px] text-blue-400 font-mono uppercase mb-1">Relación con criterio</p>
-                                    <p className="text-[10px] text-zinc-400 italic">
+                                    <p className="text-[11px] text-zinc-400">
                                       {tickerDetail?.description_es || 'Componente del sector solicitado en la búsqueda temática.'}
                                     </p>
                                   </div>

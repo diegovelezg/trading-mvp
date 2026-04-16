@@ -24,6 +24,9 @@
 ```
 PASO 0: NEWS EXTRACTION (CRÍTICO)
 ├─ Extraer noticias de Supabase (alineado al horario 08:30/15:00 EST)
+├─ Estrategia Visión 360: 10 categorías (13 items máximo cada una).
+├─ Deduplicación en BD vía Hash MD5 de URL (ON CONFLICT DO NOTHING).
+├─ Limpieza Automática (TTL 90 días): Job pg_cron descartando news 'priced-in'.
 ├─ Validar cantidad mínima (10+) y frescura (≤ 24h)
 └─ FAIL FAST si no pasa validaciones
 
@@ -53,6 +56,8 @@ PASO 5: AGGREGATION
 └─ FAIL FAST si falla agregación
 
 PASO 6: DECISION ENGINE (RISK MANAGEMENT)
+├─ PASO 0 (Pre-Emptive): Revisar SL (1.5x) y TP (3.0x) vs current_price.
+│   └─ SI SE TOCA UMBRAL: 'Sell-Off' mecánico, usando `avg_entry_price` para PnL, y ABORTAR análisis cualitativo.
 ├─ Process desk recommendations
 ├─ Risk Guardrails: Stop Loss estrictamente en 1.5x ATR.
 ├─ Reject Rule: Si falta ATR, el trade es IGNORED.
@@ -73,7 +78,8 @@ PASO 7: PERSISTENCE
 - **Volatilidad Verdadera**: Basada en 252 días (anualizada) sobre cambios porcentuales, descartando desviación estándar nominal básica.
 
 ### **Strict Risk Management (Paso 6)**
-- **Dynamic Stop Loss**: Anclado irrevocablemente a **1.5x ATR**.
+- **Dynamic Stop Loss Pre-Emptivo**: Evaluado como PASO 0 de riesgo mecánico, anclado irrevocablemente a **1.5x ATR**.
+- **Cálculo Matemático PnL**: Basado rigurosamente en el `avg_entry_price` (precio promedio de las compras escalonadas/scale-ins).
 - **Regla Anti-Fallback**: Históricamente se usaban porcentajes estáticos si fallaba el cálculo cuantitativo. Ahora, **sin ATR válido, no hay trade (IGNORED)**.
 
 ---

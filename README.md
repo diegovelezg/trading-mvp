@@ -109,9 +109,9 @@ El algoritmo procesa **11 indicadores clave** divididos en 5 dimensiones crític
 ### 2. Motor LLM: El Cerebro Contextual del 40%
 La IA procesa el lenguaje natural de noticias y reportes para aportar el "por qué" detrás de los números:
 
-*   **Análisis GeoMacro:** Impacto de conflictos (ej. Irán-EE.UU.), tasas de la FED y datos de inflación (CPI).
-*   **Sentimiento de Entidades:** Ratio de impacto positivo/negativo de actores clave en el mercado.
-*   **Análisis Dialéctico:** Contraste de tesis alcistas y bajistas basadas en la narrativa macro.
+*   **Visión 360 Institucional:** Pipeline de noticias categorizadas en 10 dimensiones estructurales (Macro, Geopolítica, Tech, Energía, Crypto, etc.), limitadas a 13 noticias por categoría para un muestreo profundo sin dilución de contexto del LLM.
+*   **Deduplicación & Retención:** Ingesta centralizada en Supabase con resolución nativa de duplicados y un Job (pg_cron) de TTL estricto a 90 días, garantizando que el modelo analice solo información viva y relevante (no "priced-in").
+*   **Sentimiento de Entidades y Varianza:** Ratio de impacto positivo/negativo y control estricto de volatilidad mediática (filtrando falsas señales "neutrales" en noticias extremadamente polarizadas).
 
 ---
 
@@ -126,8 +126,9 @@ El sistema ya no es solo intuitivo; integra un motor estadístico que domina el 
 ### 2. Convicción y Volumen Relativo (RVOL)
 *   **Institutional Confirmation**: El sistema ignora noticias si el volumen relativo es bajo (< 0.8), identificando movimientos de minoristas o ruido. Solo actúa ante convicción real (> 1.2 RVOL).
 
-### 3. Volatilidad Adaptativa (ATR)
-*   **Stop Loss Dinámico (2x ATR)**: El sistema calcula la volatilidad diaria (Average True Range). El Stop Loss se coloca a 2 ATRs del precio de entrada, adaptándose al "ruido" específico de cada activo.
+### 3. Gestión del Riesgo Pre-emptiva (ATR Dinámico)
+*   **Control Determinista del PnL**: Cálculo preciso de rentabilidades considerando el precio promedio real de entrada (`avg_entry_price`) para activos vivos que hayan promediado ("scale-in").
+*   **Stop Loss (1.5x) y Take Profit (3x)**: El sistema evalúa estos umbrales como **PASO 0 absoluto**. Si se tocan, el sistema detiene el análisis cualitativo y ejecuta mecánicamente el cierre de posición. Cero fallbacks, cero negociación.
 
 ### 4. Sensibilidad y Correlación (Beta/Corr)
 *   **Market-Neutral Bias**: El sistema mide la correlación rodante de 20 días con el SPY. Se priorizan activos con "vida propia" o baja correlación para generar Alpha real.

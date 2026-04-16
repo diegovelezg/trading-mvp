@@ -14,9 +14,11 @@ Sistema de trading de grado institucional que abarca desde la recolección de no
 ```bash
 python run_daily_geomacro.py
 ```
-- Recolecta noticias de múltiples fuentes (Alpaca, Google News, SERPAPI).
+- Recolecta noticias de múltiples fuentes (Google News).
 - Extrae entidades con IA (Gemini).
-- Almacena en BD con timestamps.
+- Almacena en BD con timestamps y **Deduplicación por URL Hash MD5**.
+- **Gestión Institucional del Ciclo de Vida**: Cron Job (`pg_cron`) de TTL (Time To Live) estricto de 90 días ejecutándose a medianoche, limpiando automáticamente la base de datos de noticias ya absorbidas por los precios ("priced-in").
+- **Visión 360 (10-Categorías)**: Búsqueda estructural distribuida en dimensiones temáticas precisas, limitadas a **13 items** por consulta para optimizar el análisis semántico y prevenir dilución del LLM.
 - **Frecuencia (Execution Rhythm)**: 2 veces al día (Pre-Market 08:30 AM EST y Power Hour 15:00 PM EST). Se han abandonado los ciclos antiguos de 6 horas para alinearse con la liquidez institucional.
 
 #### 2️⃣ **MESA DE INVERSIONES (Analysis & Quant Engine)**
@@ -43,8 +45,9 @@ python test_decision_agent.py --watchlist-id 3
 AUTOPILOT_MODE=on python test_decision_agent.py --watchlist-id 3
 ```
 - Analiza recomendaciones de la mesa.
-- **Risk Management Estricto**: 
-  - Stop Loss dinámico impuesto obligatoriamente a **1.5x ATR**.
+- **Risk Management Estricto & Pre-Emptivo**: 
+  - **PASO 0 (Evaluación Mecánica)**: El Stop Loss (1.5x ATR) y el Take Profit (3.0x ATR) se calculan ANTES de cualquier evaluación cualitativa o modelo NLP. Si el precio actual cruza un umbral, se ejecuta mecánicamente el cierre ("Sell-Off").
+  - **Cálculo Exacto de PnL con Scale-Ins**: Toda rentabilidad y límite de riesgo se basa matemáticamente en el **`avg_entry_price`** ponderado del bróker. Si existen compras promediadas, el sistema adapta el centro de masa de la operación automáticamente.
   - **No hay fallbacks harcodeados**: Si el ATR no se puede calcular o está ausente, la operación es **RECHAZADA (IGNORED)**.
 - Calcula tamaño de posición dinámicamente.
 - **Registra decisiones automáticamente**.

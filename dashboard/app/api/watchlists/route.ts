@@ -87,6 +87,7 @@ export const GET = withErrorHandler(async (req: NextRequest) => {
         return {
           ...item,
           currentPrice: live?.currentPrice,
+          change14d: live?.change14d,
           change28d: live?.change28d,
           volume: live?.volume,
           lastUpdated: live?.lastUpdated,

@@ -1,0 +1,25 @@
+# Dockerfile Simplificado para Debug
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Debug: Ver qué archivos se copian
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar explícitamente los archivos necesarios
+COPY ejecutar_mesa_inversiones.py .
+COPY scripts/ ./scripts/
+COPY trading_mvp/ ./trading_mvp/
+COPY pyproject.toml .
+
+# Debug: Listar archivos copiados
+RUN ls -la /app/
+RUN ls -la /app/scripts/ | head -10
+RUN echo "PYTHONPATH=$PYTHONPATH"
+
+ENV PYTHONPATH=/app:/app/scripts
+ENV PYTHONUNBUFFERED=1
+
+# Comando simple para verificar
+CMD ["python", "-c", "import os; print('Files in /app:'); print(os.listdir('/app')); print('ejecutar_mesa_inversiones.py exists:', os.path.exists('/app/ejecutar_mesa_inversiones.py'))"]

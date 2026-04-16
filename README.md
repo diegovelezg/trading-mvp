@@ -26,18 +26,31 @@ Se desaconseja ejecutar el sistema cada 4 o 6 horas, ya que el Motor Quant (que 
 *   **Lógica Quant:** La vela diaria actual está al 90% de su formación. El sistema sabe con alta probabilidad si el activo cerrará respetando su estructura técnica (ej. sobre la SMA 200) y si el volumen (RVOL) es legítimo.
 *   **Acción del Agente:** Liquidar posiciones que perdieron su estructura técnica o comprar activos que confirmaron una ruptura técnica real respaldada por el flujo de noticias del día.
 
-### ⚙️ Implementación en VPS con Coolify
+### ⚙️ Implementación en Coolify CI/CD
 
-**📋 Ver `coolify/README.md` para instrucciones completas de despliegue:**
+**🚀 Dos modos de despliegue disponibles:**
 
+**Modo 1: Coolify CI/CD (Recomendado - Deploy Continuo)**
 ```bash
-# Setup rápido en VPS
-cd trading-mvp/coolify
+# Ver documentación completa
+cat coolify/CI-CD.md
+
+# Características:
+# - Deploy automático desde GitHub
+# - Soporte Nixpacks (build auto) o Dockerfile
+# - Cron jobs nativos de Coolify
+# - Health checks y restart automático
+# - Rollback con 1 click
+```
+
+**Modo 2: VPS con Cron Jobs (Tradicional)**
+```bash
+cd coolify
 chmod +x setup_crons.sh
 ./setup_crons.sh
 ```
 
-Resumen de Cron Jobs:
+Cron Jobs:
 ```bash
 # Pre-Market (07:30 AM Lima | 12:30 UTC)
 30 12 * * 1-5 cd /path/to/trading-mvp && AUTOPILOT_MODE=on .venv/bin/python ejecutar_mesa_inversiones

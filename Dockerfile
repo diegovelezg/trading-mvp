@@ -1,41 +1,50 @@
-# Dockerfile optimizado para Trading MVP en Coolify
-# Basado en mejores prácticas de LobeHub Python Deployment Skill
-
+# Coolify Python Deployment - Trading MVP
 FROM python:3.11-slim
 
-# Establecer directorio de trabajo
+# Set working directory
 WORKDIR /app
 
-# Instalar dependencias de sistema necesarias
-# libpq-dev para PostgreSQL, build-essential para compilaciones
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    libpq-dev \
     build-essential \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copiar requirements primero (cache de Docker)
+# Copy requirements first for better caching
 COPY requirements.txt .
 
-# Instalar el paquete trading-mvp en modo editable
-# Esto instala todas las dependencias y hace que trading_mvp esté disponible
-COPY requirements.txt setup.py ./
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt && \
-    pip install --no-cache-dir -e .
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar el resto del código
+# Copy application code
 COPY . .
 
-# Crear directorio de logs
+# Create logs directory
 RUN mkdir -p /app/logs
 
-# NO exponer puertos - es un script de trading, no un web server
-# EXPOSE 8000  # Comentado - no necesitamos exponer puertos
+# Set environment variables
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
 
-# Health check para que Coolify sepa que el contenedor está vivo
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD test -f /app/.venv/bin/python || exit 1
+# Create a startup script that handles both manual runs and cron
+RUN echo '#!/bin/bash\n\
+if [ "$1" = "cron" ]; then\n\
+    echo "Starting Investment Desk in Cron Mode..."\n\
+    AUTOPILOT_MODE=on python ejecutar_mesa_inversiones\n\
+elif [ "$1" = "manual" ]; then\n\
+    echo "Starting Investment Desk in Manual Mode..."\n\
+    AUTOPILOT_MODE=off python ejecutar_mesa_inversiones\n\
+else\n\
+    echo "Usage: docker run [image] [cron|manual]"\n\
+    echo "  - cron: Run with AUTOPILOT_MODE=on (for automated execution)"\n\
+    echo "  - manual: Run with AUTOPILOT_MODE=off (for testing)"\n\
+    exit 1\n\
+fi' > /app/entrypoint.sh && chmod +x /app/entrypoint.sh
 
-# Comando de inicio - mantener el contenedor vivo
-CMD ["tail", "-f", "/dev/null"]
+# Health check
+HEALTHCHECK --interval=30m --timeout=5m --start-period=1m --retries=3 \
+    CMD python -c "import requests; print('OK')" || exit 1
+
+# Default command
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["manual"]

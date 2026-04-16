@@ -1,10 +1,8 @@
 # 🚀 Despliegue en VPS con Coolify
 
-## 🎯 CONFIGURACIÓN RECOMENDADA: UI DE COOLIFY
+## 📋 Configuración Requerida
 
-**INSTRUCCIONES COMPLETAS**: Ver `COOLIFY_CONFIG.md` para configuración paso a paso en la UI de Coolify.
-
-## 📋 Resumen de Configuración en Coolify UI:
+Este proyecto requiere ejecutarse 2 veces al día en horarios específicos para maximizar el alpha sin generar ruido estadístico.
 
 ### ⏰ Horarios de Ejecución
 

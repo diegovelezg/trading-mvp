@@ -1,0 +1,38 @@
+# Dockerfile para Coolify CRON Jobs - Contenedor pasivo
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for better caching
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY ejecutar_mesa_inversiones.py .
+COPY scripts/ ./scripts/
+COPY trading_mvp/ ./trading_mvp/
+COPY pyproject.toml .
+
+# Create logs directory
+RUN mkdir -p /app/logs
+
+# Set environment variables
+ENV PYTHONPATH=/app:/app/scripts
+ENV PYTHONUNBUFFERED=1
+
+# Verify files were copied
+RUN echo "=== Verificando archivos críticos ===" && \
+    ls -la /app/ejecutar_mesa_inversiones.py && \
+    ls -la /app/scripts/ && \
+    ls -la /app/trading_mvp/ && \
+    echo "=== Todos los archivos presentes ==="
+
+# CONTENEDOR PASIVO: NO ejecutar el script automáticamente
+# Solo mantener el contenedor vivo para que los CRON jobs lo usen
+CMD ["tail", "-f", "/dev/null"]

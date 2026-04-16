@@ -71,7 +71,7 @@ print()
 # Import and run
 from run_investment_desk import run_investment_desk, print_investment_desk_report
 
-result = run_investment_desk(watchlist_id=3, hours_back=48)
+result = run_investment_desk(watchlist_id=2, hours_back=48)
 print_investment_desk_report(result)
 
 # Final summary

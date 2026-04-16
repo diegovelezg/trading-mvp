@@ -7,8 +7,14 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from trading_mvp.core.dashboard_api_client import add_ticker_to_watchlist, get_active_watchlists
 
-# Watchlist ID 3: Oil & Energy Watchlist
-watchlist_id = 3
+# Obtener watchlist activa (usar la primera disponible)
+watchlists = get_active_watchlists()
+if not watchlists:
+    print("❌ No hay watchlists activas. Crea una primero.")
+    sys.exit(1)
+
+watchlist_id = watchlists[0]['id']
+print(f"📋 Usando watchlist ID={watchlist_id}: {watchlists[0]['name']}")
 
 # Add energy-related tickers
 tickers_to_add = [

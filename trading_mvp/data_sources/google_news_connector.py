@@ -42,9 +42,10 @@ class GoogleNewsConnector(BaseDataConnector):
             List of news items
         """
         try:
-            # Google News RSS URL
+            # Google News RSS URL con filtros de fecha y ordenamiento
+            # when=3d: últimas 72 horas, sort=date: más recientes primero
             encoded_topic = quote(topic)
-            rss_url = f"https://news.google.com/rss/search?q={encoded_topic}&hl=en-US&gl=US&ceid=US:en"
+            rss_url = f"https://news.google.com/rss/search?q={encoded_topic}&hl=en-US&gl=US&ceid=US:en&when=3d&sort=date"
 
             logger.info(f"📰 Fetching Google News RSS for topic: {topic}...")
 
@@ -121,6 +122,10 @@ class GoogleNewsConnector(BaseDataConnector):
         """
         normalized = []
         failed_items = []
+        filtered_by_date = 0
+
+        # Filtro de fecha: últimas 72 horas
+        cutoff_time = datetime.now() - timedelta(hours=72)
 
         for i, item in enumerate(raw_data):
             try:
@@ -128,6 +133,26 @@ class GoogleNewsConnector(BaseDataConnector):
                 title = item.get("title", "").strip()
                 if not title or title == "[Removed]":
                     failed_items.append({"index": i, "reason": "invalid_title"})
+                    continue
+
+                # VALIDACIÓN DE FECHA: últimas 72 horas
+                published_str = item.get("published", "")
+                if published_str:
+                    try:
+                        # Parsear fecha (formato: 'Thu, 16 Apr 2026 06:42:51 GMT')
+                        published_dt = datetime.strptime(published_str, '%a, %d %b %Y %H:%M:%S %Z')
+
+                        # Filtrar por fecha
+                        if published_dt < cutoff_time:
+                            filtered_by_date += 1
+                            continue
+                    except Exception as e:
+                        logger.warning(f"⚠️  Could not parse date for item {i}: {e}")
+                        failed_items.append({"index": i, "reason": f"date_parse_error: {e}"})
+                        continue
+                else:
+                    # Sin fecha = rechazar
+                    failed_items.append({"index": i, "reason": "missing_date"})
                     continue
 
                 # Clean HTML from summary
@@ -179,6 +204,9 @@ class GoogleNewsConnector(BaseDataConnector):
             for failure in failed_items[:5]:
                 logger.warning(f"    - Item {failure['index']}: {failure['reason']}")
 
+        if filtered_by_date > 0:
+            logger.info(f"🕐 Filtered out {filtered_by_date} items older than 72h")
+
         logger.info(f"✅ Normalized {len(normalized)}/{len(raw_data)} Google News items")
         return normalized
 
@@ -218,9 +246,10 @@ class GoogleNewsConnector(BaseDataConnector):
 
             for query in queries:
                 try:
+                    # Obtener MAX_ITEMS_PER_CATEGORY por query (no dividir)
                     news = self.fetch_data(
                         topic=query,
-                        max_items=items_per_category // len(queries)
+                        max_items=MAX_ITEMS_PER_CATEGORY
                     )
                     category_news.extend(news)
                 except Exception as e:

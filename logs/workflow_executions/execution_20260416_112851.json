@@ -1,0 +1,2630 @@
+{
+  "execution_id": "20260416_112851",
+  "start_time": "2026-04-16T11:28:51.983832",
+  "end_time": "2026-04-16T11:35:16.723541",
+  "total_duration_seconds": 33.704531,
+  "total_steps": 6,
+  "completed_steps": 6,
+  "failed_steps": 0,
+  "steps": [
+    {
+      "step_id": "news_extraction_001",
+      "step_type": "news_extraction",
+      "status": "completed",
+      "start_time": "2026-04-16T11:28:51.983832",
+      "end_time": "2026-04-16T11:28:53.774321",
+      "duration_seconds": 1.790489,
+      "input_data": {
+        "hours_back": 48,
+        "min_news_count": 10,
+        "max_age_hours": 24
+      },
+      "output_data": {
+        "success": true,
+        "news_items": [
+          {
+            "id": 7227,
+            "title": "Iran Red Sea Shipping Threat: Trade Route Risks - Discovery Alert",
+            "summary": "Iran Red Sea Shipping Threat: Trade Route Risks &nbsp;&nbsp; Discovery Alert",
+            "content": "Iran Red Sea Shipping Threat: Trade Route Risks &nbsp;&nbsp; Discovery Alert",
+            "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5jNkZ5VUxqdmxmOXN2eG1icUlOT21XRWRZRnVrQVByXzBZOHI0a3Awdy1GRlVZdVZGU29XLTJ0WkhTd0NHMFZ2TXNwT21QR2lnNlh1UV9jUHh0NUJaXzFqX01PQ3l0NXlpTkZ3MHR4U3YxUQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Discovery Alert",
+            "published_at": "2026-04-16 12:57:28+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 1476906509,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE5jNkZ5VUxqdmxmOXN2eG1icUlOT21XRWRZRnVrQVByXzBZOHI0a3Awdy1GRlVZdVZGU29XLTJ0WkhTd0NHMFZ2TXNwT21QR2lnNlh1UV9jUHh0NUJaXzFqX01PQ3l0NXlpTkZ3MHR4U3YxUQ?oc=5",
+              "title": "Iran Red Sea Shipping Threat: Trade Route Risks - Discovery Alert",
+              "topic": "maritime security trade route disruptions chokepoints defense escalation",
+              "source": {
+                "href": "https://discoveryalert.com.au",
+                "title": "Discovery Alert"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMickFVX3lxTE5jNkZ5VUxqdmxmOXN2eG1icUlOT21XRWRZRnVrQVByXzBZOHI0a3Awdy1GRlVZdVZGU29XLTJ0WkhTd0NHMFZ2TXNwT21QR2lnNlh1UV9jUHh0NUJaXzFqX01PQ3l0NXlpTkZ3MHR4U3YxUQ?oc=5\" target=\"_blank\">Iran Red Sea Shipping Threat: Trade Route Risks</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Discovery Alert</font>",
+              "category": "geopolitical_strategic",
+              "published": "Thu, 16 Apr 2026 12:57:28 GMT",
+              "search_query": "cyber warfare state-sponsored infrastructure attacks national security"
+            }
+          },
+          {
+            "id": 7219,
+            "title": "India Zambia Critical Minerals Mining Partnership Talks - Discovery Alert",
+            "summary": "India Zambia Critical Minerals Mining Partnership Talks &nbsp;&nbsp; Discovery Alert",
+            "content": "India Zambia Critical Minerals Mining Partnership Talks &nbsp;&nbsp; Discovery Alert",
+            "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPdmRiQVRNbnZiYUF4bDZHQi13bmhNOTdVLTQtRW5vWGhDendjYThCR1MyeGdWa2otWmFuRFUtTlA3MkVPX1pVN3YtcE1WZ3hERTd5VlRYTnVqV3UyNG1jUEpYRnJPNGFvQkRreUd4SXZnUTlsZWhxVEE5aXpjUHBfVS1aV1YxUQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Discovery Alert",
+            "published_at": "2026-04-16 12:56:15+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 651893072,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPdmRiQVRNbnZiYUF4bDZHQi13bmhNOTdVLTQtRW5vWGhDendjYThCR1MyeGdWa2otWmFuRFUtTlA3MkVPX1pVN3YtcE1WZ3hERTd5VlRYTnVqV3UyNG1jUEpYRnJPNGFvQkRreUd4SXZnUTlsZWhxVEE5aXpjUHBfVS1aV1YxUQ?oc=5",
+              "title": "India Zambia Critical Minerals Mining Partnership Talks - Discovery Alert",
+              "topic": "geopolitical tensions strategic resource competition sovereignty",
+              "source": {
+                "href": "https://discoveryalert.com.au",
+                "title": "Discovery Alert"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMihgFBVV95cUxPdmRiQVRNbnZiYUF4bDZHQi13bmhNOTdVLTQtRW5vWGhDendjYThCR1MyeGdWa2otWmFuRFUtTlA3MkVPX1pVN3YtcE1WZ3hERTd5VlRYTnVqV3UyNG1jUEpYRnJPNGFvQkRreUd4SXZnUTlsZWhxVEE5aXpjUHBfVS1aV1YxUQ?oc=5\" target=\"_blank\">India Zambia Critical Minerals Mining Partnership Talks</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Discovery Alert</font>",
+              "category": "geopolitical_strategic",
+              "published": "Thu, 16 Apr 2026 12:56:15 GMT",
+              "search_query": "cyber warfare state-sponsored infrastructure attacks national security"
+            }
+          },
+          {
+            "id": 7241,
+            "title": "How the US and South Korea Can Secure Nuclear Supply Chains - The National Interest",
+            "summary": "How the US and South Korea Can Secure Nuclear Supply Chains &nbsp;&nbsp; The National Interest",
+            "content": "How the US and South Korea Can Secure Nuclear Supply Chains &nbsp;&nbsp; The National Interest",
+            "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPS25sWXlGbXFCZ1cyS01HRF9JVklBUEJLZjRoNWZjWndpX1QzV1IwelZwQlZ4UWVHbXRxVktyeGstVW5GMklidm5SSEo0SktJSE4zVWVHMVRFNGowbmpNdlNRbHFka1FqbUZFNHowa3pFNGdqaTJmdno4dXkzOGNTUEN1cFhHVlRnTXB3RFl4TGYtQnFfTUQ1Yi1UcTlxaF9SMmxyNFd2Y3dWUQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "The National Interest",
+            "published_at": "2026-04-16 12:03:18+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 416417443,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPS25sWXlGbXFCZ1cyS01HRF9JVklBUEJLZjRoNWZjWndpX1QzV1IwelZwQlZ4UWVHbXRxVktyeGstVW5GMklidm5SSEo0SktJSE4zVWVHMVRFNGowbmpNdlNRbHFka1FqbUZFNHowa3pFNGdqaTJmdno4dXkzOGNTUEN1cFhHVlRnTXB3RFl4TGYtQnFfTUQ1Yi1UcTlxaF9SMmxyNFd2Y3dWUQ?oc=5",
+              "title": "How the US and South Korea Can Secure Nuclear Supply Chains - The National Interest",
+              "topic": "nuclear energy uranium supply chain SMR modular reactors",
+              "source": {
+                "href": "https://nationalinterest.org",
+                "title": "The National Interest"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiqgFBVV95cUxPS25sWXlGbXFCZ1cyS01HRF9JVklBUEJLZjRoNWZjWndpX1QzV1IwelZwQlZ4UWVHbXRxVktyeGstVW5GMklidm5SSEo0SktJSE4zVWVHMVRFNGowbmpNdlNRbHFka1FqbUZFNHowa3pFNGdqaTJmdno4dXkzOGNTUEN1cFhHVlRnTXB3RFl4TGYtQnFfTUQ1Yi1UcTlxaF9SMmxyNFd2Y3dWUQ?oc=5\" target=\"_blank\">How the US and South Korea Can Secure Nuclear Supply Chains</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">The National Interest</font>",
+              "category": "energy_nuclear_transition",
+              "published": "Thu, 16 Apr 2026 12:03:18 GMT",
+              "search_query": "power grid stability electricity demand data center energy consumption"
+            }
+          },
+          {
+            "id": 7267,
+            "title": "The US$76,000 question can institutional momentum sustain the current market breakout - Binance",
+            "summary": "The US$76,000 question can institutional momentum sustain the current market breakout &nbsp;&nbsp; Binance",
+            "content": "The US$76,000 question can institutional momentum sustain the current market breakout &nbsp;&nbsp; Binance",
+            "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE43MGRlWFlLSWpkY2pCQ3hmQUpaRGoyQ0cxZlFGaS0ta3ZuT2g0WkRUOVBxNHVBWlRna01id2hMWVlQX3RVSTVvQjRBVjdRTTF4Skl0MUpoWXVWUzNZd3dVcTU5Wkw?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Binance",
+            "published_at": "2026-04-16 11:29:51+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 1589535890,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE43MGRlWFlLSWpkY2pCQ3hmQUpaRGoyQ0cxZlFGaS0ta3ZuT2g0WkRUOVBxNHVBWlRna01id2hMWVlQX3RVSTVvQjRBVjdRTTF4Skl0MUpoWXVWUzNZd3dVcTU5Wkw?oc=5",
+              "title": "The US$76,000 question can institutional momentum sustain the current market breakout - Binance",
+              "topic": "digital asset liquidity risk-on proxy venture capital crypto funding",
+              "source": {
+                "href": "https://www.binance.com",
+                "title": "Binance"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTE43MGRlWFlLSWpkY2pCQ3hmQUpaRGoyQ0cxZlFGaS0ta3ZuT2g0WkRUOVBxNHVBWlRna01id2hMWVlQX3RVSTVvQjRBVjdRTTF4Skl0MUpoWXVWUzNZd3dVcTU5Wkw?oc=5\" target=\"_blank\">The US$76,000 question can institutional momentum sustain the current market breakout</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Binance</font>",
+              "category": "digital_assets_crypto",
+              "published": "Thu, 16 Apr 2026 11:29:51 GMT",
+              "search_query": "blockchain enterprise integration tokenization real world assets RWA"
+            }
+          },
+          {
+            "id": 7202,
+            "title": "Noticia de prueba 1 - Mercado en movimiento",
+            "summary": "Summary de prueba 1: Eventos significativos en los mercados financieros.",
+            "content": "Contenido completo de la noticia 1 con an\u00e1lisis detallado del mercado.",
+            "url": "https://example.com/news-1",
+            "source": "Test Financial News",
+            "source_type": "article",
+            "author": "",
+            "published_at": "2026-04-16 10:58:39.996418+00:00",
+            "collected_at": "2026-04-16 15:58:41.170982+00:00",
+            "alpaca_id": 1000,
+            "serpapi_position": null,
+            "raw_data": {
+              "importance": "high"
+            }
+          },
+          {
+            "id": 7337,
+            "title": "Global Precast Construction Market to Reach $227.56 Billion by 2030 - Realty Plus Magazine",
+            "summary": "Global Precast Construction Market to Reach $227.56 Billion by 2030 &nbsp;&nbsp; Realty Plus Magazine",
+            "content": "Global Precast Construction Market to Reach $227.56 Billion by 2030 &nbsp;&nbsp; Realty Plus Magazine",
+            "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNTllTbFlYMjh5NWZHWXdDODJ6NWpTSE1kaVBlMnJqOGRHcFNjZkJwd2x2Z0hhTkY4N2dHZUpQa0haYmxKREc0R3NBQ3dsaUwxM2hQUkhIRmpBZldrQV83U3BBcGwwX21panpKcEh6blhGc0RzeXNpZFpqRnRyZm54ZVlIWlB0VGpCLWtBUXpQSjlaNDBteW9STW5jVzRNd01hUFgtY0d0Si00ZTJMaTRHWFdfR1UtWWx2?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Realty Plus Magazine",
+            "published_at": "2026-04-16 09:45:44+00:00",
+            "collected_at": "2026-04-16 16:28:30.167893+00:00",
+            "alpaca_id": 248252231,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNTllTbFlYMjh5NWZHWXdDODJ6NWpTSE1kaVBlMnJqOGRHcFNjZkJwd2x2Z0hhTkY4N2dHZUpQa0haYmxKREc0R3NBQ3dsaUwxM2hQUkhIRmpBZldrQV83U3BBcGwwX21panpKcEh6blhGc0RzeXNpZFpqRnRyZm54ZVlIWlB0VGpCLWtBUXpQSjlaNDBteW9STW5jVzRNd01hUFgtY0d0Si00ZTJMaTRHWFdfR1UtWWx2?oc=5",
+              "title": "Global Precast Construction Market to Reach $227.56 Billion by 2030 - Realty Plus Magazine",
+              "topic": "global construction infrastructure spending urban development projects",
+              "source": {
+                "href": "https://www.rprealtyplus.com",
+                "title": "Realty Plus Magazine"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiuAFBVV95cUxNTllTbFlYMjh5NWZHWXdDODJ6NWpTSE1kaVBlMnJqOGRHcFNjZkJwd2x2Z0hhTkY4N2dHZUpQa0haYmxKREc0R3NBQ3dsaUwxM2hQUkhIRmpBZldrQV83U3BBcGwwX21panpKcEh6blhGc0RzeXNpZFpqRnRyZm54ZVlIWlB0VGpCLWtBUXpQSjlaNDBteW9STW5jVzRNd01hUFgtY0d0Si00ZTJMaTRHWFdfR1UtWWx2?oc=5\" target=\"_blank\">Global Precast Construction Market to Reach $227.56 Billion by 2030</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Realty Plus Magazine</font>",
+              "category": "industrial_automotive",
+              "published": "Thu, 16 Apr 2026 09:45:44 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7203,
+            "title": "Noticia de prueba 2 - Mercado en movimiento",
+            "summary": "Summary de prueba 2: Eventos significativos en los mercados financieros.",
+            "content": "Contenido completo de la noticia 2 con an\u00e1lisis detallado del mercado.",
+            "url": "https://example.com/news-2",
+            "source": "Test Financial News",
+            "source_type": "article",
+            "author": "",
+            "published_at": "2026-04-16 08:58:41.217780+00:00",
+            "collected_at": "2026-04-16 15:58:42.404080+00:00",
+            "alpaca_id": 1001,
+            "serpapi_position": null,
+            "raw_data": {
+              "importance": "high"
+            }
+          },
+          {
+            "id": 7204,
+            "title": "Noticia de prueba 3 - Mercado en movimiento",
+            "summary": "Summary de prueba 3: Eventos significativos en los mercados financieros.",
+            "content": "Contenido completo de la noticia 3 con an\u00e1lisis detallado del mercado.",
+            "url": "https://example.com/news-3",
+            "source": "Test Financial News",
+            "source_type": "article",
+            "author": "",
+            "published_at": "2026-04-16 06:58:42.450785+00:00",
+            "collected_at": "2026-04-16 15:58:43.586503+00:00",
+            "alpaca_id": 1002,
+            "serpapi_position": null,
+            "raw_data": {
+              "importance": "high"
+            }
+          },
+          {
+            "id": 7205,
+            "title": "Noticia de prueba 4 - Mercado en movimiento",
+            "summary": "Summary de prueba 4: Eventos significativos en los mercados financieros.",
+            "content": "Contenido completo de la noticia 4 con an\u00e1lisis detallado del mercado.",
+            "url": "https://example.com/news-4",
+            "source": "Test Financial News",
+            "source_type": "article",
+            "author": "",
+            "published_at": "2026-04-16 04:58:43.623726+00:00",
+            "collected_at": "2026-04-16 15:58:44.959686+00:00",
+            "alpaca_id": 1003,
+            "serpapi_position": null,
+            "raw_data": {
+              "importance": "high"
+            }
+          },
+          {
+            "id": 7206,
+            "title": "Noticia de prueba 5 - Mercado en movimiento",
+            "summary": "Summary de prueba 5: Eventos significativos en los mercados financieros.",
+            "content": "Contenido completo de la noticia 5 con an\u00e1lisis detallado del mercado.",
+            "url": "https://example.com/news-5",
+            "source": "Test Financial News",
+            "source_type": "article",
+            "author": "",
+            "published_at": "2026-04-16 02:58:45.010470+00:00",
+            "collected_at": "2026-04-16 15:58:46.186358+00:00",
+            "alpaca_id": 1004,
+            "serpapi_position": null,
+            "raw_data": {
+              "importance": "high"
+            }
+          },
+          {
+            "id": 7207,
+            "title": "Noticia de prueba 6 - Mercado en movimiento",
+            "summary": "Summary de prueba 6: Eventos significativos en los mercados financieros.",
+            "content": "Contenido completo de la noticia 6 con an\u00e1lisis detallado del mercado.",
+            "url": "https://example.com/news-6",
+            "source": "Test Financial News",
+            "source_type": "article",
+            "author": "",
+            "published_at": "2026-04-16 00:58:46.238787+00:00",
+            "collected_at": "2026-04-16 15:58:47.416105+00:00",
+            "alpaca_id": 1005,
+            "serpapi_position": null,
+            "raw_data": {
+              "importance": "medium"
+            }
+          },
+          {
+            "id": 7242,
+            "title": "Eagle Nuclear Energy Provides Corporate Update, Advances Flagship Uranium Project - National Today",
+            "summary": "Eagle Nuclear Energy Provides Corporate Update, Advances Flagship Uranium Project &nbsp;&nbsp; National Today",
+            "content": "Eagle Nuclear Energy Provides Corporate Update, Advances Flagship Uranium Project &nbsp;&nbsp; National Today",
+            "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxONlpMTlQ2RkJCRTR4aVdWWXF3WmlpTzVQTXNJOVdaOEFVaFJ0czRlcHBVOW9PTm00dzZkUUdrLUNsZ0FKU1FGYzNHZnhHaFJLTzJHMmRXNmdsa0kybzFPSWtBN0U4QTZXcjN0M255TjRqYmc0bFNZS1FHY1UxaW9nQTNTVWJmMzFfVWFtUFFkc09DRmRDODBueVBGU2xMeWZsYlNSYW5XUDJiOVFjeVBIVXN6bHRnLXVXTmgxZGlvdXZtaUlyeHFnOFRhNG9WdUVpWkpCby13?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "National Today",
+            "published_at": "2026-04-15 23:01:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 1702892511,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxONlpMTlQ2RkJCRTR4aVdWWXF3WmlpTzVQTXNJOVdaOEFVaFJ0czRlcHBVOW9PTm00dzZkUUdrLUNsZ0FKU1FGYzNHZnhHaFJLTzJHMmRXNmdsa0kybzFPSWtBN0U4QTZXcjN0M255TjRqYmc0bFNZS1FHY1UxaW9nQTNTVWJmMzFfVWFtUFFkc09DRmRDODBueVBGU2xMeWZsYlNSYW5XUDJiOVFjeVBIVXN6bHRnLXVXTmgxZGlvdXZtaUlyeHFnOFRhNG9WdUVpWkpCby13?oc=5",
+              "title": "Eagle Nuclear Energy Provides Corporate Update, Advances Flagship Uranium Project - National Today",
+              "topic": "nuclear energy uranium supply chain SMR modular reactors",
+              "source": {
+                "href": "https://nationaltoday.com",
+                "title": "National Today"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi1gFBVV95cUxONlpMTlQ2RkJCRTR4aVdWWXF3WmlpTzVQTXNJOVdaOEFVaFJ0czRlcHBVOW9PTm00dzZkUUdrLUNsZ0FKU1FGYzNHZnhHaFJLTzJHMmRXNmdsa0kybzFPSWtBN0U4QTZXcjN0M255TjRqYmc0bFNZS1FHY1UxaW9nQTNTVWJmMzFfVWFtUFFkc09DRmRDODBueVBGU2xMeWZsYlNSYW5XUDJiOVFjeVBIVXN6bHRnLXVXTmgxZGlvdXZtaUlyeHFnOFRhNG9WdUVpWkpCby13?oc=5\" target=\"_blank\">Eagle Nuclear Energy Provides Corporate Update, Advances Flagship Uranium Project</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">National Today</font>",
+              "category": "energy_nuclear_transition",
+              "published": "Wed, 15 Apr 2026 23:01:00 GMT",
+              "search_query": "power grid stability electricity demand data center energy consumption"
+            }
+          },
+          {
+            "id": 7208,
+            "title": "Noticia de prueba 7 - Mercado en movimiento",
+            "summary": "Summary de prueba 7: Eventos significativos en los mercados financieros.",
+            "content": "Contenido completo de la noticia 7 con an\u00e1lisis detallado del mercado.",
+            "url": "https://example.com/news-7",
+            "source": "Test Financial News",
+            "source_type": "article",
+            "author": "",
+            "published_at": "2026-04-15 22:58:47.468010+00:00",
+            "collected_at": "2026-04-16 15:58:48.650792+00:00",
+            "alpaca_id": 1006,
+            "serpapi_position": null,
+            "raw_data": {
+              "importance": "medium"
+            }
+          },
+          {
+            "id": 7289,
+            "title": "World Mil Spec Packaging - Market Analysis, Forecast, Size, Trends and Insights - IndexBox",
+            "summary": "World Mil Spec Packaging - Market Analysis, Forecast, Size, Trends and Insights &nbsp;&nbsp; IndexBox",
+            "content": "World Mil Spec Packaging - Market Analysis, Forecast, Size, Trends and Insights &nbsp;&nbsp; IndexBox",
+            "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxONmNsLXV0OFFENVpZRHhjejlDbEhVZkhQMGJHeW1tZlFnNGRyeTlZYk81UVIzMHFfZl9iZEFpTzZSRFYtcFJtdzhveERaQ3g5NGppNWVQNXQ5cndjWUN6b3FkWm1QT19FLVpHUE5acUZXQkp4RHZHOEx6LTc3NklkR0liNV9SWWJ6SUhlZjk1Zk8yTjRrQnZJZXduYUlHei0wYUV5ZWNYc2xTRTZNcWxsZ3NmUHhhaTdKcUJYbDFMZndJTUxtS3dOcw?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "IndexBox",
+            "published_at": "2026-04-15 18:46:05+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 3529953725,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxONmNsLXV0OFFENVpZRHhjejlDbEhVZkhQMGJHeW1tZlFnNGRyeTlZYk81UVIzMHFfZl9iZEFpTzZSRFYtcFJtdzhveERaQ3g5NGppNWVQNXQ5cndjWUN6b3FkWm1QT19FLVpHUE5acUZXQkp4RHZHOEx6LTc3NklkR0liNV9SWWJ6SUhlZjk1Zk8yTjRrQnZJZXduYUlHei0wYUV5ZWNYc2xTRTZNcWxsZ3NmUHhhaTdKcUJYbDFMZndJTUxtS3dOcw?oc=5",
+              "title": "World Mil Spec Packaging - Market Analysis, Forecast, Size, Trends and Insights - IndexBox",
+              "topic": "defense procurement aerospace spending cycles military modernization",
+              "source": {
+                "href": "https://www.indexbox.io",
+                "title": "IndexBox"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiyAFBVV95cUxONmNsLXV0OFFENVpZRHhjejlDbEhVZkhQMGJHeW1tZlFnNGRyeTlZYk81UVIzMHFfZl9iZEFpTzZSRFYtcFJtdzhveERaQ3g5NGppNWVQNXQ5cndjWUN6b3FkWm1QT19FLVpHUE5acUZXQkp4RHZHOEx6LTc3NklkR0liNV9SWWJ6SUhlZjk1Zk8yTjRrQnZJZXduYUlHei0wYUV5ZWNYc2xTRTZNcWxsZ3NmUHhhaTdKcUJYbDFMZndJTUxtS3dOcw?oc=5\" target=\"_blank\">World Mil Spec Packaging - Market Analysis, Forecast, Size, Trends and Insights</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">IndexBox</font>",
+              "category": "industrial_automotive",
+              "published": "Wed, 15 Apr 2026 18:46:05 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7253,
+            "title": "US Strategic Metals Signs MOU with Virtus Minerals to Secure Direct U.S. Access to African Cobalt and Copper for Defense and Strategic Supply Chains - PR Newswire",
+            "summary": "US Strategic Metals Signs MOU with Virtus Minerals to Secure Direct U.S. Access to African Cobalt and Copper for Defense and Strategic Supply Chains &nbsp;&nbsp; PR Newswire",
+            "content": "US Strategic Metals Signs MOU with Virtus Minerals to Secure Direct U.S. Access to African Cobalt and Copper for Defense and Strategic Supply Chains &nbsp;&nbsp; PR Newswire",
+            "url": "https://news.google.com/rss/articles/CBMiqgJBVV95cUxOLWNzRTJpODIweGVKY3FOXzRVY3cySWNXRnhlY3BFTm5ibFk2NVhoOVFOVmE1NjB3N3p0WF9ydUoyUVhBdmFCcFRjTl9tZVVBREIzbWFZbEJ4cDd6XzkwbWVodlc3czc4YVBiNFlLdGZXTlRabElRdF9IR2E5M3ZmZmNpUmlTSFBRUldJLVdvN3RZbzVLQmllZ2pLQVJKOGV4UDlZU2pWczJHZXB2cWlXc2kwU2JTajVFcXNSLW1pck9pelVSUkZvT0NMN1NBbVY0M09kT2Njb3FDU0dtSFVXVjk2N3UtSHdHVFVfeEtWM1dzMHlnZzR3WndMOU1KdUdBVklVYnFJdE5vd2Z6d1RTcnZURXRFM3lsUm03LVBNVzBNbDUyZWdwbjdB?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "PR Newswire",
+            "published_at": "2026-04-15 16:58:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 2575342361,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiqgJBVV95cUxOLWNzRTJpODIweGVKY3FOXzRVY3cySWNXRnhlY3BFTm5ibFk2NVhoOVFOVmE1NjB3N3p0WF9ydUoyUVhBdmFCcFRjTl9tZVVBREIzbWFZbEJ4cDd6XzkwbWVodlc3czc4YVBiNFlLdGZXTlRabElRdF9IR2E5M3ZmZmNpUmlTSFBRUldJLVdvN3RZbzVLQmllZ2pLQVJKOGV4UDlZU2pWczJHZXB2cWlXc2kwU2JTajVFcXNSLW1pck9pelVSUkZvT0NMN1NBbVY0M09kT2Njb3FDU0dtSFVXVjk2N3UtSHdHVFVfeEtWM1dzMHlnZzR3WndMOU1KdUdBVklVYnFJdE5vd2Z6d1RTcnZURXRFM3lsUm03LVBNVzBNbDUyZWdwbjdB?oc=5",
+              "title": "US Strategic Metals Signs MOU with Virtus Minerals to Secure Direct U.S. Access to African Cobalt and Copper for Defense and Strategic Supply Chains - PR Newswire",
+              "topic": "lithium cobalt rare earth elements supply chain strategic minerals",
+              "source": {
+                "href": "https://www.prnewswire.com",
+                "title": "PR Newswire"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiqgJBVV95cUxOLWNzRTJpODIweGVKY3FOXzRVY3cySWNXRnhlY3BFTm5ibFk2NVhoOVFOVmE1NjB3N3p0WF9ydUoyUVhBdmFCcFRjTl9tZVVBREIzbWFZbEJ4cDd6XzkwbWVodlc3czc4YVBiNFlLdGZXTlRabElRdF9IR2E5M3ZmZmNpUmlTSFBRUldJLVdvN3RZbzVLQmllZ2pLQVJKOGV4UDlZU2pWczJHZXB2cWlXc2kwU2JTajVFcXNSLW1pck9pelVSUkZvT0NMN1NBbVY0M09kT2Njb3FDU0dtSFVXVjk2N3UtSHdHVFVfeEtWM1dzMHlnZzR3WndMOU1KdUdBVklVYnFJdE5vd2Z6d1RTcnZURXRFM3lsUm03LVBNVzBNbDUyZWdwbjdB?oc=5\" target=\"_blank\">US Strategic Metals Signs MOU with Virtus Minerals to Secure Direct U.S. Access to African Cobalt and Copper for Defense and Strategic Supply Chains</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">PR Newswire</font>",
+              "category": "commodities_resources",
+              "published": "Wed, 15 Apr 2026 16:58:00 GMT",
+              "search_query": "industrial metals warehouse levels LME inventories global demand signals"
+            }
+          },
+          {
+            "id": 7338,
+            "title": "Earthmoving Equipment Undercarriage Market to 2035 Driven by Accelerated Global Infrastructure Spending - IndexBox",
+            "summary": "Earthmoving Equipment Undercarriage Market to 2035 Driven by Accelerated Global Infrastructure Spending &nbsp;&nbsp; IndexBox",
+            "content": "Earthmoving Equipment Undercarriage Market to 2035 Driven by Accelerated Global Infrastructure Spending &nbsp;&nbsp; IndexBox",
+            "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQdG5scDVBT3lHVFFTSzZOU0RUVVozdnAyN0dXczBlbXNWSnIyRldxRDZQSHBVcGJtWl9KSG9CRl9CZVlnWURFRzAzRUdIa0F1T3E3c2dLNWxiVE5rYXI2TjJpRTBBMUMyRXVnVUtHZWZWenNUUnV4ZW1ieGFwM19rSVZvMHFIajhMWVFheGxKeEpKbmt3YWk1N0YzR0FUbzBrLU5mVHF1UnBUc1luMlZ3ODlJRU1GNFRGN2kzV3ZrcVNJdGg4emJITTZoSVB2QQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "IndexBox",
+            "published_at": "2026-04-15 15:46:05+00:00",
+            "collected_at": "2026-04-16 16:28:30.167893+00:00",
+            "alpaca_id": 2513223473,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQdG5scDVBT3lHVFFTSzZOU0RUVVozdnAyN0dXczBlbXNWSnIyRldxRDZQSHBVcGJtWl9KSG9CRl9CZVlnWURFRzAzRUdIa0F1T3E3c2dLNWxiVE5rYXI2TjJpRTBBMUMyRXVnVUtHZWZWenNUUnV4ZW1ieGFwM19rSVZvMHFIajhMWVFheGxKeEpKbmt3YWk1N0YzR0FUbzBrLU5mVHF1UnBUc1luMlZ3ODlJRU1GNFRGN2kzV3ZrcVNJdGg4emJITTZoSVB2QQ?oc=5",
+              "title": "Earthmoving Equipment Undercarriage Market to 2035 Driven by Accelerated Global Infrastructure Spending - IndexBox",
+              "topic": "global construction infrastructure spending urban development projects",
+              "source": {
+                "href": "https://www.indexbox.io",
+                "title": "IndexBox"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMizgFBVV95cUxQdG5scDVBT3lHVFFTSzZOU0RUVVozdnAyN0dXczBlbXNWSnIyRldxRDZQSHBVcGJtWl9KSG9CRl9CZVlnWURFRzAzRUdIa0F1T3E3c2dLNWxiVE5rYXI2TjJpRTBBMUMyRXVnVUtHZWZWenNUUnV4ZW1ieGFwM19rSVZvMHFIajhMWVFheGxKeEpKbmt3YWk1N0YzR0FUbzBrLU5mVHF1UnBUc1luMlZ3ODlJRU1GNFRGN2kzV3ZrcVNJdGg4emJITTZoSVB2QQ?oc=5\" target=\"_blank\">Earthmoving Equipment Undercarriage Market to 2035 Driven by Accelerated Global Infrastructure Spending</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">IndexBox</font>",
+              "category": "industrial_automotive",
+              "published": "Wed, 15 Apr 2026 15:46:05 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7336,
+            "title": "Construction Chemicals Market to Reach US$ 89.0 Billion by 2033 Expands Amid Infrastructure Growth and Sustainable Innovation - PR Newswire",
+            "summary": "Construction Chemicals Market to Reach US$ 89.0 Billion by 2033 Expands Amid Infrastructure Growth and Sustainable Innovation &nbsp;&nbsp; PR Newswire",
+            "content": "Construction Chemicals Market to Reach US$ 89.0 Billion by 2033 Expands Amid Infrastructure Growth and Sustainable Innovation &nbsp;&nbsp; PR Newswire",
+            "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxNNnR6dW5IZjFNTU5DdVhwNHJRRXRISERaQ2F5S1dDQTdEUldmUmRGQVYwQnItUlhQX1hDT3BoVTdrcTRPc0JLYUZnY0VGZjJFcXY0UU11RkVkaVBVb015OFZZeHpYYkVMb19BVHR4WEg0bHZRTlRjekdoclFIZEFWQm9ydVB2VWp4bU1QY182VXk0S0o0RWdZNllSa1AwdGJISE1rUjh4RlE3czBoa2pJQXVDaldNekpXXy1pREg2R3BTODFjNVJxQmpaRDdZQ0cyOHN2bnQ0dHFEU2hOLTFkTjgtNGdFZlYxek5tMzZsc24wR0ZOR0xTU2swZ1RaaWJ2QzRKVVU0cmY5U2hG?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "PR Newswire",
+            "published_at": "2026-04-15 14:35:00+00:00",
+            "collected_at": "2026-04-16 16:28:30.167893+00:00",
+            "alpaca_id": 571815996,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMijAJBVV95cUxNNnR6dW5IZjFNTU5DdVhwNHJRRXRISERaQ2F5S1dDQTdEUldmUmRGQVYwQnItUlhQX1hDT3BoVTdrcTRPc0JLYUZnY0VGZjJFcXY0UU11RkVkaVBVb015OFZZeHpYYkVMb19BVHR4WEg0bHZRTlRjekdoclFIZEFWQm9ydVB2VWp4bU1QY182VXk0S0o0RWdZNllSa1AwdGJISE1rUjh4RlE3czBoa2pJQXVDaldNekpXXy1pREg2R3BTODFjNVJxQmpaRDdZQ0cyOHN2bnQ0dHFEU2hOLTFkTjgtNGdFZlYxek5tMzZsc24wR0ZOR0xTU2swZ1RaaWJ2QzRKVVU0cmY5U2hG?oc=5",
+              "title": "Construction Chemicals Market to Reach US$ 89.0 Billion by 2033 Expands Amid Infrastructure Growth and Sustainable Innovation - PR Newswire",
+              "topic": "global construction infrastructure spending urban development projects",
+              "source": {
+                "href": "https://www.prnewswire.com",
+                "title": "PR Newswire"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMijAJBVV95cUxNNnR6dW5IZjFNTU5DdVhwNHJRRXRISERaQ2F5S1dDQTdEUldmUmRGQVYwQnItUlhQX1hDT3BoVTdrcTRPc0JLYUZnY0VGZjJFcXY0UU11RkVkaVBVb015OFZZeHpYYkVMb19BVHR4WEg0bHZRTlRjekdoclFIZEFWQm9ydVB2VWp4bU1QY182VXk0S0o0RWdZNllSa1AwdGJISE1rUjh4RlE3czBoa2pJQXVDaldNekpXXy1pREg2R3BTODFjNVJxQmpaRDdZQ0cyOHN2bnQ0dHFEU2hOLTFkTjgtNGdFZlYxek5tMzZsc24wR0ZOR0xTU2swZ1RaaWJ2QzRKVVU0cmY5U2hG?oc=5\" target=\"_blank\">Construction Chemicals Market to Reach US$ 89.0 Billion by 2033 Expands Amid Infrastructure Growth and Sustainable Innovation</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">PR Newswire</font>",
+              "category": "industrial_automotive",
+              "published": "Wed, 15 Apr 2026 14:35:00 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7323,
+            "title": "EU-US Critical Minerals Pact: Supply Chain Security - Discovery Alert",
+            "summary": "EU-US Critical Minerals Pact: Supply Chain Security &nbsp;&nbsp; Discovery Alert",
+            "content": "EU-US Critical Minerals Pact: Supply Chain Security &nbsp;&nbsp; Discovery Alert",
+            "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZ1hHZFUxWjFWNy14LTNRRmhXZWV1Zy1qVmhOaFZFZ1FiZEFlcGVDTEVXSjRORExaU3B2RmNTLTBfbjhBVTZNMnF5ZkJOWWcxMlQxTDJUOWpqSzlFeVQwSzdGeUt3MXN4ekctaVVBal9SWmtjV3JWMVNBMlB0c0ktUWNXT095NV9O?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Discovery Alert",
+            "published_at": "2026-04-15 11:31:43+00:00",
+            "collected_at": "2026-04-16 16:28:30.167893+00:00",
+            "alpaca_id": 512185305,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZ1hHZFUxWjFWNy14LTNRRmhXZWV1Zy1qVmhOaFZFZ1FiZEFlcGVDTEVXSjRORExaU3B2RmNTLTBfbjhBVTZNMnF5ZkJOWWcxMlQxTDJUOWpqSzlFeVQwSzdGeUt3MXN4ekctaVVBal9SWmtjV3JWMVNBMlB0c0ktUWNXT095NV9O?oc=5",
+              "title": "EU-US Critical Minerals Pact: Supply Chain Security - Discovery Alert",
+              "topic": "lithium cobalt rare earth elements supply chain strategic minerals",
+              "source": {
+                "href": "https://discoveryalert.com.au",
+                "title": "Discovery Alert"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiiAFBVV95cUxQZ1hHZFUxWjFWNy14LTNRRmhXZWV1Zy1qVmhOaFZFZ1FiZEFlcGVDTEVXSjRORExaU3B2RmNTLTBfbjhBVTZNMnF5ZkJOWWcxMlQxTDJUOWpqSzlFeVQwSzdGeUt3MXN4ekctaVVBal9SWmtjV3JWMVNBMlB0c0ktUWNXT095NV9O?oc=5\" target=\"_blank\">EU-US Critical Minerals Pact: Supply Chain Security</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Discovery Alert</font>",
+              "category": "commodities_resources",
+              "published": "Wed, 15 Apr 2026 11:31:43 GMT",
+              "search_query": "industrial metals warehouse levels LME inventories global demand signals"
+            }
+          },
+          {
+            "id": 7291,
+            "title": "World Diesel Fired Construction Generator Sets - Market Analysis, Forecast, Size, Trends and Insights - IndexBox",
+            "summary": "World Diesel Fired Construction Generator Sets - Market Analysis, Forecast, Size, Trends and Insights &nbsp;&nbsp; IndexBox",
+            "content": "World Diesel Fired Construction Generator Sets - Market Analysis, Forecast, Size, Trends and Insights &nbsp;&nbsp; IndexBox",
+            "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQTWlPZW1RTnlOZnZObk5yakdqai1PMmxCaENBQ0F4SFU4cVZPNldCV2RkanJHZmpiNVJWVlpuVlczLXI4RDJZSlluLUthR04zQTIxSWd3QnlMR3lTenBoelgwUzY3ci12Qm5tbjJ0YWJKTEFzcG1JRHV3a1BHQmg5cEIxdVk4WnAtNWxrVDdkVVlsajRrSEJzUHlwaXJxYmlVaW9aRGtkakh4QjlDeUtyaERLSjlzc0k0RjNqTWhnTWF3NFB5T2huQ0lCTVhJUHBoRWJmblNmbC02RVU?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "IndexBox",
+            "published_at": "2026-04-15 10:31:05+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 2552477660,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQTWlPZW1RTnlOZnZObk5yakdqai1PMmxCaENBQ0F4SFU4cVZPNldCV2RkanJHZmpiNVJWVlpuVlczLXI4RDJZSlluLUthR04zQTIxSWd3QnlMR3lTenBoelgwUzY3ci12Qm5tbjJ0YWJKTEFzcG1JRHV3a1BHQmg5cEIxdVk4WnAtNWxrVDdkVVlsajRrSEJzUHlwaXJxYmlVaW9aRGtkakh4QjlDeUtyaERLSjlzc0k0RjNqTWhnTWF3NFB5T2huQ0lCTVhJUHBoRWJmblNmbC02RVU?oc=5",
+              "title": "World Diesel Fired Construction Generator Sets - Market Analysis, Forecast, Size, Trends and Insights - IndexBox",
+              "topic": "global construction infrastructure spending urban development projects",
+              "source": {
+                "href": "https://www.indexbox.io",
+                "title": "IndexBox"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi2wFBVV95cUxQTWlPZW1RTnlOZnZObk5yakdqai1PMmxCaENBQ0F4SFU4cVZPNldCV2RkanJHZmpiNVJWVlpuVlczLXI4RDJZSlluLUthR04zQTIxSWd3QnlMR3lTenBoelgwUzY3ci12Qm5tbjJ0YWJKTEFzcG1JRHV3a1BHQmg5cEIxdVk4WnAtNWxrVDdkVVlsajRrSEJzUHlwaXJxYmlVaW9aRGtkakh4QjlDeUtyaERLSjlzc0k0RjNqTWhnTWF3NFB5T2huQ0lCTVhJUHBoRWJmblNmbC02RVU?oc=5\" target=\"_blank\">World Diesel Fired Construction Generator Sets - Market Analysis, Forecast, Size, Trends and Insights</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">IndexBox</font>",
+              "category": "industrial_automotive",
+              "published": "Wed, 15 Apr 2026 10:31:05 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7256,
+            "title": "The Central Bank Gold Rush: Strategic Intentions and What It Means for Your Wealth - KuCoin",
+            "summary": "The Central Bank Gold Rush: Strategic Intentions and What It Means for Your Wealth &nbsp;&nbsp; KuCoin",
+            "content": "The Central Bank Gold Rush: Strategic Intentions and What It Means for Your Wealth &nbsp;&nbsp; KuCoin",
+            "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOWm54YWt6ZUtRb05QSWp3Z0FfdzZHY2J0UmRyRXBFSXJsVkdyU0VyUy1ZYURwUWlPclU5enloWWk2eVFfNUFxY2pWbVRnb3o5VDUzeVFxZzBsamc5RFliX00tQ3RoY2hEbFppQUoxejBNWEtLeUd1M1N5V2gzbk9ldVpDdk1XRkplN1NkalVTRGpac05IazEzQ3p4X19qVEZiMzREZUNJb2RneWNTaGc?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "KuCoin",
+            "published_at": "2026-04-15 09:44:18+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 185089330,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOWm54YWt6ZUtRb05QSWp3Z0FfdzZHY2J0UmRyRXBFSXJsVkdyU0VyUy1ZYURwUWlPclU5enloWWk2eVFfNUFxY2pWbVRnb3o5VDUzeVFxZzBsamc5RFliX00tQ3RoY2hEbFppQUoxejBNWEtLeUd1M1N5V2gzbk9ldVpDdk1XRkplN1NkalVTRGpac05IazEzQ3p4X19qVEZiMzREZUNJb2RneWNTaGc?oc=5",
+              "title": "The Central Bank Gold Rush: Strategic Intentions and What It Means for Your Wealth - KuCoin",
+              "topic": "gold price drivers real yields sovereign central bank buying hedging",
+              "source": {
+                "href": "https://www.kucoin.com",
+                "title": "KuCoin"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMirgFBVV95cUxOWm54YWt6ZUtRb05QSWp3Z0FfdzZHY2J0UmRyRXBFSXJsVkdyU0VyUy1ZYURwUWlPclU5enloWWk2eVFfNUFxY2pWbVRnb3o5VDUzeVFxZzBsamc5RFliX00tQ3RoY2hEbFppQUoxejBNWEtLeUd1M1N5V2gzbk9ldVpDdk1XRkplN1NkalVTRGpac05IazEzQ3p4X19qVEZiMzREZUNJb2RneWNTaGc?oc=5\" target=\"_blank\">The Central Bank Gold Rush: Strategic Intentions and What It Means for Your Wealth</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">KuCoin</font>",
+              "category": "commodities_resources",
+              "published": "Wed, 15 Apr 2026 09:44:18 GMT",
+              "search_query": "industrial metals warehouse levels LME inventories global demand signals"
+            }
+          },
+          {
+            "id": 7333,
+            "title": "Germany Ammunition Market worth $8.99 billion by 2031, with a CAGR of 14.9% - industrytoday.co.uk",
+            "summary": "Germany Ammunition Market worth $8.99 billion by 2031, with a CAGR of 14.9% &nbsp;&nbsp; industrytoday.co.uk",
+            "content": "Germany Ammunition Market worth $8.99 billion by 2031, with a CAGR of 14.9% &nbsp;&nbsp; industrytoday.co.uk",
+            "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOYUFRak9LMFBTZHd0R0J3emhnREt6bzI0NnF1eHdmM2pQakRYMEtpYzFDS1NVTXppYkkwaEdqTUhtaHBBRFFnNUV3ajlheFAyaFNmSlhxMkhHZ1Bzb3NhcGw3RHNSYnFXTmR1UDhjUXoxY3lFMlVkb1lVNFNBZGxyWDY4TDdJMU9lQ0I3cm5sVFJVWEU4WEtub1Z6TUtacHpIR2FIbXU5SC1JY1dY?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "industrytoday.co.uk",
+            "published_at": "2026-04-15 07:51:29+00:00",
+            "collected_at": "2026-04-16 16:28:30.167893+00:00",
+            "alpaca_id": 184909533,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOYUFRak9LMFBTZHd0R0J3emhnREt6bzI0NnF1eHdmM2pQakRYMEtpYzFDS1NVTXppYkkwaEdqTUhtaHBBRFFnNUV3ajlheFAyaFNmSlhxMkhHZ1Bzb3NhcGw3RHNSYnFXTmR1UDhjUXoxY3lFMlVkb1lVNFNBZGxyWDY4TDdJMU9lQ0I3cm5sVFJVWEU4WEtub1Z6TUtacHpIR2FIbXU5SC1JY1dY?oc=5",
+              "title": "Germany Ammunition Market worth $8.99 billion by 2031, with a CAGR of 14.9% - industrytoday.co.uk",
+              "topic": "defense procurement aerospace spending cycles military modernization",
+              "source": {
+                "href": "https://industrytoday.co.uk",
+                "title": "industrytoday.co.uk"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMirAFBVV95cUxOYUFRak9LMFBTZHd0R0J3emhnREt6bzI0NnF1eHdmM2pQakRYMEtpYzFDS1NVTXppYkkwaEdqTUhtaHBBRFFnNUV3ajlheFAyaFNmSlhxMkhHZ1Bzb3NhcGw3RHNSYnFXTmR1UDhjUXoxY3lFMlVkb1lVNFNBZGxyWDY4TDdJMU9lQ0I3cm5sVFJVWEU4WEtub1Z6TUtacHpIR2FIbXU5SC1JY1dY?oc=5\" target=\"_blank\">Germany Ammunition Market worth $8.99 billion by 2031, with a CAGR of 14.9%</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">industrytoday.co.uk</font>",
+              "category": "industrial_automotive",
+              "published": "Wed, 15 Apr 2026 07:51:29 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7292,
+            "title": "Construction Equipment Market Size worth USD 287.95 Billion by 2032, Exclusive Report by Maximize Market - EIN News",
+            "summary": "Construction Equipment Market Size worth USD 287.95 Billion by 2032, Exclusive Report by Maximize Market &nbsp;&nbsp; EIN News",
+            "content": "Construction Equipment Market Size worth USD 287.95 Billion by 2032, Exclusive Report by Maximize Market &nbsp;&nbsp; EIN News",
+            "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxPcVhCb05Bck1DUTVNaFFmbjZLa1YtV1N5LTVSYTZpdVdHR3J5MzRPX0pUcmhoQUFyR2VWeHZxeWo5djBoeU9jSjljUTU2QkF6QTJtejBSVVBTaFkya0JOaktHNWt1QkoybVJGVHNFTmlYRWdYZ2dHa0Y2NVJBVDB5dTlGMnVGb3ZpZ3RDZW1fWDFEdzktOGV3ZHFHYzJmcUNxdGl5anJVV0M0YUFXVVplakctT080OVlVV3RTdHdxcG5XLURZNnpkTFhGbTZyc0xEZXhhazJuNUVDcGJZdWpxYmF5UWZXaHZvejJFU2FrVdIB7wFBVV95cUxPcVhCb05Bck1DUTVNaFFmbjZLa1YtV1N5LTVSYTZpdVdHR3J5MzRPX0pUcmhoQUFyR2VWeHZxeWo5djBoeU9jSjljUTU2QkF6QTJtejBSVVBTaFkya0JOaktHNWt1QkoybVJGVHNFTmlYRWdYZ2dHa0Y2NVJBVDB5dTlGMnVGb3ZpZ3RDZW1fWDFEdzktOGV3ZHFHYzJmcUNxdGl5anJVV0M0YUFXVVplakctT080OVlVV3RTdHdxcG5XLURZNnpkTFhGbTZyc0xEZXhhazJuNUVDcGJZdWpxYmF5UWZXaHZvejJFU2FrVQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "EIN News",
+            "published_at": "2026-04-15 07:18:32+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 775780990,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxPcVhCb05Bck1DUTVNaFFmbjZLa1YtV1N5LTVSYTZpdVdHR3J5MzRPX0pUcmhoQUFyR2VWeHZxeWo5djBoeU9jSjljUTU2QkF6QTJtejBSVVBTaFkya0JOaktHNWt1QkoybVJGVHNFTmlYRWdYZ2dHa0Y2NVJBVDB5dTlGMnVGb3ZpZ3RDZW1fWDFEdzktOGV3ZHFHYzJmcUNxdGl5anJVV0M0YUFXVVplakctT080OVlVV3RTdHdxcG5XLURZNnpkTFhGbTZyc0xEZXhhazJuNUVDcGJZdWpxYmF5UWZXaHZvejJFU2FrVdIB7wFBVV95cUxPcVhCb05Bck1DUTVNaFFmbjZLa1YtV1N5LTVSYTZpdVdHR3J5MzRPX0pUcmhoQUFyR2VWeHZxeWo5djBoeU9jSjljUTU2QkF6QTJtejBSVVBTaFkya0JOaktHNWt1QkoybVJGVHNFTmlYRWdYZ2dHa0Y2NVJBVDB5dTlGMnVGb3ZpZ3RDZW1fWDFEdzktOGV3ZHFHYzJmcUNxdGl5anJVV0M0YUFXVVplakctT080OVlVV3RTdHdxcG5XLURZNnpkTFhGbTZyc0xEZXhhazJuNUVDcGJZdWpxYmF5UWZXaHZvejJFU2FrVQ?oc=5",
+              "title": "Construction Equipment Market Size worth USD 287.95 Billion by 2032, Exclusive Report by Maximize Market - EIN News",
+              "topic": "global construction infrastructure spending urban development projects",
+              "source": {
+                "href": "https://www.einnews.com",
+                "title": "EIN News"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi7wFBVV95cUxPcVhCb05Bck1DUTVNaFFmbjZLa1YtV1N5LTVSYTZpdVdHR3J5MzRPX0pUcmhoQUFyR2VWeHZxeWo5djBoeU9jSjljUTU2QkF6QTJtejBSVVBTaFkya0JOaktHNWt1QkoybVJGVHNFTmlYRWdYZ2dHa0Y2NVJBVDB5dTlGMnVGb3ZpZ3RDZW1fWDFEdzktOGV3ZHFHYzJmcUNxdGl5anJVV0M0YUFXVVplakctT080OVlVV3RTdHdxcG5XLURZNnpkTFhGbTZyc0xEZXhhazJuNUVDcGJZdWpxYmF5UWZXaHZvejJFU2FrVdIB7wFBVV95cUxPcVhCb05Bck1DUTVNaFFmbjZLa1YtV1N5LTVSYTZpdVdHR3J5MzRPX0pUcmhoQUFyR2VWeHZxeWo5djBoeU9jSjljUTU2QkF6QTJtejBSVVBTaFkya0JOaktHNWt1QkoybVJGVHNFTmlYRWdYZ2dHa0Y2NVJBVDB5dTlGMnVGb3ZpZ3RDZW1fWDFEdzktOGV3ZHFHYzJmcUNxdGl5anJVV0M0YUFXVVplakctT080OVlVV3RTdHdxcG5XLURZNnpkTFhGbTZyc0xEZXhhazJuNUVDcGJZdWpxYmF5UWZXaHZvejJFU2FrVQ?oc=5\" target=\"_blank\">Construction Equipment Market Size worth USD 287.95 Billion by 2032, Exclusive Report by Maximize Market</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">EIN News</font>",
+              "category": "industrial_automotive",
+              "published": "Wed, 15 Apr 2026 07:18:32 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7316,
+            "title": "India Eyes IMEC As Secure Trade Alternative Amid Escalating Houthi Threats In Bab el-Mandeb Strait: Report - Defence.in",
+            "summary": "India Eyes IMEC As Secure Trade Alternative Amid Escalating Houthi Threats In Bab el-Mandeb Strait: Report &nbsp;&nbsp; Defence.in",
+            "content": "India Eyes IMEC As Secure Trade Alternative Amid Escalating Houthi Threats In Bab el-Mandeb Strait: Report &nbsp;&nbsp; Defence.in",
+            "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOVm5BR0dxb0xpcmhPcXJZd2ZXM1FHMC1Tb2VTQk5Dc1k1MVozTG9xOGxrR0RXWEdSTUZteE82M0RFbTdOM1lFVmZ4ckczZm94NTdnczVuSHhfNE5JUEN5T1NiZUhGOTZRNXhLaDFvRHJmZWZ3N3ZMWnBKUWg3RUpYVkVtMm41d1haWXdXUlJSQ0tIb0ZRcUYtVWFsek1jOG5LLU0ySkdOMXhNV3R3XzRvZWpwcW9sUzlGTHpVZUxHVlNFQW13U1BfUjB6UjF6b3Z6S1V6VUZ3?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Defence.in",
+            "published_at": "2026-04-15 06:08:05+00:00",
+            "collected_at": "2026-04-16 16:28:30.167893+00:00",
+            "alpaca_id": 897702287,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOVm5BR0dxb0xpcmhPcXJZd2ZXM1FHMC1Tb2VTQk5Dc1k1MVozTG9xOGxrR0RXWEdSTUZteE82M0RFbTdOM1lFVmZ4ckczZm94NTdnczVuSHhfNE5JUEN5T1NiZUhGOTZRNXhLaDFvRHJmZWZ3N3ZMWnBKUWg3RUpYVkVtMm41d1haWXdXUlJSQ0tIb0ZRcUYtVWFsek1jOG5LLU0ySkdOMXhNV3R3XzRvZWpwcW9sUzlGTHpVZUxHVlNFQW13U1BfUjB6UjF6b3Z6S1V6VUZ3?oc=5",
+              "title": "India Eyes IMEC As Secure Trade Alternative Amid Escalating Houthi Threats In Bab el-Mandeb Strait: Report - Defence.in",
+              "topic": "maritime security trade route disruptions chokepoints defense escalation",
+              "source": {
+                "href": "https://defence.in",
+                "title": "Defence.in"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi1gFBVV95cUxOVm5BR0dxb0xpcmhPcXJZd2ZXM1FHMC1Tb2VTQk5Dc1k1MVozTG9xOGxrR0RXWEdSTUZteE82M0RFbTdOM1lFVmZ4ckczZm94NTdnczVuSHhfNE5JUEN5T1NiZUhGOTZRNXhLaDFvRHJmZWZ3N3ZMWnBKUWg3RUpYVkVtMm41d1haWXdXUlJSQ0tIb0ZRcUYtVWFsek1jOG5LLU0ySkdOMXhNV3R3XzRvZWpwcW9sUzlGTHpVZUxHVlNFQW13U1BfUjB6UjF6b3Z6S1V6VUZ3?oc=5\" target=\"_blank\">India Eyes IMEC As Secure Trade Alternative Amid Escalating Houthi Threats In Bab el-Mandeb Strait: Report</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Defence.in</font>",
+              "category": "geopolitical_strategic",
+              "published": "Wed, 15 Apr 2026 06:08:05 GMT",
+              "search_query": "cyber warfare state-sponsored infrastructure attacks national security"
+            }
+          },
+          {
+            "id": 7339,
+            "title": "Kajima Corp stock (JP3270000007): Why does its infrastructure expertise matter more now for global i - AD HOC NEWS",
+            "summary": "Kajima Corp stock (JP3270000007): Why does its infrastructure expertise matter more now for global i &nbsp;&nbsp; AD HOC NEWS",
+            "content": "Kajima Corp stock (JP3270000007): Why does its infrastructure expertise matter more now for global i &nbsp;&nbsp; AD HOC NEWS",
+            "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNRjd4aTZIVU1EWHp2c18tdWdoT3c0QmNNQU9jSFZRTldUUENsOHJIYkY0ZG04Tnd0ZG82N19xQ3VSTjBGa0J6RjJCR2laTFYyVlJNcVF1U2Z1c05iS0ExM3YxLUl2UnZ4ZGIxOVRYTTJ4a1JjZGQyN2c1cGlrTzNWeEUyUXBZczhzQkN2b3JiaU9sOFpCOXJmTDE3dWVKbFhudVRoYnRpYXA2Z2xTdGNXY3NiTEFtS3NvUDdjN3VlSQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "AD HOC NEWS",
+            "published_at": "2026-04-15 03:57:52+00:00",
+            "collected_at": "2026-04-16 16:28:30.167893+00:00",
+            "alpaca_id": 2987166404,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNRjd4aTZIVU1EWHp2c18tdWdoT3c0QmNNQU9jSFZRTldUUENsOHJIYkY0ZG04Tnd0ZG82N19xQ3VSTjBGa0J6RjJCR2laTFYyVlJNcVF1U2Z1c05iS0ExM3YxLUl2UnZ4ZGIxOVRYTTJ4a1JjZGQyN2c1cGlrTzNWeEUyUXBZczhzQkN2b3JiaU9sOFpCOXJmTDE3dWVKbFhudVRoYnRpYXA2Z2xTdGNXY3NiTEFtS3NvUDdjN3VlSQ?oc=5",
+              "title": "Kajima Corp stock (JP3270000007): Why does its infrastructure expertise matter more now for global i - AD HOC NEWS",
+              "topic": "global construction infrastructure spending urban development projects",
+              "source": {
+                "href": "https://www.ad-hoc-news.de",
+                "title": "AD HOC NEWS"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMivwFBVV95cUxNRjd4aTZIVU1EWHp2c18tdWdoT3c0QmNNQU9jSFZRTldUUENsOHJIYkY0ZG04Tnd0ZG82N19xQ3VSTjBGa0J6RjJCR2laTFYyVlJNcVF1U2Z1c05iS0ExM3YxLUl2UnZ4ZGIxOVRYTTJ4a1JjZGQyN2c1cGlrTzNWeEUyUXBZczhzQkN2b3JiaU9sOFpCOXJmTDE3dWVKbFhudVRoYnRpYXA2Z2xTdGNXY3NiTEFtS3NvUDdjN3VlSQ?oc=5\" target=\"_blank\">Kajima Corp stock (JP3270000007): Why does its infrastructure expertise matter more now for global i</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">AD HOC NEWS</font>",
+              "category": "industrial_automotive",
+              "published": "Wed, 15 Apr 2026 03:57:52 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7305,
+            "title": "Thai household debt hits 86.7% of GDP as borrowing shifts to daily spending - Nation Thailand",
+            "summary": "Thai household debt hits 86.7% of GDP as borrowing shifts to daily spending &nbsp;&nbsp; Nation Thailand",
+            "content": "Thai household debt hits 86.7% of GDP as borrowing shifts to daily spending &nbsp;&nbsp; Nation Thailand",
+            "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBKXzNVbzhLWWdkQzI2aWVxMnpqUElEbGUxWVpOR0hWTEkxMlctN3JvdzZ1SUlWdUVnVDNBaHVVckdFc2VlSGVqay05azhwU1dnRHA2LU9DXzVJNkRNYkZjb1pZY080cTA?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Nation Thailand",
+            "published_at": "2026-04-15 03:56:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 2840162019,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBKXzNVbzhLWWdkQzI2aWVxMnpqUElEbGUxWVpOR0hWTEkxMlctN3JvdzZ1SUlWdUVnVDNBaHVVckdFc2VlSGVqay05azhwU1dnRHA2LU9DXzVJNkRNYkZjb1pZY080cTA?oc=5",
+              "title": "Thai household debt hits 86.7% of GDP as borrowing shifts to daily spending - Nation Thailand",
+              "topic": "household debt personal spending data savings rate exhaustion cost of living",
+              "source": {
+                "href": "https://www.nationthailand.com",
+                "title": "Nation Thailand"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBKXzNVbzhLWWdkQzI2aWVxMnpqUElEbGUxWVpOR0hWTEkxMlctN3JvdzZ1SUlWdUVnVDNBaHVVckdFc2VlSGVqay05azhwU1dnRHA2LU9DXzVJNkRNYkZjb1pZY080cTA?oc=5\" target=\"_blank\">Thai household debt hits 86.7% of GDP as borrowing shifts to daily spending</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Nation Thailand</font>",
+              "category": "consumer_retail_dynamics",
+              "published": "Wed, 15 Apr 2026 03:56:00 GMT",
+              "search_query": "labor market tightness real wage growth unemployment claims impact layoffs"
+            }
+          },
+          {
+            "id": 7217,
+            "title": "EUR/USD Soars: Currency Pair Surges Past 1.1800 as US Producer Inflation Takes Center Stage - CryptoRank",
+            "summary": "EUR/USD Soars: Currency Pair Surges Past 1.1800 as US Producer Inflation Takes Center Stage &nbsp;&nbsp; CryptoRank",
+            "content": "EUR/USD Soars: Currency Pair Surges Past 1.1800 as US Producer Inflation Takes Center Stage &nbsp;&nbsp; CryptoRank",
+            "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBpT0dyS3dRLUZaaUVmWU9WekczNUVJWFFkd1o5bU90dWI5NHlCbUtFSmhCci1zaW5fbS1mZUVGSHlxUm81VWdRZHBfSkRPRnZMN2lua1RkcHdvMWNJVmVfVWN4RHdqMnlSUFBmWThFOGJiSTBrZzZ1enFfVlNLSlE?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "CryptoRank",
+            "published_at": "2026-04-14 23:15:58+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 1102152019,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBpT0dyS3dRLUZaaUVmWU9WekczNUVJWFFkd1o5bU90dWI5NHlCbUtFSmhCci1zaW5fbS1mZUVGSHlxUm81VWdRZHBfSkRPRnZMN2lua1RkcHdvMWNJVmVfVWN4RHdqMnlSUFBmWThFOGJiSTBrZzZ1enFfVlNLSlE?oc=5",
+              "title": "EUR/USD Soars: Currency Pair Surges Past 1.1800 as US Producer Inflation Takes Center Stage - CryptoRank",
+              "topic": "currency volatility DXY dollar strength global FX intervention disinflation trends",
+              "source": {
+                "href": "https://cryptorank.io",
+                "title": "CryptoRank"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMif0FVX3lxTFBpT0dyS3dRLUZaaUVmWU9WekczNUVJWFFkd1o5bU90dWI5NHlCbUtFSmhCci1zaW5fbS1mZUVGSHlxUm81VWdRZHBfSkRPRnZMN2lua1RkcHdvMWNJVmVfVWN4RHdqMnlSUFBmWThFOGJiSTBrZzZ1enFfVlNLSlE?oc=5\" target=\"_blank\">EUR/USD Soars: Currency Pair Surges Past 1.1800 as US Producer Inflation Takes Center Stage</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">CryptoRank</font>",
+              "category": "macro_monetary",
+              "published": "Tue, 14 Apr 2026 23:15:58 GMT",
+              "search_query": "currency volatility DXY dollar strength global FX intervention disinflation trends"
+            }
+          },
+          {
+            "id": 7326,
+            "title": "Crypto Bull Run Outlook 2026: Key Signals from the 2025 Cycle - CoinDCX",
+            "summary": "Crypto Bull Run Outlook 2026: Key Signals from the 2025 Cycle &nbsp;&nbsp; CoinDCX",
+            "content": "Crypto Bull Run Outlook 2026: Key Signals from the 2025 Cycle &nbsp;&nbsp; CoinDCX",
+            "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBPdGQ2OWRDTHE1SWNzMFQ5bmJWRlZMNm8teDNwU0hLdW5ZcXFQM0huZUlhcGNKYUhaMnBOSjhYMVM2cjFjUVdLUzVCd1RmdDRzRXU4OFdxOUQ2YUp3bFpQWUZ1WEU5dlUya004?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "CoinDCX",
+            "published_at": "2026-04-14 17:30:00+00:00",
+            "collected_at": "2026-04-16 16:28:30.167893+00:00",
+            "alpaca_id": 3005096440,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBPdGQ2OWRDTHE1SWNzMFQ5bmJWRlZMNm8teDNwU0hLdW5ZcXFQM0huZUlhcGNKYUhaMnBOSjhYMVM2cjFjUVdLUzVCd1RmdDRzRXU4OFdxOUQ2YUp3bFpQWUZ1WEU5dlUya004?oc=5",
+              "title": "Crypto Bull Run Outlook 2026: Key Signals from the 2025 Cycle - CoinDCX",
+              "topic": "bitcoin institutional adoption spot ETF inflows outflows asset management",
+              "source": {
+                "href": "https://coindcx.com",
+                "title": "CoinDCX"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTFBPdGQ2OWRDTHE1SWNzMFQ5bmJWRlZMNm8teDNwU0hLdW5ZcXFQM0huZUlhcGNKYUhaMnBOSjhYMVM2cjFjUVdLUzVCd1RmdDRzRXU4OFdxOUQ2YUp3bFpQWUZ1WEU5dlUya004?oc=5\" target=\"_blank\">Crypto Bull Run Outlook 2026: Key Signals from the 2025 Cycle</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">CoinDCX</font>",
+              "category": "digital_assets_crypto",
+              "published": "Tue, 14 Apr 2026 17:30:00 GMT",
+              "search_query": "blockchain enterprise integration tokenization real world assets RWA"
+            }
+          },
+          {
+            "id": 7261,
+            "title": "BlackRock Bitcoin ETF Achieves Staggering $935M Q1 Inflow Milestone - Binance",
+            "summary": "BlackRock Bitcoin ETF Achieves Staggering $935M Q1 Inflow Milestone &nbsp;&nbsp; Binance",
+            "content": "BlackRock Bitcoin ETF Achieves Staggering $935M Q1 Inflow Milestone &nbsp;&nbsp; Binance",
+            "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9wTjRMTWpzYndyaFYzLXBMTFozUHVPZ0luMWhXXzlsMkNWWTJlM2tJWDQ3dm5KVHkwTGJhSUFSOVMwN0h2ZEhUeVA3ekJKMEstbVY3MFRkZWJYUEY0Vmw4NkVaUUM?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Binance",
+            "published_at": "2026-04-14 17:03:04+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 1730336954,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9wTjRMTWpzYndyaFYzLXBMTFozUHVPZ0luMWhXXzlsMkNWWTJlM2tJWDQ3dm5KVHkwTGJhSUFSOVMwN0h2ZEhUeVA3ekJKMEstbVY3MFRkZWJYUEY0Vmw4NkVaUUM?oc=5",
+              "title": "BlackRock Bitcoin ETF Achieves Staggering $935M Q1 Inflow Milestone - Binance",
+              "topic": "bitcoin institutional adoption spot ETF inflows outflows asset management",
+              "source": {
+                "href": "https://www.binance.com",
+                "title": "Binance"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTE9wTjRMTWpzYndyaFYzLXBMTFozUHVPZ0luMWhXXzlsMkNWWTJlM2tJWDQ3dm5KVHkwTGJhSUFSOVMwN0h2ZEhUeVA3ekJKMEstbVY3MFRkZWJYUEY0Vmw4NkVaUUM?oc=5\" target=\"_blank\">BlackRock Bitcoin ETF Achieves Staggering $935M Q1 Inflow Milestone</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Binance</font>",
+              "category": "digital_assets_crypto",
+              "published": "Tue, 14 Apr 2026 17:03:04 GMT",
+              "search_query": "blockchain enterprise integration tokenization real world assets RWA"
+            }
+          },
+          {
+            "id": 7329,
+            "title": "New weakening China trade and US inflation data means Iran economic contagion is spreading, in unique setup for Bitcoin - CryptoRank",
+            "summary": "New weakening China trade and US inflation data means Iran economic contagion is spreading, in unique setup for Bitcoin &nbsp;&nbsp; CryptoRank",
+            "content": "New weakening China trade and US inflation data means Iran economic contagion is spreading, in unique setup for Bitcoin &nbsp;&nbsp; CryptoRank",
+            "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxOVFo4RmRQbk0zRkpTVjBzV0MzN1RVMnpQM2xqaFV4UjctZHNVLXJhNzlvNy1JRE5wTFZsZ09uVHdOUThSSVNFS1lFUHRfczZUS3NKQ1FpRUJZdFV1ekx2UEFtRmVOZUNrU253dnRPR29RMFlOdDdFTjUxYzhaWHRTM3RJbjUzN3ZEa0EycEZEaDdtQ25yR0IyellxRWR2bmx4eFdfVHA0TlBSbGJEZEpaZmpwakxvc1dPelZ6XzFOWUQ3TC05RW5RdzRHUGQ4VFZwRFd2ZTdoVHRuMVFYcEVkYTdPQW44U0tna1BxWTBpeUpYcmNjMFE?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "CryptoRank",
+            "published_at": "2026-04-14 15:55:31+00:00",
+            "collected_at": "2026-04-16 16:28:30.167893+00:00",
+            "alpaca_id": 2059959160,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxOVFo4RmRQbk0zRkpTVjBzV0MzN1RVMnpQM2xqaFV4UjctZHNVLXJhNzlvNy1JRE5wTFZsZ09uVHdOUThSSVNFS1lFUHRfczZUS3NKQ1FpRUJZdFV1ekx2UEFtRmVOZUNrU253dnRPR29RMFlOdDdFTjUxYzhaWHRTM3RJbjUzN3ZEa0EycEZEaDdtQ25yR0IyellxRWR2bmx4eFdfVHA0TlBSbGJEZEpaZmpwakxvc1dPelZ6XzFOWUQ3TC05RW5RdzRHUGQ4VFZwRFd2ZTdoVHRuMVFYcEVkYTdPQW44U0tna1BxWTBpeUpYcmNjMFE?oc=5",
+              "title": "New weakening China trade and US inflation data means Iran economic contagion is spreading, in unique setup for Bitcoin - CryptoRank",
+              "topic": "digital asset liquidity risk-on proxy venture capital crypto funding",
+              "source": {
+                "href": "https://cryptorank.io",
+                "title": "CryptoRank"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi9gFBVV95cUxOVFo4RmRQbk0zRkpTVjBzV0MzN1RVMnpQM2xqaFV4UjctZHNVLXJhNzlvNy1JRE5wTFZsZ09uVHdOUThSSVNFS1lFUHRfczZUS3NKQ1FpRUJZdFV1ekx2UEFtRmVOZUNrU253dnRPR29RMFlOdDdFTjUxYzhaWHRTM3RJbjUzN3ZEa0EycEZEaDdtQ25yR0IyellxRWR2bmx4eFdfVHA0TlBSbGJEZEpaZmpwakxvc1dPelZ6XzFOWUQ3TC05RW5RdzRHUGQ4VFZwRFd2ZTdoVHRuMVFYcEVkYTdPQW44U0tna1BxWTBpeUpYcmNjMFE?oc=5\" target=\"_blank\">New weakening China trade and US inflation data means Iran economic contagion is spreading, in unique setup for Bitcoin</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">CryptoRank</font>",
+              "category": "digital_assets_crypto",
+              "published": "Tue, 14 Apr 2026 15:55:31 GMT",
+              "search_query": "blockchain enterprise integration tokenization real world assets RWA"
+            }
+          },
+          {
+            "id": 7283,
+            "title": "INDEC: Industry slumps for eighth month running - Buenos Aires Times",
+            "summary": "INDEC: Industry slumps for eighth month running &nbsp;&nbsp; Buenos Aires Times",
+            "content": "INDEC: Industry slumps for eighth month running &nbsp;&nbsp; Buenos Aires Times",
+            "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOTUdpZzZ6T1dzNGxkQ2RGWkFsMTM2RjFMMHZNM2RKdUhLOTFxSEtQYjVCd2FZdUg1TVNYelNOTURLazNKRFlwWnJ2b19BNXF4bmp6MGhFemJsZzByVWVXajQzVngycFktaGtrU3FlU21oeDFCbHlJai1mRWF4NkNCcm9aVm1HeDl1V2toTkJZWWFXNlEwdlhBX1hkMXdSNjlKQWhJNk1Nclp0NXZ6cm5qTmRB0gGyAUFVX3lxTE5NR2lnNnpPV3M0bGRDZEZaQWwxMzZGMUwwdk0zZEp1SEs5MXFIS1BiNUJ3YVl1SDVNU1h6U05NREtrM0pEWXBacnZvX0E1cXhuanowaEV6YmxnMHJVZVdqNDNWeDJwWS1oa2tTcWVTbWh4MUJseUlqLWZFYXg2Q0Jyb1pWbUd4OXVXa2hOQllZYVc2UTB2WEFfWGQxd1I2OUpBaEk2TU1yWnQ1dnpybmpOZEE?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Buenos Aires Times",
+            "published_at": "2026-04-14 14:08:13+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 1221240515,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOTUdpZzZ6T1dzNGxkQ2RGWkFsMTM2RjFMMHZNM2RKdUhLOTFxSEtQYjVCd2FZdUg1TVNYelNOTURLazNKRFlwWnJ2b19BNXF4bmp6MGhFemJsZzByVWVXajQzVngycFktaGtrU3FlU21oeDFCbHlJai1mRWF4NkNCcm9aVm1HeDl1V2toTkJZWWFXNlEwdlhBX1hkMXdSNjlKQWhJNk1Nclp0NXZ6cm5qTmRB0gGyAUFVX3lxTE5NR2lnNnpPV3M0bGRDZEZaQWwxMzZGMUwwdk0zZEp1SEs5MXFIS1BiNUJ3YVl1SDVNU1h6U05NREtrM0pEWXBacnZvX0E1cXhuanowaEV6YmxnMHJVZVdqNDNWeDJwWS1oa2tTcWVTbWh4MUJseUlqLWZFYXg2Q0Jyb1pWbUd4OXVXa2hOQllZYVc2UTB2WEFfWGQxd1I2OUpBaEk2TU1yWnQ1dnpybmpOZEE?oc=5",
+              "title": "INDEC: Industry slumps for eighth month running - Buenos Aires Times",
+              "topic": "industrial production slump capacity utilization factory output data",
+              "source": {
+                "href": "https://batimes.com.ar",
+                "title": "Buenos Aires Times"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMisgFBVV95cUxOTUdpZzZ6T1dzNGxkQ2RGWkFsMTM2RjFMMHZNM2RKdUhLOTFxSEtQYjVCd2FZdUg1TVNYelNOTURLazNKRFlwWnJ2b19BNXF4bmp6MGhFemJsZzByVWVXajQzVngycFktaGtrU3FlU21oeDFCbHlJai1mRWF4NkNCcm9aVm1HeDl1V2toTkJZWWFXNlEwdlhBX1hkMXdSNjlKQWhJNk1Nclp0NXZ6cm5qTmRB0gGyAUFVX3lxTE5NR2lnNnpPV3M0bGRDZEZaQWwxMzZGMUwwdk0zZEp1SEs5MXFIS1BiNUJ3YVl1SDVNU1h6U05NREtrM0pEWXBacnZvX0E1cXhuanowaEV6YmxnMHJVZVdqNDNWeDJwWS1oa2tTcWVTbWh4MUJseUlqLWZFYXg2Q0Jyb1pWbUd4OXVXa2hOQllZYVc2UTB2WEFfWGQxd1I2OUpBaEk2TU1yWnQ1dnpybmpOZEE?oc=5\" target=\"_blank\">INDEC: Industry slumps for eighth month running</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Buenos Aires Times</font>",
+              "category": "industrial_automotive",
+              "published": "Tue, 14 Apr 2026 14:08:13 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7245,
+            "title": "Trump Signals High Gas Prices Through November Midterms - Discovery Alert",
+            "summary": "Trump Signals High Gas Prices Through November Midterms &nbsp;&nbsp; Discovery Alert",
+            "content": "Trump Signals High Gas Prices Through November Midterms &nbsp;&nbsp; Discovery Alert",
+            "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOX0tpbGtfOW1uNDZucFZLMW5Wd0taQ3dyUjIzNnVRbjUxN3NiNUd5cFZ1bkNKYlhDcE1OWENzLURiVU5kczBad2RKd2QxRTVCQ2F5YXZ1QVlTNXM1LUVtc0wzOXMtbFlqMlVSV3RvMFJDTVk3Q3lMdWdIRi1fRU9nbFJaRzFObUx3VmVjVw?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Discovery Alert",
+            "published_at": "2026-04-14 11:07:39+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 1245013034,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOX0tpbGtfOW1uNDZucFZLMW5Wd0taQ3dyUjIzNnVRbjUxN3NiNUd5cFZ1bkNKYlhDcE1OWENzLURiVU5kczBad2RKd2QxRTVCQ2F5YXZ1QVlTNXM1LUVtc0wzOXMtbFlqMlVSV3RvMFJDTVk3Q3lMdWdIRi1fRU9nbFJaRzFObUx3VmVjVw?oc=5",
+              "title": "Trump Signals High Gas Prices Through November Midterms - Discovery Alert",
+              "topic": "commodity price cycles energy security strategic petroleum reserve",
+              "source": {
+                "href": "https://discoveryalert.com.au",
+                "title": "Discovery Alert"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMijAFBVV95cUxOX0tpbGtfOW1uNDZucFZLMW5Wd0taQ3dyUjIzNnVRbjUxN3NiNUd5cFZ1bkNKYlhDcE1OWENzLURiVU5kczBad2RKd2QxRTVCQ2F5YXZ1QVlTNXM1LUVtc0wzOXMtbFlqMlVSV3RvMFJDTVk3Q3lMdWdIRi1fRU9nbFJaRzFObUx3VmVjVw?oc=5\" target=\"_blank\">Trump Signals High Gas Prices Through November Midterms</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Discovery Alert</font>",
+              "category": "energy_nuclear_transition",
+              "published": "Tue, 14 Apr 2026 11:07:39 GMT",
+              "search_query": "power grid stability electricity demand data center energy consumption"
+            }
+          },
+          {
+            "id": 7251,
+            "title": "Uranium Demand Growth 28%: Uranium Supply & Copper Forecast - Farmonaut",
+            "summary": "Uranium Demand Growth 28%: Uranium Supply & Copper Forecast &nbsp;&nbsp; Farmonaut",
+            "content": "Uranium Demand Growth 28%: Uranium Supply & Copper Forecast &nbsp;&nbsp; Farmonaut",
+            "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPX201eW1qbEFkeDE0MG85Szd6TEx2MFJUc3Nzd1ZyLUpCaTJSMVBkYUFHaDg3NG1YaC1SRktuNTVjTFIzU05kTmxJQlk2aUxaRVZDR3I0MHVxRU40NFM3UFg3c2sxYWZhNzRjRjdXNlRxRUVIU2poRG54bGg0bE5GU0RVcnJfWnRIVE9weg?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Farmonaut",
+            "published_at": "2026-04-14 07:03:56+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 2198416385,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPX201eW1qbEFkeDE0MG85Szd6TEx2MFJUc3Nzd1ZyLUpCaTJSMVBkYUFHaDg3NG1YaC1SRktuNTVjTFIzU05kTmxJQlk2aUxaRVZDR3I0MHVxRU40NFM3UFg3c2sxYWZhNzRjRjdXNlRxRUVIU2poRG54bGg0bE5GU0RVcnJfWnRIVE9weg?oc=5",
+              "title": "Uranium Demand Growth 28%: Uranium Supply & Copper Forecast - Farmonaut",
+              "topic": "copper demand electrification renewable energy infrastructure supply gap",
+              "source": {
+                "href": "https://farmonaut.com",
+                "title": "Farmonaut"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMijAFBVV95cUxPX201eW1qbEFkeDE0MG85Szd6TEx2MFJUc3Nzd1ZyLUpCaTJSMVBkYUFHaDg3NG1YaC1SRktuNTVjTFIzU05kTmxJQlk2aUxaRVZDR3I0MHVxRU40NFM3UFg3c2sxYWZhNzRjRjdXNlRxRUVIU2poRG54bGg0bE5GU0RVcnJfWnRIVE9weg?oc=5\" target=\"_blank\">Uranium Demand Growth 28%: Uranium Supply & Copper Forecast</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Farmonaut</font>",
+              "category": "commodities_resources",
+              "published": "Tue, 14 Apr 2026 07:03:56 GMT",
+              "search_query": "industrial metals warehouse levels LME inventories global demand signals"
+            }
+          },
+          {
+            "id": 7235,
+            "title": "The Mirage of Hyperscaler Efficiency and the $1 Trillion Delusion - The AI Journal",
+            "summary": "The Mirage of Hyperscaler Efficiency and the $1 Trillion Delusion &nbsp;&nbsp; The AI Journal",
+            "content": "The Mirage of Hyperscaler Efficiency and the $1 Trillion Delusion &nbsp;&nbsp; The AI Journal",
+            "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOVXNqVmJoVFVTQXZIdUNTYTJ5c0J2TGprWTlHZ3JCaDl0MUFNSjNWeHpxMWM5cXJCYkZSVHVYbU9Qc3ZqbnFWSEIySS1wQWhHaEJpNzVHSDNKUUI0RFNoV1pYR01fR3VvaE9Ha29FR0h6MHdZSlFCMmUyLWZLNnAwRmxqMXNYZE1KTGZvNHh3?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "The AI Journal",
+            "published_at": "2026-04-14 06:46:33+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 2742279310,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOVXNqVmJoVFVTQXZIdUNTYTJ5c0J2TGprWTlHZ3JCaDl0MUFNSjNWeHpxMWM5cXJCYkZSVHVYbU9Qc3ZqbnFWSEIySS1wQWhHaEJpNzVHSDNKUUI0RFNoV1pYR01fR3VvaE9Ha29FR0h6MHdZSlFCMmUyLWZLNnAwRmxqMXNYZE1KTGZvNHh3?oc=5",
+              "title": "The Mirage of Hyperscaler Efficiency and the $1 Trillion Delusion - The AI Journal",
+              "topic": "AI capital expenditure hyperscalers hardware compute efficiency",
+              "source": {
+                "href": "https://aijourn.com",
+                "title": "The AI Journal"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMijgFBVV95cUxOVXNqVmJoVFVTQXZIdUNTYTJ5c0J2TGprWTlHZ3JCaDl0MUFNSjNWeHpxMWM5cXJCYkZSVHVYbU9Qc3ZqbnFWSEIySS1wQWhHaEJpNzVHSDNKUUI0RFNoV1pYR01fR3VvaE9Ha29FR0h6MHdZSlFCMmUyLWZLNnAwRmxqMXNYZE1KTGZvNHh3?oc=5\" target=\"_blank\">The Mirage of Hyperscaler Efficiency and the $1 Trillion Delusion</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">The AI Journal</font>",
+              "category": "tech_ai_semiconductors",
+              "published": "Tue, 14 Apr 2026 06:46:33 GMT",
+              "search_query": "tech regulation antitrust platform dominance digital sovereignty"
+            }
+          },
+          {
+            "id": 7278,
+            "title": "The Science of Scale: An In-Depth Look at Regeneron Pharmaceuticals (REGN) in 2026 - FinancialContent",
+            "summary": "The Science of Scale: An In-Depth Look at Regeneron Pharmaceuticals (REGN) in 2026 &nbsp;&nbsp; FinancialContent",
+            "content": "The Science of Scale: An In-Depth Look at Regeneron Pharmaceuticals (REGN) in 2026 &nbsp;&nbsp; FinancialContent",
+            "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPVkhuZUNUWG1kc2R0ZmdEVDBvRnlWZ1FkU3JuNGtjQzFrRFFUN2tFVy1YYzctS3dnaXl0X2R5cm5ZQ0dudDV6TF9pMFkwY2E3NXY0Q3g4Q3dyVFVVNXp4YVNjRjRURTR2TE1kVGFsdDJVejdrSzczeGs5M3VjU090enA5ZnRVVXJ1dktpVlM4UzM1WmNNUk14Z0RTNkNvak5QWGFJNjlQXzZfYTY0M3YtUFVjSUZtSEp3U1V1OGh4N25IVzR2Y0lwTHBwUlY0Zlh3Q3hPeWdpUVFoVC10QUlIbTJiVXY?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "FinancialContent",
+            "published_at": "2026-04-13 13:35:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 3848242162,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPVkhuZUNUWG1kc2R0ZmdEVDBvRnlWZ1FkU3JuNGtjQzFrRFFUN2tFVy1YYzctS3dnaXl0X2R5cm5ZQ0dudDV6TF9pMFkwY2E3NXY0Q3g4Q3dyVFVVNXp4YVNjRjRURTR2TE1kVGFsdDJVejdrSzczeGs5M3VjU090enA5ZnRVVXJ1dktpVlM4UzM1WmNNUk14Z0RTNkNvak5QWGFJNjlQXzZfYTY0M3YtUFVjSUZtSEp3U1V1OGh4N25IVzR2Y0lwTHBwUlY0Zlh3Q3hPeWdpUVFoVC10QUlIbTJiVXY?oc=5",
+              "title": "The Science of Scale: An In-Depth Look at Regeneron Pharmaceuticals (REGN) in 2026 - FinancialContent",
+              "topic": "genomic medicine CRISPR obesity drugs GLP-1 market share",
+              "source": {
+                "href": "https://markets.financialcontent.com",
+                "title": "FinancialContent"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi5AFBVV95cUxPVkhuZUNUWG1kc2R0ZmdEVDBvRnlWZ1FkU3JuNGtjQzFrRFFUN2tFVy1YYzctS3dnaXl0X2R5cm5ZQ0dudDV6TF9pMFkwY2E3NXY0Q3g4Q3dyVFVVNXp4YVNjRjRURTR2TE1kVGFsdDJVejdrSzczeGs5M3VjU090enA5ZnRVVXJ1dktpVlM4UzM1WmNNUk14Z0RTNkNvak5QWGFJNjlQXzZfYTY0M3YtUFVjSUZtSEp3U1V1OGh4N25IVzR2Y0lwTHBwUlY0Zlh3Q3hPeWdpUVFoVC10QUlIbTJiVXY?oc=5\" target=\"_blank\">The Science of Scale: An In-Depth Look at Regeneron Pharmaceuticals (REGN) in 2026</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">FinancialContent</font>",
+              "category": "pharma_healthcare",
+              "published": "Mon, 13 Apr 2026 13:35:00 GMT",
+              "search_query": "medical device innovation healthtech telemedicine adoption"
+            }
+          },
+          {
+            "id": 7255,
+            "title": "Gold Set to Hit $5,900/oz by Year End on Fed Easing, Sovereign Buying \u2013 UBS - vocal.media",
+            "summary": "Gold Set to Hit $5,900/oz by Year End on Fed Easing, Sovereign Buying \u2013 UBS &nbsp;&nbsp; vocal.media",
+            "content": "Gold Set to Hit $5,900/oz by Year End on Fed Easing, Sovereign Buying \u2013 UBS &nbsp;&nbsp; vocal.media",
+            "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQbzNmcGRLVFJCQW82aFA0V2JHMGVpOWhfVEhRTzZSSGc5d09rdlRZMk81U0VsZnAwSmJENEY0RU40X29FaTRSNkotVVl4dG8weHV5Mm5EM3hDUkpZM1F2dFRZZFlGTm91bkZfdHNmZTlfSzNUYjAzMjZhMERoWS1ETDI1QlpiVVdOMk12TjNtcENSUklBTDJJalFka1B2RGtTUmc?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "vocal.media",
+            "published_at": "2026-04-12 17:38:34+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 3028199195,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQbzNmcGRLVFJCQW82aFA0V2JHMGVpOWhfVEhRTzZSSGc5d09rdlRZMk81U0VsZnAwSmJENEY0RU40X29FaTRSNkotVVl4dG8weHV5Mm5EM3hDUkpZM1F2dFRZZFlGTm91bkZfdHNmZTlfSzNUYjAzMjZhMERoWS1ETDI1QlpiVVdOMk12TjNtcENSUklBTDJJalFka1B2RGtTUmc?oc=5",
+              "title": "Gold Set to Hit $5,900/oz by Year End on Fed Easing, Sovereign Buying \u2013 UBS - vocal.media",
+              "topic": "gold price drivers real yields sovereign central bank buying hedging",
+              "source": {
+                "href": "https://vocal.media",
+                "title": "vocal.media"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiogFBVV95cUxQbzNmcGRLVFJCQW82aFA0V2JHMGVpOWhfVEhRTzZSSGc5d09rdlRZMk81U0VsZnAwSmJENEY0RU40X29FaTRSNkotVVl4dG8weHV5Mm5EM3hDUkpZM1F2dFRZZFlGTm91bkZfdHNmZTlfSzNUYjAzMjZhMERoWS1ETDI1QlpiVVdOMk12TjNtcENSUklBTDJJalFka1B2RGtTUmc?oc=5\" target=\"_blank\">Gold Set to Hit $5,900/oz by Year End on Fed Easing, Sovereign Buying \u2013 UBS</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">vocal.media</font>",
+              "category": "commodities_resources",
+              "published": "Sun, 12 Apr 2026 17:38:34 GMT",
+              "search_query": "industrial metals warehouse levels LME inventories global demand signals"
+            }
+          },
+          {
+            "id": 7262,
+            "title": "US Spot ETH ETFs Shatter 8-Day Outflow Streak with $4.83M Inflow Surge - CryptoRank",
+            "summary": "US Spot ETH ETFs Shatter 8-Day Outflow Streak with $4.83M Inflow Surge &nbsp;&nbsp; CryptoRank",
+            "content": "US Spot ETH ETFs Shatter 8-Day Outflow Streak with $4.83M Inflow Surge &nbsp;&nbsp; CryptoRank",
+            "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9rRjdveHdhVWhiNzZJaXhBOUg2cTZnMVpZM0JfdWdZSkhZZ25OelhwNE5KVTNjRUZJV3FpYWxOWXZCcGFnVEk5aXQtS1Y1bVBsUnJCRlhfMjhpeWJGblBIRWZCNFloVDlBWVR5dHBXOEZHQVdtQnc?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "CryptoRank",
+            "published_at": "2026-04-11 22:09:09+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 3431016758,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9rRjdveHdhVWhiNzZJaXhBOUg2cTZnMVpZM0JfdWdZSkhZZ25OelhwNE5KVTNjRUZJV3FpYWxOWXZCcGFnVEk5aXQtS1Y1bVBsUnJCRlhfMjhpeWJGblBIRWZCNFloVDlBWVR5dHBXOEZHQVdtQnc?oc=5",
+              "title": "US Spot ETH ETFs Shatter 8-Day Outflow Streak with $4.83M Inflow Surge - CryptoRank",
+              "topic": "bitcoin institutional adoption spot ETF inflows outflows asset management",
+              "source": {
+                "href": "https://cryptorank.io",
+                "title": "CryptoRank"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMidkFVX3lxTE9rRjdveHdhVWhiNzZJaXhBOUg2cTZnMVpZM0JfdWdZSkhZZ25OelhwNE5KVTNjRUZJV3FpYWxOWXZCcGFnVEk5aXQtS1Y1bVBsUnJCRlhfMjhpeWJGblBIRWZCNFloVDlBWVR5dHBXOEZHQVdtQnc?oc=5\" target=\"_blank\">US Spot ETH ETFs Shatter 8-Day Outflow Streak with $4.83M Inflow Surge</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">CryptoRank</font>",
+              "category": "digital_assets_crypto",
+              "published": "Sat, 11 Apr 2026 22:09:09 GMT",
+              "search_query": "blockchain enterprise integration tokenization real world assets RWA"
+            }
+          },
+          {
+            "id": 7302,
+            "title": "The Shadow Credit Conundrum: Why Banks\u2019 $1.1 Trillion Bet on Private Lending Faces a High-Tech Reckoning - FinancialContent",
+            "summary": "The Shadow Credit Conundrum: Why Banks\u2019 $1.1 Trillion Bet on Private Lending Faces a High-Tech Reckoning &nbsp;&nbsp; FinancialContent",
+            "content": "The Shadow Credit Conundrum: Why Banks\u2019 $1.1 Trillion Bet on Private Lending Faces a High-Tech Reckoning &nbsp;&nbsp; FinancialContent",
+            "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxOenZUY2lUYnlUVVp6ZndSbkZUQWZBX2h0Rm5UZE4yV2stejNPa3ptWkh4WVlRNDJQWmk1d0VXM2V0ZGJWWDhIMkVqWEtmN1RnUjh5ak1iSVB1VTF5bWRVSVJOYm02UERaUHdlSFdVSnNDdjBPWUZWVlVwLUNOanBSNjliM2VhaS1iUWtzckFjNlpfc0hIMFZsbFA2ZkdkeXJBS09GVVBJQnFRaExab01XQkFJTnp2VlAzZTlRWWd3YTY5RHRDMVEtbU81U1dPLXJGZlBtMjQ1VTMycW5yM1htbUg0ZkhaOUxDN0FmdnkwYWNMVnZWMTU4?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "FinancialContent",
+            "published_at": "2026-04-10 14:27:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 2157375824,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxOenZUY2lUYnlUVVp6ZndSbkZUQWZBX2h0Rm5UZE4yV2stejNPa3ptWkh4WVlRNDJQWmk1d0VXM2V0ZGJWWDhIMkVqWEtmN1RnUjh5ak1iSVB1VTF5bWRVSVJOYm02UERaUHdlSFdVSnNDdjBPWUZWVlVwLUNOanBSNjliM2VhaS1iUWtzckFjNlpfc0hIMFZsbFA2ZkdkeXJBS09GVVBJQnFRaExab01XQkFJTnp2VlAzZTlRWWd3YTY5RHRDMVEtbU81U1dPLXJGZlBtMjQ1VTMycW5yM1htbUg0ZkhaOUxDN0FmdnkwYWNMVnZWMTU4?oc=5",
+              "title": "The Shadow Credit Conundrum: Why Banks\u2019 $1.1 Trillion Bet on Private Lending Faces a High-Tech Reckoning - FinancialContent",
+              "topic": "shadow banking systemic risk leverage financial contagion monitoring",
+              "source": {
+                "href": "https://www.financialcontent.com",
+                "title": "FinancialContent"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi9wFBVV95cUxOenZUY2lUYnlUVVp6ZndSbkZUQWZBX2h0Rm5UZE4yV2stejNPa3ptWkh4WVlRNDJQWmk1d0VXM2V0ZGJWWDhIMkVqWEtmN1RnUjh5ak1iSVB1VTF5bWRVSVJOYm02UERaUHdlSFdVSnNDdjBPWUZWVlVwLUNOanBSNjliM2VhaS1iUWtzckFjNlpfc0hIMFZsbFA2ZkdkeXJBS09GVVBJQnFRaExab01XQkFJTnp2VlAzZTlRWWd3YTY5RHRDMVEtbU81U1dPLXJGZlBtMjQ1VTMycW5yM1htbUg0ZkhaOUxDN0FmdnkwYWNMVnZWMTU4?oc=5\" target=\"_blank\">The Shadow Credit Conundrum: Why Banks\u2019 $1.1 Trillion Bet on Private Lending Faces a High-Tech Reckoning</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">FinancialContent</font>",
+              "category": "financial_stability",
+              "published": "Fri, 10 Apr 2026 14:27:00 GMT",
+              "search_query": "shadow banking systemic risk leverage financial contagion monitoring"
+            }
+          },
+          {
+            "id": 7284,
+            "title": "German Industrial Production Stumbles: Unexpected 0.3% February Decline Sparks Economic Concerns - MEXC",
+            "summary": "German Industrial Production Stumbles: Unexpected 0.3% February Decline Sparks Economic Concerns &nbsp;&nbsp; MEXC",
+            "content": "German Industrial Production Stumbles: Unexpected 0.3% February Decline Sparks Economic Concerns &nbsp;&nbsp; MEXC",
+            "url": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE8yZUtlb2dSNkZkQ2M3SlJtc1RsVzQwMV9neEltRlVqNUlUZWpmWEhJVzNyYlIzc2J3OWJyVENPdHBaTFhLUWlrcg?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "MEXC",
+            "published_at": "2026-04-09 10:28:11+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 1180892742,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE8yZUtlb2dSNkZkQ2M3SlJtc1RsVzQwMV9neEltRlVqNUlUZWpmWEhJVzNyYlIzc2J3OWJyVENPdHBaTFhLUWlrcg?oc=5",
+              "title": "German Industrial Production Stumbles: Unexpected 0.3% February Decline Sparks Economic Concerns - MEXC",
+              "topic": "industrial production slump capacity utilization factory output data",
+              "source": {
+                "href": "https://www.mexc.com",
+                "title": "MEXC"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiSEFVX3lxTE8yZUtlb2dSNkZkQ2M3SlJtc1RsVzQwMV9neEltRlVqNUlUZWpmWEhJVzNyYlIzc2J3OWJyVENPdHBaTFhLUWlrcg?oc=5\" target=\"_blank\">German Industrial Production Stumbles: Unexpected 0.3% February Decline Sparks Economic Concerns</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MEXC</font>",
+              "category": "industrial_automotive",
+              "published": "Thu, 09 Apr 2026 10:28:11 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7232,
+            "title": "1 Reason Why April 10 Could Be Huge for Taiwan Semiconductor Manufacturing - The Globe and Mail",
+            "summary": "1 Reason Why April 10 Could Be Huge for Taiwan Semiconductor Manufacturing &nbsp;&nbsp; The Globe and Mail",
+            "content": "1 Reason Why April 10 Could Be Huge for Taiwan Semiconductor Manufacturing &nbsp;&nbsp; The Globe and Mail",
+            "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxQVjVGLVY3WEh3RTdGQzlnN3FxU1BXZXJmREx6dlBRaXllQlBOYWY2dTZVSDlJZnNUQUN1eUZHMk5rclhMOGpjWFptZUFyYmgzRHcySE9hdjNXN1J3Ukx6WjRFNnQtUTZqYkk3ZzdQOHFnTGJWRnRYenhpOG5Mdm9saXF2cVZRNzFSMTlWd1pWMDhORjRxclJ4UExTN28xQmhxRVMzSDJCaU43MElaemczUlZ0S2ZLdnVNMjJ4Um1BZ2NxVmlHUkdhUFJ6dmZzS0FNRlNyRXMxWEdITnNDTXBjUE96dHRsT0htVnVwSFJRVQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "The Globe and Mail",
+            "published_at": "2026-04-03 07:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 2305811901,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxQVjVGLVY3WEh3RTdGQzlnN3FxU1BXZXJmREx6dlBRaXllQlBOYWY2dTZVSDlJZnNUQUN1eUZHMk5rclhMOGpjWFptZUFyYmgzRHcySE9hdjNXN1J3Ukx6WjRFNnQtUTZqYkk3ZzdQOHFnTGJWRnRYenhpOG5Mdm9saXF2cVZRNzFSMTlWd1pWMDhORjRxclJ4UExTN28xQmhxRVMzSDJCaU43MElaemczUlZ0S2ZLdnVNMjJ4Um1BZ2NxVmlHUkdhUFJ6dmZzS0FNRlNyRXMxWEdITnNDTXBjUE96dHRsT0htVnVwSFJRVQ?oc=5",
+              "title": "1 Reason Why April 10 Could Be Huge for Taiwan Semiconductor Manufacturing - The Globe and Mail",
+              "topic": "semiconductor demand artificial intelligence chips foundry capacity",
+              "source": {
+                "href": "https://www.theglobeandmail.com",
+                "title": "The Globe and Mail"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi7wFBVV95cUxQVjVGLVY3WEh3RTdGQzlnN3FxU1BXZXJmREx6dlBRaXllQlBOYWY2dTZVSDlJZnNUQUN1eUZHMk5rclhMOGpjWFptZUFyYmgzRHcySE9hdjNXN1J3Ukx6WjRFNnQtUTZqYkk3ZzdQOHFnTGJWRnRYenhpOG5Mdm9saXF2cVZRNzFSMTlWd1pWMDhORjRxclJ4UExTN28xQmhxRVMzSDJCaU43MElaemczUlZ0S2ZLdnVNMjJ4Um1BZ2NxVmlHUkdhUFJ6dmZzS0FNRlNyRXMxWEdITnNDTXBjUE96dHRsT0htVnVwSFJRVQ?oc=5\" target=\"_blank\">1 Reason Why April 10 Could Be Huge for Taiwan Semiconductor Manufacturing</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">The Globe and Mail</font>",
+              "category": "tech_ai_semiconductors",
+              "published": "Fri, 03 Apr 2026 07:00:00 GMT",
+              "search_query": "tech regulation antitrust platform dominance digital sovereignty"
+            }
+          },
+          {
+            "id": 7271,
+            "title": "The top 10 pharma R&D budgets of 2025 - Fierce Biotech",
+            "summary": "The top 10 pharma R&amp;D budgets of 2025 &nbsp;&nbsp; Fierce Biotech",
+            "content": "The top 10 pharma R&amp;D budgets of 2025 &nbsp;&nbsp; Fierce Biotech",
+            "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNWUxqOUNRU1ludHRQNkpFZXFlczlYXzhHR293VnVMQk90NDM5bEhEblNYMThlTi1RUGZmYk1nTTg3dGE1M1lKdkhuWmhEWXBZbjh1c18zcVFPY1BXbERBNk9XTjl1RmMwbDVFeENncURJS2pHQUNLeThWVXpQUFphbg?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Fierce Biotech",
+            "published_at": "2026-03-30 07:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 2277893510,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNWUxqOUNRU1ludHRQNkpFZXFlczlYXzhHR293VnVMQk90NDM5bEhEblNYMThlTi1RUGZmYk1nTTg3dGE1M1lKdkhuWmhEWXBZbjh1c18zcVFPY1BXbERBNk9XTjl1RmMwbDVFeENncURJS2pHQUNLeThWVXpQUFphbg?oc=5",
+              "title": "The top 10 pharma R&D budgets of 2025 - Fierce Biotech",
+              "topic": "biotech M&A clinical trial results phase 1 2 3 efficacy",
+              "source": {
+                "href": "https://www.fiercebiotech.com",
+                "title": "Fierce Biotech"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMigAFBVV95cUxNWUxqOUNRU1ludHRQNkpFZXFlczlYXzhHR293VnVMQk90NDM5bEhEblNYMThlTi1RUGZmYk1nTTg3dGE1M1lKdkhuWmhEWXBZbjh1c18zcVFPY1BXbERBNk9XTjl1RmMwbDVFeENncURJS2pHQUNLeThWVXpQUFphbg?oc=5\" target=\"_blank\">The top 10 pharma R&amp;D budgets of 2025</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Fierce Biotech</font>",
+              "category": "pharma_healthcare",
+              "published": "Mon, 30 Mar 2026 07:00:00 GMT",
+              "search_query": "medical device innovation healthtech telemedicine adoption"
+            }
+          },
+          {
+            "id": 7290,
+            "title": "Military Displays Market Size, Share & Growth, Report, 2034 - Fortune Business Insights",
+            "summary": "Military Displays Market Size, Share & Growth, Report, 2034 &nbsp;&nbsp; Fortune Business Insights",
+            "content": "Military Displays Market Size, Share & Growth, Report, 2034 &nbsp;&nbsp; Fortune Business Insights",
+            "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9wWjA2WVRBNGowdmlsdllvMXZ6WGRFYU5qUTQ1SnNXSlAtdmJES1hkM1J5VFlLaHdBWDQ3ZlRnOU1scWdaRUN6SlBhWElFc1YzclZ3eUc4eFJHM2NjOFN3bkRTUndGNk5GX0ZfSkphUlFtTFdmMWN3V1NMZw?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Fortune Business Insights",
+            "published_at": "2026-03-30 07:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 1942445326,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9wWjA2WVRBNGowdmlsdllvMXZ6WGRFYU5qUTQ1SnNXSlAtdmJES1hkM1J5VFlLaHdBWDQ3ZlRnOU1scWdaRUN6SlBhWElFc1YzclZ3eUc4eFJHM2NjOFN3bkRTUndGNk5GX0ZfSkphUlFtTFdmMWN3V1NMZw?oc=5",
+              "title": "Military Displays Market Size, Share & Growth, Report, 2034 - Fortune Business Insights",
+              "topic": "defense procurement aerospace spending cycles military modernization",
+              "source": {
+                "href": "https://www.fortunebusinessinsights.com",
+                "title": "Fortune Business Insights"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMie0FVX3lxTE9wWjA2WVRBNGowdmlsdllvMXZ6WGRFYU5qUTQ1SnNXSlAtdmJES1hkM1J5VFlLaHdBWDQ3ZlRnOU1scWdaRUN6SlBhWElFc1YzclZ3eUc4eFJHM2NjOFN3bkRTUndGNk5GX0ZfSkphUlFtTFdmMWN3V1NMZw?oc=5\" target=\"_blank\">Military Displays Market Size, Share & Growth, Report, 2034</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Fortune Business Insights</font>",
+              "category": "industrial_automotive",
+              "published": "Mon, 30 Mar 2026 07:00:00 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7288,
+            "title": "Humanoid Robot Market Size, Share, & Growth Report [2034] - Fortune Business Insights",
+            "summary": "Humanoid Robot Market Size, Share, & Growth Report [2034] &nbsp;&nbsp; Fortune Business Insights",
+            "content": "Humanoid Robot Market Size, Share, & Growth Report [2034] &nbsp;&nbsp; Fortune Business Insights",
+            "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9oSWlvWUtUY0xXbTREZkdrbHlSU2s5c0xCUFlUNnRpZ2lkWEVzVjBSc3g4NHdTUjdqSkU2YlpnZWdQOHFFU3I3TWg3UWhDejc4YlZLSmJORU9pOEFNQXdObTcxU1RRRVJ0X3J2cjgteEtXVGNVcm5sWg?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Fortune Business Insights",
+            "published_at": "2026-03-30 07:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 503469795,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9oSWlvWUtUY0xXbTREZkdrbHlSU2s5c0xCUFlUNnRpZ2lkWEVzVjBSc3g4NHdTUjdqSkU2YlpnZWdQOHFFU3I3TWg3UWhDejc4YlZLSmJORU9pOEFNQXdObTcxU1RRRVJ0X3J2cjgteEtXVGNVcm5sWg?oc=5",
+              "title": "Humanoid Robot Market Size, Share, & Growth Report [2034] - Fortune Business Insights",
+              "topic": "industrial automation robotics manufacturing productivity gains",
+              "source": {
+                "href": "https://www.fortunebusinessinsights.com",
+                "title": "Fortune Business Insights"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMieEFVX3lxTE9oSWlvWUtUY0xXbTREZkdrbHlSU2s5c0xCUFlUNnRpZ2lkWEVzVjBSc3g4NHdTUjdqSkU2YlpnZWdQOHFFU3I3TWg3UWhDejc4YlZLSmJORU9pOEFNQXdObTcxU1RRRVJ0X3J2cjgteEtXVGNVcm5sWg?oc=5\" target=\"_blank\">Humanoid Robot Market Size, Share, & Growth Report [2034]</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Fortune Business Insights</font>",
+              "category": "industrial_automotive",
+              "published": "Mon, 30 Mar 2026 07:00:00 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7221,
+            "title": "From drones to rocket fuel, China and Russia are helping Iran through supply chains - Atlantic Council",
+            "summary": "From drones to rocket fuel, China and Russia are helping Iran through supply chains &nbsp;&nbsp; Atlantic Council",
+            "content": "From drones to rocket fuel, China and Russia are helping Iran through supply chains &nbsp;&nbsp; Atlantic Council",
+            "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQRF9Qd2phXzhYYUQ0WldmeXppTEZTSHB6bWF4WEV6NHVuTUZRdWZtcVk3TkhFcEkwcmdwX3NZbWhvbnh2R2k0OER0VU14V1BBSGN4WlBiNmpIWHZLT0xxVWt4aDlTamg0QmlnbDJTX0NqdnlTODBWTUJEZ0xjT0VqNS1tQXpzUUFqNjFjSXRIalJud1pxSG5zTF8tbndwcTBSMnp0UnduU3dtYmlhSTNwS1J6MlNIdnRjaVRPRWVIRFdJMTRx?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Atlantic Council",
+            "published_at": "2026-03-25 07:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 2901814976,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQRF9Qd2phXzhYYUQ0WldmeXppTEZTSHB6bWF4WEV6NHVuTUZRdWZtcVk3TkhFcEkwcmdwX3NZbWhvbnh2R2k0OER0VU14V1BBSGN4WlBiNmpIWHZLT0xxVWt4aDlTamg0QmlnbDJTX0NqdnlTODBWTUJEZ0xjT0VqNS1tQXpzUUFqNjFjSXRIalJud1pxSG5zTF8tbndwcTBSMnp0UnduU3dtYmlhSTNwS1J6MlNIdnRjaVRPRWVIRFdJMTRx?oc=5",
+              "title": "From drones to rocket fuel, China and Russia are helping Iran through supply chains - Atlantic Council",
+              "topic": "trade barriers sanctions export controls dual-use technology",
+              "source": {
+                "href": "https://www.atlanticcouncil.org",
+                "title": "Atlantic Council"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMixAFBVV95cUxQRF9Qd2phXzhYYUQ0WldmeXppTEZTSHB6bWF4WEV6NHVuTUZRdWZtcVk3TkhFcEkwcmdwX3NZbWhvbnh2R2k0OER0VU14V1BBSGN4WlBiNmpIWHZLT0xxVWt4aDlTamg0QmlnbDJTX0NqdnlTODBWTUJEZ0xjT0VqNS1tQXpzUUFqNjFjSXRIalJud1pxSG5zTF8tbndwcTBSMnp0UnduU3dtYmlhSTNwS1J6MlNIdnRjaVRPRWVIRFdJMTRx?oc=5\" target=\"_blank\">From drones to rocket fuel, China and Russia are helping Iran through supply chains</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Atlantic Council</font>",
+              "category": "geopolitical_strategic",
+              "published": "Wed, 25 Mar 2026 07:00:00 GMT",
+              "search_query": "cyber warfare state-sponsored infrastructure attacks national security"
+            }
+          },
+          {
+            "id": 7258,
+            "title": "On a Bank clients' call about food price inflation in South Africa - Wandile Sihlobo | Substack",
+            "summary": "On a Bank clients' call about food price inflation in South Africa &nbsp;&nbsp; Wandile Sihlobo | Substack",
+            "content": "On a Bank clients' call about food price inflation in South Africa &nbsp;&nbsp; Wandile Sihlobo | Substack",
+            "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5IUTRCNHFDMWg2WnN5NXk4YzA3eHpkd21nbzl5ODdycHBkN0pSQ1FWODZIMm1aMHU4OHVfRzg5QUxNSXRIa3BvMW5qa0FPaW9aZzRBWS1jV0NkeVVVLWNnU2pCbnVNX1VCN2dIMWt2dmNwZw?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Wandile Sihlobo | Substack",
+            "published_at": "2026-03-25 07:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 2554813769,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE5IUTRCNHFDMWg2WnN5NXk4YzA3eHpkd21nbzl5ODdycHBkN0pSQ1FWODZIMm1aMHU4OHVfRzg5QUxNSXRIa3BvMW5qa0FPaW9aZzRBWS1jV0NkeVVVLWNnU2pCbnVNX1VCN2dIMWt2dmNwZw?oc=5",
+              "title": "On a Bank clients' call about food price inflation in South Africa - Wandile Sihlobo | Substack",
+              "topic": "agricultural commodities grain supply food inflation global fertilizer",
+              "source": {
+                "href": "https://wandile.substack.com",
+                "title": "Wandile Sihlobo | Substack"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMickFVX3lxTE5IUTRCNHFDMWg2WnN5NXk4YzA3eHpkd21nbzl5ODdycHBkN0pSQ1FWODZIMm1aMHU4OHVfRzg5QUxNSXRIa3BvMW5qa0FPaW9aZzRBWS1jV0NkeVVVLWNnU2pCbnVNX1VCN2dIMWt2dmNwZw?oc=5\" target=\"_blank\">On a Bank clients' call about food price inflation in South Africa</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Wandile Sihlobo | Substack</font>",
+              "category": "commodities_resources",
+              "published": "Wed, 25 Mar 2026 07:00:00 GMT",
+              "search_query": "industrial metals warehouse levels LME inventories global demand signals"
+            }
+          },
+          {
+            "id": 7252,
+            "title": "Copper Supply Struggles to Meet AI Infrastructure Boom - Investing News Network",
+            "summary": "Copper Supply Struggles to Meet AI Infrastructure Boom &nbsp;&nbsp; Investing News Network",
+            "content": "Copper Supply Struggles to Meet AI Infrastructure Boom &nbsp;&nbsp; Investing News Network",
+            "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE53d2d5VXp5UWhKQk9GUnhSSE43SVJMa0xBQkpCOXFCODFsMGduY2tZY0dXREs3bVM4aVBJNHVES2RmTnBLSUpkQTdaQ09scXBBaTBoMklxbm1CSWJiZGozUUVwaXJuUQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Investing News Network",
+            "published_at": "2026-03-24 07:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 279916081,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE53d2d5VXp5UWhKQk9GUnhSSE43SVJMa0xBQkpCOXFCODFsMGduY2tZY0dXREs3bVM4aVBJNHVES2RmTnBLSUpkQTdaQ09scXBBaTBoMklxbm1CSWJiZGozUUVwaXJuUQ?oc=5",
+              "title": "Copper Supply Struggles to Meet AI Infrastructure Boom - Investing News Network",
+              "topic": "copper demand electrification renewable energy infrastructure supply gap",
+              "source": {
+                "href": "https://investingnews.com",
+                "title": "Investing News Network"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZkFVX3lxTE53d2d5VXp5UWhKQk9GUnhSSE43SVJMa0xBQkpCOXFCODFsMGduY2tZY0dXREs3bVM4aVBJNHVES2RmTnBLSUpkQTdaQ09scXBBaTBoMklxbm1CSWJiZGozUUVwaXJuUQ?oc=5\" target=\"_blank\">Copper Supply Struggles to Meet AI Infrastructure Boom</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Investing News Network</font>",
+              "category": "commodities_resources",
+              "published": "Tue, 24 Mar 2026 07:00:00 GMT",
+              "search_query": "industrial metals warehouse levels LME inventories global demand signals"
+            }
+          },
+          {
+            "id": 7215,
+            "title": "Europe\u2019s quiet stagflation risk - GIS Reports",
+            "summary": "Europe\u2019s quiet stagflation risk &nbsp;&nbsp; GIS Reports",
+            "content": "Europe\u2019s quiet stagflation risk &nbsp;&nbsp; GIS Reports",
+            "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9FZ3hlbzViUl9EbFgwSVhfc0s0NnAzZ2I0UExXUE9fQUk1RnV1VldWOHRFUURsWndqTnF1QzluTW5FRGExeGMzTTFhZEhuVXJ6cUZGdFJhNS1Ka3hWNkJDMEpReWNHMEo0QTZr?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "GIS Reports",
+            "published_at": "2026-03-18 07:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 3412206705,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9FZ3hlbzViUl9EbFgwSVhfc0s0NnAzZ2I0UExXUE9fQUk1RnV1VldWOHRFUURsWndqTnF1QzluTW5FRGExeGMzTTFhZEhuVXJ6cUZGdFJhNS1Ka3hWNkJDMEpReWNHMEo0QTZr?oc=5",
+              "title": "Europe\u2019s quiet stagflation risk - GIS Reports",
+              "topic": "quantitative tightening easing monetary policy stagflation risks growth forecast",
+              "source": {
+                "href": "https://www.gisreportsonline.com",
+                "title": "GIS Reports"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMia0FVX3lxTE9FZ3hlbzViUl9EbFgwSVhfc0s0NnAzZ2I0UExXUE9fQUk1RnV1VldWOHRFUURsWndqTnF1QzluTW5FRGExeGMzTTFhZEhuVXJ6cUZGdFJhNS1Ka3hWNkJDMEpReWNHMEo0QTZr?oc=5\" target=\"_blank\">Europe\u2019s quiet stagflation risk</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">GIS Reports</font>",
+              "category": "macro_monetary",
+              "published": "Wed, 18 Mar 2026 07:00:00 GMT",
+              "search_query": "currency volatility DXY dollar strength global FX intervention disinflation trends"
+            }
+          },
+          {
+            "id": 7274,
+            "title": "Innovation breakthrough in the Alzheimer\u2019s disease pharmaceutical industry - Nature",
+            "summary": "Innovation breakthrough in the Alzheimer\u2019s disease pharmaceutical industry &nbsp;&nbsp; Nature",
+            "content": "Innovation breakthrough in the Alzheimer\u2019s disease pharmaceutical industry &nbsp;&nbsp; Nature",
+            "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1OVF9URUlXRnFSa3I0ME54Zk5pd2hHczlsdC1Yd3Atd3RjT1RJMDlST20wOFhnOW81aTdVaVJYX0xKWjE0VW9GcUlmRTRDMlVoR1d5TGxESUkxTTR4NTBj?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Nature",
+            "published_at": "2026-03-02 08:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 4021194386,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1OVF9URUlXRnFSa3I0ME54Zk5pd2hHczlsdC1Yd3Atd3RjT1RJMDlST20wOFhnOW81aTdVaVJYX0xKWjE0VW9GcUlmRTRDMlVoR1d5TGxESUkxTTR4NTBj?oc=5",
+              "title": "Innovation breakthrough in the Alzheimer\u2019s disease pharmaceutical industry - Nature",
+              "topic": "FDA regulatory approval pipeline pharma therapeutic breakthroughs",
+              "source": {
+                "href": "https://www.nature.com",
+                "title": "Nature"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiX0FVX3lxTE1OVF9URUlXRnFSa3I0ME54Zk5pd2hHczlsdC1Yd3Atd3RjT1RJMDlST20wOFhnOW81aTdVaVJYX0xKWjE0VW9GcUlmRTRDMlVoR1d5TGxESUkxTTR4NTBj?oc=5\" target=\"_blank\">Innovation breakthrough in the Alzheimer\u2019s disease pharmaceutical industry</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Nature</font>",
+              "category": "pharma_healthcare",
+              "published": "Mon, 02 Mar 2026 08:00:00 GMT",
+              "search_query": "medical device innovation healthtech telemedicine adoption"
+            }
+          },
+          {
+            "id": 7250,
+            "title": "Exclusive | A New Threat to Power Grids: Data Centers Unplugging at Once - WSJ",
+            "summary": "Exclusive | A New Threat to Power Grids: Data Centers Unplugging at Once &nbsp;&nbsp; WSJ",
+            "content": "Exclusive | A New Threat to Power Grids: Data Centers Unplugging at Once &nbsp;&nbsp; WSJ",
+            "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPRVVvSEhIbTY5RS1yejd5NUFKOFk0RDgwZ0RUT1Z0UnY2NVpDNzZsLUpyODFnZTlxWXBqNWdpWkl3cGt4ckFxNEpDRmN1SUdwblAtUUh2eDJVM3hlUURmN2RRUVFjb2JOaS1KTWxsamY4R2pBSjhidFRJLVA4dWxjeXpFN2hYZDgzRGpOZm16Ni1YM1Fta3l3NU1zeWVKcFZjX2xFcWZoTHc0ZTlu?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "WSJ",
+            "published_at": "2026-03-01 08:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 2842965710,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPRVVvSEhIbTY5RS1yejd5NUFKOFk0RDgwZ0RUT1Z0UnY2NVpDNzZsLUpyODFnZTlxWXBqNWdpWkl3cGt4ckFxNEpDRmN1SUdwblAtUUh2eDJVM3hlUURmN2RRUVFjb2JOaS1KTWxsamY4R2pBSjhidFRJLVA4dWxjeXpFN2hYZDgzRGpOZm16Ni1YM1Fta3l3NU1zeWVKcFZjX2xFcWZoTHc0ZTlu?oc=5",
+              "title": "Exclusive | A New Threat to Power Grids: Data Centers Unplugging at Once - WSJ",
+              "topic": "power grid stability electricity demand data center energy consumption",
+              "source": {
+                "href": "https://www.wsj.com",
+                "title": "WSJ"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMirAFBVV95cUxPRVVvSEhIbTY5RS1yejd5NUFKOFk0RDgwZ0RUT1Z0UnY2NVpDNzZsLUpyODFnZTlxWXBqNWdpWkl3cGt4ckFxNEpDRmN1SUdwblAtUUh2eDJVM3hlUURmN2RRUVFjb2JOaS1KTWxsamY4R2pBSjhidFRJLVA4dWxjeXpFN2hYZDgzRGpOZm16Ni1YM1Fta3l3NU1zeWVKcFZjX2xFcWZoTHc0ZTlu?oc=5\" target=\"_blank\">Exclusive | A New Threat to Power Grids: Data Centers Unplugging at Once</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">WSJ</font>",
+              "category": "energy_nuclear_transition",
+              "published": "Sun, 01 Mar 2026 08:00:00 GMT",
+              "search_query": "power grid stability electricity demand data center energy consumption"
+            }
+          },
+          {
+            "id": 7282,
+            "title": "Chicago PMI hits highest level in nearly four years - Sharecast.com",
+            "summary": "Chicago PMI hits highest level in nearly four years &nbsp;&nbsp; Sharecast.com",
+            "content": "Chicago PMI hits highest level in nearly four years &nbsp;&nbsp; Sharecast.com",
+            "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPNzU4Ul92M09UakNsTXlIcmtSSTFBRXZmUDlWVGY0LUJSdnljTThpRDNRNGJWcjBpdXJJd1hVRmpOMjdYWGltM0tvMmpMVXVvUkhsNHhIX2JQZm1oalZadGpjdWZYbnBWbS1rekY0WV9LcU5Gbjl4blZNMFV1V1hzaUpSbU5mamN4RG9nUTJVOUlsNUV4ZS1ROFpCczZlQmpXajVSSXk4eTVObExmdEFJbzZvRGhBX1lTaWU5dg?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Sharecast.com",
+            "published_at": "2026-02-27 08:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 3598492568,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPNzU4Ul92M09UakNsTXlIcmtSSTFBRXZmUDlWVGY0LUJSdnljTThpRDNRNGJWcjBpdXJJd1hVRmpOMjdYWGltM0tvMmpMVXVvUkhsNHhIX2JQZm1oalZadGpjdWZYbnBWbS1rekY0WV9LcU5Gbjl4blZNMFV1V1hzaUpSbU5mamN4RG9nUTJVOUlsNUV4ZS1ROFpCczZlQmpXajVSSXk4eTVObExmdEFJbzZvRGhBX1lTaWU5dg?oc=5",
+              "title": "Chicago PMI hits highest level in nearly four years - Sharecast.com",
+              "topic": "manufacturing PMI contractionary territory new orders vs inventory",
+              "source": {
+                "href": "https://www.sharecast.com",
+                "title": "Sharecast.com"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMivAFBVV95cUxPNzU4Ul92M09UakNsTXlIcmtSSTFBRXZmUDlWVGY0LUJSdnljTThpRDNRNGJWcjBpdXJJd1hVRmpOMjdYWGltM0tvMmpMVXVvUkhsNHhIX2JQZm1oalZadGpjdWZYbnBWbS1rekY0WV9LcU5Gbjl4blZNMFV1V1hzaUpSbU5mamN4RG9nUTJVOUlsNUV4ZS1ROFpCczZlQmpXajVSSXk4eTVObExmdEFJbzZvRGhBX1lTaWU5dg?oc=5\" target=\"_blank\">Chicago PMI hits highest level in nearly four years</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Sharecast.com</font>",
+              "category": "industrial_automotive",
+              "published": "Fri, 27 Feb 2026 08:00:00 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7237,
+            "title": "AGI/Singularity: 9,800 Predictions Analyzed - AIMultiple",
+            "summary": "AGI/Singularity: 9,800 Predictions Analyzed &nbsp;&nbsp; AIMultiple",
+            "content": "AGI/Singularity: 9,800 Predictions Analyzed &nbsp;&nbsp; AIMultiple",
+            "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1KNkwzTFZkTG41N2Rad1NTTFFSa1dLUTYwZnVRMVdrTkg1N0ZTN1g2cU5LRWp6S1JnSlBOeTAtR0VySEtRUEh2azlfYVJLWEYxT0R4WlVMdllDWXpuVUZaR09KNE5tWHpQNmN1Q2tPQWVfNjd3VWhXQlprMUM0Zw?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "AIMultiple",
+            "published_at": "2026-02-24 08:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 3388357069,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1KNkwzTFZkTG41N2Rad1NTTFFSa1dLUTYwZnVRMVdrTkg1N0ZTN1g2cU5LRWp6S1JnSlBOeTAtR0VySEtRUEh2azlfYVJLWEYxT0R4WlVMdllDWXpuVUZaR09KNE5tWHpQNmN1Q2tPQWVfNjd3VWhXQlprMUM0Zw?oc=5",
+              "title": "AGI/Singularity: 9,800 Predictions Analyzed - AIMultiple",
+              "topic": "quantum computing robotics automation frontier models benchmark",
+              "source": {
+                "href": "https://aimultiple.com",
+                "title": "AIMultiple"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMifkFVX3lxTE1KNkwzTFZkTG41N2Rad1NTTFFSa1dLUTYwZnVRMVdrTkg1N0ZTN1g2cU5LRWp6S1JnSlBOeTAtR0VySEtRUEh2azlfYVJLWEYxT0R4WlVMdllDWXpuVUZaR09KNE5tWHpQNmN1Q2tPQWVfNjd3VWhXQlprMUM0Zw?oc=5\" target=\"_blank\">AGI/Singularity: 9,800 Predictions Analyzed</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">AIMultiple</font>",
+              "category": "tech_ai_semiconductors",
+              "published": "Tue, 24 Feb 2026 08:00:00 GMT",
+              "search_query": "tech regulation antitrust platform dominance digital sovereignty"
+            }
+          },
+          {
+            "id": 7312,
+            "title": "US Jobless Claims Data: Labor Market Tightness Persists - FinancialContent",
+            "summary": "US Jobless Claims Data: Labor Market Tightness Persists &nbsp;&nbsp; FinancialContent",
+            "content": "US Jobless Claims Data: Labor Market Tightness Persists &nbsp;&nbsp; FinancialContent",
+            "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPS2Z1WWtCVFdMM0NsaHRXOHZvUVdMZzNhWFBwMUVFdXp0bTZuREM1RC04cTk5TmRESkV3OVV6cEZJNlJpSHhhSExyYTJYNTZIVmJSdjhrVkNBWTBYVWdZdGZOWE53YXRKYThENUliREhEUDB3RHB1MlR6YVlhUTh2WVRvcE5XelZKUHhTSVpJTko3VmVpSi04SHo0Z0ZyMXRlUkZEdjFCOEI2VTJkT0VoZVgzRGFOeEd3b2x5Z2hGTHg2NFpzemJFMg?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "FinancialContent",
+            "published_at": "2026-02-17 08:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:45.210611+00:00",
+            "alpaca_id": 52525657,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPS2Z1WWtCVFdMM0NsaHRXOHZvUVdMZzNhWFBwMUVFdXp0bTZuREM1RC04cTk5TmRESkV3OVV6cEZJNlJpSHhhSExyYTJYNTZIVmJSdjhrVkNBWTBYVWdZdGZOWE53YXRKYThENUliREhEUDB3RHB1MlR6YVlhUTh2WVRvcE5XelZKUHhTSVpJTko3VmVpSi04SHo0Z0ZyMXRlUkZEdjFCOEI2VTJkT0VoZVgzRGFOeEd3b2x5Z2hGTHg2NFpzemJFMg?oc=5",
+              "title": "US Jobless Claims Data: Labor Market Tightness Persists - FinancialContent",
+              "topic": "labor market tightness real wage growth unemployment claims impact layoffs",
+              "source": {
+                "href": "https://markets.financialcontent.com",
+                "title": "FinancialContent"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiyAFBVV95cUxPS2Z1WWtCVFdMM0NsaHRXOHZvUVdMZzNhWFBwMUVFdXp0bTZuREM1RC04cTk5TmRESkV3OVV6cEZJNlJpSHhhSExyYTJYNTZIVmJSdjhrVkNBWTBYVWdZdGZOWE53YXRKYThENUliREhEUDB3RHB1MlR6YVlhUTh2WVRvcE5XelZKUHhTSVpJTko3VmVpSi04SHo0Z0ZyMXRlUkZEdjFCOEI2VTJkT0VoZVgzRGFOeEd3b2x5Z2hGTHg2NFpzemJFMg?oc=5\" target=\"_blank\">US Jobless Claims Data: Labor Market Tightness Persists</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">FinancialContent</font>",
+              "category": "consumer_retail_dynamics",
+              "published": "Tue, 17 Feb 2026 08:00:00 GMT",
+              "search_query": "labor market tightness real wage growth unemployment claims impact layoffs"
+            }
+          },
+          {
+            "id": 7225,
+            "title": "Op-ed: With world in 'rupture', too many economic roads lead away from Trump and back to China - CNBC",
+            "summary": "Op-ed: With world in 'rupture', too many economic roads lead away from Trump and back to China &nbsp;&nbsp; CNBC",
+            "content": "Op-ed: With world in 'rupture', too many economic roads lead away from Trump and back to China &nbsp;&nbsp; CNBC",
+            "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNcnVjeUgzVFhRbVI5bWVSdVFydW5rVFZFLUVPUUh1blU0Z2M4MGlXR05NektCWEFZN3ZlV3VZOXVfU1IxZ2RfQVJpVHBfenNSYjVBR1JXcjRLX2puQ1VGX2NGbGQ1RmJDcXVrQUJUQjRPZnotWXA1VEF5c19Gek1uSFN0cmRFWjdzZFZkNXl0X05RMVRTTFZBclR2QU53Y0RlWGlhSXNSLVPSAa4BQVVfeXFMUFhfLTV4YlZkV3UyaURHVDF0QlUzM05GbEYzQndrSGtZMU1Wa0dtUmxYd2xaaFZZOEdvdjN2T0pHd0liN0d3MUhUWDdWOXJoTzdiR0EtNDEydk1ZckRnb1A1Vi0yUXVzbkVVTDBlNWVXbTAyV0M4emEzc240QlkxWDlhYjA3Q2RuZlBwX2FBcXVxajRHSmdERElFcmFGVE5LLUR6WFM3LXBVcXlsWjBR?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "CNBC",
+            "published_at": "2026-02-13 08:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 1118370806,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNcnVjeUgzVFhRbVI5bWVSdVFydW5rVFZFLUVPUUh1blU0Z2M4MGlXR05NektCWEFZN3ZlV3VZOXVfU1IxZ2RfQVJpVHBfenNSYjVBR1JXcjRLX2puQ1VGX2NGbGQ1RmJDcXVrQUJUQjRPZnotWXA1VEF5c19Gek1uSFN0cmRFWjdzZFZkNXl0X05RMVRTTFZBclR2QU53Y0RlWGlhSXNSLVPSAa4BQVVfeXFMUFhfLTV4YlZkV3UyaURHVDF0QlUzM05GbEYzQndrSGtZMU1Wa0dtUmxYd2xaaFZZOEdvdjN2T0pHd0liN0d3MUhUWDdWOXJoTzdiR0EtNDEydk1ZckRnb1A1Vi0yUXVzbkVVTDBlNWVXbTAyV0M4emEzc240QlkxWDlhYjA3Q2RuZlBwX2FBcXVxajRHSmdERElFcmFGVE5LLUR6WFM3LXBVcXlsWjBR?oc=5",
+              "title": "Op-ed: With world in 'rupture', too many economic roads lead away from Trump and back to China - CNBC",
+              "topic": "diplomatic shifts economic impact global alliance realignment",
+              "source": {
+                "href": "https://www.cnbc.com",
+                "title": "CNBC"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiqAFBVV95cUxNcnVjeUgzVFhRbVI5bWVSdVFydW5rVFZFLUVPUUh1blU0Z2M4MGlXR05NektCWEFZN3ZlV3VZOXVfU1IxZ2RfQVJpVHBfenNSYjVBR1JXcjRLX2puQ1VGX2NGbGQ1RmJDcXVrQUJUQjRPZnotWXA1VEF5c19Gek1uSFN0cmRFWjdzZFZkNXl0X05RMVRTTFZBclR2QU53Y0RlWGlhSXNSLVPSAa4BQVVfeXFMUFhfLTV4YlZkV3UyaURHVDF0QlUzM05GbEYzQndrSGtZMU1Wa0dtUmxYd2xaaFZZOEdvdjN2T0pHd0liN0d3MUhUWDdWOXJoTzdiR0EtNDEydk1ZckRnb1A1Vi0yUXVzbkVVTDBlNWVXbTAyV0M4emEzc240QlkxWDlhYjA3Q2RuZlBwX2FBcXVxajRHSmdERElFcmFGVE5LLUR6WFM3LXBVcXlsWjBR?oc=5\" target=\"_blank\">Op-ed: With world in 'rupture', too many economic roads lead away from Trump and back to China</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">CNBC</font>",
+              "category": "geopolitical_strategic",
+              "published": "Fri, 13 Feb 2026 08:00:00 GMT",
+              "search_query": "cyber warfare state-sponsored infrastructure attacks national security"
+            }
+          },
+          {
+            "id": 7298,
+            "title": "Global private equity investment hits four-year high in 2025 as investors focus on top end deals, according to KPMG\u2019s Pulse of Private Equity - KPMG",
+            "summary": "Global private equity investment hits four-year high in 2025 as investors focus on top end deals, according to KPMG\u2019s Pulse of Private Equity &nbsp;&nbsp; KPMG",
+            "content": "Global private equity investment hits four-year high in 2025 as investors focus on top end deals, according to KPMG\u2019s Pulse of Private Equity &nbsp;&nbsp; KPMG",
+            "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNTnpVLWUtWG1zWDhaaHA3WV9ReURxa1JWYVUxZS10Yi1NLW95UUpfNlZYd2ozdlc0VUt5bXpDU3FqSXFFWUlYdmtITks0S1ZLNUZpdjdwT3hFeXBWQmxwUzJTWll4MVZzWnVvZmwyeThwSVR0MV9TOVotQTNVLUpCYXhzay13UWdQVFpYVWlvUnBUVEJXY1RiRXFGM21wOWg2X0luTG84UnJvWGJ3c3RJN3h3UnNBeU92?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "KPMG",
+            "published_at": "2026-01-23 16:40:10+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 3851812835,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNTnpVLWUtWG1zWDhaaHA3WV9ReURxa1JWYVUxZS10Yi1NLW95UUpfNlZYd2ozdlc0VUt5bXpDU3FqSXFFWUlYdmtITks0S1ZLNUZpdjdwT3hFeXBWQmxwUzJTWll4MVZzWnVvZmwyeThwSVR0MV9TOVotQTNVLUpCYXhzay13UWdQVFpYVWlvUnBUVEJXY1RiRXFGM21wOWg2X0luTG84UnJvWGJ3c3RJN3h3UnNBeU92?oc=5",
+              "title": "Global private equity investment hits four-year high in 2025 as investors focus on top end deals, according to KPMG\u2019s Pulse of Private Equity - KPMG",
+              "topic": "private equity exit environment M&A volume IPO market window",
+              "source": {
+                "href": "https://kpmg.com",
+                "title": "KPMG"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiuAFBVV95cUxNTnpVLWUtWG1zWDhaaHA3WV9ReURxa1JWYVUxZS10Yi1NLW95UUpfNlZYd2ozdlc0VUt5bXpDU3FqSXFFWUlYdmtITks0S1ZLNUZpdjdwT3hFeXBWQmxwUzJTWll4MVZzWnVvZmwyeThwSVR0MV9TOVotQTNVLUpCYXhzay13UWdQVFpYVWlvUnBUVEJXY1RiRXFGM21wOWg2X0luTG84UnJvWGJ3c3RJN3h3UnNBeU92?oc=5\" target=\"_blank\">Global private equity investment hits four-year high in 2025 as investors focus on top end deals, according to KPMG\u2019s Pulse of Private Equity</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">KPMG</font>",
+              "category": "financial_stability",
+              "published": "Fri, 23 Jan 2026 16:40:10 GMT",
+              "search_query": "shadow banking systemic risk leverage financial contagion monitoring"
+            }
+          },
+          {
+            "id": 7266,
+            "title": "With Supportive New Regulations, Digital Assets Are Likely to Proliferate in 2026 - Skadden, Arps, Slate, Meagher & Flom LLP",
+            "summary": "With Supportive New Regulations, Digital Assets Are Likely to Proliferate in 2026 &nbsp;&nbsp; Skadden, Arps, Slate, Meagher & Flom LLP",
+            "content": "With Supportive New Regulations, Digital Assets Are Likely to Proliferate in 2026 &nbsp;&nbsp; Skadden, Arps, Slate, Meagher & Flom LLP",
+            "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxPMEVZbmRKNnJwcFFxME5WTXdIazdVSmNTU2hLNmxrVFVXQThfLWdmbm1vb1NRZ0tBQ0lsMzI3N3pyVmxBWDB5aVFOLVUzZHVkNnQxbFQ5YVl3cWFCMzA0ZzNpcjJmU095QVFON0VWOGJhYVNjWGJNQmlvSk1FcTlzdGtZR3RrWWVzNC1jeTg2bHd5elRLMnk2SWR3b0JOTjF5bEVEbllGUjMxS3FGZlNjWFJSclVJNnZia1VVNHNFcUZjOWRJc1p2ZHNFZjFvNmQ0UE1RQS1CaUtXYlpGdWVKOVMtQnRydnN0TWhRNUl2azFIN2NwUXc?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Skadden, Arps, Slate, Meagher & Flom LLP",
+            "published_at": "2026-01-13 08:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 3785700972,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxPMEVZbmRKNnJwcFFxME5WTXdIazdVSmNTU2hLNmxrVFVXQThfLWdmbm1vb1NRZ0tBQ0lsMzI3N3pyVmxBWDB5aVFOLVUzZHVkNnQxbFQ5YVl3cWFCMzA0ZzNpcjJmU095QVFON0VWOGJhYVNjWGJNQmlvSk1FcTlzdGtZR3RrWWVzNC1jeTg2bHd5elRLMnk2SWR3b0JOTjF5bEVEbllGUjMxS3FGZlNjWFJSclVJNnZia1VVNHNFcUZjOWRJc1p2ZHNFZjFvNmQ0UE1RQS1CaUtXYlpGdWVKOVMtQnRydnN0TWhRNUl2azFIN2NwUXc?oc=5",
+              "title": "With Supportive New Regulations, Digital Assets Are Likely to Proliferate in 2026 - Skadden, Arps, Slate, Meagher & Flom LLP",
+              "topic": "crypto regulatory framework SEC stablecoin legislation digital asset policy",
+              "source": {
+                "href": "https://www.skadden.com",
+                "title": "Skadden, Arps, Slate, Meagher & Flom LLP"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi9gFBVV95cUxPMEVZbmRKNnJwcFFxME5WTXdIazdVSmNTU2hLNmxrVFVXQThfLWdmbm1vb1NRZ0tBQ0lsMzI3N3pyVmxBWDB5aVFOLVUzZHVkNnQxbFQ5YVl3cWFCMzA0ZzNpcjJmU095QVFON0VWOGJhYVNjWGJNQmlvSk1FcTlzdGtZR3RrWWVzNC1jeTg2bHd5elRLMnk2SWR3b0JOTjF5bEVEbllGUjMxS3FGZlNjWFJSclVJNnZia1VVNHNFcUZjOWRJc1p2ZHNFZjFvNmQ0UE1RQS1CaUtXYlpGdWVKOVMtQnRydnN0TWhRNUl2azFIN2NwUXc?oc=5\" target=\"_blank\">With Supportive New Regulations, Digital Assets Are Likely to Proliferate in 2026</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Skadden, Arps, Slate, Meagher & Flom LLP</font>",
+              "category": "digital_assets_crypto",
+              "published": "Tue, 13 Jan 2026 08:00:00 GMT",
+              "search_query": "blockchain enterprise integration tokenization real world assets RWA"
+            }
+          },
+          {
+            "id": 7243,
+            "title": "Morocco's clean energy and innovation key to food security - The World Economic Forum",
+            "summary": "Morocco's clean energy and innovation key to food security &nbsp;&nbsp; The World Economic Forum",
+            "content": "Morocco's clean energy and innovation key to food security &nbsp;&nbsp; The World Economic Forum",
+            "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPR0ZleENZcjU2OFhxYU5kYlFJV3o4ZXRrSndyejZCNk1qTjFfT2ExZDh4LTZfNjdTNWhkRWdMWUpwR1lldnNyTDgxZU9pSHlwck1NTFFKM1MzSEV4aktMVHdQVEwwS2dvYk91QkQxLWVDazYtQjVKOW1XMXltcmZBbUhaM29DTHI1dmpNYzdvc2VRUDF4Y1hn?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "The World Economic Forum",
+            "published_at": "2026-01-08 08:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 3418311345,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPR0ZleENZcjU2OFhxYU5kYlFJV3o4ZXRrSndyejZCNk1qTjFfT2ExZDh4LTZfNjdTNWhkRWdMWUpwR1lldnNyTDgxZU9pSHlwck1NTFFKM1MzSEV4aktMVHdQVEwwS2dvYk91QkQxLWVDazYtQjVKOW1XMXltcmZBbUhaM29DTHI1dmpNYzdvc2VRUDF4Y1hn?oc=5",
+              "title": "Morocco's clean energy and innovation key to food security - The World Economic Forum",
+              "topic": "renewables energy transition carbon credit policy green hydrogen",
+              "source": {
+                "href": "https://www.weforum.org",
+                "title": "The World Economic Forum"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMilwFBVV95cUxPR0ZleENZcjU2OFhxYU5kYlFJV3o4ZXRrSndyejZCNk1qTjFfT2ExZDh4LTZfNjdTNWhkRWdMWUpwR1lldnNyTDgxZU9pSHlwck1NTFFKM1MzSEV4aktMVHdQVEwwS2dvYk91QkQxLWVDazYtQjVKOW1XMXltcmZBbUhaM29DTHI1dmpNYzdvc2VRUDF4Y1hn?oc=5\" target=\"_blank\">Morocco's clean energy and innovation key to food security</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">The World Economic Forum</font>",
+              "category": "energy_nuclear_transition",
+              "published": "Thu, 08 Jan 2026 08:00:00 GMT",
+              "search_query": "power grid stability electricity demand data center energy consumption"
+            }
+          },
+          {
+            "id": 7294,
+            "title": "Portuguese banking system \u2013 3rd quarter of 2025 - bportugal.pt",
+            "summary": "Portuguese banking system \u2013 3rd quarter of 2025 &nbsp;&nbsp; bportugal.pt",
+            "content": "Portuguese banking system \u2013 3rd quarter of 2025 &nbsp;&nbsp; bportugal.pt",
+            "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOYjNBVTlyMWpMUWQwNW8tZHlhYkNLcjJxWFE2NjNCNV9WZ1lDSFc3UnhKVkFPT0JIU2pYNnpBREswWTFtVXhGdTU1Z3BqOWRYOEFIZVJTWWFkY29lNW5SWVFPWUNick5zMEc1YUtNTjJ2TWQwcGxZVkQ4dlhxQkhvRHdEYU9LeHZM?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "bportugal.pt",
+            "published_at": "2025-12-30 08:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 709805295,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOYjNBVTlyMWpMUWQwNW8tZHlhYkNLcjJxWFE2NjNCNV9WZ1lDSFc3UnhKVkFPT0JIU2pYNnpBREswWTFtVXhGdTU1Z3BqOWRYOEFIZVJTWWFkY29lNW5SWVFPWUNick5zMEc1YUtNTjJ2TWQwcGxZVkQ4dlhxQkhvRHdEYU9LeHZM?oc=5",
+              "title": "Portuguese banking system \u2013 3rd quarter of 2025 - bportugal.pt",
+              "topic": "banking system capital ratios credit quality non-performing loans",
+              "source": {
+                "href": "https://www.bportugal.pt",
+                "title": "bportugal.pt"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiiAFBVV95cUxOYjNBVTlyMWpMUWQwNW8tZHlhYkNLcjJxWFE2NjNCNV9WZ1lDSFc3UnhKVkFPT0JIU2pYNnpBREswWTFtVXhGdTU1Z3BqOWRYOEFIZVJTWWFkY29lNW5SWVFPWUNick5zMEc1YUtNTjJ2TWQwcGxZVkQ4dlhxQkhvRHdEYU9LeHZM?oc=5\" target=\"_blank\">Portuguese banking system \u2013 3rd quarter of 2025</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">bportugal.pt</font>",
+              "category": "financial_stability",
+              "published": "Tue, 30 Dec 2025 08:00:00 GMT",
+              "search_query": "shadow banking systemic risk leverage financial contagion monitoring"
+            }
+          },
+          {
+            "id": 7276,
+            "title": "Big Beautiful Bill Healthcare Changes: A Complete Guide - GoodRx",
+            "summary": "Big Beautiful Bill Healthcare Changes: A Complete Guide &nbsp;&nbsp; GoodRx",
+            "content": "Big Beautiful Bill Healthcare Changes: A Complete Guide &nbsp;&nbsp; GoodRx",
+            "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOYkZJMWgxbWx0M2xlTHI5UVpZc1p2Zkk1VGZYTUs5c25fbERPTDExcGVldFRxbVhMZDVEN3Z0SUU3cGNLNzM0RF94R3FUa19jZV9iOGxrWVBhdEZYYWZ1UVZXQzEyLWgtTnRVTDRNdlhyZk5tc04tTEFGMVE5S0hJVHBYMlFjRjJ4YVAxQ2dHVkk?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "GoodRx",
+            "published_at": "2025-12-18 08:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 3766370501,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOYkZJMWgxbWx0M2xlTHI5UVpZc1p2Zkk1VGZYTUs5c25fbERPTDExcGVldFRxbVhMZDVEN3Z0SUU3cGNLNzM0RF94R3FUa19jZV9iOGxrWVBhdEZYYWZ1UVZXQzEyLWgtTnRVTDRNdlhyZk5tc04tTEFGMVE5S0hJVHBYMlFjRjJ4YVAxQ2dHVkk?oc=5",
+              "title": "Big Beautiful Bill Healthcare Changes: A Complete Guide - GoodRx",
+              "topic": "healthcare policy reform drug pricing negotiation Medicare impact",
+              "source": {
+                "href": "https://www.goodrx.com",
+                "title": "GoodRx"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMikAFBVV95cUxOYkZJMWgxbWx0M2xlTHI5UVpZc1p2Zkk1VGZYTUs5c25fbERPTDExcGVldFRxbVhMZDVEN3Z0SUU3cGNLNzM0RF94R3FUa19jZV9iOGxrWVBhdEZYYWZ1UVZXQzEyLWgtTnRVTDRNdlhyZk5tc04tTEFGMVE5S0hJVHBYMlFjRjJ4YVAxQ2dHVkk?oc=5\" target=\"_blank\">Big Beautiful Bill Healthcare Changes: A Complete Guide</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">GoodRx</font>",
+              "category": "pharma_healthcare",
+              "published": "Thu, 18 Dec 2025 08:00:00 GMT",
+              "search_query": "medical device innovation healthtech telemedicine adoption"
+            }
+          },
+          {
+            "id": 7275,
+            "title": "Medicare Drug Changes Bring Big Savings in 2026 - AARP",
+            "summary": "Medicare Drug Changes Bring Big Savings in 2026 &nbsp;&nbsp; AARP",
+            "content": "Medicare Drug Changes Bring Big Savings in 2026 &nbsp;&nbsp; AARP",
+            "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE8zdXA5TzR1U29Qd1BkZmdWd0lORVBtcF9nWTJEN0xwdEctVl9yNHlVU0lROXZJQ211dVJReE1xbmZBNVNkYmIxcFN3bUJYLWZuZ0hBbC1TbzY2NUxrTEx2UXFUZnA2a1QwZEk4Yk1Vc3piVHhfcXJQdEVodnE?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "AARP",
+            "published_at": "2025-12-18 08:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 1114256922,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE8zdXA5TzR1U29Qd1BkZmdWd0lORVBtcF9nWTJEN0xwdEctVl9yNHlVU0lROXZJQ211dVJReE1xbmZBNVNkYmIxcFN3bUJYLWZuZ0hBbC1TbzY2NUxrTEx2UXFUZnA2a1QwZEk4Yk1Vc3piVHhfcXJQdEVodnE?oc=5",
+              "title": "Medicare Drug Changes Bring Big Savings in 2026 - AARP",
+              "topic": "healthcare policy reform drug pricing negotiation Medicare impact",
+              "source": {
+                "href": "https://www.aarp.org",
+                "title": "AARP"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMifEFVX3lxTE8zdXA5TzR1U29Qd1BkZmdWd0lORVBtcF9nWTJEN0xwdEctVl9yNHlVU0lROXZJQ211dVJReE1xbmZBNVNkYmIxcFN3bUJYLWZuZ0hBbC1TbzY2NUxrTEx2UXFUZnA2a1QwZEk4Yk1Vc3piVHhfcXJQdEVodnE?oc=5\" target=\"_blank\">Medicare Drug Changes Bring Big Savings in 2026</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">AARP</font>",
+              "category": "pharma_healthcare",
+              "published": "Thu, 18 Dec 2025 08:00:00 GMT",
+              "search_query": "medical device innovation healthtech telemedicine adoption"
+            }
+          },
+          {
+            "id": 7280,
+            "title": "New voluntary CMS pay model encourages use of health tech - American Medical Association",
+            "summary": "New voluntary CMS pay model encourages use of health tech &nbsp;&nbsp; American Medical Association",
+            "content": "New voluntary CMS pay model encourages use of health tech &nbsp;&nbsp; American Medical Association",
+            "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOMzFjNXEyQlFUQWJ6c3VlMEZxVzIwT0dRYkc2MVZSb2lHMHNLR1Z6QzJ3cGFDeU1tWEZGcXNuR3RhT3lyVzZ6Z3MxUDZtZ0diendHaktMRGR4bTNreUlxbmdqVUhpSGVLOUNCanZJeERhWEFxaEVZUVUzVXRCNmdmQTBidXRBenFzeU8waE1ZeVpmZHpjdlhlTjQyc1FNcU9tUTViM3dOR2dLRHJ0cDJCMlE0ZVBwa3VLZHhLZlNvN1E?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "American Medical Association",
+            "published_at": "2025-12-04 08:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 334746918,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOMzFjNXEyQlFUQWJ6c3VlMEZxVzIwT0dRYkc2MVZSb2lHMHNLR1Z6QzJ3cGFDeU1tWEZGcXNuR3RhT3lyVzZ6Z3MxUDZtZ0diendHaktMRGR4bTNreUlxbmdqVUhpSGVLOUNCanZJeERhWEFxaEVZUVUzVXRCNmdmQTBidXRBenFzeU8waE1ZeVpmZHpjdlhlTjQyc1FNcU9tUTViM3dOR2dLRHJ0cDJCMlE0ZVBwa3VLZHhLZlNvN1E?oc=5",
+              "title": "New voluntary CMS pay model encourages use of health tech - American Medical Association",
+              "topic": "medical device innovation healthtech telemedicine adoption",
+              "source": {
+                "href": "https://www.ama-assn.org",
+                "title": "American Medical Association"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiwAFBVV95cUxOMzFjNXEyQlFUQWJ6c3VlMEZxVzIwT0dRYkc2MVZSb2lHMHNLR1Z6QzJ3cGFDeU1tWEZGcXNuR3RhT3lyVzZ6Z3MxUDZtZ0diendHaktMRGR4bTNreUlxbmdqVUhpSGVLOUNCanZJeERhWEFxaEVZUVUzVXRCNmdmQTBidXRBenFzeU8waE1ZeVpmZHpjdlhlTjQyc1FNcU9tUTViM3dOR2dLRHJ0cDJCMlE0ZVBwa3VLZHhLZlNvN1E?oc=5\" target=\"_blank\">New voluntary CMS pay model encourages use of health tech</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">American Medical Association</font>",
+              "category": "pharma_healthcare",
+              "published": "Thu, 04 Dec 2025 08:00:00 GMT",
+              "search_query": "medical device innovation healthtech telemedicine adoption"
+            }
+          },
+          {
+            "id": 7270,
+            "title": "Tether Expands Real-World Asset Compliance Infrastructure Through Agreement Between Hadron by Tether and Crystal Intelligence - Tether.io",
+            "summary": "Tether Expands Real-World Asset Compliance Infrastructure Through Agreement Between Hadron by Tether and Crystal Intelligence &nbsp;&nbsp; Tether.io",
+            "content": "Tether Expands Real-World Asset Compliance Infrastructure Through Agreement Between Hadron by Tether and Crystal Intelligence &nbsp;&nbsp; Tether.io",
+            "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxNVFNOZWhCOWNYNzdybzBCQW14ZVdseVFDVl93Y3IxQ2I0a25MN0c1MDRzWVZUNzFZOC04OXh5Q1NCZ0NvSEVabUxjQ1l1NUNpUjF0YmY5ZkwwTUM3R3NBOWhMT2dVczY3eFl0RVllT2hJUk1HeXRCQVJWcEJubWducHBSbmVxX3pKMVgxZ0pmMGxkMVRHR1ZLQk81TUNzZzNFVUNSUUlnRWhqY2tpUVdEVFotcW9fSUZCd2ttQVZoY2VOQk42WDluMWNma0FYU1pnQVo4alFUUTlSTW5Sa2dfX2x1cw?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Tether.io",
+            "published_at": "2025-11-25 08:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 3681395801,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxNVFNOZWhCOWNYNzdybzBCQW14ZVdseVFDVl93Y3IxQ2I0a25MN0c1MDRzWVZUNzFZOC04OXh5Q1NCZ0NvSEVabUxjQ1l1NUNpUjF0YmY5ZkwwTUM3R3NBOWhMT2dVczY3eFl0RVllT2hJUk1HeXRCQVJWcEJubWducHBSbmVxX3pKMVgxZ0pmMGxkMVRHR1ZLQk81TUNzZzNFVUNSUUlnRWhqY2tpUVdEVFotcW9fSUZCd2ttQVZoY2VOQk42WDluMWNma0FYU1pnQVo4alFUUTlSTW5Sa2dfX2x1cw?oc=5",
+              "title": "Tether Expands Real-World Asset Compliance Infrastructure Through Agreement Between Hadron by Tether and Crystal Intelligence - Tether.io",
+              "topic": "blockchain enterprise integration tokenization real world assets RWA",
+              "source": {
+                "href": "https://tether.io",
+                "title": "Tether.io"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi4wFBVV95cUxNVFNOZWhCOWNYNzdybzBCQW14ZVdseVFDVl93Y3IxQ2I0a25MN0c1MDRzWVZUNzFZOC04OXh5Q1NCZ0NvSEVabUxjQ1l1NUNpUjF0YmY5ZkwwTUM3R3NBOWhMT2dVczY3eFl0RVllT2hJUk1HeXRCQVJWcEJubWducHBSbmVxX3pKMVgxZ0pmMGxkMVRHR1ZLQk81TUNzZzNFVUNSUUlnRWhqY2tpUVdEVFotcW9fSUZCd2ttQVZoY2VOQk42WDluMWNma0FYU1pnQVo4alFUUTlSTW5Sa2dfX2x1cw?oc=5\" target=\"_blank\">Tether Expands Real-World Asset Compliance Infrastructure Through Agreement Between Hadron by Tether and Crystal Intelligence</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Tether.io</font>",
+              "category": "digital_assets_crypto",
+              "published": "Tue, 25 Nov 2025 08:00:00 GMT",
+              "search_query": "blockchain enterprise integration tokenization real world assets RWA"
+            }
+          },
+          {
+            "id": 7238,
+            "title": "Artificial intelligence and robotics in predictive maintenance: a comprehensive review - Frontiers",
+            "summary": "Artificial intelligence and robotics in predictive maintenance: a comprehensive review &nbsp;&nbsp; Frontiers",
+            "content": "Artificial intelligence and robotics in predictive maintenance: a comprehensive review &nbsp;&nbsp; Frontiers",
+            "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdF9tcUdUb29wTGNuc244UG5GTkNoQzZqZDhranc5R3dBNEh0YXdNaW9FeFdTdDlVZVZndm1lSVh2V21vUWFZZC1BYlBzMHFWWWxoQzRPTjF4SjNWeVBWcDR4RjJ2X0VUbXZxbGkybC04TXZySUw1bDdzc3JsbmRqQUgtdDNMbHJDZVFFRl9SSFZNanZGdzhFYVZRODN1ZzJPOXc?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Frontiers",
+            "published_at": "2025-11-14 20:45:19+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 1194478304,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdF9tcUdUb29wTGNuc244UG5GTkNoQzZqZDhranc5R3dBNEh0YXdNaW9FeFdTdDlVZVZndm1lSVh2V21vUWFZZC1BYlBzMHFWWWxoQzRPTjF4SjNWeVBWcDR4RjJ2X0VUbXZxbGkybC04TXZySUw1bDdzc3JsbmRqQUgtdDNMbHJDZVFFRl9SSFZNanZGdzhFYVZRODN1ZzJPOXc?oc=5",
+              "title": "Artificial intelligence and robotics in predictive maintenance: a comprehensive review - Frontiers",
+              "topic": "quantum computing robotics automation frontier models benchmark",
+              "source": {
+                "href": "https://www.frontiersin.org",
+                "title": "Frontiers"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiogFBVV95cUxQdF9tcUdUb29wTGNuc244UG5GTkNoQzZqZDhranc5R3dBNEh0YXdNaW9FeFdTdDlVZVZndm1lSVh2V21vUWFZZC1BYlBzMHFWWWxoQzRPTjF4SjNWeVBWcDR4RjJ2X0VUbXZxbGkybC04TXZySUw1bDdzc3JsbmRqQUgtdDNMbHJDZVFFRl9SSFZNanZGdzhFYVZRODN1ZzJPOXc?oc=5\" target=\"_blank\">Artificial intelligence and robotics in predictive maintenance: a comprehensive review</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Frontiers</font>",
+              "category": "tech_ai_semiconductors",
+              "published": "Fri, 14 Nov 2025 20:45:19 GMT",
+              "search_query": "tech regulation antitrust platform dominance digital sovereignty"
+            }
+          },
+          {
+            "id": 7293,
+            "title": "3. Resilience of the Australian Financial System | Financial Stability Review \u2013 October 2025 - Reserve Bank of Australia",
+            "summary": "3. Resilience of the Australian Financial System | Financial Stability Review \u2013 October 2025 &nbsp;&nbsp; Reserve Bank of Australia",
+            "content": "3. Resilience of the Australian Financial System | Financial Stability Review \u2013 October 2025 &nbsp;&nbsp; Reserve Bank of Australia",
+            "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQa2Q0MkFFNlk0T2ZvMWVXeXZLSVdMNGxWQTR2MzFVSUxJRk1DTUpvNnlpTmFPZjM2b2kxUjdiLW03MWJRY28xWU9nQXAzQ1g4WlBZUk1QWHZtWHhodlUwNDBlcVlpZTVBQWl0cGpCQU0ycUJSbEpkYlFnRW02UGhTX3VERUlyM2I0U2FIanJvcDB3TlppZnU4TnZ6cTNOVnJD?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Reserve Bank of Australia",
+            "published_at": "2025-10-02 05:08:18+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 1332015176,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQa2Q0MkFFNlk0T2ZvMWVXeXZLSVdMNGxWQTR2MzFVSUxJRk1DTUpvNnlpTmFPZjM2b2kxUjdiLW03MWJRY28xWU9nQXAzQ1g4WlBZUk1QWHZtWHhodlUwNDBlcVlpZTVBQWl0cGpCQU0ycUJSbEpkYlFnRW02UGhTX3VERUlyM2I0U2FIanJvcDB3TlppZnU4TnZ6cTNOVnJD?oc=5",
+              "title": "3. Resilience of the Australian Financial System | Financial Stability Review \u2013 October 2025 - Reserve Bank of Australia",
+              "topic": "banking system capital ratios credit quality non-performing loans",
+              "source": {
+                "href": "https://www.rba.gov.au",
+                "title": "Reserve Bank of Australia"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMioAFBVV95cUxQa2Q0MkFFNlk0T2ZvMWVXeXZLSVdMNGxWQTR2MzFVSUxJRk1DTUpvNnlpTmFPZjM2b2kxUjdiLW03MWJRY28xWU9nQXAzQ1g4WlBZUk1QWHZtWHhodlUwNDBlcVlpZTVBQWl0cGpCQU0ycUJSbEpkYlFnRW02UGhTX3VERUlyM2I0U2FIanJvcDB3TlppZnU4TnZ6cTNOVnJD?oc=5\" target=\"_blank\">3. Resilience of the Australian Financial System | Financial Stability Review \u2013 October 2025</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Reserve Bank of Australia</font>",
+              "category": "financial_stability",
+              "published": "Thu, 02 Oct 2025 05:08:18 GMT",
+              "search_query": "shadow banking systemic risk leverage financial contagion monitoring"
+            }
+          },
+          {
+            "id": 7308,
+            "title": "Even under mounting tariff pressures, the consumer is hanging tough - J.P. Morgan Private Bank",
+            "summary": "Even under mounting tariff pressures, the consumer is hanging tough &nbsp;&nbsp; J.P. Morgan Private Bank",
+            "content": "Even under mounting tariff pressures, the consumer is hanging tough &nbsp;&nbsp; J.P. Morgan Private Bank",
+            "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQcWlFRlo3VXhFQThJY2s1ZmJFSmVobzJsUE1XY3ZXMHRucGVfVEhrUk9NMWV4UWRRTkw3UFhiZlJSRGZidFVRbldhZGI4dkpkY09CekRFc1JOcTlfb1V4ckViNlB4ZTEza0hmLWxBWURLcnVNdldLZ0RmYk8tT3dNQVdiNUkzNUE4OUdvbTJndlhkTlpodFp3cFFLMHU1LWh2Y0hGZU5pNFM1V1J5TWE3ejNlNUVOcFJFSTNOblFUTVFDaTdSeWZCOXpFYkZfV19zRXZv?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "J.P. Morgan Private Bank",
+            "published_at": "2025-09-22 07:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 2204281421,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQcWlFRlo3VXhFQThJY2s1ZmJFSmVobzJsUE1XY3ZXMHRucGVfVEhrUk9NMWV4UWRRTkw3UFhiZlJSRGZidFVRbldhZGI4dkpkY09CekRFc1JOcTlfb1V4ckViNlB4ZTEza0hmLWxBWURLcnVNdldLZ0RmYk8tT3dNQVdiNUkzNUE4OUdvbTJndlhkTlpodFp3cFFLMHU1LWh2Y0hGZU5pNFM1V1J5TWE3ejNlNUVOcFJFSTNOblFUTVFDaTdSeWZCOXpFYkZfV19zRXZv?oc=5",
+              "title": "Even under mounting tariff pressures, the consumer is hanging tough - J.P. Morgan Private Bank",
+              "topic": "consumer default trends credit card delinquency rates negative wealth effect",
+              "source": {
+                "href": "https://privatebank.jpmorgan.com",
+                "title": "J.P. Morgan Private Bank"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi0wFBVV95cUxQcWlFRlo3VXhFQThJY2s1ZmJFSmVobzJsUE1XY3ZXMHRucGVfVEhrUk9NMWV4UWRRTkw3UFhiZlJSRGZidFVRbldhZGI4dkpkY09CekRFc1JOcTlfb1V4ckViNlB4ZTEza0hmLWxBWURLcnVNdldLZ0RmYk8tT3dNQVdiNUkzNUE4OUdvbTJndlhkTlpodFp3cFFLMHU1LWh2Y0hGZU5pNFM1V1J5TWE3ejNlNUVOcFJFSTNOblFUTVFDaTdSeWZCOXpFYkZfV19zRXZv?oc=5\" target=\"_blank\">Even under mounting tariff pressures, the consumer is hanging tough</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">J.P. Morgan Private Bank</font>",
+              "category": "consumer_retail_dynamics",
+              "published": "Mon, 22 Sep 2025 07:00:00 GMT",
+              "search_query": "labor market tightness real wage growth unemployment claims impact layoffs"
+            }
+          },
+          {
+            "id": 7244,
+            "title": "America's Clean Energy Transition Will Continue Despite the One Big Beautiful Bill Act - Columbia Business School",
+            "summary": "America's Clean Energy Transition Will Continue Despite the One Big Beautiful Bill Act &nbsp;&nbsp; Columbia Business School",
+            "content": "America's Clean Energy Transition Will Continue Despite the One Big Beautiful Bill Act &nbsp;&nbsp; Columbia Business School",
+            "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOWndUV3dRV1JBYXpjejFIRURFUDVmWUhVZ1hfV3NPZ2FFekhTQ0VraHpOejNEUjRGdDNvU0lRVjk1Tlp4SGQ2dEotUV9ZTWQ1LXIxbDV0NmlDTFgzaUxwUTVTM29GVEJlYVo2bmhIaUZ4YVRqeklXdWs0bEtBSWM2X3FteHdVTEdyLUpmUmF1b2tWSlBx?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Columbia Business School",
+            "published_at": "2025-07-16 07:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 37595338,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOWndUV3dRV1JBYXpjejFIRURFUDVmWUhVZ1hfV3NPZ2FFekhTQ0VraHpOejNEUjRGdDNvU0lRVjk1Tlp4SGQ2dEotUV9ZTWQ1LXIxbDV0NmlDTFgzaUxwUTVTM29GVEJlYVo2bmhIaUZ4YVRqeklXdWs0bEtBSWM2X3FteHdVTEdyLUpmUmF1b2tWSlBx?oc=5",
+              "title": "America's Clean Energy Transition Will Continue Despite the One Big Beautiful Bill Act - Columbia Business School",
+              "topic": "renewables energy transition carbon credit policy green hydrogen",
+              "source": {
+                "href": "https://business.columbia.edu",
+                "title": "Columbia Business School"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMilAFBVV95cUxOWndUV3dRV1JBYXpjejFIRURFUDVmWUhVZ1hfV3NPZ2FFekhTQ0VraHpOejNEUjRGdDNvU0lRVjk1Tlp4SGQ2dEotUV9ZTWQ1LXIxbDV0NmlDTFgzaUxwUTVTM29GVEJlYVo2bmhIaUZ4YVRqeklXdWs0bEtBSWM2X3FteHdVTEdyLUpmUmF1b2tWSlBx?oc=5\" target=\"_blank\">America's Clean Energy Transition Will Continue Despite the One Big Beautiful Bill Act</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Columbia Business School</font>",
+              "category": "energy_nuclear_transition",
+              "published": "Wed, 16 Jul 2025 07:00:00 GMT",
+              "search_query": "power grid stability electricity demand data center energy consumption"
+            }
+          },
+          {
+            "id": 7281,
+            "title": "Manufacturing PMI\u00ae at 48.7%; April 2025 Manufacturing ISM\u00ae Report On Business\u00ae - PR Newswire",
+            "summary": "Manufacturing PMI\u00ae at 48.7%; April 2025 Manufacturing ISM\u00ae Report On Business\u00ae &nbsp;&nbsp; PR Newswire",
+            "content": "Manufacturing PMI\u00ae at 48.7%; April 2025 Manufacturing ISM\u00ae Report On Business\u00ae &nbsp;&nbsp; PR Newswire",
+            "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOdF8xRUtNc1RqME5GTTFLMzE4Z3BueU1jendudUtmNzVELTlqVjVsREtYQ0RQc29WN0YzS20wUENUN2xXOE9PLWw2VjJmbWxocy05QkxmUEpuQzB2R1RuNmFzbjh4RDllS1pwa1hLa3JicHEwcW1vUFdjZzNEM0U0aGI2ZktpWTZDM3VDcEpjWXJvdzZqWHF3Y3dUSG1jVnN2dHRnMzlBekRKeElEMm1ZM3F1RkRFZG9wQlNhN3p1dE9CQkpaNVZrLQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "PR Newswire",
+            "published_at": "2025-05-01 07:00:00+00:00",
+            "collected_at": "2026-04-16 16:00:44.988635+00:00",
+            "alpaca_id": 3669855277,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOdF8xRUtNc1RqME5GTTFLMzE4Z3BueU1jendudUtmNzVELTlqVjVsREtYQ0RQc29WN0YzS20wUENUN2xXOE9PLWw2VjJmbWxocy05QkxmUEpuQzB2R1RuNmFzbjh4RDllS1pwa1hLa3JicHEwcW1vUFdjZzNEM0U0aGI2ZktpWTZDM3VDcEpjWXJvdzZqWHF3Y3dUSG1jVnN2dHRnMzlBekRKeElEMm1ZM3F1RkRFZG9wQlNhN3p1dE9CQkpaNVZrLQ?oc=5",
+              "title": "Manufacturing PMI\u00ae at 48.7%; April 2025 Manufacturing ISM\u00ae Report On Business\u00ae - PR Newswire",
+              "topic": "manufacturing PMI contractionary territory new orders vs inventory",
+              "source": {
+                "href": "https://www.prnewswire.com",
+                "title": "PR Newswire"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiyAFBVV95cUxOdF8xRUtNc1RqME5GTTFLMzE4Z3BueU1jendudUtmNzVELTlqVjVsREtYQ0RQc29WN0YzS20wUENUN2xXOE9PLWw2VjJmbWxocy05QkxmUEpuQzB2R1RuNmFzbjh4RDllS1pwa1hLa3JicHEwcW1vUFdjZzNEM0U0aGI2ZktpWTZDM3VDcEpjWXJvdzZqWHF3Y3dUSG1jVnN2dHRnMzlBekRKeElEMm1ZM3F1RkRFZG9wQlNhN3p1dE9CQkpaNVZrLQ?oc=5\" target=\"_blank\">Manufacturing PMI\u00ae at 48.7%; April 2025 Manufacturing ISM\u00ae Report On Business\u00ae</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">PR Newswire</font>",
+              "category": "industrial_automotive",
+              "published": "Thu, 01 May 2025 07:00:00 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          }
+        ],
+        "extraction_timestamp": "2026-04-16T11:28:53.774256",
+        "stats": {
+          "total_news": 65,
+          "unique_news": 65,
+          "duplicates": 0,
+          "sources": [
+            "Test Financial News",
+            "google_news"
+          ],
+          "source_count": 2
+        },
+        "duration_seconds": 1.790215,
+        "validation_checks": {
+          "min_count_passed": true,
+          "freshness_passed": true,
+          "data_quality_passed": true
+        }
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "load_portfolio_001",
+      "step_type": "data_validation",
+      "status": "completed",
+      "start_time": "2026-04-16T11:28:53.775320",
+      "end_time": "2026-04-16T11:28:57.046556",
+      "duration_seconds": 3.271236,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "positions": [
+          {
+            "symbol": "BKR",
+            "qty": "136",
+            "side": "long",
+            "avg_entry_price": "61.658162",
+            "current_price": "60.74",
+            "unrealized_pl": "-124.870032",
+            "unrealized_plpc": "-0.01489"
+          },
+          {
+            "symbol": "BWXT",
+            "qty": "13",
+            "side": "long",
+            "avg_entry_price": "233.25",
+            "current_price": "232.78",
+            "unrealized_pl": "-6.11",
+            "unrealized_plpc": "-0.00202"
+          },
+          {
+            "symbol": "MA",
+            "qty": "10",
+            "side": "long",
+            "avg_entry_price": "505.01",
+            "current_price": "519.66",
+            "unrealized_pl": "146.5",
+            "unrealized_plpc": "0.02901"
+          },
+          {
+            "symbol": "PWR",
+            "qty": "47",
+            "side": "long",
+            "avg_entry_price": "590.77",
+            "current_price": "586.14",
+            "unrealized_pl": "-217.61",
+            "unrealized_plpc": "-0.00784"
+          },
+          {
+            "symbol": "TSM",
+            "qty": "90",
+            "side": "long",
+            "avg_entry_price": "369.55",
+            "current_price": "364.5002",
+            "unrealized_pl": "-454.482",
+            "unrealized_plpc": "-0.01366"
+          },
+          {
+            "symbol": "WEC",
+            "qty": "104",
+            "side": "long",
+            "avg_entry_price": "115.01",
+            "current_price": "114.57",
+            "unrealized_pl": "-45.76",
+            "unrealized_plpc": "-0.00383"
+          }
+        ],
+        "orders": [],
+        "account": {
+          "buying_power": 109851.07,
+          "cash": 10550.99,
+          "portfolio_value": 99300.08,
+          "equity": 99300.08
+        },
+        "tickers": [
+          "BKR",
+          "TSM",
+          "BWXT",
+          "WEC",
+          "MA",
+          "PWR"
+        ],
+        "live_tickers": [
+          "BKR",
+          "BWXT",
+          "MA",
+          "PWR",
+          "TSM",
+          "WEC"
+        ],
+        "pending_tickers": []
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "load_watchlist_001",
+      "step_type": "data_validation",
+      "status": "completed",
+      "start_time": "2026-04-16T11:28:57.046952",
+      "end_time": "2026-04-16T11:28:59.597805",
+      "duration_seconds": 2.550853,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "watchlist": {
+          "id": 2,
+          "name": "Energ\u00eda Nuclear",
+          "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+          "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+          "criteria_summary": "30 empresas del sector nuclear global",
+          "status": "active",
+          "created_at": "2026-04-10 02:34:33.842929+00:00",
+          "updated_at": "2026-04-10 02:34:33.842929+00:00"
+        },
+        "tickers": [
+          "TSM",
+          "SNPS",
+          "QCOM",
+          "PWR",
+          "BKR",
+          "PEG",
+          "WEC"
+        ],
+        "id": 2,
+        "name": "Energ\u00eda Nuclear"
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "aggregation_001",
+      "step_type": "aggregation",
+      "status": "completed",
+      "start_time": "2026-04-16T11:34:48.004379",
+      "end_time": "2026-04-16T11:34:48.004550",
+      "duration_seconds": 0.000171,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "bullish": [
+          {
+            "success": true,
+            "ticker": "BWXT",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-16T11:31:52.971603",
+            "semantic_context": [
+              "BWXT",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 9,
+            "unique_entities_found": 8,
+            "top_risks": [],
+            "top_opportunities": [
+              {
+                "insight_text": "La alianza estrat\u00e9gica entre ambas naciones refuerza la resiliencia del suministro nuclear comercial y militar, beneficiando a BWXT como proveedor clave en el ecosistema de seguridad nacional y energ\u00eda nuclear.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.85
+              },
+              {
+                "insight_text": "Un aumento significativo en la demanda de uranio valida la tesis de expansi\u00f3n de capacidad nuclear baseload, lo que incrementa las oportunidades de mercado para los componentes de reactores y servicios de ciclo de combustible de BWXT.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.8
+              },
+              {
+                "insight_text": "La seguridad en el suministro de materiales estrat\u00e9gicos reduce el riesgo operativo en la fabricaci\u00f3n de componentes para submarinos nucleares y el desarrollo de reactores SMR.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.65
+              }
+            ],
+            "quant_stats": {
+              "current_price": 238.42,
+              "sma_50": 207.12,
+              "sma_200": 185.47,
+              "price_to_sma200_dist": 28.55,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 66.5,
+              "macd": {
+                "line": 8.576,
+                "signal": 5.653,
+                "histogram": 2.923
+              },
+              "rvol": 0.78,
+              "obv": 43218962.0,
+              "atr_14": 9.49,
+              "std_dev_20": 64.99,
+              "beta_spy": 2.28,
+              "corr_spy_20d": 0.77,
+              "volatility_ratio": 3.98
+            },
+            "avg_confidence": 0.27,
+            "sentiment_score": 0.29,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.38,
+            "recommendation": "BULLISH",
+            "rationale": "La Matriz de ADN arroj\u00f3 un shock fundamental alcista (+0.29).",
+            "bull_case": {
+              "arguments": [
+                "La alianza estrat\u00e9gica entre ambas naciones refuerza la resiliencia del suministro nuclear comercial y militar, beneficiando a BWXT como proveedor clave en el ecosistema de seguridad nacional y energ\u00eda nuclear.",
+                "Un aumento significativo en la demanda de uranio valida la tesis de expansi\u00f3n de capacidad nuclear baseload, lo que incrementa las oportunidades de mercado para los componentes de reactores y servicios de ciclo de combustible de BWXT.",
+                "La seguridad en el suministro de materiales estrat\u00e9gicos reduce el riesgo operativo en la fabricaci\u00f3n de componentes para submarinos nucleares y el desarrollo de reactores SMR."
+              ]
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          }
+        ],
+        "bearish": [],
+        "cautious": [
+          {
+            "success": true,
+            "ticker": "SNPS",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": false
+            },
+            "analysis_timestamp": "2026-04-16T11:29:05.124713",
+            "semantic_context": [
+              "SNPS",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 0,
+            "unique_entities_found": 0,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 438.45,
+              "sma_50": 421.29,
+              "sma_200": 483.84,
+              "price_to_sma200_dist": -9.38,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 60.0,
+              "macd": {
+                "line": -2.734,
+                "signal": -7.599,
+                "histogram": 4.865
+              },
+              "rvol": 1.11,
+              "obv": -5654379.0,
+              "atr_14": 16.45,
+              "std_dev_20": 45.93,
+              "beta_spy": 1.75,
+              "corr_spy_20d": 0.67,
+              "volatility_ratio": 3.75
+            },
+            "avg_confidence": 0.5,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "BKR",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-16T11:29:42.631286",
+            "semantic_context": [
+              "BKR",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 5,
+            "unique_entities_found": 5,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 60.07,
+              "sma_50": 60.9,
+              "sma_200": 50.2,
+              "price_to_sma200_dist": 19.67,
+              "trend": "BULLISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 46.1,
+              "macd": {
+                "line": 0.493,
+                "signal": 0.616,
+                "histogram": -0.123
+              },
+              "rvol": 0.84,
+              "obv": 273765485.0,
+              "atr_14": 1.92,
+              "std_dev_20": 34.27,
+              "beta_spy": 0.63,
+              "corr_spy_20d": 0.09,
+              "volatility_ratio": 3.19
+            },
+            "avg_confidence": 0.07,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "TSM",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-16T11:29:54.507577",
+            "semantic_context": [
+              "TSM",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 1,
+            "unique_entities_found": 1,
+            "top_risks": [],
+            "top_opportunities": [
+              {
+                "insight_text": "El mercado anticipa que los datos de ventas mensuales validen el crecimiento impulsado por la IA y la adopci\u00f3n de nodos avanzados de 3nm y 5nm.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.85
+              }
+            ],
+            "quant_stats": {
+              "current_price": 375.1,
+              "sma_50": 352.84,
+              "sma_200": 296.21,
+              "price_to_sma200_dist": 26.63,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 62.6,
+              "macd": {
+                "line": 7.22,
+                "signal": 2.353,
+                "histogram": 4.867
+              },
+              "rvol": 1.15,
+              "obv": 226803027.0,
+              "atr_14": 12.44,
+              "std_dev_20": 46.61,
+              "beta_spy": 1.96,
+              "corr_spy_20d": 0.82,
+              "volatility_ratio": 3.32
+            },
+            "avg_confidence": 0.04,
+            "sentiment_score": 0.01,
+            "negative_ratio": 0.0,
+            "positive_ratio": 1.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.01).",
+            "bull_case": {
+              "arguments": [
+                "El mercado anticipa que los datos de ventas mensuales validen el crecimiento impulsado por la IA y la adopci\u00f3n de nodos avanzados de 3nm y 5nm."
+              ]
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "QCOM",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-16T11:30:54.659389",
+            "semantic_context": [
+              "QCOM",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 11,
+            "unique_entities_found": 8,
+            "top_risks": [
+              {
+                "insight_text": "Las restricciones en el suministro de cobre act\u00faan como un cuello de botella log\u00edstico y de costos que puede retrasar la expansi\u00f3n de redes 5G y centros de datos, fundamentales para la demanda de chips de Qualcomm.",
+                "overall_impact": "bearish",
+                "intensity": "medium",
+                "avg_confidence": 0.5
+              }
+            ],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 133.05,
+              "sma_50": 135.11,
+              "sma_200": 157.34,
+              "price_to_sma200_dist": -15.44,
+              "trend": "BEARISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 54.2,
+              "macd": {
+                "line": -1.553,
+                "signal": -2.828,
+                "histogram": 1.275
+              },
+              "rvol": 0.74,
+              "obv": 1400860.0,
+              "atr_14": 3.49,
+              "std_dev_20": 21.07,
+              "beta_spy": 1.11,
+              "corr_spy_20d": 0.62,
+              "volatility_ratio": 2.62
+            },
+            "avg_confidence": 0.03,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.12,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": [
+                "Las restricciones en el suministro de cobre act\u00faan como un cuello de botella log\u00edstico y de costos que puede retrasar la expansi\u00f3n de redes 5G y centros de datos, fundamentales para la demanda de chips de Qualcomm."
+              ]
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "WEC",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-16T11:32:15.878676",
+            "semantic_context": [
+              "WEC",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 2,
+            "unique_entities_found": 2,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 114.85,
+              "sma_50": 115.13,
+              "sma_200": 110.75,
+              "price_to_sma200_dist": 3.7,
+              "trend": "BULLISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 46.5,
+              "macd": {
+                "line": 0.539,
+                "signal": 0.629,
+                "histogram": -0.09
+              },
+              "rvol": 0.91,
+              "obv": 16741603.0,
+              "atr_14": 1.97,
+              "std_dev_20": 16.93,
+              "beta_spy": -0.06,
+              "corr_spy_20d": 0.18,
+              "volatility_ratio": 1.72
+            },
+            "avg_confidence": 0.07,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "MA",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-16T11:32:52.422990",
+            "semantic_context": [
+              "MA",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 4,
+            "unique_entities_found": 4,
+            "top_risks": [
+              {
+                "insight_text": "Aunque la inflaci\u00f3n suele ser un catalizador alcista nominal para MA, la combinaci\u00f3n con una contracci\u00f3n del comercio internacional y riesgos geopol\u00edticos amenaza el crecimiento del GDV y los ingresos por viajes internacionales.",
+                "overall_impact": "bearish",
+                "intensity": "medium",
+                "avg_confidence": 0.75
+              }
+            ],
+            "top_opportunities": [
+              {
+                "insight_text": "La claridad regulatoria reduce las barreras para que Mastercard expanda sus servicios de valor agregado y flujos de pago digitales mediante la integraci\u00f3n segura de activos tokenizados.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.8
+              }
+            ],
+            "quant_stats": {
+              "current_price": 519.96,
+              "sma_50": 513.01,
+              "sma_200": 551.28,
+              "price_to_sma200_dist": -5.68,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 58.7,
+              "macd": {
+                "line": -0.117,
+                "signal": -3.516,
+                "histogram": 3.399
+              },
+              "rvol": 0.85,
+              "obv": 14832758.0,
+              "atr_14": 11.14,
+              "std_dev_20": 25.34,
+              "beta_spy": 0.65,
+              "corr_spy_20d": 0.53,
+              "volatility_ratio": 2.14
+            },
+            "avg_confidence": 0.15,
+            "sentiment_score": -0.03,
+            "negative_ratio": 0.25,
+            "positive_ratio": 0.25,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (-0.03).",
+            "bull_case": {
+              "arguments": [
+                "La claridad regulatoria reduce las barreras para que Mastercard expanda sus servicios de valor agregado y flujos de pago digitales mediante la integraci\u00f3n segura de activos tokenizados."
+              ]
+            },
+            "bear_case": {
+              "arguments": [
+                "Aunque la inflaci\u00f3n suele ser un catalizador alcista nominal para MA, la combinaci\u00f3n con una contracci\u00f3n del comercio internacional y riesgos geopol\u00edticos amenaza el crecimiento del GDV y los ingresos por viajes internacionales."
+              ]
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "PEG",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-16T11:33:38.398726",
+            "semantic_context": [
+              "PEG",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 6,
+            "unique_entities_found": 6,
+            "top_risks": [],
+            "top_opportunities": [
+              {
+                "insight_text": "Un aumento significativo en la demanda de uranio refuerza la viabilidad a largo plazo de la generaci\u00f3n nuclear, lo cual es fundamental para los activos de PEG y su alineaci\u00f3n con los subsidios federales de energ\u00eda limpia.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.7
+              }
+            ],
+            "quant_stats": {
+              "current_price": 80.94,
+              "sma_50": 83.01,
+              "sma_200": 82.47,
+              "price_to_sma200_dist": -1.85,
+              "trend": "BEARISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 44.7,
+              "macd": {
+                "line": -0.239,
+                "signal": -0.305,
+                "histogram": 0.066
+              },
+              "rvol": 0.96,
+              "obv": 41478285.0,
+              "atr_14": 1.63,
+              "std_dev_20": 22.02,
+              "beta_spy": 0.18,
+              "corr_spy_20d": 0.33,
+              "volatility_ratio": 2.01
+            },
+            "avg_confidence": 0.11,
+            "sentiment_score": 0.04,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.17,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.04).",
+            "bull_case": {
+              "arguments": [
+                "Un aumento significativo en la demanda de uranio refuerza la viabilidad a largo plazo de la generaci\u00f3n nuclear, lo cual es fundamental para los activos de PEG y su alineaci\u00f3n con los subsidios federales de energ\u00eda limpia."
+              ]
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "PWR",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-16T11:34:48.003888",
+            "semantic_context": [
+              "PWR",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 14,
+            "unique_entities_found": 8,
+            "top_risks": [
+              {
+                "insight_text": "Los cuellos de botella en el suministro de cobre act\u00faan como una restricci\u00f3n operativa que eleva los costos de materiales y puede retrasar los cronogramas de proyectos de red el\u00e9ctrica cr\u00edticos para PWR.",
+                "overall_impact": "bearish",
+                "intensity": "medium",
+                "avg_confidence": 0.9
+              }
+            ],
+            "top_opportunities": [
+              {
+                "insight_text": "La mayor demanda de maquinaria de movimiento de tierras es un indicador precursor de la ejecuci\u00f3n de proyectos de infraestructura y modernizaci\u00f3n de redes que impulsan los ingresos de PWR.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.7
+              },
+              {
+                "insight_text": "La seguridad en el suministro de minerales cr\u00edticos mitiga el riesgo de escasez y volatilidad de precios en componentes clave para la modernizaci\u00f3n de la red y proyectos de energ\u00eda renovable.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.7
+              }
+            ],
+            "quant_stats": {
+              "current_price": 591.82,
+              "sma_50": 552.3,
+              "sma_200": 452.73,
+              "price_to_sma200_dist": 30.72,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 62.0,
+              "macd": {
+                "line": 10.795,
+                "signal": 8.083,
+                "histogram": 2.712
+              },
+              "rvol": 0.93,
+              "obv": 35988603.0,
+              "atr_14": 19.39,
+              "std_dev_20": 34.52,
+              "beta_spy": 1.13,
+              "corr_spy_20d": 0.67,
+              "volatility_ratio": 3.28
+            },
+            "avg_confidence": 0.19,
+            "sentiment_score": 0.1,
+            "negative_ratio": 0.12,
+            "positive_ratio": 0.25,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.10).",
+            "bull_case": {
+              "arguments": [
+                "La mayor demanda de maquinaria de movimiento de tierras es un indicador precursor de la ejecuci\u00f3n de proyectos de infraestructura y modernizaci\u00f3n de redes que impulsan los ingresos de PWR.",
+                "La seguridad en el suministro de minerales cr\u00edticos mitiga el riesgo de escasez y volatilidad de precios en componentes clave para la modernizaci\u00f3n de la red y proyectos de energ\u00eda renovable."
+              ]
+            },
+            "bear_case": {
+              "arguments": [
+                "Los cuellos de botella en el suministro de cobre act\u00faan como una restricci\u00f3n operativa que eleva los costos de materiales y puede retrasar los cronogramas de proyectos de red el\u00e9ctrica cr\u00edticos para PWR."
+              ]
+            },
+            "is_in_portfolio": true
+          }
+        ],
+        "neutral": [],
+        "avg_confidence": 0.16,
+        "avg_negative_ratio": 0.05,
+        "avg_positive_ratio": 0.23,
+        "total_news_analyzed": 52,
+        "total_insights_found": 42,
+        "overall_sentiment": "BULLISH"
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "decision_engine_001",
+      "step_type": "decision_engine",
+      "status": "completed",
+      "start_time": "2026-04-16T11:34:50.631459",
+      "end_time": "2026-04-16T11:34:52.673543",
+      "duration_seconds": 2.042084,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "decisions": [
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 60.0, Tendencia BEARISH). Informaci\u00f3n insuficiente para actuar.",
+            "confidence_in_decision": 0.65,
+            "risk_level": "medium",
+            "technical_context": "RSI: 60.0, ATR: $16.45, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "SNPS",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-16T11:29:05.124713",
+            "decision_timestamp": "2026-04-16T11:34:50.632693"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "SENTIMIENTO NEUTRAL - Sin sesgo claro en 5 noticias. T\u00e9cnicos inconcluyentes.",
+            "confidence_in_decision": 0.73,
+            "risk_level": "medium",
+            "technical_context": "RSI: 46.1, ATR: $1.92, Trend: BULLISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "BKR",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-16T11:29:42.631286",
+            "decision_timestamp": "2026-04-16T11:34:50.633136"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "Se\u00f1al de BAJA CONFIANZA (0.04 NLP -> 0.67 Quant). RSI: 62.6, ATR: $12.44, Trend: BULLISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
+            "confidence_in_decision": 0.67,
+            "risk_level": "medium",
+            "technical_context": "RSI: 62.6, ATR: $12.44, Trend: BULLISH",
+            "sentiment_score": 0.01,
+            "ticker_analysis_id": null,
+            "ticker": "TSM",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-16T11:29:54.507577",
+            "decision_timestamp": "2026-04-16T11:34:50.633590"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SE\u00d1ALES MIXTAS - Positivo: 0%, Negativo: 12%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 54.2, ATR: $3.49, Trend: BEARISH.",
+            "confidence_in_decision": 0.5,
+            "risk_level": "medium",
+            "technical_context": "RSI: 54.2, ATR: $3.49, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "QCOM",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-16T11:30:54.659389",
+            "decision_timestamp": "2026-04-16T11:34:50.634281"
+          },
+          {
+            "decision": "IGNORED",
+            "action": "NONE",
+            "rationale": "Risk Manager rejected trade size for BWXT: Max total portfolio exposure reached (85.0%)",
+            "confidence_in_decision": 0.95,
+            "risk_level": "high",
+            "sentiment_score": 0.29,
+            "ticker_analysis_id": null,
+            "ticker": "BWXT",
+            "original_recommendation": "BULLISH",
+            "analysis_timestamp": "2026-04-16T11:31:52.971603",
+            "decision_timestamp": "2026-04-16T11:34:51.727233"
+          },
+          {
+            "decision": "IGNORED",
+            "action": "NONE",
+            "rationale": "Already have a LIVE position in WEC. Momentum or conviction not strong enough for Scale-In.",
+            "confidence_in_decision": 0.75,
+            "risk_level": "low",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "WEC",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-16T11:32:15.878676",
+            "decision_timestamp": "2026-04-16T11:34:51.727550"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "SE\u00d1ALES MIXTAS - Positivo: 25%, Negativo: 25%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 58.7, ATR: $11.14, Trend: BEARISH.",
+            "confidence_in_decision": 0.72,
+            "risk_level": "medium",
+            "technical_context": "RSI: 58.7, ATR: $11.14, Trend: BEARISH",
+            "sentiment_score": -0.03,
+            "ticker_analysis_id": null,
+            "ticker": "MA",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-16T11:32:52.422990",
+            "decision_timestamp": "2026-04-16T11:34:51.727844"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SE\u00d1ALES MIXTAS - Positivo: 17%, Negativo: 0%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 44.7, ATR: $1.63, Trend: BEARISH.",
+            "confidence_in_decision": 0.7200000000000001,
+            "risk_level": "medium",
+            "technical_context": "RSI: 44.7, ATR: $1.63, Trend: BEARISH",
+            "sentiment_score": 0.04,
+            "ticker_analysis_id": null,
+            "ticker": "PEG",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-16T11:33:38.398726",
+            "decision_timestamp": "2026-04-16T11:34:51.728102"
+          },
+          {
+            "decision": "IGNORED",
+            "action": "NONE",
+            "rationale": "Risk Manager rejected trade size for PWR: Max exposure for PWR reached (10.0%)",
+            "confidence_in_decision": 0.83,
+            "risk_level": "high",
+            "sentiment_score": 0.1,
+            "ticker_analysis_id": null,
+            "ticker": "PWR",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-16T11:34:48.003888",
+            "decision_timestamp": "2026-04-16T11:34:52.673310"
+          }
+        ],
+        "autopilot_mode": true
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "persistence_001",
+      "step_type": "persistence",
+      "status": "completed",
+      "start_time": "2026-04-16T11:34:52.673843",
+      "end_time": "2026-04-16T11:35:16.723541",
+      "duration_seconds": 24.049698,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "desk_run_id": 42,
+        "ticker_analysis_ids": {
+          "SNPS": 373,
+          "BKR": 374,
+          "TSM": 375,
+          "QCOM": 376,
+          "BWXT": 377,
+          "WEC": 378,
+          "MA": 379,
+          "PEG": 380,
+          "PWR": 381
+        }
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    }
+  ]
+}

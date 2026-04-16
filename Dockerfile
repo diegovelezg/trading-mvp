@@ -45,5 +45,6 @@ fi' > /app/entrypoint.sh && chmod +x /app/entrypoint.sh
 HEALTHCHECK --interval=30m --timeout=5m --start-period=1m --retries=3 \
     CMD python -c "import requests; print('OK')" || exit 1
 
-# Default command (sin ENTRYPOINT para Coolify)
-CMD ["python", "ejecutar_mesa_inversiones.py"]
+# NO ejecutar nada por defecto - Solo mantener contenedor vivo para CRON jobs
+# El contenedor SOLO se ejecutará cuando los CRON jobs de Coolify lo disparen
+CMD ["tail", "-f", "/dev/null"]

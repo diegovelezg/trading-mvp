@@ -17,9 +17,14 @@ logger = logging.getLogger(__name__)
 def main():
     """Ejecutar mesa de inversiones con los agentes."""
 
-    # Importar después de configurar logging
-    sys.path.insert(0, os.path.abspath('scripts'))
-    sys.path.insert(0, os.path.abspath('.'))
+    # Asegurar PYTHONPATH correcto para desarrollo y producción
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    if current_dir not in sys.path:
+        sys.path.insert(0, current_dir)
+
+    scripts_dir = os.path.join(current_dir, 'scripts')
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
 
     logger.info("\n" + "="*70)
     logger.info("🏛️  MESA DE INVERSIONES - AGENTES AUTÓNOMOS")

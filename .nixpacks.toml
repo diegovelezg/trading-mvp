@@ -1,0 +1,17 @@
+# Nixpacks configuration for Trading MVP Python Application
+
+[phases.build]
+nixPkgs = ["python311", "git"]
+
+[phases.install]
+cmds = [
+    "python3 -m venv /app/.venv",
+    "/app/.venv/bin/pip install --upgrade pip",
+    "/app/.venv/bin/pip install -r requirements.txt"
+]
+
+[phases.start]
+cmd = "tail -f /dev/null"
+
+[start]
+cmd = "tail -f /dev/null"

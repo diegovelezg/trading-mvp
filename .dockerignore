@@ -1,0 +1,71 @@
+# Coolify Python Deployment - Optimizado para Trading MVP
+# Basado en: https://lobehub.com/bg/skills/cocacha12-agent-skills-coolify-python-deploy
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Entornos virtuales
+.venv/
+venv/
+ENV/
+env/
+
+# Logs (excepto el directorio logs/)
+*.log
+!logs/.gitkeep
+
+# Base de datos local
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Documentación
+README.md
+docs/
+*.md
+
+# Archivos temporales
+data/
+temp/
+tmp/
+
+# Coolify específico
+coolify/
+.claude/
+
+# Tests
+tests/
+test_*.py
+*_test.py

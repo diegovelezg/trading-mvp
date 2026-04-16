@@ -26,13 +26,24 @@ Se desaconseja ejecutar el sistema cada 4 o 6 horas, ya que el Motor Quant (que 
 *   **Lógica Quant:** La vela diaria actual está al 90% de su formación. El sistema sabe con alta probabilidad si el activo cerrará respetando su estructura técnica (ej. sobre la SMA 200) y si el volumen (RVOL) es legítimo.
 *   **Acción del Agente:** Liquidar posiciones que perdieron su estructura técnica o comprar activos que confirmaron una ruptura técnica real respaldada por el flujo de noticias del día.
 
-### ⚙️ Implementación en Cron Job (Servidor VPS)
-```bash
-# 1. Pre-Market Analysis (08:30 AM EST | 12:30 UTC | 07:30 AM America/Lima)
-30 12 * * 1-5 cd /path/to/trading-mvp && AUTOPILOT_MODE=on .venv/bin/python scripts/run_investment_desk.py --watchlist-id 3
+### ⚙️ Implementación en VPS con Coolify
 
-# 2. Power Hour Analysis (15:00 PM EST | 19:00 UTC | 14:00 PM America/Lima)
-0 19 * * 1-5 cd /path/to/trading-mvp && AUTOPILOT_MODE=on .venv/bin/python scripts/run_investment_desk.py --watchlist-id 3
+**📋 Ver `coolify/README.md` para instrucciones completas de despliegue:**
+
+```bash
+# Setup rápido en VPS
+cd trading-mvp/coolify
+chmod +x setup_crons.sh
+./setup_crons.sh
+```
+
+Resumen de Cron Jobs:
+```bash
+# Pre-Market (07:30 AM Lima | 12:30 UTC)
+30 12 * * 1-5 cd /path/to/trading-mvp && AUTOPILOT_MODE=on .venv/bin/python ejecutar_mesa_inversiones
+
+# Power Hour (14:00 PM Lima | 19:00 UTC)
+0 19 * * 1-5 cd /path/to/trading-mvp && AUTOPILOT_MODE=on .venv/bin/python ejecutar_mesa_inversiones
 ```
 
 ### 📊 Tabla Resumen de Horarios

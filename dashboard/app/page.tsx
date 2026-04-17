@@ -79,7 +79,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard 
           title="Equity Total" 
-          value={`$${portfolio?.equity?.toLocaleString() || 0}`} 
+          value={`$${portfolio?.equity?.toLocaleString(undefined, {maximumFractionDigits: 1}) || 0}`} 
           icon={<Wallet className="text-blue-500" />} 
           label={`${stats?.returnPct >= 0 ? '+' : ''}${stats?.returnPct || 0}% ($${stats?.totalPL || 0})`} 
         />
@@ -135,7 +135,12 @@ export default function Dashboard() {
                   fontSize={10} 
                   tickLine={false} 
                   axisLine={false} 
-                  tickFormatter={(val) => `$${val.toLocaleString()}`}
+                  tickFormatter={(val) => `$${val.toLocaleString(undefined, {maximumFractionDigits: 1})}`}
+                />
+                <RechartsTooltip
+                  contentStyle={{ backgroundColor: '#09090b', borderColor: '#27272a', fontSize: '12px', fontFamily: 'monospace', borderRadius: '8px' }}
+                  itemStyle={{ color: '#e4e4e7' }}
+                  formatter={(value: any) => [`$${parseFloat(value).toFixed(1)}`, 'Equity']}
                   width={65}
                 />
                 <RechartsTooltip 
@@ -167,6 +172,34 @@ export default function Dashboard() {
               <Briefcase className="w-3 h-3" />
               Posiciones en Vivo
             </h2>
+
+            {/* TOTAL INVERTIDO SUMMARY */}
+            {(() => {
+              const totalInvested = portfolio?.positions?.reduce((sum: number, pos: any) => {
+                return sum + parseFloat(pos.market_value || 0);
+              }, 0) || 0;
+              const investedPercentage = portfolio?.equity ? ((totalInvested / portfolio.equity) * 100).toFixed(1) : '0.0';
+
+              return (
+                <Card className="bg-zinc-950/40 border-zinc-900">
+                  <CardContent className="p-4">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="text-[9px] font-mono uppercase text-zinc-600 mb-1">Total Invertido</p>
+                        <p className="text-lg font-bold text-zinc-100">${totalInvested.toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits: 1})}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[9px] font-mono uppercase text-zinc-600 mb-1">% del Equity</p>
+                        <p className={`text-sm font-bold ${parseFloat(investedPercentage) > 80 ? 'text-red-500' : parseFloat(investedPercentage) > 50 ? 'text-yellow-500' : 'text-green-500'}`}>
+                          {investedPercentage}%
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })()}
+
             <Card className="bg-zinc-950/20 border-zinc-900 overflow-hidden">
               <CardContent className="p-0">
                 {portfolio?.positions?.length === 0 ? (
@@ -177,13 +210,13 @@ export default function Dashboard() {
                       <div key={pos.symbol} className="p-4 flex justify-between items-center hover:bg-zinc-900/30 transition-colors">
                         <div>
                           <span className="font-bold text-zinc-200">{pos.symbol}</span>
-                          <p className="text-[10px] text-zinc-500 font-mono">{pos.qty} acciones @ ${parseFloat(pos.avg_entry_price).toFixed(2)}</p>
+                          <p className="text-[10px] text-zinc-500 font-mono">{pos.qty} acciones @ ${parseFloat(pos.avg_entry_price).toFixed(1)}</p>
                         </div>
                         <div className="text-right">
                           <p className={`font-mono text-xs font-bold ${parseFloat(pos.unrealized_pl) >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                            {parseFloat(pos.unrealized_pl) >= 0 ? '+' : ''}{parseFloat(pos.unrealized_pl).toFixed(2)}
+                            {parseFloat(pos.unrealized_pl) >= 0 ? '+' : ''}{parseFloat(pos.unrealized_pl).toFixed(1)}
                           </p>
-                          <p className="text-[9px] text-zinc-600">{(parseFloat(pos.unrealized_plpc) * 100).toFixed(2)}%</p>
+                          <p className="text-[9px] text-zinc-600">{(parseFloat(pos.unrealized_plpc) * 100).toFixed(1)}%</p>
                         </div>
                       </div>
                     ))}
@@ -215,7 +248,7 @@ export default function Dashboard() {
                         </div>
                         <div className="text-right">
                           <p className="font-mono text-xs text-zinc-400">Objetivo</p>
-                          <p className="text-[10px] text-zinc-500">${parseFloat(ord.limit_price || ord.filled_avg_price || 0).toFixed(2)}</p>
+                          <p className="text-[10px] text-zinc-500">${parseFloat(ord.limit_price || ord.filled_avg_price || 0).toFixed(1)}</p>
                         </div>
                       </div>
                     ))}
@@ -402,7 +435,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
               <QuantItem label="RVOL" value={quant.rvol} />
               <QuantItem label="Corr SPY" value={quant.corr_spy_20d} />
               <QuantItem label="Sentiment" value={(activity.sentiment_score !== null && activity.sentiment_score !== undefined) ? `${(activity.sentiment_score * 100).toFixed(1)}%` : '--'} />
-              <QuantItem label="Final Score" value={(activity.confidence_in_decision !== null && activity.confidence_in_decision !== undefined) ? `${(activity.confidence_in_decision * 100).toFixed(0)}%` : '--'} />
+              <QuantItem label="Final Score" value={(activity.confidence_in_decision !== null && activity.confidence_in_decision !== undefined) ? `${(activity.confidence_in_decision * 100).toFixed(1)}%` : '--'} />
             </div>
 
             {/* DETAILED QUANT GRID */}
@@ -420,8 +453,8 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                 <div className="space-y-3">
                   <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Estructura de Mercado</p>
                   <div className="text-[11px] text-zinc-400 space-y-2">
-                    <p className="flex justify-between"><span>SMA 200</span> <span className="text-zinc-200 font-mono">${quant.sma_200?.toFixed(2)}</span></p>
-                    <p className="flex justify-between"><span>SMA 50</span> <span className="text-zinc-200 font-mono">${quant.sma_50?.toFixed(2)}</span></p>
+                    <p className="flex justify-between"><span>SMA 200</span> <span className="text-zinc-200 font-mono">${quant.sma_200?.toFixed(1)}</span></p>
+                    <p className="flex justify-between"><span>SMA 50</span> <span className="text-zinc-200 font-mono">${quant.sma_50?.toFixed(1)}</span></p>
                     <p className="flex justify-between"><span>Dist. Tendencia</span> <span className={`font-mono font-bold ${quant.price_to_sma200_dist > 0 ? 'text-green-500' : 'text-red-500'}`}>{quant.price_to_sma200_dist?.toFixed(1)}%</span></p>
                   </div>
                 </div>
@@ -430,9 +463,9 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                 <div className="space-y-3">
                   <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Momentum</p>
                   <div className="text-[11px] text-zinc-400 space-y-2">
-                    <p className="flex justify-between"><span>Línea MACD</span> <span className="text-zinc-200 font-mono">{quant.macd?.line?.toFixed(3)}</span></p>
-                    <p className="flex justify-between"><span>Señal</span> <span className="text-zinc-200 font-mono">{quant.macd?.signal?.toFixed(3)}</span></p>
-                    <p className="flex justify-between"><span>Histograma</span> <span className={`font-mono font-bold ${quant.macd?.histogram > 0 ? 'text-green-500' : 'text-red-500'}`}>{quant.macd?.histogram?.toFixed(3)}</span></p>
+                    <p className="flex justify-between"><span>Línea MACD</span> <span className="text-zinc-200 font-mono">{quant.macd?.line?.toFixed(1)}</span></p>
+                    <p className="flex justify-between"><span>Señal</span> <span className="text-zinc-200 font-mono">{quant.macd?.signal?.toFixed(1)}</span></p>
+                    <p className="flex justify-between"><span>Histograma</span> <span className={`font-mono font-bold ${quant.macd?.histogram > 0 ? 'text-green-500' : 'text-red-500'}`}>{quant.macd?.histogram?.toFixed(1)}</span></p>
                   </div>
                 </div>
 
@@ -450,9 +483,9 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                 <div className="space-y-3">
                   <p className="text-[9px] text-zinc-600 uppercase font-mono font-bold tracking-wider">Volatilidad</p>
                   <div className="text-[11px] text-zinc-400 space-y-2">
-                    <p className="flex justify-between"><span>ATR (14)</span> <span className="text-zinc-200 font-mono">${quant.atr_14?.toFixed(2)}</span></p>
-                    <p className="flex justify-between"><span>Vol. Histórica</span> <span className="text-zinc-200 font-mono">{quant.std_dev_20?.toFixed(2)}%</span></p>
-                    <p className="flex justify-between"><span>Riesgo/Precio</span> <span className="text-zinc-200 font-mono">{quant.volatility_ratio?.toFixed(2)}%</span></p>
+                    <p className="flex justify-between"><span>ATR (14)</span> <span className="text-zinc-200 font-mono">${quant.atr_14?.toFixed(1)}</span></p>
+                    <p className="flex justify-between"><span>Vol. Histórica</span> <span className="text-zinc-200 font-mono">{quant.std_dev_20?.toFixed(1)}%</span></p>
+                    <p className="flex justify-between"><span>Riesgo/Precio</span> <span className="text-zinc-200 font-mono">{quant.volatility_ratio?.toFixed(1)}%</span></p>
                   </div>
                 </div>
               </div>
@@ -558,7 +591,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                     <div className="p-4 border-b border-zinc-900 flex justify-between items-center bg-yellow-950/5">
                       <span className="text-[10px] font-mono text-zinc-500 uppercase">Red de Seguridad</span>
                       <div className="text-right">
-                        <span className="text-xs font-bold text-red-500 font-mono">STOP LOSS @ {riskAnalysis.stop_loss?.percentage * 100 || 5}%</span>
+                        <span className="text-xs font-bold text-red-500 font-mono">STOP LOSS @ {(riskAnalysis.stop_loss?.percentage * 100 || 5).toFixed(1)}%</span>
                       </div>
                     </div>
                     <div className="p-4 space-y-3">
@@ -572,7 +605,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                       </div>
                       <div className="flex gap-2 pt-2">
                         <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">RSI: {quant.rsi_14?.toFixed(1)}</Badge>
-                        <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">ATR: ${quant.atr_14?.toFixed(2)}</Badge>
+                        <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">ATR: ${quant.atr_14?.toFixed(1)}</Badge>
                         <Badge variant="outline" className={`text-[8px] bg-zinc-950 border-zinc-800 ${activity.recommendation === 'BUY' ? 'text-green-500' : 'text-yellow-500'}`}>
                           NVL: {activity.recommendation === 'BUY' ? 'AGRESIVO' : 'CAUTELOSO'}
                         </Badge>
@@ -598,13 +631,13 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                         <div>
                           <p className="text-[9px] font-mono text-purple-500 uppercase mb-1">Asignación</p>
                           <p className="text-2xl font-black text-zinc-100 font-mono">
-                            {activity.position_size ? `$${activity.position_size.toLocaleString()}` : '$0.00'}
+                            {activity.position_size ? `$${activity.position_size.toLocaleString(undefined, {maximumFractionDigits: 1})}` : '$0.0'}
                           </p>
                         </div>
                         <div className="text-right">
                           <p className="text-[9px] font-mono text-zinc-600 uppercase mb-1">Objetivo de Entrada</p>
                           <p className="text-sm font-bold text-zinc-400 font-mono">
-                            {activity.entry_price ? `$${activity.entry_price.toFixed(2)}` : 'MERCADO'}
+                            {activity.entry_price ? `$${activity.entry_price.toFixed(1)}` : 'MERCADO'}
                           </p>
                         </div>
                       </div>
@@ -711,7 +744,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
             <div className="text-right hidden md:block">
               <p className="text-xs text-zinc-500 font-mono uppercase">Tamaño de Posición</p>
               <p className="text-sm font-bold text-zinc-300">
-                ${Number(activity.position_size || 0).toLocaleString()}
+                ${Number(activity.position_size || 0).toLocaleString(undefined, {maximumFractionDigits: 1})}
               </p>
             </div>
             {expanded ? <ChevronUp className="w-5 h-5 text-zinc-500" /> : <ChevronDown className="w-5 h-5 text-zinc-500" />}
@@ -729,7 +762,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
             <QuantItem label="RVOL" value={quant.rvol} />
             <QuantItem label="Corr SPY" value={quant.corr_spy_20d} />
             <QuantItem label="Sentiment" value={(activity.sentiment_score !== null && activity.sentiment_score !== undefined) ? `${(activity.sentiment_score * 100).toFixed(1)}%` : '--'} />
-            <QuantItem label="Final Score" value={(activity.confidence_in_decision !== null && activity.confidence_in_decision !== undefined) ? `${(activity.confidence_in_decision * 100).toFixed(0)}%` : '--'} />
+            <QuantItem label="Final Score" value={(activity.confidence_in_decision !== null && activity.confidence_in_decision !== undefined) ? `${(activity.confidence_in_decision * 100).toFixed(1)}%` : '--'} />
           </div>
         </CardContent>
 
@@ -830,7 +863,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
               <div className="bg-zinc-900/30 p-4 rounded-xl border border-zinc-900 space-y-3">
                 <div className="flex justify-between text-xs">
                   <span className="text-zinc-500 font-mono">STOP_LOSS</span>
-                  <span className="text-red-500 font-bold">{riskAnalysis.stop_loss?.percentage * 100 || 5}%</span>
+                  <span className="text-red-500 font-bold">{(riskAnalysis.stop_loss?.percentage * 100 || 5).toFixed(1)}%</span>
                 </div>
                 <p className="text-[10px] text-zinc-500 italic leading-snug">
                   Defensa: {riskAnalysis.stop_loss?.technical_defense || "Protección estándar de varianza."}
@@ -858,7 +891,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                     <div className="p-4 border-b border-zinc-900 flex justify-between items-center bg-yellow-950/5">
                       <span className="text-[10px] font-mono text-zinc-500 uppercase">Red de Seguridad</span>
                       <div className="text-right">
-                        <span className="text-xs font-bold text-red-500 font-mono">STOP LOSS @ {riskAnalysis.stop_loss?.percentage * 100 || 5}%</span>
+                        <span className="text-xs font-bold text-red-500 font-mono">STOP LOSS @ {(riskAnalysis.stop_loss?.percentage * 100 || 5).toFixed(1)}%</span>
                       </div>
                     </div>
                     <div className="p-4 space-y-3">
@@ -872,7 +905,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                       </div>
                       <div className="flex gap-2 pt-2">
                         <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">RSI: {quant.rsi_14?.toFixed(1)}</Badge>
-                        <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">ATR: ${quant.atr_14?.toFixed(2)}</Badge>
+                        <Badge variant="outline" className="text-[8px] bg-zinc-950 border-zinc-800 text-zinc-500">ATR: ${quant.atr_14?.toFixed(1)}</Badge>
                         <Badge variant="outline" className={`text-[8px] bg-zinc-950 border-zinc-800 ${activity.recommendation === 'BUY' ? 'text-green-500' : 'text-yellow-500'}`}>
                           NVL: {activity.recommendation === 'BUY' ? 'AGRESIVO' : 'CAUTELOSO'}
                         </Badge>
@@ -898,13 +931,13 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
                         <div>
                           <p className="text-[9px] font-mono text-purple-500 uppercase mb-1">Asignación</p>
                           <p className="text-2xl font-black text-zinc-100 font-mono">
-                            {activity.position_size ? `$${activity.position_size.toLocaleString()}` : '$0.00'}
+                            {activity.position_size ? `$${activity.position_size.toLocaleString(undefined, {maximumFractionDigits: 1})}` : '$0.0'}
                           </p>
                         </div>
                         <div className="text-right">
                           <p className="text-[9px] font-mono text-zinc-600 uppercase mb-1">Objetivo de Entrada</p>
                           <p className="text-sm font-bold text-zinc-400 font-mono">
-                            {activity.entry_price ? `$${activity.entry_price.toFixed(2)}` : 'MERCADO'}
+                            {activity.entry_price ? `$${activity.entry_price.toFixed(1)}` : 'MERCADO'}
                           </p>
                         </div>
                       </div>
@@ -993,7 +1026,7 @@ function DecisionCard({ activity, alpacaOrders = [], isNested = false }: any) {
 }
 
 function QuantItem({ label, value }: any) {
-  const displayValue = typeof value === 'number' ? value.toFixed(2) : value;
+  const displayValue = typeof value === 'number' ? value.toFixed(1) : value;
   return (
     <div className="bg-zinc-900/30 px-4 py-3 rounded-xl border border-zinc-900/80 flex flex-col min-w-[110px] shadow-sm hover:bg-zinc-900/50 transition-colors">
       <span className="text-[10px] font-bold font-mono text-zinc-500 uppercase mb-1.5 tracking-[0.1em]">{label}</span>

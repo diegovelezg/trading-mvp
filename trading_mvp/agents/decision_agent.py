@@ -121,7 +121,27 @@ class DecisionAgent:
 
         ticker = ticker_analysis['ticker']
         recommendation = ticker_analysis['recommendation']
-        
+
+        # --- RIGOR CHECK: MECHANICAL EXITS ---
+        if ticker_analysis.get('is_mechanical_exit'):
+            action_type = ticker_analysis.get('mechanical_reason', 'STOP_LOSS')
+            logger.warning(f"   🚨 Registering PRE-EXECUTED {action_type} for {ticker}")
+            decision = {
+                'decision': 'FOLLOWED',
+                'action': 'SOLD',
+                'rationale': ticker_analysis.get('rationale', f"MECHANICAL {action_type} executed in Pre-Check."),
+                'confidence_in_decision': 1.0,
+                'risk_level': 'high',
+                'ticker': ticker,
+                'original_recommendation': recommendation,
+                'analysis_timestamp': ticker_analysis.get('analysis_timestamp'),
+                'decision_timestamp': datetime.now().isoformat(),
+                'is_stop_loss': action_type == 'STOP_LOSS',
+                'is_take_profit': action_type == 'TAKE_PROFIT'
+            }
+            self.decision_history.append(decision)
+            return decision
+
         # --- RIGOR CHECK: DATA INTEGRITY ---
         is_actionable = ticker_analysis.get('is_actionable', True)
         if recommendation == "DATA_ERROR" or not is_actionable:
@@ -482,22 +502,16 @@ class DecisionAgent:
         trend = quant_stats.get('trend', 'UNKNOWN')
 
         # 3. Check for EXISTING EXPOSURE (Live) and evaluate PYRAMIDING
-        is_pyramiding = False
         if current_pos:
-            # Check if conditions are met for Scale-In
-            if confidence >= 0.80 and trend == "BULLISH" and rsi < 70 and quant_stats.get('momentum') == 'POSITIVE':
-                logger.info(f"   📈  PYRAMIDING: Strong conviction and momentum on existing position for {ticker}. Initiating Scale-In.")
-                is_pyramiding = True
-            else:
-                decision = {
-                    'decision': 'IGNORED',
-                    'action': 'NONE',
-                    'rationale': f"Already have a LIVE position in {ticker}. Momentum or conviction not strong enough for Scale-In.",
-                    'confidence_in_decision': confidence,
-                    'risk_level': 'low'
-                }
-                logger.info(f"   🛡️  DECISION: IGNORED - {decision['rationale']}")
-                return decision
+            decision = {
+                'decision': 'FOLLOWED',
+                'action': 'HELD',
+                'rationale': f"Posición existente en rango alcista. Manteniendo (sin escalamiento por política actual).",
+                'confidence_in_decision': confidence,
+                'risk_level': 'low'
+            }
+            logger.info(f"   👀 DECISION: FOLLOWED - HOLD {ticker}")
+            return decision
 
         # 4. Basic criteria
         strong_signal = confidence >= self.config.min_confidence_for_buy
@@ -518,11 +532,8 @@ class DecisionAgent:
                 portfolio_context=portfolio_context
             )
             
-            # Apply Pyramiding Sizing
-            if is_pyramiding:
-                position_size = position_size * 0.5  # Add 50% of a normal size tranche
-                logger.info(f"   ➕  Scale-In Size: ${position_size:.2f}")
-            elif confidence < 0.85 or rsi > 65:
+            # Apply Sizing
+            if confidence < 0.85 or rsi > 65:
                 # Starter position if slightly less conviction or slightly overextended
                 position_size = position_size * 0.5
                 logger.info(f"   🌱  Initiating STARTER POSITION: ${position_size:.2f}")

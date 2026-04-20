@@ -1,0 +1,1657 @@
+2026-04-20 10:18:49,720 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 10:18:49,720 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 10:18:51,102 - workflow_logger - ERROR - ❌ STEP FAILED: news_extraction [news_extraction_001] (1.38s)
+2026-04-20 10:18:51,102 - workflow_logger - ERROR -    Error: Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.
+2026-04-20 10:18:51,102 - workflow_logger - DEBUG -    Traceback:
+Traceback (most recent call last):
+  File "/home/diegovelezg/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py", line 308, in execute_step
+    raise ValueError(f"Step returned success=False: {error_msg}")
+ValueError: Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.
+
+2026-04-20 10:18:51,102 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_101849.json
+2026-04-20 10:18:51,102 - workflow_logger - ERROR - 🛑 WORKFLOW ABORTED at step: news_extraction
+2026-04-20 10:18:51,103 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_101849.json
+2026-04-20 10:18:51,103 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260413_202802.json
+2026-04-20 10:18:51,103 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260413_212739.json
+2026-04-20 10:18:51,103 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260413_213425.json
+2026-04-20 10:18:51,103 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260413_214429.json
+2026-04-20 10:18:51,103 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260413_215003.json
+2026-04-20 10:18:51,103 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260413_222000.json
+2026-04-20 10:18:51,104 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260414_104044.json
+2026-04-20 10:18:51,104 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260414_122358.json
+2026-04-20 10:18:51,104 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260414_122516.json
+2026-04-20 10:18:51,104 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260415_095052.json
+2026-04-20 10:18:51,104 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260415_143218.json
+2026-04-20 10:18:51,104 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260416_100759.json
+2026-04-20 10:18:51,104 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260416_100835.json
+2026-04-20 10:18:51,104 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260416_105736.json
+2026-04-20 10:18:51,104 - workflow_logger - INFO - 🗑️  Cleaned up old log: execution_20260416_112851.json
+2026-04-20 10:18:51,104 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 0 steps completed, 1 failed
+2026-04-20 10:20:29,440 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 10:20:29,440 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 10:20:31,052 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.61s)
+2026-04-20 10:20:31,052 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7350,
+      "title": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research - PR Newswire UK",
+      "summary": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research &nbsp;&nbsp; PR Newswire UK",
+      "content": "Constr
+2026-04-20 10:20:31,052 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 10:20:32,403 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.35s)
+2026-04-20 10:20:32,403 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.97",
+      "unrealized_pl": "-229.590032",
+      "unrealized_plpc": "-0.02738"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "227.61",
+      "unrealized_pl": "-73.32",
+      "unrealized_plpc": "-0.02418"
+    },
+    {
+      "symbol": "MA
+2026-04-20 10:20:32,403 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 10:20:34,943 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.54s)
+2026-04-20 10:20:34,943 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 10:21:33,877 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 10:21:33,877 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 10:21:33,878 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "TSM",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": false
+      },
+      "analysis_timestamp": "2026-04-20T10:20:39.850615",
+      "semantic_context": [
+        "TSM",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 0,
+      "unique_entities_found": 0,
+      "top_risks": [
+2026-04-20 10:21:36,577 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 10:21:36,581 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-20 10:21:36,581 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "IGNORED",
+      "action": "NONE",
+      "rationale": "Already have a LIVE position in TSM. Momentum or conviction not strong enough for Scale-In.",
+      "confidence_in_decision": 0.77,
+      "risk_level": "low",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+      "ticker": "TSM",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-20T10:20:39.850615",
+      "decision_timestamp": "2026-
+2026-04-20 10:21:36,581 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 10:22:10,580 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (34.00s)
+2026-04-20 10:22:10,580 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 46,
+  "ticker_analysis_ids": {
+    "TSM": 421,
+    "LQD": 422,
+    "BWXT": 423,
+    "SNPS": 424,
+    "PEG": 425,
+    "JNK": 426,
+    "BKR": 427,
+    "MA": 428,
+    "BKLN": 429,
+    "WEC": 430,
+    "BNDX": 431,
+    "QCOM": 432,
+    "PWR": 433
+  }
+}
+2026-04-20 10:22:10,582 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_102029.json
+2026-04-20 10:22:10,582 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-20 10:53:11,079 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 10:53:18,624 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (7.55s)
+2026-04-20 10:53:18,624 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.75",
+      "unrealized_pl": "-259.510032",
+      "unrealized_plpc": "-0.03095"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.24",
+      "unrealized_pl": "-52.13",
+      "unrealized_plpc": "-0.01719"
+    },
+    {
+      "symbol": "MA
+2026-04-20 10:53:18,624 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 10:53:18,624 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 10:53:20,244 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.62s)
+2026-04-20 10:53:20,244 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7350,
+      "title": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research - PR Newswire UK",
+      "summary": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research &nbsp;&nbsp; PR Newswire UK",
+      "content": "Constr
+2026-04-20 10:53:20,244 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 10:53:22,910 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.67s)
+2026-04-20 10:53:22,910 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 10:54:31,208 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 10:54:31,208 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 10:54:31,208 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "QCOM",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": false
+      },
+      "analysis_timestamp": "2026-04-20T10:53:28.948589",
+      "semantic_context": [
+        "QCOM",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 0,
+      "unique_entities_found": 0,
+      "top_risks":
+2026-04-20 10:54:33,974 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 10:54:33,979 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-20 10:54:33,979 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 60.9, Tendencia BEARISH). Informaci\u00f3n insuficiente para actuar.",
+      "confidence_in_decision": 0.61,
+      "risk_level": "medium",
+      "technical_context": "RSI: 60.9, ATR: $3.45, Trend: BEARISH",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+      "ticker": "QCOM",
+      "original_recommendation": "CAU
+2026-04-20 10:54:33,980 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 10:55:10,317 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (36.34s)
+2026-04-20 10:55:10,317 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 47,
+  "ticker_analysis_ids": {
+    "QCOM": 434,
+    "BKR": 435,
+    "TSM": 436,
+    "MA": 437,
+    "PWR": 438,
+    "JNK": 439,
+    "BKLN": 440,
+    "BNDX": 441,
+    "WEC": 442,
+    "PEG": 443,
+    "BWXT": 444,
+    "SNPS": 445,
+    "LQD": 446
+  }
+}
+2026-04-20 10:55:10,319 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_105311.json
+2026-04-20 10:55:10,320 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-20 10:59:20,823 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 10:59:25,233 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (4.41s)
+2026-04-20 10:59:25,233 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.815",
+      "unrealized_pl": "-250.670032",
+      "unrealized_plpc": "-0.02989"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229",
+      "unrealized_pl": "-55.25",
+      "unrealized_plpc": "-0.01822"
+    },
+    {
+      "symbol": "MA",
+2026-04-20 10:59:25,233 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 10:59:25,233 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 10:59:26,945 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.71s)
+2026-04-20 10:59:26,945 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7350,
+      "title": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research - PR Newswire UK",
+      "summary": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research &nbsp;&nbsp; PR Newswire UK",
+      "content": "Constr
+2026-04-20 10:59:26,945 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 10:59:29,709 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.76s)
+2026-04-20 10:59:29,709 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 11:00:34,999 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 11:00:34,999 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 11:00:34,999 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "WEC",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": false
+      },
+      "analysis_timestamp": "2026-04-20T10:59:34.268714",
+      "semantic_context": [
+        "WEC",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 0,
+      "unique_entities_found": 0,
+      "top_risks": [
+2026-04-20 11:00:38,011 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 11:00:38,014 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-20 11:00:38,015 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "IGNORED",
+      "action": "NONE",
+      "rationale": "Already have a LIVE position in WEC. Ya no existe escalamiento entonces. Manteniendo posici\u00f3n actual (OBSERVAR).",
+      "confidence_in_decision": 0.75,
+      "risk_level": "low",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+      "ticker": "WEC",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-20T10:59:34.268714",
+      "d
+2026-04-20 11:00:38,015 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 11:01:16,719 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (38.70s)
+2026-04-20 11:01:16,720 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 48,
+  "ticker_analysis_ids": {
+    "WEC": 447,
+    "TSM": 448,
+    "PWR": 449,
+    "SNPS": 450,
+    "JNK": 451,
+    "BWXT": 452,
+    "BKLN": 453,
+    "QCOM": 454,
+    "LQD": 455,
+    "PEG": 456,
+    "BNDX": 457,
+    "MA": 458,
+    "BKR": 459
+  }
+}
+2026-04-20 11:01:16,727 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_105920.json
+2026-04-20 11:01:16,727 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-20 11:01:22,717 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 11:01:27,495 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (4.78s)
+2026-04-20 11:01:27,495 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.73",
+      "unrealized_pl": "-262.230032",
+      "unrealized_plpc": "-0.03127"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "228.89",
+      "unrealized_pl": "-56.68",
+      "unrealized_plpc": "-0.01869"
+    },
+    {
+      "symbol": "MA
+2026-04-20 11:01:27,495 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 11:01:27,495 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 11:01:29,510 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.01s)
+2026-04-20 11:01:29,510 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7350,
+      "title": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research - PR Newswire UK",
+      "summary": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research &nbsp;&nbsp; PR Newswire UK",
+      "content": "Constr
+2026-04-20 11:01:29,511 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 11:01:32,284 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.77s)
+2026-04-20 11:01:32,284 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 11:02:41,507 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 11:02:41,507 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 11:02:41,508 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "MA",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": false
+      },
+      "analysis_timestamp": "2026-04-20T11:01:37.608876",
+      "semantic_context": [
+        "MA",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 0,
+      "unique_entities_found": 0,
+      "top_risks": [],
+2026-04-20 11:02:44,680 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 11:02:44,684 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-20 11:02:44,684 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "IGNORED",
+      "action": "NONE",
+      "rationale": "Already have a LIVE position in MA. Ya no existe escalamiento entonces. Manteniendo posici\u00f3n actual (OBSERVAR).",
+      "confidence_in_decision": 0.75,
+      "risk_level": "low",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+      "ticker": "MA",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-20T11:01:37.608876",
+      "dec
+2026-04-20 11:02:44,684 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 11:03:25,736 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (41.05s)
+2026-04-20 11:03:25,736 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 49,
+  "ticker_analysis_ids": {
+    "MA": 460,
+    "BNDX": 461,
+    "TSM": 462,
+    "PWR": 463,
+    "BKLN": 464,
+    "SNPS": 465,
+    "QCOM": 466,
+    "BKR": 467,
+    "BWXT": 468,
+    "WEC": 469,
+    "LQD": 470,
+    "JNK": 471,
+    "PEG": 472
+  }
+}
+2026-04-20 11:03:25,741 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_110122.json
+2026-04-20 11:03:25,741 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-20 11:08:55,130 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 11:09:01,749 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (6.62s)
+2026-04-20 11:09:01,749 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.75",
+      "unrealized_pl": "-259.510032",
+      "unrealized_plpc": "-0.03095"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.195",
+      "unrealized_pl": "-52.715",
+      "unrealized_plpc": "-0.01738"
+    },
+    {
+      "symbol": "
+2026-04-20 11:09:01,749 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 11:09:01,749 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 11:09:03,613 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.86s)
+2026-04-20 11:09:03,614 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7350,
+      "title": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research - PR Newswire UK",
+      "summary": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research &nbsp;&nbsp; PR Newswire UK",
+      "content": "Constr
+2026-04-20 11:09:03,614 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 11:09:06,374 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.76s)
+2026-04-20 11:09:06,374 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 11:10:20,402 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 11:10:20,402 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 11:10:20,403 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "BNDX",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": false
+      },
+      "analysis_timestamp": "2026-04-20T11:09:12.006526",
+      "semantic_context": [
+        "BNDX",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 0,
+      "unique_entities_found": 0,
+      "top_risks":
+2026-04-20 11:10:23,166 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 11:10:23,168 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-20 11:10:23,168 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 55.0, Tendencia BEARISH). Informaci\u00f3n insuficiente para actuar.",
+      "confidence_in_decision": 0.58,
+      "risk_level": "medium",
+      "technical_context": "RSI: 55.0, ATR: $0.21, Trend: BEARISH",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+      "ticker": "BNDX",
+      "original_recommendation": "CAU
+2026-04-20 11:10:23,168 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 11:11:02,997 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (39.83s)
+2026-04-20 11:11:02,997 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 50,
+  "ticker_analysis_ids": {
+    "BNDX": 473,
+    "SNPS": 474,
+    "LQD": 475,
+    "MA": 476,
+    "QCOM": 477,
+    "JNK": 478,
+    "BKR": 479,
+    "TSM": 480,
+    "PEG": 481,
+    "BWXT": 482,
+    "BKLN": 483,
+    "PWR": 484,
+    "WEC": 485
+  }
+}
+2026-04-20 11:11:02,999 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_110855.json
+2026-04-20 11:11:03,000 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-20 11:11:08,265 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 11:11:11,715 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (3.45s)
+2026-04-20 11:11:11,715 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.68",
+      "unrealized_pl": "-269.030032",
+      "unrealized_plpc": "-0.03208"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.21",
+      "unrealized_pl": "-52.52",
+      "unrealized_plpc": "-0.01732"
+    },
+    {
+      "symbol": "MA
+2026-04-20 11:11:11,715 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 11:11:11,715 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 11:11:13,853 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.14s)
+2026-04-20 11:11:13,854 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7350,
+      "title": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research - PR Newswire UK",
+      "summary": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research &nbsp;&nbsp; PR Newswire UK",
+      "content": "Constr
+2026-04-20 11:11:13,855 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 11:11:16,821 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.97s)
+2026-04-20 11:11:16,822 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 11:12:25,416 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 11:12:25,417 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 11:12:25,418 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "BWXT",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": false
+      },
+      "analysis_timestamp": "2026-04-20T11:11:21.939918",
+      "semantic_context": [
+        "BWXT",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 0,
+      "unique_entities_found": 0,
+      "top_risks":
+2026-04-20 11:12:28,791 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 11:12:28,795 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-20 11:12:28,795 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "HELD",
+      "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 62.4, Tendencia BULLISH). Informaci\u00f3n insuficiente para actuar.",
+      "confidence_in_decision": 0.74,
+      "risk_level": "medium",
+      "technical_context": "RSI: 62.4, ATR: $9.47, Trend: BULLISH",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+      "ticker": "BWXT",
+      "original_recommendation": "CAU
+2026-04-20 11:12:28,795 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 11:13:08,296 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (39.50s)
+2026-04-20 11:13:08,296 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 51,
+  "ticker_analysis_ids": {
+    "BWXT": 486,
+    "MA": 487,
+    "JNK": 488,
+    "LQD": 489,
+    "PWR": 490,
+    "QCOM": 491,
+    "BKLN": 492,
+    "TSM": 493,
+    "WEC": 494,
+    "BNDX": 495,
+    "SNPS": 496,
+    "PEG": 497,
+    "BKR": 498
+  }
+}
+2026-04-20 11:13:08,298 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_111108.json
+2026-04-20 11:13:08,298 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-20 11:13:23,103 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 11:13:27,886 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (4.78s)
+2026-04-20 11:13:27,886 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.64",
+      "unrealized_pl": "-274.470032",
+      "unrealized_plpc": "-0.03273"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.21",
+      "unrealized_pl": "-52.52",
+      "unrealized_plpc": "-0.01732"
+    },
+    {
+      "symbol": "MA
+2026-04-20 11:13:27,886 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 11:13:27,886 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 11:13:29,727 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.84s)
+2026-04-20 11:13:29,728 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7350,
+      "title": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research - PR Newswire UK",
+      "summary": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research &nbsp;&nbsp; PR Newswire UK",
+      "content": "Constr
+2026-04-20 11:13:29,728 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 11:13:32,387 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.66s)
+2026-04-20 11:13:32,387 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 11:14:44,670 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 11:14:44,670 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 11:14:44,671 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "QCOM",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": false
+      },
+      "analysis_timestamp": "2026-04-20T11:13:38.122256",
+      "semantic_context": [
+        "QCOM",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 0,
+      "unique_entities_found": 0,
+      "top_risks":
+2026-04-20 11:14:47,339 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 11:14:47,341 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-20 11:14:47,341 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 60.9, Tendencia BEARISH). Informaci\u00f3n insuficiente para actuar.",
+      "confidence_in_decision": 0.61,
+      "risk_level": "medium",
+      "technical_context": "RSI: 60.9, ATR: $3.45, Trend: BEARISH",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+      "ticker": "QCOM",
+      "original_recommendation": "CAU
+2026-04-20 11:14:47,342 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 11:15:25,320 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (37.98s)
+2026-04-20 11:15:25,320 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 52,
+  "ticker_analysis_ids": {
+    "QCOM": 499,
+    "PEG": 500,
+    "BKR": 501,
+    "MA": 502,
+    "BWXT": 503,
+    "BKLN": 504,
+    "WEC": 505,
+    "SNPS": 506,
+    "BNDX": 507,
+    "JNK": 508,
+    "LQD": 509,
+    "PWR": 510,
+    "TSM": 511
+  }
+}
+2026-04-20 11:15:25,325 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_111323.json
+2026-04-20 11:15:25,325 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-20 11:51:54,420 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 11:52:00,095 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (5.68s)
+2026-04-20 11:52:00,096 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.35",
+      "unrealized_pl": "-313.910032",
+      "unrealized_plpc": "-0.03743"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "228.34",
+      "unrealized_pl": "-63.83",
+      "unrealized_plpc": "-0.02105"
+    },
+    {
+      "symbol": "MA
+2026-04-20 11:52:00,096 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 11:52:00,096 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 11:52:01,624 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.53s)
+2026-04-20 11:52:01,625 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7350,
+      "title": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research - PR Newswire UK",
+      "summary": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research &nbsp;&nbsp; PR Newswire UK",
+      "content": "Constr
+2026-04-20 11:52:01,625 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 11:52:04,200 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.57s)
+2026-04-20 11:52:04,200 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 11:53:03,611 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 11:53:03,611 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 11:53:03,611 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "BWXT",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": false
+      },
+      "analysis_timestamp": "2026-04-20T11:52:08.717054",
+      "semantic_context": [
+        "BWXT",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 0,
+      "unique_entities_found": 0,
+      "top_risks":
+2026-04-20 11:53:06,265 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 11:53:06,272 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-20 11:53:06,272 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "HELD",
+      "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 62.4, Tendencia BULLISH). Informaci\u00f3n insuficiente para actuar.",
+      "confidence_in_decision": 0.74,
+      "risk_level": "medium",
+      "technical_context": "RSI: 62.4, ATR: $9.47, Trend: BULLISH",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+      "ticker": "BWXT",
+      "original_recommendation": "CAU
+2026-04-20 11:53:06,272 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 11:53:41,694 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (35.42s)
+2026-04-20 11:53:41,694 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 53,
+  "ticker_analysis_ids": {
+    "BWXT": 512,
+    "MA": 513,
+    "QCOM": 514,
+    "TSM": 515,
+    "PWR": 516,
+    "BKR": 517,
+    "JNK": 518,
+    "WEC": 519,
+    "PEG": 520,
+    "LQD": 521,
+    "BKLN": 522,
+    "BNDX": 523,
+    "SNPS": 524
+  }
+}
+2026-04-20 11:53:41,697 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_115154.json
+2026-04-20 11:53:41,698 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-20 12:16:44,933 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 12:16:48,798 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (3.87s)
+2026-04-20 12:16:48,799 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.415",
+      "unrealized_pl": "-305.070032",
+      "unrealized_plpc": "-0.03638"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.23",
+      "unrealized_pl": "-52.26",
+      "unrealized_plpc": "-0.01723"
+    },
+    {
+      "symbol": "M
+2026-04-20 12:16:48,799 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 12:16:48,799 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 168,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 12:16:50,939 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.14s)
+2026-04-20 12:16:50,940 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7357,
+      "title": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? - AD HOC NEWS",
+      "summary": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "content": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "url": "https://news.google.com/r
+2026-04-20 12:16:50,940 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 12:16:54,213 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (3.27s)
+2026-04-20 12:16:54,213 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 12:25:13,304 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 12:25:13,304 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 12:25:13,304 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "BWXT",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": true
+      },
+      "analysis_timestamp": "2026-04-20T12:21:43.392590",
+      "semantic_context": [
+        "BWXT",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 14,
+      "unique_entities_found": 8,
+      "top_risks": [],
+      "top_opportunities": [
+ 
+2026-04-20 12:25:16,256 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 12:25:16,260 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-20 12:25:16,260 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "HELD",
+      "rationale": "Posici\u00f3n existente en rango alcista. Manteniendo (sin escalamiento por pol\u00edtica actual).",
+      "confidence_in_decision": 0.81,
+      "risk_level": "low",
+      "sentiment_score": 0.01,
+      "ticker_analysis_id": null,
+      "ticker": "BKR",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-20T12:17:50.790195",
+      "decision_timestamp
+2026-04-20 12:25:16,260 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 12:25:52,695 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (36.43s)
+2026-04-20 12:25:52,695 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 54,
+  "ticker_analysis_ids": {
+    "BKR": 525,
+    "PEG": 526,
+    "TSM": 527,
+    "SNPS": 528,
+    "WEC": 529,
+    "MA": 530,
+    "BWXT": 531,
+    "PWR": 532,
+    "QCOM": 533,
+    "BNDX": 534,
+    "JNK": 535,
+    "LQD": 536,
+    "BKLN": 537
+  }
+}
+2026-04-20 12:25:52,703 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_121644.json
+2026-04-20 12:25:52,704 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-20 12:28:22,788 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 12:28:30,934 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (8.15s)
+2026-04-20 12:28:30,935 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.21",
+      "unrealized_pl": "-332.950032",
+      "unrealized_plpc": "-0.03971"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.215",
+      "unrealized_pl": "-52.455",
+      "unrealized_plpc": "-0.0173"
+    },
+    {
+      "symbol": "M
+2026-04-20 12:28:30,935 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 12:28:30,935 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 168,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 12:28:33,295 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.36s)
+2026-04-20 12:28:33,299 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7357,
+      "title": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? - AD HOC NEWS",
+      "summary": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "content": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "url": "https://news.google.com/r
+2026-04-20 12:28:33,300 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 12:28:35,772 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.47s)
+2026-04-20 12:28:35,772 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 12:37:02,631 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 12:37:02,631 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 12:37:02,631 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "BWXT",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": true
+      },
+      "analysis_timestamp": "2026-04-20T12:35:22.194877",
+      "semantic_context": [
+        "BWXT",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 14,
+      "unique_entities_found": 8,
+      "top_risks": [],
+      "top_opportunities": [
+ 
+2026-04-20 12:37:05,410 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 12:37:05,418 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-20 12:37:05,418 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "Se\u00f1al de BAJA CONFIANZA (0.09 NLP -> 0.60 Quant). RSI: 63.0, ATR: $0.08, Trend: BEARISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
+      "confidence_in_decision": 0.6,
+      "risk_level": "medium",
+      "technical_context": "RSI: 63.0, ATR: $0.08, Trend: BEARISH",
+      "sentiment_score": -0.01,
+      "ticker_analysis_id": null,
+      "ticker": "BKLN",
+      "o
+2026-04-20 12:37:05,418 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 12:37:41,351 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (35.93s)
+2026-04-20 12:37:41,351 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 55,
+  "ticker_analysis_ids": {
+    "BKLN": 538,
+    "TSM": 539,
+    "WEC": 540,
+    "PEG": 541,
+    "BKR": 542,
+    "PWR": 543,
+    "BNDX": 544,
+    "SNPS": 545,
+    "MA": 546,
+    "BWXT": 547,
+    "JNK": 548,
+    "LQD": 549,
+    "QCOM": 550
+  }
+}
+2026-04-20 12:37:41,365 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_122822.json
+2026-04-20 12:37:41,366 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-20 12:38:16,905 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 12:38:20,648 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (3.74s)
+2026-04-20 12:38:20,648 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.25",
+      "unrealized_pl": "-327.510032",
+      "unrealized_plpc": "-0.03906"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.91",
+      "unrealized_pl": "-43.42",
+      "unrealized_plpc": "-0.01432"
+    },
+    {
+      "symbol": "MA
+2026-04-20 12:38:20,648 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 12:38:20,648 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 12:38:22,201 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.55s)
+2026-04-20 12:38:22,202 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7357,
+      "title": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? - AD HOC NEWS",
+      "summary": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "content": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "url": "https://news.google.com/r
+2026-04-20 12:38:22,202 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 12:38:24,755 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.55s)
+2026-04-20 12:38:24,755 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 12:41:42,211 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 12:41:42,212 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 12:41:42,212 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "BKR",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": true
+      },
+      "analysis_timestamp": "2026-04-20T12:38:36.351507",
+      "semantic_context": [
+        "BKR",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 1,
+      "unique_entities_found": 1,
+      "top_risks": []
+2026-04-20 12:41:45,174 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 12:41:45,177 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.00s)
+2026-04-20 12:41:45,177 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "HELD",
+      "rationale": "Posici\u00f3n existente en rango alcista. Manteniendo (sin escalamiento por pol\u00edtica actual).",
+      "confidence_in_decision": 0.8,
+      "risk_level": "low",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+      "ticker": "BKR",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-20T12:38:36.351507",
+      "decision_timestamp":
+2026-04-20 12:41:45,177 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 12:42:21,154 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (35.98s)
+2026-04-20 12:42:21,155 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 56,
+  "ticker_analysis_ids": {
+    "BKR": 551,
+    "WEC": 552,
+    "TSM": 553,
+    "LQD": 554,
+    "BNDX": 555,
+    "BKLN": 556,
+    "PEG": 557,
+    "JNK": 558,
+    "SNPS": 559,
+    "QCOM": 560,
+    "MA": 561,
+    "PWR": 562,
+    "BWXT": 563
+  }
+}
+2026-04-20 12:42:21,157 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_123816.json
+2026-04-20 12:42:21,157 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-20 12:45:58,820 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 12:46:02,933 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (4.11s)
+2026-04-20 12:46:02,933 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.28",
+      "unrealized_pl": "-323.430032",
+      "unrealized_plpc": "-0.03857"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "230.2599",
+      "unrealized_pl": "-38.8713",
+      "unrealized_plpc": "-0.01282"
+    },
+    {
+      "symbol":
+2026-04-20 12:46:02,933 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 12:46:02,933 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 168,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 12:46:05,176 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (2.24s)
+2026-04-20 12:46:05,178 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7357,
+      "title": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? - AD HOC NEWS",
+      "summary": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "content": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "url": "https://news.google.com/r
+2026-04-20 12:46:05,178 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 12:46:07,733 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.55s)
+2026-04-20 12:46:07,733 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 12:59:43,956 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 12:59:43,956 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 12:59:43,957 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "BWXT",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": true
+      },
+      "analysis_timestamp": "2026-04-20T12:50:13.913607",
+      "semantic_context": [
+        "BWXT",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 79,
+      "unique_entities_found": 8,
+      "top_risks": [],
+      "top_opportunities": [
+ 
+2026-04-20 12:59:46,842 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 12:59:46,848 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-20 12:59:46,849 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "HELD",
+      "rationale": "Posici\u00f3n existente en rango alcista. Manteniendo (sin escalamiento por pol\u00edtica actual).",
+      "confidence_in_decision": 0.81,
+      "risk_level": "low",
+      "sentiment_score": 0.01,
+      "ticker_analysis_id": null,
+      "ticker": "BKR",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-20T12:47:02.841328",
+      "decision_timestamp
+2026-04-20 12:59:46,849 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 13:00:21,864 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (35.02s)
+2026-04-20 13:00:21,864 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 57,
+  "ticker_analysis_ids": {
+    "BKR": 564,
+    "PEG": 565,
+    "SNPS": 566,
+    "BWXT": 567,
+    "MA": 568,
+    "JNK": 569,
+    "LQD": 570,
+    "BKLN": 571,
+    "QCOM": 572,
+    "PWR": 573,
+    "WEC": 574,
+    "TSM": 575,
+    "BNDX": 576
+  }
+}
+2026-04-20 13:00:21,872 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_124558.json
+2026-04-20 13:00:21,872 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-20 13:01:43,508 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 13:01:50,781 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (7.27s)
+2026-04-20 13:01:50,782 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.37",
+      "unrealized_pl": "-311.190032",
+      "unrealized_plpc": "-0.03711"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.91",
+      "unrealized_pl": "-43.42",
+      "unrealized_plpc": "-0.01432"
+    },
+    {
+      "symbol": "MA
+2026-04-20 13:01:50,782 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 13:01:50,782 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 13:01:52,286 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.50s)
+2026-04-20 13:01:52,286 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7357,
+      "title": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? - AD HOC NEWS",
+      "summary": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "content": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "url": "https://news.google.com/r
+2026-04-20 13:01:52,286 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 13:01:55,035 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.75s)
+2026-04-20 13:01:55,036 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 13:13:44,134 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 13:13:44,135 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 13:13:44,135 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "BNDX",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": true
+      },
+      "analysis_timestamp": "2026-04-20T13:02:54.447040",
+      "semantic_context": [
+        "BNDX",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 11,
+      "unique_entities_found": 8,
+      "top_risks": [],
+      "top_opportunities": [
+ 
+2026-04-20 13:13:46,948 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 13:13:46,954 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-20 13:13:46,954 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "Se\u00f1al de BAJA CONFIANZA (0.16 NLP -> 0.70 Quant). RSI: 55.0, ATR: $0.21, Trend: BEARISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
+      "confidence_in_decision": 0.7,
+      "risk_level": "medium",
+      "technical_context": "RSI: 55.0, ATR: $0.21, Trend: BEARISH",
+      "sentiment_score": 0.12,
+      "ticker_analysis_id": null,
+      "ticker": "BNDX",
+      "or
+2026-04-20 13:13:46,954 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 13:14:23,073 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (36.12s)
+2026-04-20 13:14:23,073 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 58,
+  "ticker_analysis_ids": {
+    "BNDX": 577,
+    "QCOM": 578,
+    "PEG": 579,
+    "TSM": 580,
+    "PWR": 581,
+    "JNK": 582,
+    "BKR": 583,
+    "MA": 584,
+    "BKLN": 585,
+    "BWXT": 586,
+    "WEC": 587,
+    "LQD": 588,
+    "SNPS": 589
+  }
+}
+2026-04-20 13:14:23,079 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_130143.json
+2026-04-20 13:14:23,080 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed
+2026-04-20 13:29:50,337 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 13:29:57,266 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (6.93s)
+2026-04-20 13:29:57,267 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "59.405",
+      "unrealized_pl": "-306.430032",
+      "unrealized_plpc": "-0.03654"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "229.61",
+      "unrealized_pl": "-47.32",
+      "unrealized_plpc": "-0.01561"
+    },
+    {
+      "symbol": "M
+2026-04-20 13:29:57,267 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 13:29:57,267 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 13:29:58,706 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.44s)
+2026-04-20 13:29:58,707 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7357,
+      "title": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? - AD HOC NEWS",
+      "summary": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "content": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "url": "https://news.google.com/r
+2026-04-20 13:29:58,708 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 13:30:01,879 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (3.17s)
+2026-04-20 13:30:01,879 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 13:41:02,157 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 13:41:02,157 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 13:41:02,157 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "MA",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": true
+      },
+      "analysis_timestamp": "2026-04-20T13:31:00.134926",
+      "semantic_context": [
+        "MA",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 8,
+      "unique_entities_found": 8,
+      "top_risks": [],
+
+2026-04-20 13:41:04,917 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 13:41:04,923 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-20 13:41:04,924 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "HELD",
+      "rationale": "Posici\u00f3n existente en rango alcista. Manteniendo (sin escalamiento por pol\u00edtica actual).",
+      "confidence_in_decision": 0.75,
+      "risk_level": "low",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+      "ticker": "MA",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "2026-04-20T13:31:00.134926",
+      "decision_timestamp":
+2026-04-20 13:41:04,924 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 13:41:43,715 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (38.79s)
+2026-04-20 13:41:43,715 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 59,
+  "ticker_analysis_ids": {
+    "MA": 590,
+    "WEC": 591,
+    "BKLN": 592,
+    "TSM": 593,
+    "LQD": 594,
+    "BNDX": 595,
+    "PEG": 596,
+    "BWXT": 597,
+    "JNK": 598,
+    "QCOM": 599,
+    "SNPS": 600,
+    "BKR": 601,
+    "PWR": 602
+  }
+}
+2026-04-20 13:41:43,718 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_132950.json
+2026-04-20 13:41:43,718 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed

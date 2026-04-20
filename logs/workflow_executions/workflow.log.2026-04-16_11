@@ -1,0 +1,237 @@
+2026-04-16 10:07:59,003 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-16 10:07:59,003 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-16 10:08:00,300 - workflow_logger - ERROR - ❌ STEP FAILED: news_extraction [news_extraction_001] (1.30s)
+2026-04-16 10:08:00,300 - workflow_logger - ERROR -    Error: Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.
+2026-04-16 10:08:00,300 - workflow_logger - DEBUG -    Traceback:
+Traceback (most recent call last):
+  File "/home/diegovelezg/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py", line 308, in execute_step
+    raise ValueError(f"Step returned success=False: {error_msg}")
+ValueError: Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.
+
+2026-04-16 10:08:00,301 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260416_100759.json
+2026-04-16 10:08:00,301 - workflow_logger - ERROR - 🛑 WORKFLOW ABORTED at step: news_extraction
+2026-04-16 10:08:00,301 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260416_100759.json
+2026-04-16 10:08:00,301 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 0 steps completed, 1 failed
+2026-04-16 10:08:35,808 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-16 10:08:35,808 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-16 10:08:37,054 - workflow_logger - ERROR - ❌ STEP FAILED: news_extraction [news_extraction_001] (1.25s)
+2026-04-16 10:08:37,054 - workflow_logger - ERROR -    Error: Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.
+2026-04-16 10:08:37,054 - workflow_logger - DEBUG -    Traceback:
+Traceback (most recent call last):
+  File "/home/diegovelezg/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py", line 308, in execute_step
+    raise ValueError(f"Step returned success=False: {error_msg}")
+ValueError: Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.
+
+2026-04-16 10:08:37,055 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260416_100835.json
+2026-04-16 10:08:37,055 - workflow_logger - ERROR - 🛑 WORKFLOW ABORTED at step: news_extraction
+2026-04-16 10:08:37,055 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260416_100835.json
+2026-04-16 10:08:37,056 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 0 steps completed, 1 failed
+2026-04-16 10:15:15,598 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-16 10:15:15,598 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-16 10:15:16,805 - workflow_logger - ERROR - ❌ STEP FAILED: news_extraction [news_extraction_001] (1.21s)
+2026-04-16 10:15:16,805 - workflow_logger - ERROR -    Error: Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.
+2026-04-16 10:15:16,805 - workflow_logger - DEBUG -    Traceback:
+Traceback (most recent call last):
+  File "/home/diegovelezg/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py", line 308, in execute_step
+    raise ValueError(f"Step returned success=False: {error_msg}")
+ValueError: Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.
+
+2026-04-16 10:15:16,805 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260416_101515.json
+2026-04-16 10:15:16,805 - workflow_logger - ERROR - 🛑 WORKFLOW ABORTED at step: news_extraction
+2026-04-16 10:15:16,805 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260416_101515.json
+2026-04-16 10:15:16,805 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 0 steps completed, 1 failed
+2026-04-16 10:57:36,551 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-16 10:57:36,551 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-16 10:57:37,941 - workflow_logger - ERROR - ❌ STEP FAILED: news_extraction [news_extraction_001] (1.39s)
+2026-04-16 10:57:37,941 - workflow_logger - ERROR -    Error: Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.
+2026-04-16 10:57:37,941 - workflow_logger - DEBUG -    Traceback:
+Traceback (most recent call last):
+  File "/home/diegovelezg/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py", line 308, in execute_step
+    raise ValueError(f"Step returned success=False: {error_msg}")
+ValueError: Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.
+
+2026-04-16 10:57:37,942 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260416_105736.json
+2026-04-16 10:57:37,942 - workflow_logger - ERROR - 🛑 WORKFLOW ABORTED at step: news_extraction
+2026-04-16 10:57:37,942 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260416_105736.json
+2026-04-16 10:57:37,943 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 0 steps completed, 1 failed
+2026-04-16 11:01:16,176 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-16 11:01:16,176 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-16 11:01:18,167 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.99s)
+2026-04-16 11:01:18,168 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7227,
+      "title": "Iran Red Sea Shipping Threat: Trade Route Risks - Discovery Alert",
+      "summary": "Iran Red Sea Shipping Threat: Trade Route Risks &nbsp;&nbsp; Discovery Alert",
+      "content": "Iran Red Sea Shipping Threat: Trade Route Risks &nbsp;&nbsp; Discovery Alert",
+      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5jNkZ5VUxqdmxmOXN2eG1icUlOT21XRWRZRnVrQVByXzBZOHI0a3Awdy1GRlVZdVZGU29XLTJ0WkhTd0NHMFZ2TXNwT21Q
+2026-04-16 11:01:18,169 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-16 11:01:19,975 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (1.81s)
+2026-04-16 11:01:19,975 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "60.855",
+      "unrealized_pl": "-109.230032",
+      "unrealized_plpc": "-0.01303"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "235.04",
+      "unrealized_pl": "23.27",
+      "unrealized_plpc": "0.00767"
+    },
+    {
+      "symbol": "MA"
+2026-04-16 11:01:19,975 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-16 11:01:22,490 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.52s)
+2026-04-16 11:01:22,490 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-16 11:28:51,983 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-16 11:28:51,983 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-16 11:28:53,774 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.79s)
+2026-04-16 11:28:53,775 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7227,
+      "title": "Iran Red Sea Shipping Threat: Trade Route Risks - Discovery Alert",
+      "summary": "Iran Red Sea Shipping Threat: Trade Route Risks &nbsp;&nbsp; Discovery Alert",
+      "content": "Iran Red Sea Shipping Threat: Trade Route Risks &nbsp;&nbsp; Discovery Alert",
+      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5jNkZ5VUxqdmxmOXN2eG1icUlOT21XRWRZRnVrQVByXzBZOHI0a3Awdy1GRlVZdVZGU29XLTJ0WkhTd0NHMFZ2TXNwT21Q
+2026-04-16 11:28:53,775 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-16 11:28:57,046 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (3.27s)
+2026-04-16 11:28:57,046 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "60.74",
+      "unrealized_pl": "-124.870032",
+      "unrealized_plpc": "-0.01489"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "232.78",
+      "unrealized_pl": "-6.11",
+      "unrealized_plpc": "-0.00202"
+    },
+    {
+      "symbol": "MA"
+2026-04-16 11:28:57,046 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-16 11:28:59,597 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.55s)
+2026-04-16 11:28:59,597 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-16 11:34:48,004 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-16 11:34:48,004 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-16 11:34:48,005 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [
+    {
+      "success": true,
+      "ticker": "BWXT",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": true
+      },
+      "analysis_timestamp": "2026-04-16T11:31:52.971603",
+      "semantic_context": [
+        "BWXT",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 9,
+      "unique_entities_found": 8,
+      "top_risks": [],
+      "top_opportunities": [
+  
+2026-04-16 11:34:50,631 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-16 11:34:52,673 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (2.04s)
+2026-04-16 11:34:52,673 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 60.0, Tendencia BEARISH). Informaci\u00f3n insuficiente para actuar.",
+      "confidence_in_decision": 0.65,
+      "risk_level": "medium",
+      "technical_context": "RSI: 60.0, ATR: $16.45, Trend: BEARISH",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+      "ticker": "SNPS",
+      "original_recommendation": "CA
+2026-04-16 11:34:52,673 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-16 11:35:16,723 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (24.05s)
+2026-04-16 11:35:16,723 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 42,
+  "ticker_analysis_ids": {
+    "SNPS": 373,
+    "BKR": 374,
+    "TSM": 375,
+    "QCOM": 376,
+    "BWXT": 377,
+    "WEC": 378,
+    "MA": 379,
+    "PEG": 380,
+    "PWR": 381
+  }
+}
+2026-04-16 11:35:16,728 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260416_112851.json
+2026-04-16 11:35:16,728 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed

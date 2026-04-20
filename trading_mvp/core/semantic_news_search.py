@@ -39,7 +39,8 @@ class SemanticNewsSearch:
         self,
         ticker: str,
         all_news: List[Dict],
-        method: str = "semantic"
+        method: str = "semantic",
+        hours_back: int = None
     ) -> Tuple[List[Dict], Dict]:
         """
         Buscar noticias relacionadas con un ticker usando similarity semántica.
@@ -49,6 +50,7 @@ class SemanticNewsSearch:
             ticker: Símbolo del ticker
             all_news: Todas las noticias disponibles (usado para mapear IDs)
             method: 'semantic'
+            hours_back: Horas hacia atrás para la búsqueda en DB
 
         Returns:
             (related_news, stats)
@@ -58,7 +60,8 @@ class SemanticNewsSearch:
         similar_news = find_similar_news_by_dna(
             ticker=ticker,
             threshold=self.similarity_threshold,
-            limit=len(all_news) if all_news else 100
+            limit=len(all_news) if all_news else 100,
+            hours_back=hours_back
         )
 
         if not similar_news:
@@ -131,7 +134,8 @@ def find_related_news_for_ticker(
     ticker: str,
     all_news: List[Dict],
     method: str = "semantic",
-    similarity_threshold: float = 0.75
+    similarity_threshold: float = 0.75,
+    hours_back: int = None
 ) -> Tuple[List[Dict], Dict]:
     """
     Wrapper simple para búsqueda semántica.
@@ -141,6 +145,7 @@ def find_related_news_for_ticker(
         all_news: Todas las noticias disponibles
         method: 'semantic' (embeddings puros)
         similarity_threshold: Umbral de similitud (0-1)
+        hours_back: Filtro de fecha para DB
 
     Returns:
         (related_news, stats)
@@ -151,7 +156,7 @@ def find_related_news_for_ticker(
         min_news_count=5
     )
 
-    return search.find_related_news(ticker, all_news, method=method)
+    return search.find_related_news(ticker, all_news, method=method, hours_back=hours_back)
 
 
 def test_semantic_search():

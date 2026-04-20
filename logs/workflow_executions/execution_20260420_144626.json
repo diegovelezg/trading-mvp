@@ -1,0 +1,1522 @@
+{
+  "execution_id": "20260420_144626",
+  "start_time": "2026-04-20T14:46:26.638182",
+  "end_time": "2026-04-20T14:58:11.418215",
+  "total_duration_seconds": 45.053713,
+  "total_steps": 6,
+  "completed_steps": 6,
+  "failed_steps": 0,
+  "steps": [
+    {
+      "step_id": "load_portfolio_001",
+      "step_type": "data_validation",
+      "status": "completed",
+      "start_time": "2026-04-20T14:46:26.638182",
+      "end_time": "2026-04-20T14:46:30.807363",
+      "duration_seconds": 4.169181,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "positions": [
+          {
+            "symbol": "BKR",
+            "qty": "136",
+            "side": "long",
+            "avg_entry_price": "61.658162",
+            "current_price": "58.8",
+            "unrealized_pl": "-388.710032",
+            "unrealized_plpc": "-0.04635"
+          },
+          {
+            "symbol": "BWXT",
+            "qty": "13",
+            "side": "long",
+            "avg_entry_price": "233.25",
+            "current_price": "228.5",
+            "unrealized_pl": "-61.75",
+            "unrealized_plpc": "-0.02036"
+          },
+          {
+            "symbol": "MA",
+            "qty": "10",
+            "side": "long",
+            "avg_entry_price": "505.01",
+            "current_price": "516.1",
+            "unrealized_pl": "110.9",
+            "unrealized_plpc": "0.02196"
+          },
+          {
+            "symbol": "PWR",
+            "qty": "47",
+            "side": "long",
+            "avg_entry_price": "590.77",
+            "current_price": "604.04",
+            "unrealized_pl": "623.69",
+            "unrealized_plpc": "0.02246"
+          },
+          {
+            "symbol": "TSM",
+            "qty": "90",
+            "side": "long",
+            "avg_entry_price": "369.55",
+            "current_price": "366.39",
+            "unrealized_pl": "-284.4",
+            "unrealized_plpc": "-0.00855"
+          },
+          {
+            "symbol": "WEC",
+            "qty": "104",
+            "side": "long",
+            "avg_entry_price": "115.01",
+            "current_price": "114.9",
+            "unrealized_pl": "-11.44",
+            "unrealized_plpc": "-0.00096"
+          }
+        ],
+        "orders": [],
+        "account": {
+          "buying_power": 110549.01,
+          "cash": 10550.99,
+          "portfolio_value": 99998.02,
+          "equity": 99998.02
+        },
+        "tickers": [
+          "TSM",
+          "BWXT",
+          "MA",
+          "WEC",
+          "BKR",
+          "PWR"
+        ],
+        "live_tickers": [
+          "BKR",
+          "BWXT",
+          "MA",
+          "PWR",
+          "TSM",
+          "WEC"
+        ],
+        "pending_tickers": [],
+        "executed_exits": []
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "news_extraction_001",
+      "step_type": "news_extraction",
+      "status": "completed",
+      "start_time": "2026-04-20T14:46:30.807611",
+      "end_time": "2026-04-20T14:46:32.459332",
+      "duration_seconds": 1.651721,
+      "input_data": {
+        "hours_back": 48,
+        "min_news_count": 10,
+        "max_age_hours": 24
+      },
+      "output_data": {
+        "success": true,
+        "news_items": [
+          {
+            "id": 7357,
+            "title": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? - AD HOC NEWS",
+            "summary": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+            "content": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+            "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNWG5PcUxzemlVT09nVGZRM0lHRXJIQ3dHNW9GemZacFo4UVFhVHlaNkJTeHoyZnlmcWNSQklQSlI0SlhnQmtHUVYwblJyWlNKMzljSWFhTkhxS1ZtM21XVDFCYnNSeXJnR0RpTlhCVUdORWlZcFpYOFROMVFObHl6VzR6aFdJV2VOLWx4cE5NU3I1dUVIdlV4MmtjalVWYjZnamtfeVFOeUcyLTNHa2pNSDZHOEFZMWJudzFQWTFsWVhpUFlEd0FjZQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "AD HOC NEWS",
+            "published_at": "2026-04-20 15:24:31+00:00",
+            "collected_at": "2026-04-20 17:16:04.784744+00:00",
+            "alpaca_id": 2663943300,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNWG5PcUxzemlVT09nVGZRM0lHRXJIQ3dHNW9GemZacFo4UVFhVHlaNkJTeHoyZnlmcWNSQklQSlI0SlhnQmtHUVYwblJyWlNKMzljSWFhTkhxS1ZtM21XVDFCYnNSeXJnR0RpTlhCVUdORWlZcFpYOFROMVFObHl6VzR6aFdJV2VOLWx4cE5NU3I1dUVIdlV4MmtjalVWYjZnamtfeVFOeUcyLTNHa2pNSDZHOEFZMWJudzFQWTFsWVhpUFlEd0FjZQ?oc=5",
+              "title": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? - AD HOC NEWS",
+              "topic": "AI capital expenditure hyperscalers hardware compute efficiency",
+              "source": {
+                "href": "https://www.ad-hoc-news.de",
+                "title": "AD HOC NEWS"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiyAFBVV95cUxNWG5PcUxzemlVT09nVGZRM0lHRXJIQ3dHNW9GemZacFo4UVFhVHlaNkJTeHoyZnlmcWNSQklQSlI0SlhnQmtHUVYwblJyWlNKMzljSWFhTkhxS1ZtM21XVDFCYnNSeXJnR0RpTlhCVUdORWlZcFpYOFROMVFObHl6VzR6aFdJV2VOLWx4cE5NU3I1dUVIdlV4MmtjalVWYjZnamtfeVFOeUcyLTNHa2pNSDZHOEFZMWJudzFQWTFsWVhpUFlEd0FjZQ?oc=5\" target=\"_blank\">AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth?</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">AD HOC NEWS</font>",
+              "category": "tech_ai_semiconductors",
+              "published": "Mon, 20 Apr 2026 15:24:31 GMT",
+              "search_query": "tech regulation antitrust platform dominance digital sovereignty"
+            }
+          },
+          {
+            "id": 7355,
+            "title": "Pakistan At the Helm of A Shifting Global Paradigm - ProPakistani",
+            "summary": "Pakistan At the Helm of A Shifting Global Paradigm &nbsp;&nbsp; ProPakistani",
+            "content": "Pakistan At the Helm of A Shifting Global Paradigm &nbsp;&nbsp; ProPakistani",
+            "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPNDJTRjZJX2dNaE1OT3hEQm93MEFUM3BGbE5sQ1Nyalh6YUFWb290QndKcEdSaTg0Um12elZSRlBrS1FJWndTSm9rVHFtM2RGVklRdjF2V3ZCdWJYRzhEcVV3Si10VVJfdUJUX0VsaGFVeGtHSC1ZQlc0V0kzRk5LZXROdDR0bWdFQUdZa1RTVFo?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "ProPakistani",
+            "published_at": "2026-04-20 14:59:10+00:00",
+            "collected_at": "2026-04-20 17:16:04.784744+00:00",
+            "alpaca_id": 516995329,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPNDJTRjZJX2dNaE1OT3hEQm93MEFUM3BGbE5sQ1Nyalh6YUFWb290QndKcEdSaTg0Um12elZSRlBrS1FJWndTSm9rVHFtM2RGVklRdjF2V3ZCdWJYRzhEcVV3Si10VVJfdUJUX0VsaGFVeGtHSC1ZQlc0V0kzRk5LZXROdDR0bWdFQUdZa1RTVFo?oc=5",
+              "title": "Pakistan At the Helm of A Shifting Global Paradigm - ProPakistani",
+              "topic": "diplomatic shifts economic impact global alliance realignment",
+              "source": {
+                "href": "https://propakistani.pk",
+                "title": "ProPakistani"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMikAFBVV95cUxPNDJTRjZJX2dNaE1OT3hEQm93MEFUM3BGbE5sQ1Nyalh6YUFWb290QndKcEdSaTg0Um12elZSRlBrS1FJWndTSm9rVHFtM2RGVklRdjF2V3ZCdWJYRzhEcVV3Si10VVJfdUJUX0VsaGFVeGtHSC1ZQlc0V0kzRk5LZXROdDR0bWdFQUdZa1RTVFo?oc=5\" target=\"_blank\">Pakistan At the Helm of A Shifting Global Paradigm</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">ProPakistani</font>",
+              "category": "geopolitical_strategic",
+              "published": "Mon, 20 Apr 2026 14:59:10 GMT",
+              "search_query": "cyber warfare state-sponsored infrastructure attacks national security"
+            }
+          },
+          {
+            "id": 7350,
+            "title": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research - PR Newswire UK",
+            "summary": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research &nbsp;&nbsp; PR Newswire UK",
+            "content": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research &nbsp;&nbsp; PR Newswire UK",
+            "url": "https://news.google.com/rss/articles/CBMiwwJBVV95cUxQYzB6bkFTeVRWcVhFbk9tYWt3SmE1UkhHaXBOamJBUXFheThjUlRXVkwtNUtIVmpvWE5UT0NpUEVET2lxQ0x2Ri03d2ZMQUFrcVFjUjdQaW8zd25HdjZjX3VMeHo3T1hwQ24tM1ROR2gtVF9yQnlxd21hT0F3RzcwbjRnRkE4UkV2S3dzSEVlUXVXUlBuMmEyaXBUUnpoWGpFZ1laU2JoQ1o2bXM4R3U3SDBmaWJBMVBCc2piTWxUSVZOYlEyRGF2Z2RNX21YNTNBUUJ5dnF3ZmdxaUVYakozbHRWMVVmdjR1WnZiRkVIOTF5eUJaaHMxTFl4WHhzTG5Ld2dUOEFfTjNXWlRNNm1IYzNFMDE4LW1sUkdQMnRaTkJpTEdhZFpNMnRTdngtaVlMN3l3ajhucGpycl9yaFhJSHAxTQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "PR Newswire UK",
+            "published_at": "2026-04-20 14:16:00+00:00",
+            "collected_at": "2026-04-20 15:20:14.473274+00:00",
+            "alpaca_id": 3121545042,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiwwJBVV95cUxQYzB6bkFTeVRWcVhFbk9tYWt3SmE1UkhHaXBOamJBUXFheThjUlRXVkwtNUtIVmpvWE5UT0NpUEVET2lxQ0x2Ri03d2ZMQUFrcVFjUjdQaW8zd25HdjZjX3VMeHo3T1hwQ24tM1ROR2gtVF9yQnlxd21hT0F3RzcwbjRnRkE4UkV2S3dzSEVlUXVXUlBuMmEyaXBUUnpoWGpFZ1laU2JoQ1o2bXM4R3U3SDBmaWJBMVBCc2piTWxUSVZOYlEyRGF2Z2RNX21YNTNBUUJ5dnF3ZmdxaUVYakozbHRWMVVmdjR1WnZiRkVIOTF5eUJaaHMxTFl4WHhzTG5Ld2dUOEFfTjNXWlRNNm1IYzNFMDE4LW1sUkdQMnRaTkJpTEdhZFpNMnRTdngtaVlMN3l3ajhucGpycl9yaFhJSHAxTQ?oc=5",
+              "title": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research - PR Newswire UK",
+              "topic": "global construction infrastructure spending urban development projects",
+              "source": {
+                "href": "https://www.prnewswire.co.uk",
+                "title": "PR Newswire UK"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiwwJBVV95cUxQYzB6bkFTeVRWcVhFbk9tYWt3SmE1UkhHaXBOamJBUXFheThjUlRXVkwtNUtIVmpvWE5UT0NpUEVET2lxQ0x2Ri03d2ZMQUFrcVFjUjdQaW8zd25HdjZjX3VMeHo3T1hwQ24tM1ROR2gtVF9yQnlxd21hT0F3RzcwbjRnRkE4UkV2S3dzSEVlUXVXUlBuMmEyaXBUUnpoWGpFZ1laU2JoQ1o2bXM4R3U3SDBmaWJBMVBCc2piTWxUSVZOYlEyRGF2Z2RNX21YNTNBUUJ5dnF3ZmdxaUVYakozbHRWMVVmdjR1WnZiRkVIOTF5eUJaaHMxTFl4WHhzTG5Ld2dUOEFfTjNXWlRNNm1IYzNFMDE4LW1sUkdQMnRaTkJpTEdhZFpNMnRTdngtaVlMN3l3ajhucGpycl9yaFhJSHAxTQ?oc=5\" target=\"_blank\">Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">PR Newswire UK</font>",
+              "category": "industrial_automotive",
+              "published": "Mon, 20 Apr 2026 14:16:00 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7354,
+            "title": "Nepal\u2019s Financial Sector: Key Indicators Every Investor Must Watch - Nepalnews.com",
+            "summary": "Nepal\u2019s Financial Sector: Key Indicators Every Investor Must Watch &nbsp;&nbsp; Nepalnews.com",
+            "content": "Nepal\u2019s Financial Sector: Key Indicators Every Investor Must Watch &nbsp;&nbsp; Nepalnews.com",
+            "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxORkt1N0xwSWhCNFIyWFhIbml6QjdENnpUT2w1dVU1YXQwZ1pKSXotNVlsY1VSNmZWSlB3SV92Mk9PUHQyTFJES2YxdDAxbEJ3Mnh0a2FaM3hJdXlpMzFyTWdKdXNwM1VTQmVyWFdTMUpzVmMtc2tmRzlRMmtRclcyZ3dGc1dvbTlnZ3VCV09tS0MxbWdPb0c0QVN6Wm9mNEVKZXpVc2ZwOHJ3YWND?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Nepalnews.com",
+            "published_at": "2026-04-20 07:48:53+00:00",
+            "collected_at": "2026-04-20 15:20:14.473274+00:00",
+            "alpaca_id": 2934249012,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxORkt1N0xwSWhCNFIyWFhIbml6QjdENnpUT2w1dVU1YXQwZ1pKSXotNVlsY1VSNmZWSlB3SV92Mk9PUHQyTFJES2YxdDAxbEJ3Mnh0a2FaM3hJdXlpMzFyTWdKdXNwM1VTQmVyWFdTMUpzVmMtc2tmRzlRMmtRclcyZ3dGc1dvbTlnZ3VCV09tS0MxbWdPb0c0QVN6Wm9mNEVKZXpVc2ZwOHJ3YWND?oc=5",
+              "title": "Nepal\u2019s Financial Sector: Key Indicators Every Investor Must Watch - Nepalnews.com",
+              "topic": "banking system capital ratios credit quality non-performing loans",
+              "source": {
+                "href": "https://english.nepalnews.com",
+                "title": "Nepalnews.com"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMirAFBVV95cUxORkt1N0xwSWhCNFIyWFhIbml6QjdENnpUT2w1dVU1YXQwZ1pKSXotNVlsY1VSNmZWSlB3SV92Mk9PUHQyTFJES2YxdDAxbEJ3Mnh0a2FaM3hJdXlpMzFyTWdKdXNwM1VTQmVyWFdTMUpzVmMtc2tmRzlRMmtRclcyZ3dGc1dvbTlnZ3VCV09tS0MxbWdPb0c0QVN6Wm9mNEVKZXpVc2ZwOHJ3YWND?oc=5\" target=\"_blank\">Nepal\u2019s Financial Sector: Key Indicators Every Investor Must Watch</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Nepalnews.com</font>",
+              "category": "financial_stability",
+              "published": "Mon, 20 Apr 2026 07:48:53 GMT",
+              "search_query": "shadow banking systemic risk leverage financial contagion monitoring"
+            }
+          },
+          {
+            "id": 7349,
+            "title": "Encoder Market Growth Accelerates with Rising Industrial Automation and Smart Manufacturing Adoption by 2031 - industrytoday.co.uk",
+            "summary": "Encoder Market Growth Accelerates with Rising Industrial Automation and Smart Manufacturing Adoption by 2031 &nbsp;&nbsp; industrytoday.co.uk",
+            "content": "Encoder Market Growth Accelerates with Rising Industrial Automation and Smart Manufacturing Adoption by 2031 &nbsp;&nbsp; industrytoday.co.uk",
+            "url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxQUEx3ZzBqcHRJM2VYaFNJbl8tckY2eWMySHRiTGpfQ2tUSEUzeVV2alJpVTV5ZE1pc1N4VlZFSmJJeEhIRjFTLXZWbU5pMTR2MEtMaXV0clo2MEd2eVh2YmtUQWZLMmJiMjVERmZ3T1NMbEx6dnEyYTI0dWRuVVlCUlRlTERncHBaWDYyY3lWTmN1bFNEZDRuMk9abElWZDRIbXh1T2dGZTdIT3JzZFFMMll3TjRSb2Jfc3hCUVNiVi1NRXV6aTVZZ2RRSzFoQTZfTmhrUUw5RWlpOTNVME8ybQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "industrytoday.co.uk",
+            "published_at": "2026-04-20 07:47:09+00:00",
+            "collected_at": "2026-04-20 15:20:14.473274+00:00",
+            "alpaca_id": 3283436073,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxQUEx3ZzBqcHRJM2VYaFNJbl8tckY2eWMySHRiTGpfQ2tUSEUzeVV2alJpVTV5ZE1pc1N4VlZFSmJJeEhIRjFTLXZWbU5pMTR2MEtMaXV0clo2MEd2eVh2YmtUQWZLMmJiMjVERmZ3T1NMbEx6dnEyYTI0dWRuVVlCUlRlTERncHBaWDYyY3lWTmN1bFNEZDRuMk9abElWZDRIbXh1T2dGZTdIT3JzZFFMMll3TjRSb2Jfc3hCUVNiVi1NRXV6aTVZZ2RRSzFoQTZfTmhrUUw5RWlpOTNVME8ybQ?oc=5",
+              "title": "Encoder Market Growth Accelerates with Rising Industrial Automation and Smart Manufacturing Adoption by 2031 - industrytoday.co.uk",
+              "topic": "industrial automation robotics manufacturing productivity gains",
+              "source": {
+                "href": "https://industrytoday.co.uk",
+                "title": "industrytoday.co.uk"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi4AFBVV95cUxQUEx3ZzBqcHRJM2VYaFNJbl8tckY2eWMySHRiTGpfQ2tUSEUzeVV2alJpVTV5ZE1pc1N4VlZFSmJJeEhIRjFTLXZWbU5pMTR2MEtMaXV0clo2MEd2eVh2YmtUQWZLMmJiMjVERmZ3T1NMbEx6dnEyYTI0dWRuVVlCUlRlTERncHBaWDYyY3lWTmN1bFNEZDRuMk9abElWZDRIbXh1T2dGZTdIT3JzZFFMMll3TjRSb2Jfc3hCUVNiVi1NRXV6aTVZZ2RRSzFoQTZfTmhrUUw5RWlpOTNVME8ybQ?oc=5\" target=\"_blank\">Encoder Market Growth Accelerates with Rising Industrial Automation and Smart Manufacturing Adoption by 2031</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">industrytoday.co.uk</font>",
+              "category": "industrial_automotive",
+              "published": "Mon, 20 Apr 2026 07:47:09 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7351,
+            "title": "Kajima Corp stock (JP3270000007): Is its global infrastructure push strong enough for new upside? - AD HOC NEWS",
+            "summary": "Kajima Corp stock (JP3270000007): Is its global infrastructure push strong enough for new upside? &nbsp;&nbsp; AD HOC NEWS",
+            "content": "Kajima Corp stock (JP3270000007): Is its global infrastructure push strong enough for new upside? &nbsp;&nbsp; AD HOC NEWS",
+            "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNTEduZmpnbkM0amg2SUd2X0Vma3FCQ3RoQ1YydDQwZkk2TjdBdjFWTjVGUmVJUGkyajloOTgtYWdzcXlrUWZkSUQxTV95SGJUc2stb2NLeUNaaXhzdXlacGNQalMwLWd0RjFYWXBoemxybU5wWnFRTUtDMkRnZ0RyMG5BdTBuWEllTGpSLUpTOGc0bUFIU2VPNV9UVW9fLTY3ODdsX3dHUUFxbVoyVERGUzRsRlZIcU9KS21CbHZDa1BxYUd4MnNPbmZR?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "AD HOC NEWS",
+            "published_at": "2026-04-20 02:39:33+00:00",
+            "collected_at": "2026-04-20 15:20:14.473274+00:00",
+            "alpaca_id": 1413816748,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNTEduZmpnbkM0amg2SUd2X0Vma3FCQ3RoQ1YydDQwZkk2TjdBdjFWTjVGUmVJUGkyajloOTgtYWdzcXlrUWZkSUQxTV95SGJUc2stb2NLeUNaaXhzdXlacGNQalMwLWd0RjFYWXBoemxybU5wWnFRTUtDMkRnZ0RyMG5BdTBuWEllTGpSLUpTOGc0bUFIU2VPNV9UVW9fLTY3ODdsX3dHUUFxbVoyVERGUzRsRlZIcU9KS21CbHZDa1BxYUd4MnNPbmZR?oc=5",
+              "title": "Kajima Corp stock (JP3270000007): Is its global infrastructure push strong enough for new upside? - AD HOC NEWS",
+              "topic": "global construction infrastructure spending urban development projects",
+              "source": {
+                "href": "https://www.ad-hoc-news.de",
+                "title": "AD HOC NEWS"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxNTEduZmpnbkM0amg2SUd2X0Vma3FCQ3RoQ1YydDQwZkk2TjdBdjFWTjVGUmVJUGkyajloOTgtYWdzcXlrUWZkSUQxTV95SGJUc2stb2NLeUNaaXhzdXlacGNQalMwLWd0RjFYWXBoemxybU5wWnFRTUtDMkRnZ0RyMG5BdTBuWEllTGpSLUpTOGc0bUFIU2VPNV9UVW9fLTY3ODdsX3dHUUFxbVoyVERGUzRsRlZIcU9KS21CbHZDa1BxYUd4MnNPbmZR?oc=5\" target=\"_blank\">Kajima Corp stock (JP3270000007): Is its global infrastructure push strong enough for new upside?</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">AD HOC NEWS</font>",
+              "category": "industrial_automotive",
+              "published": "Mon, 20 Apr 2026 02:39:33 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7352,
+            "title": "Kajima Corp stock (JP3270000007): Is its infrastructure focus strong enough to unlock new upside? - AD HOC NEWS",
+            "summary": "Kajima Corp stock (JP3270000007): Is its infrastructure focus strong enough to unlock new upside? &nbsp;&nbsp; AD HOC NEWS",
+            "content": "Kajima Corp stock (JP3270000007): Is its infrastructure focus strong enough to unlock new upside? &nbsp;&nbsp; AD HOC NEWS",
+            "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQVmhLMHA3TUNpVG56amlBRHQzb0R3N04xOWRyQ2ZudXI5Um1DWElfSFlHb3p0QXQ2WEUtbllIR1cwcjk1Rm04SXJLZ2lNUVdmVi1GSWJDOTZGVGt4N1RJNHZmYWw1clRDTEF4MzN0Tzh5MnYxZE5ZR1hNZklSODhnaEZPQ2dpMmZJTG9QV2RRVzN5MmZVWXhCYW4xRVZxWC1fUmFOTWo4SjBJanJCSGpaWEVzQUJVc0EwRnpoUHNobnN1dw?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "AD HOC NEWS",
+            "published_at": "2026-04-19 05:49:39+00:00",
+            "collected_at": "2026-04-20 15:20:14.473274+00:00",
+            "alpaca_id": 3087333156,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQVmhLMHA3TUNpVG56amlBRHQzb0R3N04xOWRyQ2ZudXI5Um1DWElfSFlHb3p0QXQ2WEUtbllIR1cwcjk1Rm04SXJLZ2lNUVdmVi1GSWJDOTZGVGt4N1RJNHZmYWw1clRDTEF4MzN0Tzh5MnYxZE5ZR1hNZklSODhnaEZPQ2dpMmZJTG9QV2RRVzN5MmZVWXhCYW4xRVZxWC1fUmFOTWo4SjBJanJCSGpaWEVzQUJVc0EwRnpoUHNobnN1dw?oc=5",
+              "title": "Kajima Corp stock (JP3270000007): Is its infrastructure focus strong enough to unlock new upside? - AD HOC NEWS",
+              "topic": "global construction infrastructure spending urban development projects",
+              "source": {
+                "href": "https://www.ad-hoc-news.de",
+                "title": "AD HOC NEWS"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiwgFBVV95cUxQVmhLMHA3TUNpVG56amlBRHQzb0R3N04xOWRyQ2ZudXI5Um1DWElfSFlHb3p0QXQ2WEUtbllIR1cwcjk1Rm04SXJLZ2lNUVdmVi1GSWJDOTZGVGt4N1RJNHZmYWw1clRDTEF4MzN0Tzh5MnYxZE5ZR1hNZklSODhnaEZPQ2dpMmZJTG9QV2RRVzN5MmZVWXhCYW4xRVZxWC1fUmFOTWo4SjBJanJCSGpaWEVzQUJVc0EwRnpoUHNobnN1dw?oc=5\" target=\"_blank\">Kajima Corp stock (JP3270000007): Is its infrastructure focus strong enough to unlock new upside?</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">AD HOC NEWS</font>",
+              "category": "industrial_automotive",
+              "published": "Sun, 19 Apr 2026 05:49:39 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7353,
+            "title": "China Railway Group Ltd stock (HK0390000305): Is its infrastructure dominance strong enough for glob - AD HOC NEWS",
+            "summary": "China Railway Group Ltd stock (HK0390000305): Is its infrastructure dominance strong enough for glob &nbsp;&nbsp; AD HOC NEWS",
+            "content": "China Railway Group Ltd stock (HK0390000305): Is its infrastructure dominance strong enough for glob &nbsp;&nbsp; AD HOC NEWS",
+            "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPUXNFT0JxdzJ1ZzdOSGFqSGc0emdxNFRHaUNhX1VUamNkQXk3cS1LX2g2ZUR6MHM3MklPRVBoMDBPdjhMZXpJeWlpdGVMa2ZxcWpVU2g3YURkdFNQdzNjNmJmVm5RX3l3aVBIX1dSSUxqS2dPU2gwR05qUExCNk1saDhuZDloSmFFd0lKbXFZN3pJSkc4dldrVlBCNTZud0NOaUJUdFQwdklQWFc3SU9KMDA3cWRqemI2TDMwaG1LNEc?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "AD HOC NEWS",
+            "published_at": "2026-04-19 04:50:31+00:00",
+            "collected_at": "2026-04-20 15:20:14.473274+00:00",
+            "alpaca_id": 1777599484,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPUXNFT0JxdzJ1ZzdOSGFqSGc0emdxNFRHaUNhX1VUamNkQXk3cS1LX2g2ZUR6MHM3MklPRVBoMDBPdjhMZXpJeWlpdGVMa2ZxcWpVU2g3YURkdFNQdzNjNmJmVm5RX3l3aVBIX1dSSUxqS2dPU2gwR05qUExCNk1saDhuZDloSmFFd0lKbXFZN3pJSkc4dldrVlBCNTZud0NOaUJUdFQwdklQWFc3SU9KMDA3cWRqemI2TDMwaG1LNEc?oc=5",
+              "title": "China Railway Group Ltd stock (HK0390000305): Is its infrastructure dominance strong enough for glob - AD HOC NEWS",
+              "topic": "global construction infrastructure spending urban development projects",
+              "source": {
+                "href": "https://www.ad-hoc-news.de",
+                "title": "AD HOC NEWS"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiwAFBVV95cUxPUXNFT0JxdzJ1ZzdOSGFqSGc0emdxNFRHaUNhX1VUamNkQXk3cS1LX2g2ZUR6MHM3MklPRVBoMDBPdjhMZXpJeWlpdGVMa2ZxcWpVU2g3YURkdFNQdzNjNmJmVm5RX3l3aVBIX1dSSUxqS2dPU2gwR05qUExCNk1saDhuZDloSmFFd0lKbXFZN3pJSkc4dldrVlBCNTZud0NOaUJUdFQwdklQWFc3SU9KMDA3cWRqemI2TDMwaG1LNEc?oc=5\" target=\"_blank\">China Railway Group Ltd stock (HK0390000305): Is its infrastructure dominance strong enough for glob</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">AD HOC NEWS</font>",
+              "category": "industrial_automotive",
+              "published": "Sun, 19 Apr 2026 04:50:31 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7348,
+            "title": "COMPASS Pathways stock (GB00BKLLQZ68): Is its psychedelic therapy pipeline strong enough to unlock b - AD HOC NEWS",
+            "summary": "COMPASS Pathways stock (GB00BKLLQZ68): Is its psychedelic therapy pipeline strong enough to unlock b &nbsp;&nbsp; AD HOC NEWS",
+            "content": "COMPASS Pathways stock (GB00BKLLQZ68): Is its psychedelic therapy pipeline strong enough to unlock b &nbsp;&nbsp; AD HOC NEWS",
+            "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNdldRUHpjRlhJazlucFIyeWlqMTF3N1B5VFdHMUZ0TTkwbE5tTE5qUExEYXpNNV91T1Q4VzNwdkhNLTNzVlRpdG1wXzNBa1hCMFdRb0JCS0ZiakRpUUxSN3A1RkRGRmYtWVE4RG1zd0FsZmFQU3h6aG5VTHRDT3g4OE44QlJYV252bmx4X1RMazVtRXlDLXQ2eV94SHJqbGhYcjBVS1hiTWYyaVpEeVo2Y01LaDdqMzVxeFJPMC13ZW8zYTk1QVdzWmZ3?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "AD HOC NEWS",
+            "published_at": "2026-04-18 17:59:44+00:00",
+            "collected_at": "2026-04-20 15:20:14.473274+00:00",
+            "alpaca_id": 1855288276,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNdldRUHpjRlhJazlucFIyeWlqMTF3N1B5VFdHMUZ0TTkwbE5tTE5qUExEYXpNNV91T1Q4VzNwdkhNLTNzVlRpdG1wXzNBa1hCMFdRb0JCS0ZiakRpUUxSN3A1RkRGRmYtWVE4RG1zd0FsZmFQU3h6aG5VTHRDT3g4OE44QlJYV252bmx4X1RMazVtRXlDLXQ2eV94SHJqbGhYcjBVS1hiTWYyaVpEeVo2Y01LaDdqMzVxeFJPMC13ZW8zYTk1QVdzWmZ3?oc=5",
+              "title": "COMPASS Pathways stock (GB00BKLLQZ68): Is its psychedelic therapy pipeline strong enough to unlock b - AD HOC NEWS",
+              "topic": "FDA regulatory approval pipeline pharma therapeutic breakthroughs",
+              "source": {
+                "href": "https://www.ad-hoc-news.de",
+                "title": "AD HOC NEWS"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxNdldRUHpjRlhJazlucFIyeWlqMTF3N1B5VFdHMUZ0TTkwbE5tTE5qUExEYXpNNV91T1Q4VzNwdkhNLTNzVlRpdG1wXzNBa1hCMFdRb0JCS0ZiakRpUUxSN3A1RkRGRmYtWVE4RG1zd0FsZmFQU3h6aG5VTHRDT3g4OE44QlJYV252bmx4X1RMazVtRXlDLXQ2eV94SHJqbGhYcjBVS1hiTWYyaVpEeVo2Y01LaDdqMzVxeFJPMC13ZW8zYTk1QVdzWmZ3?oc=5\" target=\"_blank\">COMPASS Pathways stock (GB00BKLLQZ68): Is its psychedelic therapy pipeline strong enough to unlock b</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">AD HOC NEWS</font>",
+              "category": "pharma_healthcare",
+              "published": "Sat, 18 Apr 2026 17:59:44 GMT",
+              "search_query": "medical device innovation healthtech telemedicine adoption"
+            }
+          },
+          {
+            "id": 7341,
+            "title": "Vessels Attacked in Strait of Hormuz Disrupt Global Energy Markets - Discovery Alert",
+            "summary": "Vessels Attacked in Strait of Hormuz Disrupt Global Energy Markets &nbsp;&nbsp; Discovery Alert",
+            "content": "Vessels Attacked in Strait of Hormuz Disrupt Global Energy Markets &nbsp;&nbsp; Discovery Alert",
+            "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNSE1kS1NEd2JHRG1JNk5OVHRyU1p4c2tBdmR6T25kcTNnZmFIdzVXRXpZNUVXdXFNLWxURV9WOGNfLXpvQjk2TUJVRUdFOXgtYmlRQWdHZWpMT1o1UmJPaUVENDFHVTZkVnZWaWJsMV9Va2k5LWhYZV9BbXM1N0p5Ukh5c2U1am8?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Discovery Alert",
+            "published_at": "2026-04-18 15:51:03+00:00",
+            "collected_at": "2026-04-20 15:20:14.473274+00:00",
+            "alpaca_id": 755475249,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNSE1kS1NEd2JHRG1JNk5OVHRyU1p4c2tBdmR6T25kcTNnZmFIdzVXRXpZNUVXdXFNLWxURV9WOGNfLXpvQjk2TUJVRUdFOXgtYmlRQWdHZWpMT1o1UmJPaUVENDFHVTZkVnZWaWJsMV9Va2k5LWhYZV9BbXM1N0p5Ukh5c2U1am8?oc=5",
+              "title": "Vessels Attacked in Strait of Hormuz Disrupt Global Energy Markets - Discovery Alert",
+              "topic": "maritime security trade route disruptions chokepoints defense escalation",
+              "source": {
+                "href": "https://discoveryalert.com.au",
+                "title": "Discovery Alert"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMihwFBVV95cUxNSE1kS1NEd2JHRG1JNk5OVHRyU1p4c2tBdmR6T25kcTNnZmFIdzVXRXpZNUVXdXFNLWxURV9WOGNfLXpvQjk2TUJVRUdFOXgtYmlRQWdHZWpMT1o1UmJPaUVENDFHVTZkVnZWaWJsMV9Va2k5LWhYZV9BbXM1N0p5Ukh5c2U1am8?oc=5\" target=\"_blank\">Vessels Attacked in Strait of Hormuz Disrupt Global Energy Markets</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Discovery Alert</font>",
+              "category": "geopolitical_strategic",
+              "published": "Sat, 18 Apr 2026 15:51:03 GMT",
+              "search_query": "cyber warfare state-sponsored infrastructure attacks national security"
+            }
+          },
+          {
+            "id": 7343,
+            "title": "Will AI Raise Your Electric Bill? EIA Starts Counting Data Center Power as Maine Pauses 20-Megawatt Builds - Intelligent Living",
+            "summary": "Will AI Raise Your Electric Bill? EIA Starts Counting Data Center Power as Maine Pauses 20-Megawatt Builds &nbsp;&nbsp; Intelligent Living",
+            "content": "Will AI Raise Your Electric Bill? EIA Starts Counting Data Center Power as Maine Pauses 20-Megawatt Builds &nbsp;&nbsp; Intelligent Living",
+            "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5XNE9oQTJNVjc1Xy1mLVRyZUl4UllZZWFjSkVHNXBPT0dUQThiQ1lTOGlnRWhUMUZtN2IyQmwtemJuYXJKc0NxUE5wRnNrVnhROU85cjdKTnJ4UHV6dnlBdndoUTY1ZnN5T0RZWm0zX3NaSFpXU0F4VjF5RDc?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Intelligent Living",
+            "published_at": "2026-04-18 09:29:25+00:00",
+            "collected_at": "2026-04-20 15:20:14.473274+00:00",
+            "alpaca_id": 1702046032,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5XNE9oQTJNVjc1Xy1mLVRyZUl4UllZZWFjSkVHNXBPT0dUQThiQ1lTOGlnRWhUMUZtN2IyQmwtemJuYXJKc0NxUE5wRnNrVnhROU85cjdKTnJ4UHV6dnlBdndoUTY1ZnN5T0RZWm0zX3NaSFpXU0F4VjF5RDc?oc=5",
+              "title": "Will AI Raise Your Electric Bill? EIA Starts Counting Data Center Power as Maine Pauses 20-Megawatt Builds - Intelligent Living",
+              "topic": "power grid stability electricity demand data center energy consumption",
+              "source": {
+                "href": "https://www.intelligentliving.co",
+                "title": "Intelligent Living"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMifEFVX3lxTE5XNE9oQTJNVjc1Xy1mLVRyZUl4UllZZWFjSkVHNXBPT0dUQThiQ1lTOGlnRWhUMUZtN2IyQmwtemJuYXJKc0NxUE5wRnNrVnhROU85cjdKTnJ4UHV6dnlBdndoUTY1ZnN5T0RZWm0zX3NaSFpXU0F4VjF5RDc?oc=5\" target=\"_blank\">Will AI Raise Your Electric Bill? EIA Starts Counting Data Center Power as Maine Pauses 20-Megawatt Builds</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Intelligent Living</font>",
+              "category": "energy_nuclear_transition",
+              "published": "Sat, 18 Apr 2026 09:29:25 GMT",
+              "search_query": "power grid stability electricity demand data center energy consumption"
+            }
+          },
+          {
+            "id": 7344,
+            "title": "Amazon, Google, Microsoft, and OpenAI Back New Power Pledge as Data Center Demand Surges - Intelligent Living",
+            "summary": "Amazon, Google, Microsoft, and OpenAI Back New Power Pledge as Data Center Demand Surges &nbsp;&nbsp; Intelligent Living",
+            "content": "Amazon, Google, Microsoft, and OpenAI Back New Power Pledge as Data Center Demand Surges &nbsp;&nbsp; Intelligent Living",
+            "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5xQ29ILWduWjQxMmUxVmdLNjJpb0ZYdGkwcXdDbHk4WmVsdTBFWVFlVWhldTJ2RjhzeG9sbUNCNERYQ1cwZnpHSFg2ME4wdExLTXU2WFB3ZnBOQTJqaHpwbkJMaE9SSE9jakJld2F5UkVJVlpRaTVCbnN3?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Intelligent Living",
+            "published_at": "2026-04-18 09:06:47+00:00",
+            "collected_at": "2026-04-20 15:20:14.473274+00:00",
+            "alpaca_id": 3616204252,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5xQ29ILWduWjQxMmUxVmdLNjJpb0ZYdGkwcXdDbHk4WmVsdTBFWVFlVWhldTJ2RjhzeG9sbUNCNERYQ1cwZnpHSFg2ME4wdExLTXU2WFB3ZnBOQTJqaHpwbkJMaE9SSE9jakJld2F5UkVJVlpRaTVCbnN3?oc=5",
+              "title": "Amazon, Google, Microsoft, and OpenAI Back New Power Pledge as Data Center Demand Surges - Intelligent Living",
+              "topic": "power grid stability electricity demand data center energy consumption",
+              "source": {
+                "href": "https://www.intelligentliving.co",
+                "title": "Intelligent Living"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiekFVX3lxTE5xQ29ILWduWjQxMmUxVmdLNjJpb0ZYdGkwcXdDbHk4WmVsdTBFWVFlVWhldTJ2RjhzeG9sbUNCNERYQ1cwZnpHSFg2ME4wdExLTXU2WFB3ZnBOQTJqaHpwbkJMaE9SSE9jakJld2F5UkVJVlpRaTVCbnN3?oc=5\" target=\"_blank\">Amazon, Google, Microsoft, and OpenAI Back New Power Pledge as Data Center Demand Surges</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Intelligent Living</font>",
+              "category": "energy_nuclear_transition",
+              "published": "Sat, 18 Apr 2026 09:06:47 GMT",
+              "search_query": "power grid stability electricity demand data center energy consumption"
+            }
+          },
+          {
+            "id": 7342,
+            "title": "Hormuz Strait Reopens: Energy Markets Drop 11% April 2026 - Discovery Alert",
+            "summary": "Hormuz Strait Reopens: Energy Markets Drop 11% April 2026 &nbsp;&nbsp; Discovery Alert",
+            "content": "Hormuz Strait Reopens: Energy Markets Drop 11% April 2026 &nbsp;&nbsp; Discovery Alert",
+            "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQcFk3cy1wNDV4TDgwUVVwSWRiUzhWSTJsN3N1QWp0bE1Hb0J6WmhoaTNJelM0WGViV2RXMW9yclMyZVBlU0IzTmV4Z295U3FXc3otb0t0bzRLQ21yZHlMT0thcV9kMFJKcVpGZmNfMkRNOVZzNVdfVUhPTWxuYjVOWi1B?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Discovery Alert",
+            "published_at": "2026-04-17 23:00:23+00:00",
+            "collected_at": "2026-04-20 15:20:14.473274+00:00",
+            "alpaca_id": 2471183424,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQcFk3cy1wNDV4TDgwUVVwSWRiUzhWSTJsN3N1QWp0bE1Hb0J6WmhoaTNJelM0WGViV2RXMW9yclMyZVBlU0IzTmV4Z295U3FXc3otb0t0bzRLQ21yZHlMT0thcV9kMFJKcVpGZmNfMkRNOVZzNVdfVUhPTWxuYjVOWi1B?oc=5",
+              "title": "Hormuz Strait Reopens: Energy Markets Drop 11% April 2026 - Discovery Alert",
+              "topic": "commodity price cycles energy security strategic petroleum reserve",
+              "source": {
+                "href": "https://discoveryalert.com.au",
+                "title": "Discovery Alert"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiggFBVV95cUxQcFk3cy1wNDV4TDgwUVVwSWRiUzhWSTJsN3N1QWp0bE1Hb0J6WmhoaTNJelM0WGViV2RXMW9yclMyZVBlU0IzTmV4Z295U3FXc3otb0t0bzRLQ21yZHlMT0thcV9kMFJKcVpGZmNfMkRNOVZzNVdfVUhPTWxuYjVOWi1B?oc=5\" target=\"_blank\">Hormuz Strait Reopens: Energy Markets Drop 11% April 2026</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Discovery Alert</font>",
+              "category": "energy_nuclear_transition",
+              "published": "Fri, 17 Apr 2026 23:00:23 GMT",
+              "search_query": "power grid stability electricity demand data center energy consumption"
+            }
+          },
+          {
+            "id": 7347,
+            "title": "AACR: Merck unveils PD-1xVEGF bispecific data in NSCLC, remains tight-lipped on phase 3 plans - Fierce Biotech",
+            "summary": "AACR: Merck unveils PD-1xVEGF bispecific data in NSCLC, remains tight-lipped on phase 3 plans &nbsp;&nbsp; Fierce Biotech",
+            "content": "AACR: Merck unveils PD-1xVEGF bispecific data in NSCLC, remains tight-lipped on phase 3 plans &nbsp;&nbsp; Fierce Biotech",
+            "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQSUd6MTBLSmVzNnE1YnlvaWU4UWgydEQ4Yk4yRUZzdlYzamhKWHo4WjRQTm5DQ2Z3ejh2WDBKcGZoa1UtQURjWGxoVWstYl9Za015RDNvZWNvdUFhY0xpWUJLSHRiMGFkOXlTZk81eXNCeGFTdjZDSmdoQzNscmdYM0drQ3FVR1lJWTF4SzVPV0tISTNPSTY5dm84bnRwRmpKT0dYZ1BUd04xclBKUUY4N045SlZpUlNX?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Fierce Biotech",
+            "published_at": "2026-04-17 19:00:00+00:00",
+            "collected_at": "2026-04-20 15:20:14.473274+00:00",
+            "alpaca_id": 1454098049,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQSUd6MTBLSmVzNnE1YnlvaWU4UWgydEQ4Yk4yRUZzdlYzamhKWHo4WjRQTm5DQ2Z3ejh2WDBKcGZoa1UtQURjWGxoVWstYl9Za015RDNvZWNvdUFhY0xpWUJLSHRiMGFkOXlTZk81eXNCeGFTdjZDSmdoQzNscmdYM0drQ3FVR1lJWTF4SzVPV0tISTNPSTY5dm84bnRwRmpKT0dYZ1BUd04xclBKUUY4N045SlZpUlNX?oc=5",
+              "title": "AACR: Merck unveils PD-1xVEGF bispecific data in NSCLC, remains tight-lipped on phase 3 plans - Fierce Biotech",
+              "topic": "biotech M&A clinical trial results phase 1 2 3 efficacy",
+              "source": {
+                "href": "https://www.fiercebiotech.com",
+                "title": "Fierce Biotech"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiuAFBVV95cUxQSUd6MTBLSmVzNnE1YnlvaWU4UWgydEQ4Yk4yRUZzdlYzamhKWHo4WjRQTm5DQ2Z3ejh2WDBKcGZoa1UtQURjWGxoVWstYl9Za015RDNvZWNvdUFhY0xpWUJLSHRiMGFkOXlTZk81eXNCeGFTdjZDSmdoQzNscmdYM0drQ3FVR1lJWTF4SzVPV0tISTNPSTY5dm84bnRwRmpKT0dYZ1BUd04xclBKUUY4N045SlZpUlNX?oc=5\" target=\"_blank\">AACR: Merck unveils PD-1xVEGF bispecific data in NSCLC, remains tight-lipped on phase 3 plans</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Fierce Biotech</font>",
+              "category": "pharma_healthcare",
+              "published": "Fri, 17 Apr 2026 19:00:00 GMT",
+              "search_query": "medical device innovation healthtech telemedicine adoption"
+            }
+          }
+        ],
+        "extraction_timestamp": "2026-04-20T14:46:32.459079",
+        "stats": {
+          "total_news": 14,
+          "unique_news": 14,
+          "duplicates": 0,
+          "sources": [
+            "google_news"
+          ],
+          "source_count": 1
+        },
+        "duration_seconds": 1.651246,
+        "validation_checks": {
+          "min_count_passed": true,
+          "freshness_passed": true,
+          "data_quality_passed": true
+        }
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "load_watchlist_001",
+      "step_type": "data_validation",
+      "status": "completed",
+      "start_time": "2026-04-20T14:46:32.460178",
+      "end_time": "2026-04-20T14:46:35.234406",
+      "duration_seconds": 2.774228,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "watchlist": {
+          "id": 2,
+          "name": "Energ\u00eda Nuclear",
+          "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+          "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+          "criteria_summary": "30 empresas del sector nuclear global",
+          "status": "active",
+          "created_at": "2026-04-10 02:34:33.842929+00:00",
+          "updated_at": "2026-04-10 02:34:33.842929+00:00"
+        },
+        "tickers": [
+          "JNK",
+          "BKLN",
+          "LQD",
+          "BNDX",
+          "TSM",
+          "SNPS",
+          "QCOM",
+          "PWR",
+          "BKR",
+          "PEG",
+          "WEC"
+        ],
+        "id": 2,
+        "name": "Energ\u00eda Nuclear"
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "aggregation_001",
+      "step_type": "aggregation",
+      "status": "completed",
+      "start_time": "2026-04-20T14:57:32.346725",
+      "end_time": "2026-04-20T14:57:32.346855",
+      "duration_seconds": 0.00013,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "bullish": [],
+        "bearish": [],
+        "cautious": [
+          {
+            "success": true,
+            "ticker": "LQD",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-20T14:46:52.573630",
+            "semantic_context": [
+              "LQD",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 2,
+            "unique_entities_found": 2,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 110.04,
+              "sma_50": 109.93,
+              "sma_200": 110.4,
+              "price_to_sma200_dist": -0.33,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 56.0,
+              "macd": {
+                "line": 0.065,
+                "signal": -0.126,
+                "histogram": 0.19
+              },
+              "rvol": 1.1,
+              "obv": 211191423.0,
+              "atr_14": 0.66,
+              "std_dev_20": 8.03,
+              "beta_spy": 0.2,
+              "corr_spy_20d": 0.7,
+              "volatility_ratio": 0.6
+            },
+            "avg_confidence": 0.05,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "QCOM",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-20T14:47:46.690673",
+            "semantic_context": [
+              "QCOM",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 8,
+            "unique_entities_found": 8,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 136.2,
+              "sma_50": 134.6,
+              "sma_200": 157.1,
+              "price_to_sma200_dist": -13.3,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 60.9,
+              "macd": {
+                "line": -0.516,
+                "signal": -2.082,
+                "histogram": 1.566
+              },
+              "rvol": 0.75,
+              "obv": 14022117.0,
+              "atr_14": 3.45,
+              "std_dev_20": 21.39,
+              "beta_spy": 1.08,
+              "corr_spy_20d": 0.62,
+              "volatility_ratio": 2.53
+            },
+            "avg_confidence": 0.06,
+            "sentiment_score": 0.01,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.01).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "TSM",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-20T14:48:38.340587",
+            "semantic_context": [
+              "TSM",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 8,
+            "unique_entities_found": 8,
+            "top_risks": [],
+            "top_opportunities": [
+              {
+                "insight_text": "La expansi\u00f3n de la manufactura inteligente y la automatizaci\u00f3n industrial eleva la demanda sostenida de chips perif\u00e9ricos y sensores, beneficiando el volumen de producci\u00f3n de TSMC.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.6
+              }
+            ],
+            "quant_stats": {
+              "current_price": 370.5,
+              "sma_50": 354.28,
+              "sma_200": 297.62,
+              "price_to_sma200_dist": 24.49,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 58.5,
+              "macd": {
+                "line": 7.23,
+                "signal": 4.064,
+                "histogram": 3.166
+              },
+              "rvol": 1.33,
+              "obv": 212062468.0,
+              "atr_14": 12.56,
+              "std_dev_20": 47.92,
+              "beta_spy": 1.97,
+              "corr_spy_20d": 0.79,
+              "volatility_ratio": 3.39
+            },
+            "avg_confidence": 0.11,
+            "sentiment_score": 0.05,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.12,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.05).",
+            "bull_case": {
+              "arguments": [
+                "La expansi\u00f3n de la manufactura inteligente y la automatizaci\u00f3n industrial eleva la demanda sostenida de chips perif\u00e9ricos y sensores, beneficiando el volumen de producci\u00f3n de TSMC."
+              ]
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "BNDX",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-20T14:49:28.130384",
+            "semantic_context": [
+              "BNDX",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 8,
+            "unique_entities_found": 8,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 48.33,
+              "sma_50": 48.39,
+              "sma_200": 49.01,
+              "price_to_sma200_dist": -1.39,
+              "trend": "BEARISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 55.0,
+              "macd": {
+                "line": -0.035,
+                "signal": -0.093,
+                "histogram": 0.058
+              },
+              "rvol": 0.77,
+              "obv": 75994347.0,
+              "atr_14": 0.21,
+              "std_dev_20": 6.49,
+              "beta_spy": 0.17,
+              "corr_spy_20d": 0.79,
+              "volatility_ratio": 0.43
+            },
+            "avg_confidence": 0.08,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "BWXT",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-20T14:50:18.745206",
+            "semantic_context": [
+              "BWXT",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 8,
+            "unique_entities_found": 8,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 235.78,
+              "sma_50": 208.43,
+              "sma_200": 186.38,
+              "price_to_sma200_dist": 26.51,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 62.4,
+              "macd": {
+                "line": 8.558,
+                "signal": 6.673,
+                "histogram": 1.885
+              },
+              "rvol": 1.36,
+              "obv": 41931912.0,
+              "atr_14": 9.47,
+              "std_dev_20": 66.74,
+              "beta_spy": 2.24,
+              "corr_spy_20d": 0.79,
+              "volatility_ratio": 4.02
+            },
+            "avg_confidence": 0.05,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "WEC",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-20T14:51:19.211648",
+            "semantic_context": [
+              "WEC",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 8,
+            "unique_entities_found": 8,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 115.87,
+              "sma_50": 115.27,
+              "sma_200": 110.86,
+              "price_to_sma200_dist": 4.51,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 50.5,
+              "macd": {
+                "line": 0.44,
+                "signal": 0.572,
+                "histogram": -0.133
+              },
+              "rvol": 0.67,
+              "obv": 11059420.0,
+              "atr_14": 2.01,
+              "std_dev_20": 17.23,
+              "beta_spy": -0.07,
+              "corr_spy_20d": 0.08,
+              "volatility_ratio": 1.73
+            },
+            "avg_confidence": 0.1,
+            "sentiment_score": 0.01,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.01).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "MA",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-20T14:52:13.763279",
+            "semantic_context": [
+              "MA",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 8,
+            "unique_entities_found": 8,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 521.3,
+              "sma_50": 511.72,
+              "sma_200": 550.85,
+              "price_to_sma200_dist": -5.36,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 59.2,
+              "macd": {
+                "line": 1.957,
+                "signal": -1.71,
+                "histogram": 3.667
+              },
+              "rvol": 1.05,
+              "obv": 12944509.0,
+              "atr_14": 10.59,
+              "std_dev_20": 21.31,
+              "beta_spy": 0.67,
+              "corr_spy_20d": 0.47,
+              "volatility_ratio": 2.03
+            },
+            "avg_confidence": 0.04,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "SNPS",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-20T14:53:04.658448",
+            "semantic_context": [
+              "SNPS",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 7,
+            "unique_entities_found": 7,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 449.58,
+              "sma_50": 422.34,
+              "sma_200": 483.12,
+              "price_to_sma200_dist": -6.94,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 63.6,
+              "macd": {
+                "line": 2.517,
+                "signal": -4.387,
+                "histogram": 6.904
+              },
+              "rvol": 0.93,
+              "obv": -3615987.0,
+              "atr_14": 16.33,
+              "std_dev_20": 46.33,
+              "beta_spy": 1.85,
+              "corr_spy_20d": 0.7,
+              "volatility_ratio": 3.63
+            },
+            "avg_confidence": 0.05,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "PEG",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-20T14:53:57.664900",
+            "semantic_context": [
+              "PEG",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 8,
+            "unique_entities_found": 8,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 81.58,
+              "sma_50": 83.05,
+              "sma_200": 82.45,
+              "price_to_sma200_dist": -1.06,
+              "trend": "BEARISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 47.7,
+              "macd": {
+                "line": -0.218,
+                "signal": -0.272,
+                "histogram": 0.054
+              },
+              "rvol": 1.09,
+              "obv": 34055126.0,
+              "atr_14": 1.6,
+              "std_dev_20": 21.95,
+              "beta_spy": 0.18,
+              "corr_spy_20d": 0.28,
+              "volatility_ratio": 1.97
+            },
+            "avg_confidence": 0.05,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "BKR",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-20T14:54:47.988266",
+            "semantic_context": [
+              "BKR",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 8,
+            "unique_entities_found": 8,
+            "top_risks": [],
+            "top_opportunities": [
+              {
+                "insight_text": "El aumento en la adopci\u00f3n de manufactura inteligente impulsa la demanda de soluciones digitales y sensores integrados en el segmento de Industrial & Energy Technology (IET) de Baker Hughes.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.7
+              }
+            ],
+            "quant_stats": {
+              "current_price": 59.78,
+              "sma_50": 60.97,
+              "sma_200": 50.41,
+              "price_to_sma200_dist": 18.58,
+              "trend": "BULLISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 45.2,
+              "macd": {
+                "line": 0.221,
+                "signal": 0.499,
+                "histogram": -0.278
+              },
+              "rvol": 1.41,
+              "obv": 263847479.0,
+              "atr_14": 1.93,
+              "std_dev_20": 28.31,
+              "beta_spy": 0.51,
+              "corr_spy_20d": 0.18,
+              "volatility_ratio": 3.22
+            },
+            "avg_confidence": 0.14,
+            "sentiment_score": 0.06,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.12,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.06).",
+            "bull_case": {
+              "arguments": [
+                "El aumento en la adopci\u00f3n de manufactura inteligente impulsa la demanda de soluciones digitales y sensores integrados en el segmento de Industrial & Energy Technology (IET) de Baker Hughes."
+              ]
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "JNK",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-20T14:55:41.969912",
+            "semantic_context": [
+              "JNK",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 8,
+            "unique_entities_found": 8,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 97.08,
+              "sma_50": 96.43,
+              "sma_200": 97.02,
+              "price_to_sma200_dist": 0.06,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 61.1,
+              "macd": {
+                "line": 0.197,
+                "signal": 0.004,
+                "histogram": 0.194
+              },
+              "rvol": 0.39,
+              "obv": -77619737.0,
+              "atr_14": 0.49,
+              "std_dev_20": 7.05,
+              "beta_spy": 0.28,
+              "corr_spy_20d": 0.87,
+              "volatility_ratio": 0.51
+            },
+            "avg_confidence": 0.08,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "BKLN",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-20T14:56:37.745052",
+            "semantic_context": [
+              "BKLN",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 7,
+            "unique_entities_found": 7,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 20.67,
+              "sma_50": 20.5,
+              "sma_200": 20.82,
+              "price_to_sma200_dist": -0.73,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 63.0,
+              "macd": {
+                "line": 0.022,
+                "signal": 0.002,
+                "histogram": 0.02
+              },
+              "rvol": 1.13,
+              "obv": 192066127.0,
+              "atr_14": 0.08,
+              "std_dev_20": 4.82,
+              "beta_spy": 0.22,
+              "corr_spy_20d": 0.77,
+              "volatility_ratio": 0.41
+            },
+            "avg_confidence": 0.08,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "PWR",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-20T14:57:32.346345",
+            "semantic_context": [
+              "PWR",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 8,
+            "unique_entities_found": 8,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 601.88,
+              "sma_50": 557.02,
+              "sma_200": 454.92,
+              "price_to_sma200_dist": 32.3,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 64.5,
+              "macd": {
+                "line": 11.828,
+                "signal": 9.266,
+                "histogram": 2.562
+              },
+              "rvol": 1.11,
+              "obv": 30777406.0,
+              "atr_14": 18.85,
+              "std_dev_20": 35.51,
+              "beta_spy": 1.18,
+              "corr_spy_20d": 0.72,
+              "volatility_ratio": 3.13
+            },
+            "avg_confidence": 0.09,
+            "sentiment_score": 0.01,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.01).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          }
+        ],
+        "neutral": [],
+        "avg_confidence": 0.08,
+        "avg_negative_ratio": 0.0,
+        "avg_positive_ratio": 0.02,
+        "total_news_analyzed": 96,
+        "total_insights_found": 96,
+        "overall_sentiment": "CAUTIOUSLY BULLISH"
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "decision_engine_001",
+      "step_type": "decision_engine",
+      "status": "completed",
+      "start_time": "2026-04-20T14:57:34.959407",
+      "end_time": "2026-04-20T14:57:34.965610",
+      "duration_seconds": 0.006203,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "decisions": [
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SENTIMIENTO NEUTRAL - Sin sesgo claro en 2 noticias. T\u00e9cnicos inconcluyentes.",
+            "confidence_in_decision": 0.65,
+            "risk_level": "medium",
+            "technical_context": "RSI: 56.0, ATR: $0.66, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "LQD",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-20T14:46:52.573630",
+            "decision_timestamp": "2026-04-20T14:57:34.960541"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SENTIMIENTO NEUTRAL - Sin sesgo claro en 8 noticias. T\u00e9cnicos inconcluyentes.",
+            "confidence_in_decision": 0.62,
+            "risk_level": "medium",
+            "technical_context": "RSI: 60.9, ATR: $3.45, Trend: BEARISH",
+            "sentiment_score": 0.01,
+            "ticker_analysis_id": null,
+            "ticker": "QCOM",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-20T14:47:46.690673",
+            "decision_timestamp": "2026-04-20T14:57:34.961085"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "Posici\u00f3n existente en rango alcista. Manteniendo (sin escalamiento por pol\u00edtica actual).",
+            "confidence_in_decision": 0.8200000000000001,
+            "risk_level": "low",
+            "sentiment_score": 0.05,
+            "ticker_analysis_id": null,
+            "ticker": "TSM",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-20T14:48:38.340587",
+            "decision_timestamp": "2026-04-20T14:57:34.961541"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SENTIMIENTO NEUTRAL - Sin sesgo claro en 8 noticias. T\u00e9cnicos inconcluyentes.",
+            "confidence_in_decision": 0.58,
+            "risk_level": "medium",
+            "technical_context": "RSI: 55.0, ATR: $0.21, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "BNDX",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-20T14:49:28.130384",
+            "decision_timestamp": "2026-04-20T14:57:34.961965"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "SENTIMIENTO NEUTRAL - Sin sesgo claro en 8 noticias. T\u00e9cnicos inconcluyentes.",
+            "confidence_in_decision": 0.74,
+            "risk_level": "medium",
+            "technical_context": "RSI: 62.4, ATR: $9.47, Trend: BULLISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "BWXT",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-20T14:50:18.745206",
+            "decision_timestamp": "2026-04-20T14:57:34.962410"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "Posici\u00f3n existente en rango alcista. Manteniendo (sin escalamiento por pol\u00edtica actual).",
+            "confidence_in_decision": 0.76,
+            "risk_level": "low",
+            "sentiment_score": 0.01,
+            "ticker_analysis_id": null,
+            "ticker": "WEC",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-20T14:51:19.211648",
+            "decision_timestamp": "2026-04-20T14:57:34.962907"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "Posici\u00f3n existente en rango alcista. Manteniendo (sin escalamiento por pol\u00edtica actual).",
+            "confidence_in_decision": 0.75,
+            "risk_level": "low",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "MA",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-20T14:52:13.763279",
+            "decision_timestamp": "2026-04-20T14:57:34.963648"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SENTIMIENTO NEUTRAL - Sin sesgo claro en 7 noticias. T\u00e9cnicos inconcluyentes.",
+            "confidence_in_decision": 0.51,
+            "risk_level": "medium",
+            "technical_context": "RSI: 63.6, ATR: $16.33, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "SNPS",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-20T14:53:04.658448",
+            "decision_timestamp": "2026-04-20T14:57:34.963949"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SENTIMIENTO NEUTRAL - Sin sesgo claro en 8 noticias. T\u00e9cnicos inconcluyentes.",
+            "confidence_in_decision": 0.68,
+            "risk_level": "medium",
+            "technical_context": "RSI: 47.7, ATR: $1.60, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "PEG",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-20T14:53:57.664900",
+            "decision_timestamp": "2026-04-20T14:57:34.964178"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "Posici\u00f3n existente en rango alcista. Manteniendo (sin escalamiento por pol\u00edtica actual).",
+            "confidence_in_decision": 0.8600000000000001,
+            "risk_level": "low",
+            "sentiment_score": 0.06,
+            "ticker_analysis_id": null,
+            "ticker": "BKR",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-20T14:54:47.988266",
+            "decision_timestamp": "2026-04-20T14:57:34.964422"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SENTIMIENTO NEUTRAL - Sin sesgo claro en 8 noticias. T\u00e9cnicos inconcluyentes.",
+            "confidence_in_decision": 0.71,
+            "risk_level": "medium",
+            "technical_context": "RSI: 61.1, ATR: $0.49, Trend: BULLISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "JNK",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-20T14:55:41.969912",
+            "decision_timestamp": "2026-04-20T14:57:34.964776"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SENTIMIENTO NEUTRAL - Sin sesgo claro en 7 noticias. T\u00e9cnicos inconcluyentes.",
+            "confidence_in_decision": 0.61,
+            "risk_level": "medium",
+            "technical_context": "RSI: 63.0, ATR: $0.08, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "BKLN",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-20T14:56:37.745052",
+            "decision_timestamp": "2026-04-20T14:57:34.965090"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "SENTIMIENTO NEUTRAL - Sin sesgo claro en 8 noticias. T\u00e9cnicos inconcluyentes.",
+            "confidence_in_decision": 0.65,
+            "risk_level": "medium",
+            "technical_context": "RSI: 64.5, ATR: $18.85, Trend: BULLISH",
+            "sentiment_score": 0.01,
+            "ticker_analysis_id": null,
+            "ticker": "PWR",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-20T14:57:32.346345",
+            "decision_timestamp": "2026-04-20T14:57:34.965385"
+          }
+        ],
+        "autopilot_mode": true
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "persistence_001",
+      "step_type": "persistence",
+      "status": "completed",
+      "start_time": "2026-04-20T14:57:34.965965",
+      "end_time": "2026-04-20T14:58:11.418215",
+      "duration_seconds": 36.45225,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "desk_run_id": 61,
+        "ticker_analysis_ids": {
+          "LQD": 616,
+          "QCOM": 617,
+          "TSM": 618,
+          "BNDX": 619,
+          "BWXT": 620,
+          "WEC": 621,
+          "MA": 622,
+          "SNPS": 623,
+          "PEG": 624,
+          "BKR": 625,
+          "JNK": 626,
+          "BKLN": 627,
+          "PWR": 628
+        }
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    }
+  ]
+}

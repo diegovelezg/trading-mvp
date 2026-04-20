@@ -135,7 +135,8 @@ def analyze_ticker(ticker: str, hours_back: int = 48, portfolio_position: Dict =
             ticker,
             all_news,
             method='semantic',
-            similarity_threshold=0.80
+            similarity_threshold=0.75,
+            hours_back=hours_back
         )
     
     top_news = related_news[:8]

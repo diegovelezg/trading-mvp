@@ -267,7 +267,8 @@ def get_unembedded_news(limit: int = 100) -> List[int]:
 def find_similar_news_by_dna(
     ticker: str,
     threshold: float = 0.75,
-    limit: int = 50
+    limit: int = 50,
+    hours_back: int = None
 ) -> List[Dict]:
     """Find news similar to the ticker's persistent DNA embedding.
     
@@ -278,6 +279,7 @@ def find_similar_news_by_dna(
         ticker: Ticker symbol
         threshold: Minimum cosine similarity (0-1)
         limit: Max results
+        hours_back: Filtrar por fecha (horas hacia atrás)
 
     Returns:
         List of {news_id, similarity} dicts
@@ -286,17 +288,31 @@ def find_similar_news_by_dna(
     conn = get_connection()
     try:
         with conn.cursor() as cur:
-            cur.execute("""
+            query = """
                 SELECT 
                     ne.news_id,
                     (1 - (ne.embedding <=> d.embedding))::FLOAT as similarity
                 FROM news_embeddings ne
                 JOIN asset_dna d ON d.ticker = %s
+            """
+            params = [ticker.upper()]
+            
+            if hours_back is not None:
+                query += " JOIN geo_macro_news g ON ne.news_id = g.id"
+                
+            query += """
                 WHERE d.embedding IS NOT NULL
                 AND 1 - (ne.embedding <=> d.embedding) >= %s
-                ORDER BY similarity DESC
-                LIMIT %s
-            """, (ticker.upper(), threshold, limit))
+            """
+            params.append(threshold)
+            
+            if hours_back is not None:
+                query += f" AND g.published_at >= NOW() - INTERVAL '{int(hours_back)} hours'"
+                
+            query += " ORDER BY similarity DESC LIMIT %s"
+            params.append(limit)
+
+            cur.execute(query, params)
 
             results = cur.fetchall()
 

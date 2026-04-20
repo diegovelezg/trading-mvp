@@ -229,7 +229,7 @@ def insert_geo_news_batch(news_list: List[Dict]) -> int:
         conn.close()
 
 
-def get_recent_news(hours_back: int = 24, limit: int = 100) -> List[Dict]:
+def get_recent_news(hours_back: int = 24, limit: int = 1000) -> List[Dict]:
     """Get recent news from database.
 
     Args:

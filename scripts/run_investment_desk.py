@@ -84,10 +84,120 @@ def run_investment_desk(hours_back: int = 48) -> Dict:
 
     try:
         # ============================================================
-        # PASO 0: EXTRACTION AND VALIDATION OF NEWS
-        # CRÍTICO: Si este paso falla, NO debe continuar
+        # PASO 0: LOAD PORTFOLIO & RISK MANAGEMENT (MECÁNICO INDEPENDIENTE)
         # ============================================================
-        logger.info("📰 EXECUTING STEP 0: NEWS EXTRACTION")
+        logger.info("💰 EXECUTING STEP 0: LOAD PORTFOLIO & RISK MANAGEMENT")
+
+        def load_and_manage_risk():
+            try:
+                from trading_mvp.execution.alpaca_orders import get_open_orders, submit_order
+                from trading_mvp.analysis.quant_stats import fetch_historical_stats
+                portfolio_positions = get_positions()
+                portfolio_orders = get_open_orders()
+                portfolio_account = get_account()
+
+                portfolio_tickers = [p['symbol'] for p in portfolio_positions]
+                pending_tickers = [o['symbol'] for o in portfolio_orders]
+                
+                autopilot_mode = os.getenv("AUTOPILOT_MODE", "off").lower() == "on"
+                executed_exits = []
+
+                logger.info(f"   ✅ Loaded Portfolio: {len(portfolio_tickers)} positions")
+                
+                # Check Risk Management for current positions
+                for pos in portfolio_positions:
+                    ticker = pos['symbol']
+                    qty = int(float(pos.get('qty', 0)))
+                    entry_price = float(pos.get('avg_entry_price', 0))
+                    
+                    quant_stats = fetch_historical_stats(ticker)
+                    if not quant_stats or 'error' in quant_stats:
+                        continue
+                        
+                    current_price = float(quant_stats.get('current_price', 0))
+                    atr = quant_stats.get('atr_14', 0)
+                    
+                    if atr > 0 and entry_price > 0:
+                        stop_loss = entry_price - (1.5 * atr)
+                        take_profit = entry_price + (3.0 * atr)
+
+                        if current_price <= stop_loss or current_price >= take_profit:
+                            action = "STOP_LOSS" if current_price <= stop_loss else "TAKE_PROFIT"
+                            reason = f"Current: ${current_price:.2f} <= Stop: ${stop_loss:.2f}" if action == "STOP_LOSS" else f"Current: ${current_price:.2f} >= Target: ${take_profit:.2f}"
+                            logger.warning(f"   🚨 MECHANICAL {action} TRIGGERED for {ticker}! {reason}")
+                            
+                            if autopilot_mode:
+                                try:
+                                    logger.info(f"   🤖 AUTOPILOT: Executing {action} SELL for {qty} shares of {ticker}")
+                                    submit_order(symbol=ticker, qty=qty, side='sell', order_type='market')
+                                    executed_exits.append({
+                                        'ticker': ticker,
+                                        'action': action,
+                                        'reason': reason,
+                                        'qty': qty,
+                                        'entry_price': entry_price
+                                    })
+                                    logger.info(f"   ✅ ORDER SUBMITTED: SELL {qty} {ticker} at Market")
+                                except Exception as e:
+                                    logger.error(f"   ❌ FAILED TO EXECUTE {action} for {ticker}: {e}")
+                            else:
+                                logger.info(f"   👁️ MANUAL MODE: Would have sold {qty} shares of {ticker}. Action required.")
+                                executed_exits.append({
+                                    'ticker': ticker,
+                                    'action': action,
+                                    'reason': reason,
+                                    'qty': qty,
+                                    'entry_price': entry_price
+                                }) # We exclude it anyway to prevent buying it again right after
+                
+                # Exclude tickers that we just mechanically exited
+                executed_tickers = [x['ticker'] for x in executed_exits]
+                active_portfolio_tickers = [t for t in portfolio_tickers if t not in executed_tickers]
+                all_portfolio_tickers = list(set(active_portfolio_tickers + pending_tickers))
+
+                logger.info(f"   ✅ Active Portfolio for Analysis: {len(active_portfolio_tickers)} positions")
+                logger.info(f"   ✅ Pending Orders: {len(portfolio_orders)} orders")
+                logger.info(f"   ✅ Buying Power: ${portfolio_account['buying_power']:.2f}")
+
+                return {
+                    'success': True,
+                    'positions': portfolio_positions,
+                    'orders': portfolio_orders,
+                    'account': portfolio_account,
+                    'tickers': all_portfolio_tickers,
+                    'live_tickers': active_portfolio_tickers,
+                    'pending_tickers': pending_tickers,
+                    'executed_exits': executed_exits
+                }
+            except Exception as e:
+                logger.error(f"   ❌ Failed to load portfolio / manage risk: {e}")
+                return {
+                    'success': False,
+                    'error': str(e)
+                }
+
+        portfolio_result = orchestrator.execute_step(
+            step_type=StepType.DATA_VALIDATION,
+            step_function=load_and_manage_risk,
+            step_id="load_portfolio_001",
+            fail_fast=True
+        )
+
+        if not portfolio_result['success']:
+            error_msg = f"Step 0 failed: {portfolio_result.get('error')}"
+            logger.error(f"🛑 {error_msg}")
+            return {
+                'success': False,
+                'error': error_msg,
+                'aborted_at': 'step_0_portfolio_load'
+            }
+
+        logger.info("")
+
+        # ============================================================
+        # PASO 1: EXTRACTION AND VALIDATION OF NEWS
+        # ============================================================
+        logger.info("📰 EXECUTING STEP 1: NEWS EXTRACTION")
         logger.info("")
 
         news_extraction_result = orchestrator.execute_step(
@@ -99,77 +209,15 @@ def run_investment_desk(hours_back: int = 48) -> Dict:
                 'min_news_count': 10,
                 'max_age_hours': 24
             },
-            fail_fast=True  # CRÍTICO: Detener si falla
+            fail_fast=False  # Ya no es fail-fast porque mitigamos riesgos en Paso 0
         )
 
-        # Validar éxito
         if not news_extraction_result['success']:
-            error_msg = f"Step 0 failed: {news_extraction_result.get('error')}"
-            logger.error(f"🛑 {error_msg}")
-            logger.error("🛑 WORKFLOW ABORTED: Cannot proceed without fresh news")
-            return {
-                'success': False,
-                'error': error_msg,
-                'aborted_at': 'step_0_news_extraction'
-            }
-
-        logger.info("")
-        logger.info("✅ Step 0 completed successfully. Proceeding with portfolio load...")
-        logger.info("")
-
-        # ============================================================
-        # PASO 1: LOAD PORTFOLIO CONTEXT
-        # ============================================================
-        logger.info("💰 EXECUTING STEP 1: LOAD PORTFOLIO")
-
-        def load_portfolio_context():
-            try:
-                from trading_mvp.execution.alpaca_orders import get_open_orders
-                portfolio_positions = get_positions()
-                portfolio_orders = get_open_orders()
-                portfolio_account = get_account()
-
-                portfolio_tickers = [p['symbol'] for p in portfolio_positions]
-                pending_tickers = [o['symbol'] for o in portfolio_orders]
-                
-                # Exposición total proyectada (Live + Pendientes)
-                all_portfolio_tickers = list(set(portfolio_tickers + pending_tickers))
-
-                logger.info(f"   ✅ Portfolio: {len(portfolio_tickers)} positions")
-                logger.info(f"   ✅ Pending Orders: {len(portfolio_orders)} orders")
-                logger.info(f"   ✅ Buying Power: ${portfolio_account['buying_power']:.2f}")
-
-                return {
-                    'success': True,
-                    'positions': portfolio_positions,
-                    'orders': portfolio_orders,
-                    'account': portfolio_account,
-                    'tickers': all_portfolio_tickers,
-                    'live_tickers': portfolio_tickers,
-                    'pending_tickers': pending_tickers
-                }
-            except Exception as e:
-                logger.error(f"   ❌ Failed to load portfolio: {e}")
-                return {
-                    'success': False,
-                    'error': str(e)
-                }
-
-        portfolio_result = orchestrator.execute_step(
-            step_type=StepType.DATA_VALIDATION,
-            step_function=load_portfolio_context,
-            step_id="load_portfolio_001",
-            fail_fast=True
-        )
-
-        if not portfolio_result['success']:
-            error_msg = f"Step 1 failed: {portfolio_result.get('error')}"
-            logger.error(f"🛑 {error_msg}")
-            return {
-                'success': False,
-                'error': error_msg,
-                'aborted_at': 'step_1_portfolio_load'
-            }
+            error_msg = f"Step 1 failed: {news_extraction_result.get('error')}"
+            logger.warning(f"⚠️ {error_msg}")
+            logger.warning("⚠️ WORKFLOW PROCEEDING WITHOUT FRESH NEWS (USING AVAILABLE LOCAL DATA)")
+            # Asignamos stats vacíos para que no rompa el output
+            news_extraction_result['stats'] = {}
 
         logger.info("")
 
@@ -255,12 +303,18 @@ def run_investment_desk(hours_back: int = 48) -> Dict:
         # ============================================================
         # PASO 3: COMBINE TICKERS
         # ============================================================
+        executed_exits = portfolio_result.get('executed_exits', [])
+        executed_tickers = [x['ticker'] for x in executed_exits]
+        
         all_tickers = list(set(
             portfolio_result['tickers'] +
             watchlist_result['tickers']
         ))
+        
+        # Excluir tickers que ya salieron por Stop Loss o Take Profit
+        all_tickers = [t for t in all_tickers if t not in executed_tickers]
 
-        if not all_tickers:
+        if not all_tickers and not executed_exits:
             logger.error("🛑 No tickers found in portfolio or watchlist")
             return {
                 'success': False,
@@ -307,6 +361,28 @@ def run_investment_desk(hours_back: int = 48) -> Dict:
                 logger.error(f"   ❌ {ticker}: {e}")
 
             logger.info("")
+            
+        # Inyectar resultados mock para los tickers que salieron mecánicamente en el Paso 0
+        for exit_data in executed_exits:
+            ticker = exit_data['ticker']
+            action = exit_data['action']
+            ticker_results.append({
+                'success': True,
+                'ticker': ticker,
+                'is_in_portfolio': True,
+                'is_actionable': True,
+                'is_mechanical_exit': True,
+                'mechanical_reason': action,
+                'recommendation': 'BEARISH',
+                'rationale': exit_data.get('reason', f'Mechanical {action} triggered in Pre-Check'),
+                'avg_confidence': 1.0,
+                'positive_ratio': 0.0,
+                'negative_ratio': 1.0,
+                'related_news_count': 0,
+                'unique_entities_found': 0,
+                'analysis_timestamp': datetime.now().isoformat()
+            })
+            logger.info(f"   ✅ {ticker}: Injected {action} result from Pre-Check")
 
         # Validar que tengamos suficientes análisis
         if len(ticker_results) == 0:
@@ -531,11 +607,14 @@ def run_investment_desk(hours_back: int = 48) -> Dict:
                     for decision in agent_decisions:
                         ticker_analysis_id = ticker_analysis_ids.get(decision['ticker'])
                         if ticker_analysis_id:
-                            desk_action = 'WATCH'
-                            if decision['action'] == 'BOUGHT': desk_action = 'BUY'
-                            elif decision['action'] == 'SOLD': desk_action = 'SELL'
+                            desk_action = 'OBSERVAR'
+                            if decision['action'] == 'BOUGHT': desk_action = 'ABRIR'
+                            elif decision['action'] == 'SOLD': 
+                                if decision.get('is_stop_loss'): desk_action = 'CERRAR POR SL'
+                                elif decision.get('is_take_profit'): desk_action = 'CERRAR POR TP'
+                                else: desk_action = 'CERRAR'
                             elif decision['action'] == 'NONE' and decision['decision'] == 'IGNORED':
-                                desk_action = 'AVOID'
+                                desk_action = 'OBSERVAR'
                             elif decision['decision'] == 'ABORTED':
                                 desk_action = 'DATA_ERROR'
 

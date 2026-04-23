@@ -501,17 +501,47 @@ class DecisionAgent:
         atr = quant_stats.get('atr_14', 0)
         trend = quant_stats.get('trend', 'UNKNOWN')
 
-        # 3. Check for EXISTING EXPOSURE (Live) and evaluate PYRAMIDING
+        # 3. Check for EXISTING EXPOSURE (Live) and evaluate PYRAMIDING or TRIMMING
         if current_pos:
-            decision = {
-                'decision': 'FOLLOWED',
-                'action': 'HELD',
-                'rationale': f"Posición existente en rango alcista. Manteniendo (sin escalamiento por política actual).",
-                'confidence_in_decision': confidence,
-                'risk_level': 'low'
-            }
-            logger.info(f"   👀 DECISION: FOLLOWED - HOLD {ticker}")
-            return decision
+            unrealized_plpc = float(current_pos.get('unrealized_plpc', 0))
+            # Evaluate Trimming first (if we have gains and momentum is exhausted)
+            if unrealized_plpc > 0.05 and (rsi > 75 or quant_stats.get('momentum') == 'NEGATIVE'):
+                decision = {
+                    'decision': 'FOLLOWED',
+                    'action': 'TRIM',
+                    'rationale': f"Posición existente con ganancia del {unrealized_plpc:.1%}. Técnico extendido (RSI: {rsi:.1f}). Recortando 25% para asegurar caja.",
+                    'confidence_in_decision': confidence,
+                    'risk_level': 'low'
+                }
+                logger.info(f"   ✂️  DECISION: FOLLOWED - TRIM {ticker}")
+                
+                if self.config.autopilot_enabled and not self.config.dry_run:
+                    if ALPACA_EXECUTION_AVAILABLE:
+                        qty_to_sell = int(float(current_pos['qty']) * 0.25)
+                        if qty_to_sell >= 1:
+                            decision = self._execute_sell_order(ticker, decision, qty_to_sell=qty_to_sell)
+                        else:
+                            decision['action'] = 'HELD'
+                            decision['rationale'] += " (Cancelado: Posición muy pequeña para recortar)"
+                return decision
+            
+            # Evaluate Pyramiding (Scaling In)
+            elif unrealized_plpc > 0 and confidence >= 0.85 and rsi < 65:
+                is_pyramiding = True
+                logger.info(f"   📈  Condiciones óptimas para ESCALAR (Pyramiding) en {ticker}. Calculando tamaño...")
+                # We will continue the execution flow to calculate position size and buy
+            else:
+                decision = {
+                    'decision': 'FOLLOWED',
+                    'action': 'HELD',
+                    'rationale': f"Posición existente en rango alcista. Manteniendo (condiciones no óptimas para escalar o recortar).",
+                    'confidence_in_decision': confidence,
+                    'risk_level': 'low'
+                }
+                logger.info(f"   👀 DECISION: FOLLOWED - HOLD {ticker}")
+                return decision
+        else:
+            is_pyramiding = False
 
         # 4. Basic criteria
         strong_signal = confidence >= self.config.min_confidence_for_buy
@@ -697,7 +727,8 @@ class DecisionAgent:
     def _execute_sell_order(
         self,
         ticker: str,
-        decision: Dict
+        decision: Dict,
+        qty_to_sell: float = None
     ) -> Dict:
         """Execute sell/liquidate order in Alpaca.
 
@@ -727,18 +758,27 @@ class DecisionAgent:
 
             entry_price = float(current_pos['avg_entry_price'])
             current_price = float(current_pos['current_price'])
-            qty = float(current_pos['qty'])
+            total_qty = float(current_pos['qty'])
+            
+            sell_qty = qty_to_sell if qty_to_sell is not None else total_qty
 
-            # Calculate P&L
-            profit_loss = (current_price - entry_price) * qty
+            # Calculate P&L for the sold portion
+            profit_loss = (current_price - entry_price) * sell_qty
             profit_loss_pct = ((current_price - entry_price) / entry_price) * 100
 
             logger.info(f"   📊 P&L Calculation: ${entry_price:.2f} → ${current_price:.2f} = ${profit_loss:.2f} ({profit_loss_pct:+.2f}%)")
 
-            # Close position completely
-            client.close_position(ticker)
-
-            logger.info(f"   ✅ Position in {ticker} closed successfully")
+            if sell_qty >= total_qty:
+                # Close position completely
+                client.close_position(ticker)
+                logger.info(f"   ✅ Position in {ticker} closed successfully")
+                status_to_set = 'CLOSED'
+            else:
+                # Partial close
+                from trading_mvp.execution.alpaca_orders import submit_order
+                submit_order(symbol=ticker, qty=int(sell_qty), side='sell', order_type='market')
+                logger.info(f"   ✅ Partial position ({sell_qty} shares) in {ticker} sold successfully")
+                status_to_set = 'PARTIAL_CLOSED'
 
             # Update decision with outcome in Supabase
             try:
@@ -752,7 +792,7 @@ class DecisionAgent:
                             FROM investment_decisions
                             WHERE ticker = %s
                             AND status IN ('PENDING', 'OPEN')
-                            AND action_taken = 'BOUGHT'
+                            AND action_taken IN ('BOUGHT', 'SCALE_IN')
                             ORDER BY decision_timestamp DESC
                             LIMIT 1
                         """, (ticker,))
@@ -768,9 +808,9 @@ class DecisionAgent:
                                     exit_timestamp = CURRENT_TIMESTAMP,
                                     profit_loss = %s,
                                     profit_loss_pct = %s,
-                                    status = 'CLOSED'
+                                    status = %s
                                 WHERE id = %s
-                            """, (current_price, profit_loss, profit_loss_pct, decision_id))
+                            """, (current_price, profit_loss, profit_loss_pct, status_to_set, decision_id))
 
                             conn.commit()
                             logger.info(f"   ✅ Updated decision {decision_id} with P&L: ${profit_loss:.2f} ({profit_loss_pct:+.2f}%)")
@@ -784,7 +824,8 @@ class DecisionAgent:
             # Update decision dict
             decision['execution_status'] = 'SUCCESS'
             decision['execution_timestamp'] = datetime.now().isoformat()
-            decision['order_type'] = 'liquidate'
+            decision['order_type'] = 'liquidate' if sell_qty >= total_qty else 'trim'
+            decision['shares_sold'] = sell_qty
             decision['exit_price'] = current_price
             decision['profit_loss'] = profit_loss
             decision['profit_loss_pct'] = profit_loss_pct
@@ -832,6 +873,29 @@ class DecisionAgent:
         # Check if we already hold this ticker
         positions = portfolio_context.get('positions', [])
         current_pos = next((p for p in positions if p['symbol'] == ticker), None)
+
+        if current_pos:
+            unrealized_plpc = float(current_pos.get('unrealized_plpc', 0))
+            if unrealized_plpc > 0.05 and (rsi > 75 or quant_stats.get('momentum') == 'NEGATIVE'):
+                decision = {
+                    'decision': 'FOLLOWED',
+                    'action': 'TRIM',
+                    'rationale': f"Posición existente con ganancia del {unrealized_plpc:.1%}. {reason}. Recortando 25% para asegurar caja.",
+                    'confidence_in_decision': confidence,
+                    'risk_level': 'low',
+                    'technical_context': technical_note
+                }
+                logger.info(f"   ✂️  DECISION: FOLLOWED - TRIM {ticker}")
+                
+                if self.config.autopilot_enabled and not self.config.dry_run:
+                    if ALPACA_EXECUTION_AVAILABLE:
+                        qty_to_sell = int(float(current_pos['qty']) * 0.25)
+                        if qty_to_sell >= 1:
+                            decision = self._execute_sell_order(ticker, decision, qty_to_sell=qty_to_sell)
+                        else:
+                            decision['action'] = 'HELD'
+                            decision['rationale'] += " (Cancelado: Posición muy pequeña para recortar)"
+                return decision
 
         action_taken = 'HELD' if current_pos else 'NONE'
         log_action = 'HOLD' if current_pos else 'WATCH'

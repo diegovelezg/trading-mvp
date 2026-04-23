@@ -55,11 +55,14 @@ PASO 5: AGGREGATION
 ├─ Agrupar por recomendación institucional
 └─ FAIL FAST si falla agregación
 
-PASO 6: DECISION ENGINE (RISK MANAGEMENT)
+PASO 6: DECISION ENGINE (RISK MANAGEMENT & ACTIVE SIZING)
 ├─ PASO 0 (Pre-Emptive): Revisar SL (1.5x) y TP (3.0x) vs current_price.
-│   └─ SI SE TOCA UMBRAL: 'Sell-Off' mecánico, usando `avg_entry_price` para PnL, y ABORTAR análisis cualitativo.
+│   └─ SI SE TOCA UMBRAL: 'Sell-Off' mecánico o Take Profit del 100%, ABORTAR análisis cualitativo.
 ├─ Process desk recommendations
-├─ Risk Guardrails: Stop Loss estrictamente en 1.5x ATR.
+├─ Active Position Management:
+│   ├─ Pyramiding (Scale-In): Aumenta posición en ganadores si Confianza >= 0.85 y RSI < 65.
+│   └─ Trimming (Recortes): Venta del 25% si PnL > 5% y agotamiento técnico (RSI > 75).
+├─ Risk Guardrails: Stop Loss estrictamente en 1.5x ATR y validación contra MAX_PORTFOLIO_EXPOSURE.
 ├─ Reject Rule: Si falta ATR, el trade es IGNORED.
 └─ CONTINUE (operaciones manuales o autopilotadas)
 

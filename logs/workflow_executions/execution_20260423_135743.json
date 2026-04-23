@@ -1,0 +1,1713 @@
+{
+  "execution_id": "20260423_135743",
+  "start_time": "2026-04-23T13:57:43.466285",
+  "end_time": "2026-04-23T14:09:39.727167",
+  "total_duration_seconds": 39.796043,
+  "total_steps": 6,
+  "completed_steps": 6,
+  "failed_steps": 0,
+  "steps": [
+    {
+      "step_id": "load_portfolio_001",
+      "step_type": "data_validation",
+      "status": "completed",
+      "start_time": "2026-04-23T13:57:43.466285",
+      "end_time": "2026-04-23T13:57:46.564559",
+      "duration_seconds": 3.098274,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "positions": [
+          {
+            "symbol": "BKR",
+            "qty": "136",
+            "side": "long",
+            "avg_entry_price": "61.658162",
+            "current_price": "64.74",
+            "unrealized_pl": "419.129968",
+            "unrealized_plpc": "0.04998"
+          },
+          {
+            "symbol": "MA",
+            "qty": "10",
+            "side": "long",
+            "avg_entry_price": "505.01",
+            "current_price": "503.18",
+            "unrealized_pl": "-18.3",
+            "unrealized_plpc": "-0.00362"
+          },
+          {
+            "symbol": "PWR",
+            "qty": "47",
+            "side": "long",
+            "avg_entry_price": "590.77",
+            "current_price": "635.83",
+            "unrealized_pl": "2117.82",
+            "unrealized_plpc": "0.07627"
+          },
+          {
+            "symbol": "TSM",
+            "qty": "90",
+            "side": "long",
+            "avg_entry_price": "369.55",
+            "current_price": "379.93",
+            "unrealized_pl": "934.2",
+            "unrealized_plpc": "0.02809"
+          },
+          {
+            "symbol": "WEC",
+            "qty": "104",
+            "side": "long",
+            "avg_entry_price": "115.01",
+            "current_price": "114.82",
+            "unrealized_pl": "-19.76",
+            "unrealized_plpc": "-0.00165"
+          }
+        ],
+        "orders": [],
+        "account": {
+          "buying_power": 116646.19,
+          "cash": 13395.38,
+          "portfolio_value": 103250.81,
+          "equity": 103250.81
+        },
+        "tickers": [
+          "TSM",
+          "MA",
+          "BKR",
+          "PWR",
+          "WEC"
+        ],
+        "live_tickers": [
+          "BKR",
+          "MA",
+          "PWR",
+          "TSM",
+          "WEC"
+        ],
+        "pending_tickers": [],
+        "executed_exits": []
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "news_extraction_001",
+      "step_type": "news_extraction",
+      "status": "completed",
+      "start_time": "2026-04-23T13:57:46.564784",
+      "end_time": "2026-04-23T13:57:48.178889",
+      "duration_seconds": 1.614105,
+      "input_data": {
+        "hours_back": 48,
+        "min_news_count": 10,
+        "max_age_hours": 24
+      },
+      "output_data": {
+        "success": true,
+        "news_items": [
+          {
+            "id": 7389,
+            "title": "US Initial Jobless Claims Surge Past Forecast, Signaling Labor Market Cooling - Bitcoin World",
+            "summary": "US Initial Jobless Claims Surge Past Forecast, Signaling Labor Market Cooling &nbsp;&nbsp; Bitcoin World",
+            "content": "US Initial Jobless Claims Surge Past Forecast, Signaling Labor Market Cooling &nbsp;&nbsp; Bitcoin World",
+            "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1lYVBqc3hPakVrOUNPVFdUbTFyMUo3QXFGV3c2cTIzQlotajI5c0tBTnYtUzcyUERVSWV2a01fTXcwTk4xY2RVWHY0VFVjYlBvdl9UcjBfRTRIdDZFOXBhU0pfMENlTWxGck9hYQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Bitcoin World",
+            "published_at": "2026-04-23 12:55:16+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 4145116651,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1lYVBqc3hPakVrOUNPVFdUbTFyMUo3QXFGV3c2cTIzQlotajI5c0tBTnYtUzcyUERVSWV2a01fTXcwTk4xY2RVWHY0VFVjYlBvdl9UcjBfRTRIdDZFOXBhU0pfMENlTWxGck9hYQ?oc=5",
+              "title": "US Initial Jobless Claims Surge Past Forecast, Signaling Labor Market Cooling - Bitcoin World",
+              "topic": "labor market tightness real wage growth unemployment claims impact layoffs",
+              "source": {
+                "href": "https://bitcoinworld.co.in",
+                "title": "Bitcoin World"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMibEFVX3lxTE1lYVBqc3hPakVrOUNPVFdUbTFyMUo3QXFGV3c2cTIzQlotajI5c0tBTnYtUzcyUERVSWV2a01fTXcwTk4xY2RVWHY0VFVjYlBvdl9UcjBfRTRIdDZFOXBhU0pfMENlTWxGck9hYQ?oc=5\" target=\"_blank\">US Initial Jobless Claims Surge Past Forecast, Signaling Labor Market Cooling</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Bitcoin World</font>",
+              "category": "consumer_retail_dynamics",
+              "published": "Thu, 23 Apr 2026 12:55:16 GMT",
+              "search_query": "labor market tightness real wage growth unemployment claims impact layoffs"
+            }
+          },
+          {
+            "id": 7387,
+            "title": "CBN\u2019s directive on the restriction of banking services to non-performing obligors: A Review - Businessday NG",
+            "summary": "CBN\u2019s directive on the restriction of banking services to non-performing obligors: A Review &nbsp;&nbsp; Businessday NG",
+            "content": "CBN\u2019s directive on the restriction of banking services to non-performing obligors: A Review &nbsp;&nbsp; Businessday NG",
+            "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOTFJjU05xRy1VVnE1NjN2MzJGWHRCa2p3TjdQeHpudTRoZl9FNnZSeXQ0cTNOMWRlNmIyd05ORGpwRXlPM2RfVnZENS1PaEZ1T2JnbUxiSmdnYVhxZ2s5dmwwOVRhVDlibzQ5WlNwUEZlUXIxZi04TnA2WXhBYWVVc3F2MmJmWksxMGxzRFZpcDVCZDJDcEZPek0xeG9mQzFRZHNTLVI0ZXZsMnk1LWJKdF9tNjEwX0RmaTdIMXo0VEwyYThUbkhESjd2UXByVFlvcFVEY2NIS3HSAd4BQVVfeXFMT2h6MUZUa0tHQUdid1NjWlVYaWNIVGFtUzZoWE0wZVFPRkxobFlBd3VvbXYwdzA0UTltLW15aVRTQmtVUGxYQTlOa0JYM3U3MU1jM09JUGFkUXpwMU5TVW1USE5YdFQtVEJDcWt5cnNqeV9VdndQbDFSQTdLbG1sWUdDZXh2aGFrVjFqMGtYZ05HLVZuazRLdGVidmpZN2tHZjJfWU15Q1d1WHA3QWR2MjMzbFc5NDlCZzFObkVRNVNnS2RabWVZMHZ2cHN0RV9WbV9zQzJkUVdGNU5ZU3pn?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Businessday NG",
+            "published_at": "2026-04-23 08:20:35+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 2614605082,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOTFJjU05xRy1VVnE1NjN2MzJGWHRCa2p3TjdQeHpudTRoZl9FNnZSeXQ0cTNOMWRlNmIyd05ORGpwRXlPM2RfVnZENS1PaEZ1T2JnbUxiSmdnYVhxZ2s5dmwwOVRhVDlibzQ5WlNwUEZlUXIxZi04TnA2WXhBYWVVc3F2MmJmWksxMGxzRFZpcDVCZDJDcEZPek0xeG9mQzFRZHNTLVI0ZXZsMnk1LWJKdF9tNjEwX0RmaTdIMXo0VEwyYThUbkhESjd2UXByVFlvcFVEY2NIS3HSAd4BQVVfeXFMT2h6MUZUa0tHQUdid1NjWlVYaWNIVGFtUzZoWE0wZVFPRkxobFlBd3VvbXYwdzA0UTltLW15aVRTQmtVUGxYQTlOa0JYM3U3MU1jM09JUGFkUXpwMU5TVW1USE5YdFQtVEJDcWt5cnNqeV9VdndQbDFSQTdLbG1sWUdDZXh2aGFrVjFqMGtYZ05HLVZuazRLdGVidmpZN2tHZjJfWU15Q1d1WHA3QWR2MjMzbFc5NDlCZzFObkVRNVNnS2RabWVZMHZ2cHN0RV9WbV9zQzJkUVdGNU5ZU3pn?oc=5",
+              "title": "CBN\u2019s directive on the restriction of banking services to non-performing obligors: A Review - Businessday NG",
+              "topic": "banking system capital ratios credit quality non-performing loans",
+              "source": {
+                "href": "https://businessday.ng",
+                "title": "Businessday NG"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi2AFBVV95cUxOTFJjU05xRy1VVnE1NjN2MzJGWHRCa2p3TjdQeHpudTRoZl9FNnZSeXQ0cTNOMWRlNmIyd05ORGpwRXlPM2RfVnZENS1PaEZ1T2JnbUxiSmdnYVhxZ2s5dmwwOVRhVDlibzQ5WlNwUEZlUXIxZi04TnA2WXhBYWVVc3F2MmJmWksxMGxzRFZpcDVCZDJDcEZPek0xeG9mQzFRZHNTLVI0ZXZsMnk1LWJKdF9tNjEwX0RmaTdIMXo0VEwyYThUbkhESjd2UXByVFlvcFVEY2NIS3HSAd4BQVVfeXFMT2h6MUZUa0tHQUdid1NjWlVYaWNIVGFtUzZoWE0wZVFPRkxobFlBd3VvbXYwdzA0UTltLW15aVRTQmtVUGxYQTlOa0JYM3U3MU1jM09JUGFkUXpwMU5TVW1USE5YdFQtVEJDcWt5cnNqeV9VdndQbDFSQTdLbG1sWUdDZXh2aGFrVjFqMGtYZ05HLVZuazRLdGVidmpZN2tHZjJfWU15Q1d1WHA3QWR2MjMzbFc5NDlCZzFObkVRNVNnS2RabWVZMHZ2cHN0RV9WbV9zQzJkUVdGNU5ZU3pn?oc=5\" target=\"_blank\">CBN\u2019s directive on the restriction of banking services to non-performing obligors: A Review</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Businessday NG</font>",
+              "category": "financial_stability",
+              "published": "Thu, 23 Apr 2026 08:20:35 GMT",
+              "search_query": "shadow banking systemic risk leverage financial contagion monitoring"
+            }
+          },
+          {
+            "id": 7383,
+            "title": "Aerospace Forging Materials Market Global Analysis and Growth Outlook to 2035 - News and Statistics - IndexBox",
+            "summary": "Aerospace Forging Materials Market Global Analysis and Growth Outlook to 2035 - News and Statistics &nbsp;&nbsp; IndexBox",
+            "content": "Aerospace Forging Materials Market Global Analysis and Growth Outlook to 2035 - News and Statistics &nbsp;&nbsp; IndexBox",
+            "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQMlJzRkQ4U2lmY0FpLTlRdUt4bHJ2VkxyS2xhNDUtZHloa2NzaUxtWXZqYWxoNXV4UHJSN3FXOFVjRjYxeElYSGp0SWU2c3BtOW1Bd3llUTVHaFBuVk1yOTR1M1piSnFzYUJ1QVpUeFk2aUNRY05DNEpmREc1Ml9iSUVWZm4tNThJR2dSeERkZnVmTEhvX3hSLU5kOF9SWTNLdzAxNkhWdzZTU3ZBOEFLNDk5bHZPM0Z2THQ4M1lRa1A3dFlkekh3bFlyb01jTDU5Ump4anI0ejA?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "IndexBox",
+            "published_at": "2026-04-23 02:46:05+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 2432899452,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQMlJzRkQ4U2lmY0FpLTlRdUt4bHJ2VkxyS2xhNDUtZHloa2NzaUxtWXZqYWxoNXV4UHJSN3FXOFVjRjYxeElYSGp0SWU2c3BtOW1Bd3llUTVHaFBuVk1yOTR1M1piSnFzYUJ1QVpUeFk2aUNRY05DNEpmREc1Ml9iSUVWZm4tNThJR2dSeERkZnVmTEhvX3hSLU5kOF9SWTNLdzAxNkhWdzZTU3ZBOEFLNDk5bHZPM0Z2THQ4M1lRa1A3dFlkekh3bFlyb01jTDU5Ump4anI0ejA?oc=5",
+              "title": "Aerospace Forging Materials Market Global Analysis and Growth Outlook to 2035 - News and Statistics - IndexBox",
+              "topic": "defense procurement aerospace spending cycles military modernization",
+              "source": {
+                "href": "https://www.indexbox.io",
+                "title": "IndexBox"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi2AFBVV95cUxQMlJzRkQ4U2lmY0FpLTlRdUt4bHJ2VkxyS2xhNDUtZHloa2NzaUxtWXZqYWxoNXV4UHJSN3FXOFVjRjYxeElYSGp0SWU2c3BtOW1Bd3llUTVHaFBuVk1yOTR1M1piSnFzYUJ1QVpUeFk2aUNRY05DNEpmREc1Ml9iSUVWZm4tNThJR2dSeERkZnVmTEhvX3hSLU5kOF9SWTNLdzAxNkhWdzZTU3ZBOEFLNDk5bHZPM0Z2THQ4M1lRa1A3dFlkekh3bFlyb01jTDU5Ump4anI0ejA?oc=5\" target=\"_blank\">Aerospace Forging Materials Market Global Analysis and Growth Outlook to 2035 - News and Statistics</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">IndexBox</font>",
+              "category": "industrial_automotive",
+              "published": "Thu, 23 Apr 2026 02:46:05 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7376,
+            "title": "Central Bank Gold Buying Drives Market Transformation - Discovery Alert",
+            "summary": "Central Bank Gold Buying Drives Market Transformation &nbsp;&nbsp; Discovery Alert",
+            "content": "Central Bank Gold Buying Drives Market Transformation &nbsp;&nbsp; Discovery Alert",
+            "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQMFI2NkdNUVFqS0VWOWVqbkFGOGVFeFpWbURmZUJNSzAwLWxicW4tcUo5UGw5QVU0WXJzY2VBUTJMejBGNVFKTXI1anlWUDR4VTZDT09OVE5SZjdIZG11TjF0NEZDa3RqRmt0Q1FZc3VzNVhlZmYzWUpFY0dOaWVsZERySVpSUQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Discovery Alert",
+            "published_at": "2026-04-22 19:18:53+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 986868809,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQMFI2NkdNUVFqS0VWOWVqbkFGOGVFeFpWbURmZUJNSzAwLWxicW4tcUo5UGw5QVU0WXJzY2VBUTJMejBGNVFKTXI1anlWUDR4VTZDT09OVE5SZjdIZG11TjF0NEZDa3RqRmt0Q1FZc3VzNVhlZmYzWUpFY0dOaWVsZERySVpSUQ?oc=5",
+              "title": "Central Bank Gold Buying Drives Market Transformation - Discovery Alert",
+              "topic": "gold price drivers real yields sovereign central bank buying hedging",
+              "source": {
+                "href": "https://discoveryalert.com.au",
+                "title": "Discovery Alert"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMihgFBVV95cUxQMFI2NkdNUVFqS0VWOWVqbkFGOGVFeFpWbURmZUJNSzAwLWxicW4tcUo5UGw5QVU0WXJzY2VBUTJMejBGNVFKTXI1anlWUDR4VTZDT09OVE5SZjdIZG11TjF0NEZDa3RqRmt0Q1FZc3VzNVhlZmYzWUpFY0dOaWVsZERySVpSUQ?oc=5\" target=\"_blank\">Central Bank Gold Buying Drives Market Transformation</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Discovery Alert</font>",
+              "category": "commodities_resources",
+              "published": "Wed, 22 Apr 2026 19:18:53 GMT",
+              "search_query": "industrial metals warehouse levels LME inventories global demand signals"
+            }
+          },
+          {
+            "id": 7382,
+            "title": "Samsung SDI Mercedes-Benz $6.8B Battery Supply Deal - Discovery Alert",
+            "summary": "Samsung SDI Mercedes-Benz $6.8B Battery Supply Deal &nbsp;&nbsp; Discovery Alert",
+            "content": "Samsung SDI Mercedes-Benz $6.8B Battery Supply Deal &nbsp;&nbsp; Discovery Alert",
+            "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPUTZMdEpHaURyaVQ1Z3pyQlhXdGdwUlVDbzhsaVpUTW5UaEpJWmlGcFNPdG9YT0daSS1NTHg5R253VnR3SWw3WUE4QTV1YUpZR3NYR0s5OGNQRC1RTFZ3RWVuYWUwZFdzNU5idzU1MVk1d0xzeXhNY1FsQ0xaampLWUxB?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Discovery Alert",
+            "published_at": "2026-04-22 18:30:47+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 973350817,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPUTZMdEpHaURyaVQ1Z3pyQlhXdGdwUlVDbzhsaVpUTW5UaEpJWmlGcFNPdG9YT0daSS1NTHg5R253VnR3SWw3WUE4QTV1YUpZR3NYR0s5OGNQRC1RTFZ3RWVuYWUwZFdzNU5idzU1MVk1d0xzeXhNY1FsQ0xaampLWUxB?oc=5",
+              "title": "Samsung SDI Mercedes-Benz $6.8B Battery Supply Deal - Discovery Alert",
+              "topic": "automotive electrification EV supply chain battery metals lithium",
+              "source": {
+                "href": "https://discoveryalert.com.au",
+                "title": "Discovery Alert"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiggFBVV95cUxPUTZMdEpHaURyaVQ1Z3pyQlhXdGdwUlVDbzhsaVpUTW5UaEpJWmlGcFNPdG9YT0daSS1NTHg5R253VnR3SWw3WUE4QTV1YUpZR3NYR0s5OGNQRC1RTFZ3RWVuYWUwZFdzNU5idzU1MVk1d0xzeXhNY1FsQ0xaampLWUxB?oc=5\" target=\"_blank\">Samsung SDI Mercedes-Benz $6.8B Battery Supply Deal</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Discovery Alert</font>",
+              "category": "industrial_automotive",
+              "published": "Wed, 22 Apr 2026 18:30:47 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7384,
+            "title": "Military Aerospace Engine Market Size & Industry Analysis [2035] - Business Research Insights",
+            "summary": "Military Aerospace Engine Market Size & Industry Analysis [2035] &nbsp;&nbsp; Business Research Insights",
+            "content": "Military Aerospace Engine Market Size & Industry Analysis [2035] &nbsp;&nbsp; Business Research Insights",
+            "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOM2M1TWJrZDl4T09tMVNCNmlIdEUzbmM1TWRmaDNLS1EzTGRibF9VQ2VWUTlHZGJQVk1IaEZ2azNrXy15aEtleFB5bUdNc0dvb183eTVjWFlaTzZxUkNQUC1lMWdrY3EyTnFUNU9aZzI4QWN0YmNwSU04bmdYbGg1NzZSWTlTVDROOHFsY3FxWmM4UXNPNmtWcExNbw?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Business Research Insights",
+            "published_at": "2026-04-22 16:08:48+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 1037049207,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOM2M1TWJrZDl4T09tMVNCNmlIdEUzbmM1TWRmaDNLS1EzTGRibF9VQ2VWUTlHZGJQVk1IaEZ2azNrXy15aEtleFB5bUdNc0dvb183eTVjWFlaTzZxUkNQUC1lMWdrY3EyTnFUNU9aZzI4QWN0YmNwSU04bmdYbGg1NzZSWTlTVDROOHFsY3FxWmM4UXNPNmtWcExNbw?oc=5",
+              "title": "Military Aerospace Engine Market Size & Industry Analysis [2035] - Business Research Insights",
+              "topic": "defense procurement aerospace spending cycles military modernization",
+              "source": {
+                "href": "https://www.businessresearchinsights.com",
+                "title": "Business Research Insights"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMimwFBVV95cUxOM2M1TWJrZDl4T09tMVNCNmlIdEUzbmM1TWRmaDNLS1EzTGRibF9VQ2VWUTlHZGJQVk1IaEZ2azNrXy15aEtleFB5bUdNc0dvb183eTVjWFlaTzZxUkNQUC1lMWdrY3EyTnFUNU9aZzI4QWN0YmNwSU04bmdYbGg1NzZSWTlTVDROOHFsY3FxWmM4UXNPNmtWcExNbw?oc=5\" target=\"_blank\">Military Aerospace Engine Market Size & Industry Analysis [2035]</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Business Research Insights</font>",
+              "category": "industrial_automotive",
+              "published": "Wed, 22 Apr 2026 16:08:48 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7374,
+            "title": "Iran War Impact on Indian Rupee: Crisis Analysis - Discovery Alert",
+            "summary": "Iran War Impact on Indian Rupee: Crisis Analysis &nbsp;&nbsp; Discovery Alert",
+            "content": "Iran War Impact on Indian Rupee: Crisis Analysis &nbsp;&nbsp; Discovery Alert",
+            "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxON0cwT3FUYW1KNk9MaGltdktqQVVpeUF1Tzk5S0tOMlFsY2toOG1WNGFOQjFSbmRzUVZ3UzNZNjJNcHpZSDR1b1hnNTBhdGhodDQ1ckdmMnVuVEZPejBBR0FMdTN4MXBLUlZLblZzd2xyZURCS2JxelFGeXFzUGcyRjI4Q0ZfOGpUNG5CTWhn?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Discovery Alert",
+            "published_at": "2026-04-22 14:43:57+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 3933322114,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxON0cwT3FUYW1KNk9MaGltdktqQVVpeUF1Tzk5S0tOMlFsY2toOG1WNGFOQjFSbmRzUVZ3UzNZNjJNcHpZSDR1b1hnNTBhdGhodDQ1ckdmMnVuVEZPejBBR0FMdTN4MXBLUlZLblZzd2xyZURCS2JxelFGeXFzUGcyRjI4Q0ZfOGpUNG5CTWhn?oc=5",
+              "title": "Iran War Impact on Indian Rupee: Crisis Analysis - Discovery Alert",
+              "topic": "commodity price cycles energy security strategic petroleum reserve",
+              "source": {
+                "href": "https://discoveryalert.com.au",
+                "title": "Discovery Alert"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMijgFBVV95cUxON0cwT3FUYW1KNk9MaGltdktqQVVpeUF1Tzk5S0tOMlFsY2toOG1WNGFOQjFSbmRzUVZ3UzNZNjJNcHpZSDR1b1hnNTBhdGhodDQ1ckdmMnVuVEZPejBBR0FMdTN4MXBLUlZLblZzd2xyZURCS2JxelFGeXFzUGcyRjI4Q0ZfOGpUNG5CTWhn?oc=5\" target=\"_blank\">Iran War Impact on Indian Rupee: Crisis Analysis</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Discovery Alert</font>",
+              "category": "energy_nuclear_transition",
+              "published": "Wed, 22 Apr 2026 14:43:57 GMT",
+              "search_query": "power grid stability electricity demand data center energy consumption"
+            }
+          },
+          {
+            "id": 7379,
+            "title": "The CLEAR Act Reaches a Critical Juncture: A Crossroads for U.S. Crypto Regulation - \u6df1\u6f6eTechFlow",
+            "summary": "The CLEAR Act Reaches a Critical Juncture: A Crossroads for U.S. Crypto Regulation &nbsp;&nbsp; \u6df1\u6f6eTechFlow",
+            "content": "The CLEAR Act Reaches a Critical Juncture: A Crossroads for U.S. Crypto Regulation &nbsp;&nbsp; \u6df1\u6f6eTechFlow",
+            "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9MTnFwLWdGZHJRQWlTY3VDLTE4U0RINHV1UmpORVd1VlRHdHZRQlZ1bFUzQzVGUzVEZEV2TFZsSER0aUFWMjNEakd5TFpoQk9LTEszM0FGM3FIOTdWeWhQbGdTS1Q?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "\u6df1\u6f6eTechFlow",
+            "published_at": "2026-04-22 10:43:37+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 3252865920,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE9MTnFwLWdGZHJRQWlTY3VDLTE4U0RINHV1UmpORVd1VlRHdHZRQlZ1bFUzQzVGUzVEZEV2TFZsSER0aUFWMjNEakd5TFpoQk9LTEszM0FGM3FIOTdWeWhQbGdTS1Q?oc=5",
+              "title": "The CLEAR Act Reaches a Critical Juncture: A Crossroads for U.S. Crypto Regulation - \u6df1\u6f6eTechFlow",
+              "topic": "crypto regulatory framework SEC stablecoin legislation digital asset policy",
+              "source": {
+                "href": "https://www.techflowpost.com",
+                "title": "\u6df1\u6f6eTechFlow"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiZEFVX3lxTE9MTnFwLWdGZHJRQWlTY3VDLTE4U0RINHV1UmpORVd1VlRHdHZRQlZ1bFUzQzVGUzVEZEV2TFZsSER0aUFWMjNEakd5TFpoQk9LTEszM0FGM3FIOTdWeWhQbGdTS1Q?oc=5\" target=\"_blank\">The CLEAR Act Reaches a Critical Juncture: A Crossroads for U.S. Crypto Regulation</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">\u6df1\u6f6eTechFlow</font>",
+              "category": "digital_assets_crypto",
+              "published": "Wed, 22 Apr 2026 10:43:37 GMT",
+              "search_query": "blockchain enterprise integration tokenization real world assets RWA"
+            }
+          },
+          {
+            "id": 7378,
+            "title": "Spot Bitcoin ETF Inflows Surge for Sixth Straight Day, Signaling Robust Institutional Confidence - MEXC Exchange",
+            "summary": "Spot Bitcoin ETF Inflows Surge for Sixth Straight Day, Signaling Robust Institutional Confidence &nbsp;&nbsp; MEXC Exchange",
+            "content": "Spot Bitcoin ETF Inflows Surge for Sixth Straight Day, Signaling Robust Institutional Confidence &nbsp;&nbsp; MEXC Exchange",
+            "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1zaTk0T28yT3laMEFfVDFIWjFfbkxiMXYyUElQZWVFMWlxbmlnZy0tTjhtWThJQmFyVElmNWpLYzBtS0NmendscWtuclJ1a1E?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "MEXC Exchange",
+            "published_at": "2026-04-22 09:36:46+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 2161225224,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1zaTk0T28yT3laMEFfVDFIWjFfbkxiMXYyUElQZWVFMWlxbmlnZy0tTjhtWThJQmFyVElmNWpLYzBtS0NmendscWtuclJ1a1E?oc=5",
+              "title": "Spot Bitcoin ETF Inflows Surge for Sixth Straight Day, Signaling Robust Institutional Confidence - MEXC Exchange",
+              "topic": "bitcoin institutional adoption spot ETF inflows outflows asset management",
+              "source": {
+                "href": "https://www.mexc.co",
+                "title": "MEXC Exchange"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiT0FVX3lxTE1zaTk0T28yT3laMEFfVDFIWjFfbkxiMXYyUElQZWVFMWlxbmlnZy0tTjhtWThJQmFyVElmNWpLYzBtS0NmendscWtuclJ1a1E?oc=5\" target=\"_blank\">Spot Bitcoin ETF Inflows Surge for Sixth Straight Day, Signaling Robust Institutional Confidence</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MEXC Exchange</font>",
+              "category": "digital_assets_crypto",
+              "published": "Wed, 22 Apr 2026 09:36:46 GMT",
+              "search_query": "blockchain enterprise integration tokenization real world assets RWA"
+            }
+          },
+          {
+            "id": 7377,
+            "title": "Spot Bitcoin ETF Inflows Surge for Sixth Straight Day, Signaling Robust Institutional Confidence - CryptoRank",
+            "summary": "Spot Bitcoin ETF Inflows Surge for Sixth Straight Day, Signaling Robust Institutional Confidence &nbsp;&nbsp; CryptoRank",
+            "content": "Spot Bitcoin ETF Inflows Surge for Sixth Straight Day, Signaling Robust Institutional Confidence &nbsp;&nbsp; CryptoRank",
+            "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9yY1pUYWVpWjFGcDVYUlJzY3dlV1RkcWZVcy0ydUR3dmZHc1JFSnhHdHN2dF9ucGRqcXFXUEFEUkhqTzdaVUhwS3hyNTBXZ3M2SVY2ekRrdWlHLW10RzA3WlBMSUNiNFNrZkoyM3lPamlQc3VUM2c?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "CryptoRank",
+            "published_at": "2026-04-22 03:57:35+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 1883063491,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9yY1pUYWVpWjFGcDVYUlJzY3dlV1RkcWZVcy0ydUR3dmZHc1JFSnhHdHN2dF9ucGRqcXFXUEFEUkhqTzdaVUhwS3hyNTBXZ3M2SVY2ekRrdWlHLW10RzA3WlBMSUNiNFNrZkoyM3lPamlQc3VUM2c?oc=5",
+              "title": "Spot Bitcoin ETF Inflows Surge for Sixth Straight Day, Signaling Robust Institutional Confidence - CryptoRank",
+              "topic": "bitcoin institutional adoption spot ETF inflows outflows asset management",
+              "source": {
+                "href": "https://cryptorank.io",
+                "title": "CryptoRank"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMidkFVX3lxTE9yY1pUYWVpWjFGcDVYUlJzY3dlV1RkcWZVcy0ydUR3dmZHc1JFSnhHdHN2dF9ucGRqcXFXUEFEUkhqTzdaVUhwS3hyNTBXZ3M2SVY2ekRrdWlHLW10RzA3WlBMSUNiNFNrZkoyM3lPamlQc3VUM2c?oc=5\" target=\"_blank\">Spot Bitcoin ETF Inflows Surge for Sixth Straight Day, Signaling Robust Institutional Confidence</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">CryptoRank</font>",
+              "category": "digital_assets_crypto",
+              "published": "Wed, 22 Apr 2026 03:57:35 GMT",
+              "search_query": "blockchain enterprise integration tokenization real world assets RWA"
+            }
+          },
+          {
+            "id": 7388,
+            "title": "Critical Warning: ECB\u2019s Guindos Flags Private Credit as Major Financial Stability Threat - MEXC Exchange",
+            "summary": "Critical Warning: ECB\u2019s Guindos Flags Private Credit as Major Financial Stability Threat &nbsp;&nbsp; MEXC Exchange",
+            "content": "Critical Warning: ECB\u2019s Guindos Flags Private Credit as Major Financial Stability Threat &nbsp;&nbsp; MEXC Exchange",
+            "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1IR0xrVG8teG9UZ3BFOVZMbTlqVDNkNFVuWWowNS11X1BFMnlaNUdKTElJTHZkRFYzLVNWMmZwTGNYQjIwWFVoc0x1UDA0VWM?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "MEXC Exchange",
+            "published_at": "2026-04-22 03:51:02+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 2535510712,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1IR0xrVG8teG9UZ3BFOVZMbTlqVDNkNFVuWWowNS11X1BFMnlaNUdKTElJTHZkRFYzLVNWMmZwTGNYQjIwWFVoc0x1UDA0VWM?oc=5",
+              "title": "Critical Warning: ECB\u2019s Guindos Flags Private Credit as Major Financial Stability Threat - MEXC Exchange",
+              "topic": "shadow banking systemic risk leverage financial contagion monitoring",
+              "source": {
+                "href": "https://www.mexc.co",
+                "title": "MEXC Exchange"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMiT0FVX3lxTE1IR0xrVG8teG9UZ3BFOVZMbTlqVDNkNFVuWWowNS11X1BFMnlaNUdKTElJTHZkRFYzLVNWMmZwTGNYQjIwWFVoc0x1UDA0VWM?oc=5\" target=\"_blank\">Critical Warning: ECB\u2019s Guindos Flags Private Credit as Major Financial Stability Threat</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MEXC Exchange</font>",
+              "category": "financial_stability",
+              "published": "Wed, 22 Apr 2026 03:51:02 GMT",
+              "search_query": "shadow banking systemic risk leverage financial contagion monitoring"
+            }
+          },
+          {
+            "id": 7370,
+            "title": "NZD Under Siege: Stagflation Fears Mount as Kiwi Faces Intense Pressure \u2013 Commerzbank Analysis - Bitcoin World",
+            "summary": "NZD Under Siege: Stagflation Fears Mount as Kiwi Faces Intense Pressure \u2013 Commerzbank Analysis &nbsp;&nbsp; Bitcoin World",
+            "content": "NZD Under Siege: Stagflation Fears Mount as Kiwi Faces Intense Pressure \u2013 Commerzbank Analysis &nbsp;&nbsp; Bitcoin World",
+            "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBIeHBtTDRzZm5pSERSbGtNbnJyWnlFTGQxaXRvTVRPRXJzeVVkTmFQRVlBVmJheU14U3ZsRXJuM054Z0V1WFhCZU1kb1Y0alIwX0RVdnZVbGttUmJrRkU0UUNwQXJzbkdUSzBOSFZMNnc?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Bitcoin World",
+            "published_at": "2026-04-21 10:20:10+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 882544277,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBIeHBtTDRzZm5pSERSbGtNbnJyWnlFTGQxaXRvTVRPRXJzeVVkTmFQRVlBVmJheU14U3ZsRXJuM054Z0V1WFhCZU1kb1Y0alIwX0RVdnZVbGttUmJrRkU0UUNwQXJzbkdUSzBOSFZMNnc?oc=5",
+              "title": "NZD Under Siege: Stagflation Fears Mount as Kiwi Faces Intense Pressure \u2013 Commerzbank Analysis - Bitcoin World",
+              "topic": "quantitative tightening easing monetary policy stagflation risks growth forecast",
+              "source": {
+                "href": "https://bitcoinworld.co.in",
+                "title": "Bitcoin World"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTFBIeHBtTDRzZm5pSERSbGtNbnJyWnlFTGQxaXRvTVRPRXJzeVVkTmFQRVlBVmJheU14U3ZsRXJuM054Z0V1WFhCZU1kb1Y0alIwX0RVdnZVbGttUmJrRkU0UUNwQXJzbkdUSzBOSFZMNnc?oc=5\" target=\"_blank\">NZD Under Siege: Stagflation Fears Mount as Kiwi Faces Intense Pressure \u2013 Commerzbank Analysis</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Bitcoin World</font>",
+              "category": "macro_monetary",
+              "published": "Tue, 21 Apr 2026 10:20:10 GMT",
+              "search_query": "currency volatility DXY dollar strength global FX intervention disinflation trends"
+            }
+          },
+          {
+            "id": 7371,
+            "title": "Trump\u2019s Iran war approach fuels global power shifts - MSN",
+            "summary": "Trump\u2019s Iran war approach fuels global power shifts &nbsp;&nbsp; MSN",
+            "content": "Trump\u2019s Iran war approach fuels global power shifts &nbsp;&nbsp; MSN",
+            "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPQVRtcXQyNUNqTmVJNm40YTlXQ2F6SDJucWFUNU10b195N2xlRWNlRzFmQXFUVXczUTZBZWZieUd4d0ZPejlYRWJKTzF4bjJrU3hnQmR6MHY2cDc3bkd0WExjRzN5cmFxWVEweHVrOEFKOEVJTWZUeEE0b1oxZjFIbUVwdTJxSmpJdXB0dkhJWXRCM0hqQkFxd2M5OGh2ODRwbjE1Q3IwMVZsZTZ4bTBoUmdiOGJYdVRWbG00Yzh0QTQyQmZTMHE4aHo4WUJZODBSNk1FdlZoT3BHejNhOW9aTnRPT1pIcV9s?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "MSN",
+            "published_at": "2026-04-21 08:02:58+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 1957870862,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPQVRtcXQyNUNqTmVJNm40YTlXQ2F6SDJucWFUNU10b195N2xlRWNlRzFmQXFUVXczUTZBZWZieUd4d0ZPejlYRWJKTzF4bjJrU3hnQmR6MHY2cDc3bkd0WExjRzN5cmFxWVEweHVrOEFKOEVJTWZUeEE0b1oxZjFIbUVwdTJxSmpJdXB0dkhJWXRCM0hqQkFxd2M5OGh2ODRwbjE1Q3IwMVZsZTZ4bTBoUmdiOGJYdVRWbG00Yzh0QTQyQmZTMHE4aHo4WUJZODBSNk1FdlZoT3BHejNhOW9aTnRPT1pIcV9s?oc=5",
+              "title": "Trump\u2019s Iran war approach fuels global power shifts - MSN",
+              "topic": "diplomatic shifts economic impact global alliance realignment",
+              "source": {
+                "href": "https://www.msn.com",
+                "title": "MSN"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMi6AFBVV95cUxPQVRtcXQyNUNqTmVJNm40YTlXQ2F6SDJucWFUNU10b195N2xlRWNlRzFmQXFUVXczUTZBZWZieUd4d0ZPejlYRWJKTzF4bjJrU3hnQmR6MHY2cDc3bkd0WExjRzN5cmFxWVEweHVrOEFKOEVJTWZUeEE0b1oxZjFIbUVwdTJxSmpJdXB0dkhJWXRCM0hqQkFxd2M5OGh2ODRwbjE1Q3IwMVZsZTZ4bTBoUmdiOGJYdVRWbG00Yzh0QTQyQmZTMHE4aHo4WUJZODBSNk1FdlZoT3BHejNhOW9aTnRPT1pIcV9s?oc=5\" target=\"_blank\">Trump\u2019s Iran war approach fuels global power shifts</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MSN</font>",
+              "category": "geopolitical_strategic",
+              "published": "Tue, 21 Apr 2026 08:02:58 GMT",
+              "search_query": "cyber warfare state-sponsored infrastructure attacks national security"
+            }
+          },
+          {
+            "id": 7375,
+            "title": "Best Rare Earth Stocks to Buy Now April 2026 - Zacks Investment Research",
+            "summary": "Best Rare Earth Stocks to Buy Now April 2026 &nbsp;&nbsp; Zacks Investment Research",
+            "content": "Best Rare Earth Stocks to Buy Now April 2026 &nbsp;&nbsp; Zacks Investment Research",
+            "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5Kb3JyUVVPQUU2Z1ZLN2xScXE0SldVZTNHSW5kYldwTmR2QnlEN3B1aTZkREE2VGNfMW9reDRUODNFY2ZkQU9lT1JHRTRTTWlTcmlFYkZ0RzhDQnRkeVk1RFBHYWdaRDZkeFZTNXZhWXFxdGhB?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Zacks Investment Research",
+            "published_at": "2026-04-21 07:00:00+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 1896509660,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5Kb3JyUVVPQUU2Z1ZLN2xScXE0SldVZTNHSW5kYldwTmR2QnlEN3B1aTZkREE2VGNfMW9reDRUODNFY2ZkQU9lT1JHRTRTTWlTcmlFYkZ0RzhDQnRkeVk1RFBHYWdaRDZkeFZTNXZhWXFxdGhB?oc=5",
+              "title": "Best Rare Earth Stocks to Buy Now April 2026 - Zacks Investment Research",
+              "topic": "lithium cobalt rare earth elements supply chain strategic minerals",
+              "source": {
+                "href": "https://www.zacks.com",
+                "title": "Zacks Investment Research"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMidEFVX3lxTE5Kb3JyUVVPQUU2Z1ZLN2xScXE0SldVZTNHSW5kYldwTmR2QnlEN3B1aTZkREE2VGNfMW9reDRUODNFY2ZkQU9lT1JHRTRTTWlTcmlFYkZ0RzhDQnRkeVk1RFBHYWdaRDZkeFZTNXZhWXFxdGhB?oc=5\" target=\"_blank\">Best Rare Earth Stocks to Buy Now April 2026</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Zacks Investment Research</font>",
+              "category": "commodities_resources",
+              "published": "Tue, 21 Apr 2026 07:00:00 GMT",
+              "search_query": "industrial metals warehouse levels LME inventories global demand signals"
+            }
+          },
+          {
+            "id": 7386,
+            "title": "Civil Engineering Market Growth: Smart Cities, Industrial Expansion & Forecast to 2034 - vocal.media",
+            "summary": "Civil Engineering Market Growth: Smart Cities, Industrial Expansion & Forecast to 2034 &nbsp;&nbsp; vocal.media",
+            "content": "Civil Engineering Market Growth: Smart Cities, Industrial Expansion & Forecast to 2034 &nbsp;&nbsp; vocal.media",
+            "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPVkNOYkx0blRkT0piSXVGVEVvd2Y5X1pNd1hheUxGWGlqeGJ4NEJndDl0aUMtNDR5cTYzRi01Qzk2bW53dDc4dGJBYmdLejVqVXNqeUhMWTNJVXhHTV9oUVhCQW9NUl85NzdZMU5EOEJTR3U2RlFrUkR0cmRXSXlLWHNuRkFyZlU3dUYxNHBaVk4zNlJCMldXdi1Nd216SVJXcVNkdkZNTkhrYzNTbHlNeFhIR3JkQQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "vocal.media",
+            "published_at": "2026-04-21 06:55:36+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 3615449012,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPVkNOYkx0blRkT0piSXVGVEVvd2Y5X1pNd1hheUxGWGlqeGJ4NEJndDl0aUMtNDR5cTYzRi01Qzk2bW53dDc4dGJBYmdLejVqVXNqeUhMWTNJVXhHTV9oUVhCQW9NUl85NzdZMU5EOEJTR3U2RlFrUkR0cmRXSXlLWHNuRkFyZlU3dUYxNHBaVk4zNlJCMldXdi1Nd216SVJXcVNkdkZNTkhrYzNTbHlNeFhIR3JkQQ?oc=5",
+              "title": "Civil Engineering Market Growth: Smart Cities, Industrial Expansion & Forecast to 2034 - vocal.media",
+              "topic": "global construction infrastructure spending urban development projects",
+              "source": {
+                "href": "https://vocal.media",
+                "title": "vocal.media"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMitgFBVV95cUxPVkNOYkx0blRkT0piSXVGVEVvd2Y5X1pNd1hheUxGWGlqeGJ4NEJndDl0aUMtNDR5cTYzRi01Qzk2bW53dDc4dGJBYmdLejVqVXNqeUhMWTNJVXhHTV9oUVhCQW9NUl85NzdZMU5EOEJTR3U2RlFrUkR0cmRXSXlLWHNuRkFyZlU3dUYxNHBaVk4zNlJCMldXdi1Nd216SVJXcVNkdkZNTkhrYzNTbHlNeFhIR3JkQQ?oc=5\" target=\"_blank\">Civil Engineering Market Growth: Smart Cities, Industrial Expansion & Forecast to 2034</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">vocal.media</font>",
+              "category": "industrial_automotive",
+              "published": "Tue, 21 Apr 2026 06:55:36 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          },
+          {
+            "id": 7381,
+            "title": "US house vote on Trump Iran war power hits bitcoin in 2026 - KuCoin",
+            "summary": "US house vote on Trump Iran war power hits bitcoin in 2026 &nbsp;&nbsp; KuCoin",
+            "content": "US house vote on Trump Iran war power hits bitcoin in 2026 &nbsp;&nbsp; KuCoin",
+            "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBaSVFLelpUUVZkZi1vTzBtd2RnRVRyejFZTTZWN0ZuQmpaM2hNOVV3STFpaVVocDZjVDhYV2pWMEJ1MnlhZHQ3dmtySmdOQWFBRmF3SGo3X3ZhZzdwT29pLUQtcTdmSnI5Ui1qR09HSjY?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "KuCoin",
+            "published_at": "2026-04-21 03:30:14+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 1405584709,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBaSVFLelpUUVZkZi1vTzBtd2RnRVRyejFZTTZWN0ZuQmpaM2hNOVV3STFpaVVocDZjVDhYV2pWMEJ1MnlhZHQ3dmtySmdOQWFBRmF3SGo3X3ZhZzdwT29pLUQtcTdmSnI5Ui1qR09HSjY?oc=5",
+              "title": "US house vote on Trump Iran war power hits bitcoin in 2026 - KuCoin",
+              "topic": "digital asset liquidity risk-on proxy venture capital crypto funding",
+              "source": {
+                "href": "https://www.kucoin.com",
+                "title": "KuCoin"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMicEFVX3lxTFBaSVFLelpUUVZkZi1vTzBtd2RnRVRyejFZTTZWN0ZuQmpaM2hNOVV3STFpaVVocDZjVDhYV2pWMEJ1MnlhZHQ3dmtySmdOQWFBRmF3SGo3X3ZhZzdwT29pLUQtcTdmSnI5Ui1qR09HSjY?oc=5\" target=\"_blank\">US house vote on Trump Iran war power hits bitcoin in 2026</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">KuCoin</font>",
+              "category": "digital_assets_crypto",
+              "published": "Tue, 21 Apr 2026 03:30:14 GMT",
+              "search_query": "blockchain enterprise integration tokenization real world assets RWA"
+            }
+          },
+          {
+            "id": 7380,
+            "title": "Bitcoin\u2019s Critical Challenge: Global Liquidity Squeeze Threatens BTC Rally Until 2027, Warns Top Investment Chief - CryptoRank",
+            "summary": "Bitcoin\u2019s Critical Challenge: Global Liquidity Squeeze Threatens BTC Rally Until 2027, Warns Top Investment Chief &nbsp;&nbsp; CryptoRank",
+            "content": "Bitcoin\u2019s Critical Challenge: Global Liquidity Squeeze Threatens BTC Rally Until 2027, Warns Top Investment Chief &nbsp;&nbsp; CryptoRank",
+            "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPTU1hSWhuVzExeU9fdnotM01UNE5VY1J0eHRQUVpoellWZUZyRFV3Ym1qVm11Qi1FNTV3NTM2enpna1JFY0dBLUxndHlBemlMVkhPQm5SdU9reFFFcnhyU09UdzFvSVdKbnpRZVhNTExIMlZIYzJwbHF5T2Yzb0puU0hNNA?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "CryptoRank",
+            "published_at": "2026-04-20 19:54:50+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 2333208896,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPTU1hSWhuVzExeU9fdnotM01UNE5VY1J0eHRQUVpoellWZUZyRFV3Ym1qVm11Qi1FNTV3NTM2enpna1JFY0dBLUxndHlBemlMVkhPQm5SdU9reFFFcnhyU09UdzFvSVdKbnpRZVhNTExIMlZIYzJwbHF5T2Yzb0puU0hNNA?oc=5",
+              "title": "Bitcoin\u2019s Critical Challenge: Global Liquidity Squeeze Threatens BTC Rally Until 2027, Warns Top Investment Chief - CryptoRank",
+              "topic": "digital asset liquidity risk-on proxy venture capital crypto funding",
+              "source": {
+                "href": "https://cryptorank.io",
+                "title": "CryptoRank"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMigwFBVV95cUxPTU1hSWhuVzExeU9fdnotM01UNE5VY1J0eHRQUVpoellWZUZyRFV3Ym1qVm11Qi1FNTV3NTM2enpna1JFY0dBLUxndHlBemlMVkhPQm5SdU9reFFFcnhyU09UdzFvSVdKbnpRZVhNTExIMlZIYzJwbHF5T2Yzb0puU0hNNA?oc=5\" target=\"_blank\">Bitcoin\u2019s Critical Challenge: Global Liquidity Squeeze Threatens BTC Rally Until 2027, Warns Top Investment Chief</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">CryptoRank</font>",
+              "category": "digital_assets_crypto",
+              "published": "Mon, 20 Apr 2026 19:54:50 GMT",
+              "search_query": "blockchain enterprise integration tokenization real world assets RWA"
+            }
+          },
+          {
+            "id": 7373,
+            "title": "Shipping Disruptions in Strait of Hormuz Reshape Global Energy Markets - Discovery Alert",
+            "summary": "Shipping Disruptions in Strait of Hormuz Reshape Global Energy Markets &nbsp;&nbsp; Discovery Alert",
+            "content": "Shipping Disruptions in Strait of Hormuz Reshape Global Energy Markets &nbsp;&nbsp; Discovery Alert",
+            "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOMmlfZUVscVJ5RkFZWkdnc3laWWtSREVmSFVhak81UC1naVlRa0NxQXFocWxqcXVPcmRhUk5yc0swYUdzc0RVMGthQ2pzZ3VQNVRmSW5HQ3Z3UGxHaHppTnAySVZWUzFKNXFsZW1MeGl4WEc1SXJuRFpTaUlYWm5aTnJWbFlzUEFsc0w1cQ?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Discovery Alert",
+            "published_at": "2026-04-20 14:47:39+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 398839699,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOMmlfZUVscVJ5RkFZWkdnc3laWWtSREVmSFVhak81UC1naVlRa0NxQXFocWxqcXVPcmRhUk5yc0swYUdzc0RVMGthQ2pzZ3VQNVRmSW5HQ3Z3UGxHaHppTnAySVZWUzFKNXFsZW1MeGl4WEc1SXJuRFpTaUlYWm5aTnJWbFlzUEFsc0w1cQ?oc=5",
+              "title": "Shipping Disruptions in Strait of Hormuz Reshape Global Energy Markets - Discovery Alert",
+              "topic": "maritime security trade route disruptions chokepoints defense escalation",
+              "source": {
+                "href": "https://discoveryalert.com.au",
+                "title": "Discovery Alert"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMijAFBVV95cUxOMmlfZUVscVJ5RkFZWkdnc3laWWtSREVmSFVhak81UC1naVlRa0NxQXFocWxqcXVPcmRhUk5yc0swYUdzc0RVMGthQ2pzZ3VQNVRmSW5HQ3Z3UGxHaHppTnAySVZWUzFKNXFsZW1MeGl4WEc1SXJuRFpTaUlYWm5aTnJWbFlzUEFsc0w1cQ?oc=5\" target=\"_blank\">Shipping Disruptions in Strait of Hormuz Reshape Global Energy Markets</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Discovery Alert</font>",
+              "category": "geopolitical_strategic",
+              "published": "Mon, 20 Apr 2026 14:47:39 GMT",
+              "search_query": "cyber warfare state-sponsored infrastructure attacks national security"
+            }
+          },
+          {
+            "id": 7385,
+            "title": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research - Yahoo Finance Singapore",
+            "summary": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research &nbsp;&nbsp; Yahoo Finance Singapore",
+            "content": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research &nbsp;&nbsp; Yahoo Finance Singapore",
+            "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPODZSUjhzTXFoRG9JZVEyRGFtajkyUzdFanZZcEQ3QmtYLXFhamItSGNZa3BQNGY4aTdzQ1VvdGc5SGt2U2xWSks3bEZnMjByU19aamZFZzNZT3lFaUU1SU1vMkluc3k1MnZTRWRuaVJ6dkpJdDhkNXNybGxpOEhKY3RuSFJzeFRsWTlXcGZSVE5VZw?oc=5",
+            "source": "google_news",
+            "source_type": "rss_feed",
+            "author": "Yahoo Finance Singapore",
+            "published_at": "2026-04-20 14:16:00+00:00",
+            "collected_at": "2026-04-23 18:57:20.777439+00:00",
+            "alpaca_id": 361018634,
+            "serpapi_position": null,
+            "raw_data": {
+              "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPODZSUjhzTXFoRG9JZVEyRGFtajkyUzdFanZZcEQ3QmtYLXFhamItSGNZa3BQNGY4aTdzQ1VvdGc5SGt2U2xWSks3bEZnMjByU19aamZFZzNZT3lFaUU1SU1vMkluc3k1MnZTRWRuaVJ6dkpJdDhkNXNybGxpOEhKY3RuSFJzeFRsWTlXcGZSVE5VZw?oc=5",
+              "title": "Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research - Yahoo Finance Singapore",
+              "topic": "global construction infrastructure spending urban development projects",
+              "source": {
+                "href": "https://sg.finance.yahoo.com",
+                "title": "Yahoo Finance Singapore"
+              },
+              "summary": "<a href=\"https://news.google.com/rss/articles/CBMikgFBVV95cUxPODZSUjhzTXFoRG9JZVEyRGFtajkyUzdFanZZcEQ3QmtYLXFhamItSGNZa3BQNGY4aTdzQ1VvdGc5SGt2U2xWSks3bEZnMjByU19aamZFZzNZT3lFaUU1SU1vMkluc3k1MnZTRWRuaVJ6dkpJdDhkNXNybGxpOEhKY3RuSFJzeFRsWTlXcGZSVE5VZw?oc=5\" target=\"_blank\">Construction Aggregates Market to Reach US$ 875.4 Billion by 2033 Driven by Infrastructure Expansion and Sustainable Material Adoption - Persistence Market Research</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Yahoo Finance Singapore</font>",
+              "category": "industrial_automotive",
+              "published": "Mon, 20 Apr 2026 14:16:00 GMT",
+              "search_query": "global construction infrastructure spending urban development projects"
+            }
+          }
+        ],
+        "extraction_timestamp": "2026-04-23T13:57:48.178363",
+        "stats": {
+          "total_news": 19,
+          "unique_news": 19,
+          "duplicates": 0,
+          "sources": [
+            "google_news"
+          ],
+          "source_count": 1
+        },
+        "duration_seconds": 1.613376,
+        "validation_checks": {
+          "min_count_passed": true,
+          "freshness_passed": true,
+          "data_quality_passed": true
+        }
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "load_watchlist_001",
+      "step_type": "data_validation",
+      "status": "completed",
+      "start_time": "2026-04-23T13:57:48.180693",
+      "end_time": "2026-04-23T13:57:50.673291",
+      "duration_seconds": 2.492598,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "watchlist": {
+          "id": 2,
+          "name": "Energ\u00eda Nuclear",
+          "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+          "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+          "criteria_summary": "30 empresas del sector nuclear global",
+          "status": "active",
+          "created_at": "2026-04-10 02:34:33.842929+00:00",
+          "updated_at": "2026-04-10 02:34:33.842929+00:00"
+        },
+        "tickers": [
+          "JNK",
+          "BKLN",
+          "LQD",
+          "BNDX",
+          "TSM",
+          "SNPS",
+          "QCOM",
+          "PWR",
+          "BKR",
+          "PEG",
+          "WEC"
+        ],
+        "id": 2,
+        "name": "Energ\u00eda Nuclear"
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "aggregation_001",
+      "step_type": "aggregation",
+      "status": "completed",
+      "start_time": "2026-04-23T14:09:04.208798",
+      "end_time": "2026-04-23T14:09:04.208924",
+      "duration_seconds": 0.000126,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "bullish": [
+          {
+            "success": true,
+            "ticker": "PEG",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-23T14:08:05.412448",
+            "semantic_context": [
+              "PEG",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 7,
+            "unique_entities_found": 7,
+            "top_risks": [],
+            "top_opportunities": [
+              {
+                "insight_text": "Debido a su naturaleza intensiva en capital y su estatus como 'bond proxy', PEG se beneficia de se\u00f1ales macroecon\u00f3micas que sugieren menores tasas de inter\u00e9s y menores costos de financiamiento.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.85
+              },
+              {
+                "insight_text": "La expansi\u00f3n de la cadena de suministro de veh\u00edculos el\u00e9ctricos valida la tesis de inversi\u00f3n en infraestructura de red necesaria para soportar la carga, beneficiando el crecimiento del rate base regulado.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.35
+              }
+            ],
+            "quant_stats": {
+              "current_price": 78.51,
+              "sma_50": 82.97,
+              "sma_200": 82.42,
+              "price_to_sma200_dist": -4.74,
+              "trend": "BEARISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 36.9,
+              "macd": {
+                "line": -0.694,
+                "signal": -0.398,
+                "histogram": -0.296
+              },
+              "rvol": 0.92,
+              "obv": 27077617.0,
+              "atr_14": 1.71,
+              "std_dev_20": 19.22,
+              "beta_spy": 0.21,
+              "corr_spy_20d": 0.16,
+              "volatility_ratio": 2.18
+            },
+            "avg_confidence": 0.17,
+            "sentiment_score": 0.19,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.29,
+            "recommendation": "BULLISH",
+            "rationale": "La Matriz de ADN arroj\u00f3 un shock fundamental alcista (+0.19).",
+            "bull_case": {
+              "arguments": [
+                "Debido a su naturaleza intensiva en capital y su estatus como 'bond proxy', PEG se beneficia de se\u00f1ales macroecon\u00f3micas que sugieren menores tasas de inter\u00e9s y menores costos de financiamiento.",
+                "La expansi\u00f3n de la cadena de suministro de veh\u00edculos el\u00e9ctricos valida la tesis de inversi\u00f3n en infraestructura de red necesaria para soportar la carga, beneficiando el crecimiento del rate base regulado."
+              ]
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "BNDX",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-23T14:07:17.281315",
+            "semantic_context": [
+              "BNDX",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 10,
+            "unique_entities_found": 8,
+            "top_risks": [
+              {
+                "insight_text": "Las advertencias sobre inestabilidad financiera por parte del BCE tienden a ampliar los diferenciales de cr\u00e9dito (spreads) en los mercados internacionales, lo que presiona a la baja los precios de los bonos corporativos de grado de inversi\u00f3n que componen el BNDX.",
+                "overall_impact": "bearish",
+                "intensity": "medium",
+                "avg_confidence": 0.8
+              }
+            ],
+            "top_opportunities": [
+              {
+                "insight_text": "La debilidad del mercado laboral estadounidense presiona a la baja los rendimientos globales y suele reducir el costo de la cobertura de divisas (USD hedging), beneficiando los retornos efectivos de BNDX.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.85
+              },
+              {
+                "insight_text": "La inestabilidad geopol\u00edtica derivada de un conflicto en Ir\u00e1n suele provocar un flujo de capitales hacia activos de refugio (safe-haven), como los bonos gubernamentales internacionales de alta calificaci\u00f3n que integran el BNDX.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.4
+              }
+            ],
+            "quant_stats": {
+              "current_price": 48.18,
+              "sma_50": 48.37,
+              "sma_200": 49.0,
+              "price_to_sma200_dist": -1.67,
+              "trend": "BEARISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 50.7,
+              "macd": {
+                "line": -0.016,
+                "signal": -0.057,
+                "histogram": 0.041
+              },
+              "rvol": 0.8,
+              "obv": 63954504.0,
+              "atr_14": 0.2,
+              "std_dev_20": 5.84,
+              "beta_spy": 0.17,
+              "corr_spy_20d": 0.76,
+              "volatility_ratio": 0.42
+            },
+            "avg_confidence": 0.24,
+            "sentiment_score": 0.11,
+            "negative_ratio": 0.12,
+            "positive_ratio": 0.25,
+            "recommendation": "BULLISH",
+            "rationale": "La Matriz de ADN arroj\u00f3 un shock fundamental alcista (+0.11).",
+            "bull_case": {
+              "arguments": [
+                "La debilidad del mercado laboral estadounidense presiona a la baja los rendimientos globales y suele reducir el costo de la cobertura de divisas (USD hedging), beneficiando los retornos efectivos de BNDX.",
+                "La inestabilidad geopol\u00edtica derivada de un conflicto en Ir\u00e1n suele provocar un flujo de capitales hacia activos de refugio (safe-haven), como los bonos gubernamentales internacionales de alta calificaci\u00f3n que integran el BNDX."
+              ]
+            },
+            "bear_case": {
+              "arguments": [
+                "Las advertencias sobre inestabilidad financiera por parte del BCE tienden a ampliar los diferenciales de cr\u00e9dito (spreads) en los mercados internacionales, lo que presiona a la baja los precios de los bonos corporativos de grado de inversi\u00f3n que componen el BNDX."
+              ]
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "WEC",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-23T14:05:26.135204",
+            "semantic_context": [
+              "WEC",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 8,
+            "unique_entities_found": 8,
+            "top_risks": [],
+            "top_opportunities": [
+              {
+                "insight_text": "Un mercado laboral d\u00e9bil presiona a la baja los rendimientos de los bonos del Tesoro, lo que aumenta el atractivo del dividendo de WEC y reduce sus costos de financiamiento para proyectos de infraestructura.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.85
+              }
+            ],
+            "quant_stats": {
+              "current_price": 113.38,
+              "sma_50": 115.41,
+              "sma_200": 111.01,
+              "price_to_sma200_dist": 2.13,
+              "trend": "BULLISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 41.5,
+              "macd": {
+                "line": -0.093,
+                "signal": 0.331,
+                "histogram": -0.424
+              },
+              "rvol": 1.37,
+              "obv": 4817790.0,
+              "atr_14": 2.02,
+              "std_dev_20": 14.03,
+              "beta_spy": -0.05,
+              "corr_spy_20d": -0.1,
+              "volatility_ratio": 1.78
+            },
+            "avg_confidence": 0.15,
+            "sentiment_score": 0.18,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.12,
+            "recommendation": "BULLISH",
+            "rationale": "La Matriz de ADN arroj\u00f3 un shock fundamental alcista (+0.18).",
+            "bull_case": {
+              "arguments": [
+                "Un mercado laboral d\u00e9bil presiona a la baja los rendimientos de los bonos del Tesoro, lo que aumenta el atractivo del dividendo de WEC y reduce sus costos de financiamiento para proyectos de infraestructura."
+              ]
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          }
+        ],
+        "bearish": [
+          {
+            "success": true,
+            "ticker": "BKLN",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-23T13:59:42.257043",
+            "semantic_context": [
+              "BKLN",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 9,
+            "unique_entities_found": 8,
+            "top_risks": [
+              {
+                "insight_text": "Un mercado laboral d\u00e9bil fomenta una pol\u00edtica monetaria expansiva (dovish), lo que reduce los cupones variables de BKLN y aumenta el temor a impagos en emisores altamente apalancados.",
+                "overall_impact": "bearish",
+                "intensity": "medium",
+                "avg_confidence": 0.9
+              },
+              {
+                "insight_text": "Las advertencias regulatorias sobre la estabilidad financiera en los mercados de cr\u00e9dito privado suelen provocar una ampliaci\u00f3n de los spreads de cr\u00e9dito y reducir la liquidez de los pr\u00e9stamos apalancados.",
+                "overall_impact": "bearish",
+                "intensity": "medium",
+                "avg_confidence": 0.9
+              }
+            ],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 20.55,
+              "sma_50": 20.49,
+              "sma_200": 20.82,
+              "price_to_sma200_dist": -1.28,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 52.3,
+              "macd": {
+                "line": 0.021,
+                "signal": 0.012,
+                "histogram": 0.009
+              },
+              "rvol": 0.44,
+              "obv": 171714282.0,
+              "atr_14": 0.08,
+              "std_dev_20": 5.05,
+              "beta_spy": 0.22,
+              "corr_spy_20d": 0.76,
+              "volatility_ratio": 0.41
+            },
+            "avg_confidence": 0.23,
+            "sentiment_score": -0.13,
+            "negative_ratio": 0.25,
+            "positive_ratio": 0.0,
+            "recommendation": "BEARISH",
+            "rationale": "La Matriz de ADN arroj\u00f3 un shock fundamental bajista (-0.13).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": [
+                "Un mercado laboral d\u00e9bil fomenta una pol\u00edtica monetaria expansiva (dovish), lo que reduce los cupones variables de BKLN y aumenta el temor a impagos en emisores altamente apalancados.",
+                "Las advertencias regulatorias sobre la estabilidad financiera en los mercados de cr\u00e9dito privado suelen provocar una ampliaci\u00f3n de los spreads de cr\u00e9dito y reducir la liquidez de los pr\u00e9stamos apalancados."
+              ]
+            },
+            "is_in_portfolio": false
+          }
+        ],
+        "cautious": [
+          {
+            "success": true,
+            "ticker": "TSM",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-23T13:58:51.196741",
+            "semantic_context": [
+              "TSM",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 7,
+            "unique_entities_found": 7,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 387.44,
+              "sma_50": 356.02,
+              "sma_200": 299.74,
+              "price_to_sma200_dist": 29.26,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 64.8,
+              "macd": {
+                "line": 8.328,
+                "signal": 5.755,
+                "histogram": 2.573
+              },
+              "rvol": 1.2,
+              "obv": 225869434.0,
+              "atr_14": 12.23,
+              "std_dev_20": 48.99,
+              "beta_spy": 2.03,
+              "corr_spy_20d": 0.77,
+              "volatility_ratio": 3.16
+            },
+            "avg_confidence": 0.13,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "MA",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-23T14:00:41.838758",
+            "semantic_context": [
+              "MA",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 11,
+            "unique_entities_found": 8,
+            "top_risks": [
+              {
+                "insight_text": "La depreciaci\u00f3n de la rupia y la incertidumbre geopol\u00edtica afectan negativamente los flujos transfronterizos y el valor nominal de las transacciones procesadas por la red global de MA en un mercado emergente clave.",
+                "overall_impact": "bearish",
+                "intensity": "medium",
+                "avg_confidence": 0.65
+              }
+            ],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 510.16,
+              "sma_50": 509.77,
+              "sma_200": 550.06,
+              "price_to_sma200_dist": -7.25,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 51.0,
+              "macd": {
+                "line": 2.024,
+                "signal": 0.192,
+                "histogram": 1.832
+              },
+              "rvol": 0.7,
+              "obv": 4251148.0,
+              "atr_14": 10.52,
+              "std_dev_20": 21.81,
+              "beta_spy": 0.66,
+              "corr_spy_20d": 0.58,
+              "volatility_ratio": 2.06
+            },
+            "avg_confidence": 0.17,
+            "sentiment_score": -0.07,
+            "negative_ratio": 0.12,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (-0.07).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": [
+                "La depreciaci\u00f3n de la rupia y la incertidumbre geopol\u00edtica afectan negativamente los flujos transfronterizos y el valor nominal de las transacciones procesadas por la red global de MA en un mercado emergente clave."
+              ]
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "BKR",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-23T14:01:35.557720",
+            "semantic_context": [
+              "BKR",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 7,
+            "unique_entities_found": 7,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 62.54,
+              "sma_50": 61.09,
+              "sma_200": 50.73,
+              "price_to_sma200_dist": 23.28,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 56.5,
+              "macd": {
+                "line": 0.136,
+                "signal": 0.288,
+                "histogram": -0.151
+              },
+              "rvol": 1.04,
+              "obv": 268593150.0,
+              "atr_14": 1.9,
+              "std_dev_20": 29.02,
+              "beta_spy": 0.5,
+              "corr_spy_20d": 0.15,
+              "volatility_ratio": 3.04
+            },
+            "avg_confidence": 0.09,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "LQD",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-23T14:02:35.924610",
+            "semantic_context": [
+              "LQD",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 8,
+            "unique_entities_found": 8,
+            "top_risks": [
+              {
+                "insight_text": "El riesgo de inestabilidad financiera en el cr\u00e9dito privado suele generar un efecto contagio que ampl\u00eda los diferenciales de cr\u00e9dito (OAS) en el grado de inversi\u00f3n, reduciendo el valor de mercado de LQD.",
+                "overall_impact": "bearish",
+                "intensity": "medium",
+                "avg_confidence": 0.75
+              }
+            ],
+            "top_opportunities": [
+              {
+                "insight_text": "Un mercado laboral m\u00e1s d\u00e9bil reduce las presiones inflacionarias, permitiendo que la Fed adopte una postura m\u00e1s dovish y bajen los rendimientos del Tesoro, elevando el precio de LQD.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.9
+              }
+            ],
+            "quant_stats": {
+              "current_price": 109.82,
+              "sma_50": 109.88,
+              "sma_200": 110.41,
+              "price_to_sma200_dist": -0.54,
+              "trend": "BEARISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 53.5,
+              "macd": {
+                "line": 0.114,
+                "signal": -0.012,
+                "histogram": 0.126
+              },
+              "rvol": 0.5,
+              "obv": 127644078.0,
+              "atr_14": 0.62,
+              "std_dev_20": 6.31,
+              "beta_spy": 0.2,
+              "corr_spy_20d": 0.64,
+              "volatility_ratio": 0.56
+            },
+            "avg_confidence": 0.22,
+            "sentiment_score": 0.1,
+            "negative_ratio": 0.12,
+            "positive_ratio": 0.12,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.10).",
+            "bull_case": {
+              "arguments": [
+                "Un mercado laboral m\u00e1s d\u00e9bil reduce las presiones inflacionarias, permitiendo que la Fed adopte una postura m\u00e1s dovish y bajen los rendimientos del Tesoro, elevando el precio de LQD."
+              ]
+            },
+            "bear_case": {
+              "arguments": [
+                "El riesgo de inestabilidad financiera en el cr\u00e9dito privado suele generar un efecto contagio que ampl\u00eda los diferenciales de cr\u00e9dito (OAS) en el grado de inversi\u00f3n, reduciendo el valor de mercado de LQD."
+              ]
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "SNPS",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-23T14:03:25.003470",
+            "semantic_context": [
+              "SNPS",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 7,
+            "unique_entities_found": 7,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 477.26,
+              "sma_50": 424.93,
+              "sma_200": 482.11,
+              "price_to_sma200_dist": -1.01,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 71.2,
+              "macd": {
+                "line": 11.174,
+                "signal": 2.021,
+                "histogram": 9.154
+              },
+              "rvol": 0.87,
+              "obv": 1716787.0,
+              "atr_14": 16.12,
+              "std_dev_20": 42.88,
+              "beta_spy": 1.84,
+              "corr_spy_20d": 0.62,
+              "volatility_ratio": 3.38
+            },
+            "avg_confidence": 0.07,
+            "sentiment_score": -0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (-0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "PWR",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-23T14:04:26.417617",
+            "semantic_context": [
+              "PWR",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 10,
+            "unique_entities_found": 8,
+            "top_risks": [],
+            "top_opportunities": [
+              {
+                "insight_text": "Una menor rigidez en el mercado laboral alivia la inflaci\u00f3n salarial, protegiendo los m\u00e1rgenes operativos de PWR en sus proyectos de infraestructura intensivos en mano de obra.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.85
+              },
+              {
+                "insight_text": "Aunque es un contrato de manufactura, el incremento en la producci\u00f3n de veh\u00edculos el\u00e9ctricos de Mercedes-Benz valida la necesidad a largo plazo de modernizar la infraestructura de la red y desplegar estaciones de carga, n\u00facleos del negocio de PWR.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.4
+              }
+            ],
+            "quant_stats": {
+              "current_price": 613.78,
+              "sma_50": 563.5,
+              "sma_200": 458.32,
+              "price_to_sma200_dist": 33.92,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 68.3,
+              "macd": {
+                "line": 14.382,
+                "signal": 11.396,
+                "histogram": 2.986
+              },
+              "rvol": 0.98,
+              "obv": 32799379.0,
+              "atr_14": 17.34,
+              "std_dev_20": 30.99,
+              "beta_spy": 1.19,
+              "corr_spy_20d": 0.69,
+              "volatility_ratio": 2.83
+            },
+            "avg_confidence": 0.17,
+            "sentiment_score": 0.1,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.25,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.10).",
+            "bull_case": {
+              "arguments": [
+                "Una menor rigidez en el mercado laboral alivia la inflaci\u00f3n salarial, protegiendo los m\u00e1rgenes operativos de PWR en sus proyectos de infraestructura intensivos en mano de obra.",
+                "Aunque es un contrato de manufactura, el incremento en la producci\u00f3n de veh\u00edculos el\u00e9ctricos de Mercedes-Benz valida la necesidad a largo plazo de modernizar la infraestructura de la red y desplegar estaciones de carga, n\u00facleos del negocio de PWR."
+              ]
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "QCOM",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-23T14:06:19.219976",
+            "semantic_context": [
+              "QCOM",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 9,
+            "unique_entities_found": 8,
+            "top_risks": [
+              {
+                "insight_text": "Un mercado laboral d\u00e9bil impacta negativamente el poder adquisitivo del consumidor, reduciendo la demanda global de dispositivos m\u00f3viles y hardware premium de Qualcomm.",
+                "overall_impact": "bearish",
+                "intensity": "medium",
+                "avg_confidence": 0.85
+              }
+            ],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 136.07,
+              "sma_50": 134.53,
+              "sma_200": 156.73,
+              "price_to_sma200_dist": -13.18,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 58.6,
+              "macd": {
+                "line": 0.522,
+                "signal": -0.915,
+                "histogram": 1.437
+              },
+              "rvol": 0.99,
+              "obv": 20563420.0,
+              "atr_14": 3.27,
+              "std_dev_20": 21.27,
+              "beta_spy": 1.07,
+              "corr_spy_20d": 0.66,
+              "volatility_ratio": 2.4
+            },
+            "avg_confidence": 0.19,
+            "sentiment_score": -0.07,
+            "negative_ratio": 0.12,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (-0.07).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": [
+                "Un mercado laboral d\u00e9bil impacta negativamente el poder adquisitivo del consumidor, reduciendo la demanda global de dispositivos m\u00f3viles y hardware premium de Qualcomm."
+              ]
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "JNK",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": true
+            },
+            "analysis_timestamp": "2026-04-23T14:09:04.208403",
+            "semantic_context": [
+              "JNK",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 11,
+            "unique_entities_found": 8,
+            "top_risks": [
+              {
+                "insight_text": "Las tensiones geopol\u00edticas de esta magnitud suelen disparar eventos de 'flight to quality', donde los inversores abandonan los bonos basura (JNK) en favor de activos m\u00e1s seguros.",
+                "overall_impact": "bearish",
+                "intensity": "medium",
+                "avg_confidence": 0.85
+              },
+              {
+                "insight_text": "Las advertencias de inestabilidad financiera por parte de reguladores suelen provocar una ampliaci\u00f3n de los spreads de cr\u00e9dito y una reducci\u00f3n del apetito por activos de deuda de alto riesgo.",
+                "overall_impact": "bearish",
+                "intensity": "medium",
+                "avg_confidence": 0.8
+              }
+            ],
+            "top_opportunities": [
+              {
+                "insight_text": "La debilidad en el mercado laboral incrementa la probabilidad de que la Reserva Federal adopte una postura m\u00e1s expansiva para estimular la econom\u00eda, lo cual es favorable para los precios de los bonos corporativos de alto rendimiento.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.85
+              },
+              {
+                "insight_text": "El aumento de confianza institucional en activos de riesgo suele correlacionarse con una mayor demanda de cr\u00e9dito corporativo de alto rendimiento y una compresi\u00f3n de spreads.",
+                "overall_impact": "bullish",
+                "intensity": "medium",
+                "avg_confidence": 0.2
+              }
+            ],
+            "quant_stats": {
+              "current_price": 96.91,
+              "sma_50": 96.41,
+              "sma_200": 97.02,
+              "price_to_sma200_dist": -0.12,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 57.8,
+              "macd": {
+                "line": 0.24,
+                "signal": 0.115,
+                "histogram": 0.124
+              },
+              "rvol": 0.48,
+              "obv": -84948868.0,
+              "atr_14": 0.45,
+              "std_dev_20": 5.87,
+              "beta_spy": 0.28,
+              "corr_spy_20d": 0.86,
+              "volatility_ratio": 0.46
+            },
+            "avg_confidence": 0.31,
+            "sentiment_score": -0.07,
+            "negative_ratio": 0.25,
+            "positive_ratio": 0.25,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (-0.07).",
+            "bull_case": {
+              "arguments": [
+                "La debilidad en el mercado laboral incrementa la probabilidad de que la Reserva Federal adopte una postura m\u00e1s expansiva para estimular la econom\u00eda, lo cual es favorable para los precios de los bonos corporativos de alto rendimiento.",
+                "El aumento de confianza institucional en activos de riesgo suele correlacionarse con una mayor demanda de cr\u00e9dito corporativo de alto rendimiento y una compresi\u00f3n de spreads."
+              ]
+            },
+            "bear_case": {
+              "arguments": [
+                "Las tensiones geopol\u00edticas de esta magnitud suelen disparar eventos de 'flight to quality', donde los inversores abandonan los bonos basura (JNK) en favor de activos m\u00e1s seguros.",
+                "Las advertencias de inestabilidad financiera por parte de reguladores suelen provocar una ampliaci\u00f3n de los spreads de cr\u00e9dito y una reducci\u00f3n del apetito por activos de deuda de alto riesgo."
+              ]
+            },
+            "is_in_portfolio": false
+          }
+        ],
+        "neutral": [],
+        "avg_confidence": 0.18,
+        "avg_negative_ratio": 0.08,
+        "avg_positive_ratio": 0.11,
+        "total_news_analyzed": 104,
+        "total_insights_found": 92,
+        "overall_sentiment": "BULLISH"
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "decision_engine_001",
+      "step_type": "decision_engine",
+      "status": "completed",
+      "start_time": "2026-04-23T14:09:07.136023",
+      "end_time": "2026-04-23T14:09:07.142435",
+      "duration_seconds": 0.006412,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "decisions": [
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "SENTIMIENTO NEUTRAL - Sin sesgo claro en 7 noticias. T\u00e9cnicos inconcluyentes.",
+            "confidence_in_decision": 0.66,
+            "risk_level": "medium",
+            "technical_context": "RSI: 64.8, ATR: $12.23, Trend: BULLISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "TSM",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T13:58:51.196741",
+            "decision_timestamp": "2026-04-23T14:09:07.138456"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "Se\u00f1al de BAJA CONFIANZA (0.23 NLP -> 0.45 Quant). RSI: 52.3, ATR: $0.08, Trend: BEARISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
+            "confidence_in_decision": 0.44999999999999996,
+            "risk_level": "medium",
+            "technical_context": "RSI: 52.3, ATR: $0.08, Trend: BEARISH",
+            "sentiment_score": -0.13,
+            "ticker_analysis_id": null,
+            "ticker": "BKLN",
+            "original_recommendation": "BEARISH",
+            "analysis_timestamp": "2026-04-23T13:59:42.257043",
+            "decision_timestamp": "2026-04-23T14:09:07.139457"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "SE\u00d1ALES MIXTAS - Positivo: 0%, Negativo: 12%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 51.0, ATR: $10.52, Trend: BEARISH.",
+            "confidence_in_decision": 0.6100000000000001,
+            "risk_level": "medium",
+            "technical_context": "RSI: 51.0, ATR: $10.52, Trend: BEARISH",
+            "sentiment_score": -0.07,
+            "ticker_analysis_id": null,
+            "ticker": "MA",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T14:00:41.838758",
+            "decision_timestamp": "2026-04-23T14:09:07.140199"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "Posici\u00f3n existente en rango alcista. Manteniendo (sin escalamiento por pol\u00edtica actual).",
+            "confidence_in_decision": 0.8,
+            "risk_level": "low",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "BKR",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T14:01:35.557720",
+            "decision_timestamp": "2026-04-23T14:09:07.140467"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SE\u00d1ALES MIXTAS - Positivo: 12%, Negativo: 12%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 53.5, ATR: $0.62, Trend: BEARISH.",
+            "confidence_in_decision": 0.7,
+            "risk_level": "medium",
+            "technical_context": "RSI: 53.5, ATR: $0.62, Trend: BEARISH",
+            "sentiment_score": 0.1,
+            "ticker_analysis_id": null,
+            "ticker": "LQD",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T14:02:35.924610",
+            "decision_timestamp": "2026-04-23T14:09:07.140785"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SENTIMIENTO NEUTRAL - Sin sesgo claro en 7 noticias. T\u00e9cnicos inconcluyentes.",
+            "confidence_in_decision": 0.55,
+            "risk_level": "medium",
+            "technical_context": "RSI: 71.2, ATR: $16.12, Trend: BEARISH",
+            "sentiment_score": -0.0,
+            "ticker_analysis_id": null,
+            "ticker": "SNPS",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T14:03:25.003470",
+            "decision_timestamp": "2026-04-23T14:09:07.141038"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "Posici\u00f3n existente en rango alcista. Manteniendo (sin escalamiento por pol\u00edtica actual).",
+            "confidence_in_decision": 0.83,
+            "risk_level": "low",
+            "sentiment_score": 0.1,
+            "ticker_analysis_id": null,
+            "ticker": "PWR",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T14:04:26.417617",
+            "decision_timestamp": "2026-04-23T14:09:07.141247"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "Posici\u00f3n existente en rango alcista. Manteniendo (sin escalamiento por pol\u00edtica actual).",
+            "confidence_in_decision": 1.0,
+            "risk_level": "low",
+            "sentiment_score": 0.18,
+            "ticker_analysis_id": null,
+            "ticker": "WEC",
+            "original_recommendation": "BULLISH",
+            "analysis_timestamp": "2026-04-23T14:05:26.135204",
+            "decision_timestamp": "2026-04-23T14:09:07.141444"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SE\u00d1ALES MIXTAS - Positivo: 0%, Negativo: 12%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 58.6, ATR: $3.27, Trend: BEARISH.",
+            "confidence_in_decision": 0.5800000000000001,
+            "risk_level": "medium",
+            "technical_context": "RSI: 58.6, ATR: $3.27, Trend: BEARISH",
+            "sentiment_score": -0.07,
+            "ticker_analysis_id": null,
+            "ticker": "QCOM",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T14:06:19.219976",
+            "decision_timestamp": "2026-04-23T14:09:07.141657"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SE\u00d1ALES MIXTAS - Positivo: 25%, Negativo: 12%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 50.7, ATR: $0.20, Trend: BEARISH.",
+            "confidence_in_decision": 0.69,
+            "risk_level": "medium",
+            "technical_context": "RSI: 50.7, ATR: $0.20, Trend: BEARISH",
+            "sentiment_score": 0.11,
+            "ticker_analysis_id": null,
+            "ticker": "BNDX",
+            "original_recommendation": "BULLISH",
+            "analysis_timestamp": "2026-04-23T14:07:17.281315",
+            "decision_timestamp": "2026-04-23T14:09:07.141882"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "Se\u00f1al de BAJA CONFIANZA (0.17 NLP -> 0.73 Quant). RSI: 36.9, ATR: $1.71, Trend: BEARISH. Monitoreando para una direcci\u00f3n m\u00e1s clara.",
+            "confidence_in_decision": 0.73,
+            "risk_level": "medium",
+            "technical_context": "RSI: 36.9, ATR: $1.71, Trend: BEARISH",
+            "sentiment_score": 0.19,
+            "ticker_analysis_id": null,
+            "ticker": "PEG",
+            "original_recommendation": "BULLISH",
+            "analysis_timestamp": "2026-04-23T14:08:05.412448",
+            "decision_timestamp": "2026-04-23T14:09:07.142079"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SE\u00d1ALES MIXTAS - Positivo: 25%, Negativo: 25%. Sentimiento de noticias equilibrado. T\u00e9cnicos: RSI: 57.8, ATR: $0.45, Trend: BEARISH.",
+            "confidence_in_decision": 0.51,
+            "risk_level": "medium",
+            "technical_context": "RSI: 57.8, ATR: $0.45, Trend: BEARISH",
+            "sentiment_score": -0.07,
+            "ticker_analysis_id": null,
+            "ticker": "JNK",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T14:09:04.208403",
+            "decision_timestamp": "2026-04-23T14:09:07.142297"
+          }
+        ],
+        "autopilot_mode": true
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "persistence_001",
+      "step_type": "persistence",
+      "status": "completed",
+      "start_time": "2026-04-23T14:09:07.142639",
+      "end_time": "2026-04-23T14:09:39.727167",
+      "duration_seconds": 32.584528,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "desk_run_id": 67,
+        "ticker_analysis_ids": {
+          "TSM": 691,
+          "BKLN": 692,
+          "MA": 693,
+          "BKR": 694,
+          "LQD": 695,
+          "SNPS": 696,
+          "PWR": 697,
+          "WEC": 698,
+          "QCOM": 699,
+          "BNDX": 700,
+          "PEG": 701,
+          "JNK": 702
+        }
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    }
+  ]
+}

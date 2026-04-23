@@ -47,6 +47,8 @@ AUTOPILOT_MODE=on python test_decision_agent.py --watchlist-id 3
 - Analiza recomendaciones de la mesa.
 - **Risk Management Estricto & Pre-Emptivo**: 
   - **PASO 0 (Evaluación Mecánica)**: El Stop Loss (1.5x ATR) y el Take Profit (3.0x ATR) se calculan ANTES de cualquier evaluación cualitativa o modelo NLP. Si el precio actual cruza un umbral, se ejecuta mecánicamente el cierre ("Sell-Off").
+  - **Gestión Activa de Ganancias (Trimming)**: Si el activo supera el +5% de PnL pero el RSI entra en sobrecompra (>75) o el momentum se vuelve negativo, el sistema ejecuta un `TRIM` del 25% de la posición para asegurar beneficios.
+  - **Escalamiento (Pyramiding)**: Si una posición tiene ganancias y la nueva señal es fuerte (Confianza >= 0.85, RSI < 65), el sistema inyecta más capital (`SCALE_IN`) abandonando la antigua regla rígida de "HELD obligatorio".
   - **Cálculo Exacto de PnL con Scale-Ins**: Toda rentabilidad y límite de riesgo se basa matemáticamente en el **`avg_entry_price`** ponderado del bróker. Si existen compras promediadas, el sistema adapta el centro de masa de la operación automáticamente.
   - **No hay fallbacks harcodeados**: Si el ATR no se puede calcular o está ausente, la operación es **RECHAZADA (IGNORED)**.
 - Calcula tamaño de posición dinámicamente.

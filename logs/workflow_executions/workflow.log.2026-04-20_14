@@ -1,0 +1,117 @@
+2026-04-20 14:46:26,638 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_portfolio_001]
+2026-04-20 14:46:30,807 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_portfolio_001] (4.17s)
+2026-04-20 14:46:30,807 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "positions": [
+    {
+      "symbol": "BKR",
+      "qty": "136",
+      "side": "long",
+      "avg_entry_price": "61.658162",
+      "current_price": "58.8",
+      "unrealized_pl": "-388.710032",
+      "unrealized_plpc": "-0.04635"
+    },
+    {
+      "symbol": "BWXT",
+      "qty": "13",
+      "side": "long",
+      "avg_entry_price": "233.25",
+      "current_price": "228.5",
+      "unrealized_pl": "-61.75",
+      "unrealized_plpc": "-0.02036"
+    },
+    {
+      "symbol": "MA",
+2026-04-20 14:46:30,807 - workflow_logger - INFO - 🚀 STEP START: news_extraction [news_extraction_001]
+2026-04-20 14:46:30,807 - workflow_logger - DEBUG -    Input: {
+  "hours_back": 48,
+  "min_news_count": 10,
+  "max_age_hours": 24
+}
+2026-04-20 14:46:32,459 - workflow_logger - INFO - ✅ STEP COMPLETE: news_extraction [news_extraction_001] (1.65s)
+2026-04-20 14:46:32,459 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "news_items": [
+    {
+      "id": 7357,
+      "title": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? - AD HOC NEWS",
+      "summary": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "content": "AIXTRON SE stock (DE000A0WMPJ6): Is AI chip demand strong enough to drive sustained growth? &nbsp;&nbsp; AD HOC NEWS",
+      "url": "https://news.google.com/r
+2026-04-20 14:46:32,460 - workflow_logger - INFO - 🚀 STEP START: data_validation [load_watchlist_001]
+2026-04-20 14:46:35,234 - workflow_logger - INFO - ✅ STEP COMPLETE: data_validation [load_watchlist_001] (2.77s)
+2026-04-20 14:46:35,234 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "watchlist": {
+    "id": 2,
+    "name": "Energ\u00eda Nuclear",
+    "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+    "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+    "criteria_summary": "30 empresas del sector nuclear global",
+    "status": "active",
+    "created_at": "2026-04-10 02:34
+2026-04-20 14:57:32,346 - workflow_logger - INFO - 🚀 STEP START: aggregation [aggregation_001]
+2026-04-20 14:57:32,346 - workflow_logger - INFO - ✅ STEP COMPLETE: aggregation [aggregation_001] (0.00s)
+2026-04-20 14:57:32,347 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "bullish": [],
+  "bearish": [],
+  "cautious": [
+    {
+      "success": true,
+      "ticker": "LQD",
+      "is_actionable": true,
+      "data_integrity": {
+        "dna_valid": true,
+        "quant_valid": true,
+        "news_valid": true
+      },
+      "analysis_timestamp": "2026-04-20T14:46:52.573630",
+      "semantic_context": [
+        "LQD",
+        "Semantic Search via DNA"
+      ],
+      "related_news_count": 2,
+      "unique_entities_found": 2,
+      "top_risks": []
+2026-04-20 14:57:34,959 - workflow_logger - INFO - 🚀 STEP START: decision_engine [decision_engine_001]
+2026-04-20 14:57:34,965 - workflow_logger - INFO - ✅ STEP COMPLETE: decision_engine [decision_engine_001] (0.01s)
+2026-04-20 14:57:34,965 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "decisions": [
+    {
+      "decision": "FOLLOWED",
+      "action": "NONE",
+      "rationale": "SENTIMIENTO NEUTRAL - Sin sesgo claro en 2 noticias. T\u00e9cnicos inconcluyentes.",
+      "confidence_in_decision": 0.65,
+      "risk_level": "medium",
+      "technical_context": "RSI: 56.0, ATR: $0.66, Trend: BEARISH",
+      "sentiment_score": 0.0,
+      "ticker_analysis_id": null,
+      "ticker": "LQD",
+      "original_recommendation": "CAUTIOUS",
+      "analysis_timestamp": "
+2026-04-20 14:57:34,965 - workflow_logger - INFO - 🚀 STEP START: persistence [persistence_001]
+2026-04-20 14:58:11,418 - workflow_logger - INFO - ✅ STEP COMPLETE: persistence [persistence_001] (36.45s)
+2026-04-20 14:58:11,418 - workflow_logger - DEBUG -    Output: {
+  "success": true,
+  "desk_run_id": 61,
+  "ticker_analysis_ids": {
+    "LQD": 616,
+    "QCOM": 617,
+    "TSM": 618,
+    "BNDX": 619,
+    "BWXT": 620,
+    "WEC": 621,
+    "MA": 622,
+    "SNPS": 623,
+    "PEG": 624,
+    "BKR": 625,
+    "JNK": 626,
+    "BKLN": 627,
+    "PWR": 628
+  }
+}
+2026-04-20 14:58:11,422 - workflow_logger - INFO - 💾 Execution log saved: logs/workflow_executions/execution_20260420_144626.json
+2026-04-20 14:58:11,422 - workflow_logger - INFO - 📊 WORKFLOW COMPLETE: 6 steps completed, 0 failed

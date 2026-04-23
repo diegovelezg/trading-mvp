@@ -1,0 +1,1035 @@
+{
+  "execution_id": "20260423_133419",
+  "start_time": "2026-04-23T13:34:19.289459",
+  "end_time": "2026-04-23T13:36:00.741794",
+  "total_duration_seconds": 41.373653,
+  "total_steps": 6,
+  "completed_steps": 5,
+  "failed_steps": 1,
+  "steps": [
+    {
+      "step_id": "load_portfolio_001",
+      "step_type": "data_validation",
+      "status": "completed",
+      "start_time": "2026-04-23T13:34:19.289459",
+      "end_time": "2026-04-23T13:34:23.916167",
+      "duration_seconds": 4.626708,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "positions": [
+          {
+            "symbol": "BKR",
+            "qty": "136",
+            "side": "long",
+            "avg_entry_price": "61.658162",
+            "current_price": "65.07",
+            "unrealized_pl": "464.009968",
+            "unrealized_plpc": "0.05533"
+          },
+          {
+            "symbol": "MA",
+            "qty": "10",
+            "side": "long",
+            "avg_entry_price": "505.01",
+            "current_price": "503.51",
+            "unrealized_pl": "-15",
+            "unrealized_plpc": "-0.00297"
+          },
+          {
+            "symbol": "PWR",
+            "qty": "47",
+            "side": "long",
+            "avg_entry_price": "590.77",
+            "current_price": "636.51",
+            "unrealized_pl": "2149.78",
+            "unrealized_plpc": "0.07742"
+          },
+          {
+            "symbol": "TSM",
+            "qty": "90",
+            "side": "long",
+            "avg_entry_price": "369.55",
+            "current_price": "380.61",
+            "unrealized_pl": "995.4",
+            "unrealized_plpc": "0.02993"
+          },
+          {
+            "symbol": "WEC",
+            "qty": "104",
+            "side": "long",
+            "avg_entry_price": "115.01",
+            "current_price": "114.89",
+            "unrealized_pl": "-12.48",
+            "unrealized_plpc": "-0.00104"
+          }
+        ],
+        "orders": [],
+        "account": {
+          "buying_power": 116795.3,
+          "cash": 13395.38,
+          "portfolio_value": 103399.92,
+          "equity": 103399.92
+        },
+        "tickers": [
+          "PWR",
+          "BKR",
+          "TSM",
+          "WEC",
+          "MA"
+        ],
+        "live_tickers": [
+          "BKR",
+          "MA",
+          "PWR",
+          "TSM",
+          "WEC"
+        ],
+        "pending_tickers": [],
+        "executed_exits": []
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "news_extraction_001",
+      "step_type": "news_extraction",
+      "status": "failed",
+      "start_time": "2026-04-23T13:34:23.916449",
+      "end_time": "2026-04-23T13:34:25.642138",
+      "duration_seconds": 1.725689,
+      "input_data": {
+        "hours_back": 48,
+        "min_news_count": 10,
+        "max_age_hours": 24
+      },
+      "output_data": null,
+      "error_message": "Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.",
+      "error_traceback": "Traceback (most recent call last):\n  File \"/home/diegovelezg/GitHub/trading-mvp/trading_mvp/core/workflow_orchestrator.py\", line 308, in execute_step\n    raise ValueError(f\"Step returned success=False: {error_msg}\")\nValueError: Step returned success=False: News extraction failed: No news items returned from Supabase. Check database connection or data availability.\n",
+      "metadata": {
+        "input_data": {
+          "hours_back": 48,
+          "min_news_count": 10,
+          "max_age_hours": 24
+        }
+      }
+    },
+    {
+      "step_id": "load_watchlist_001",
+      "step_type": "data_validation",
+      "status": "completed",
+      "start_time": "2026-04-23T13:34:25.643799",
+      "end_time": "2026-04-23T13:34:28.210646",
+      "duration_seconds": 2.566847,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "watchlist": {
+          "id": 2,
+          "name": "Energ\u00eda Nuclear",
+          "description": "Cartera tem\u00e1tica del sector de energ\u00eda nuclear y uranio. Incluye miners, utilities, tecnolog\u00eda SMR y servicios de combustible nuclear.",
+          "criteria_prompt": "Todas las empresas p\u00fablicas de energ\u00eda nuclear y ciclo de combustible de uranio.",
+          "criteria_summary": "30 empresas del sector nuclear global",
+          "status": "active",
+          "created_at": "2026-04-10 02:34:33.842929+00:00",
+          "updated_at": "2026-04-10 02:34:33.842929+00:00"
+        },
+        "tickers": [
+          "JNK",
+          "BKLN",
+          "LQD",
+          "BNDX",
+          "TSM",
+          "SNPS",
+          "QCOM",
+          "PWR",
+          "BKR",
+          "PEG",
+          "WEC"
+        ],
+        "id": 2,
+        "name": "Energ\u00eda Nuclear"
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "aggregation_001",
+      "step_type": "aggregation",
+      "status": "completed",
+      "start_time": "2026-04-23T13:35:25.437989",
+      "end_time": "2026-04-23T13:35:25.438250",
+      "duration_seconds": 0.000261,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "bullish": [],
+        "bearish": [],
+        "cautious": [
+          {
+            "success": true,
+            "ticker": "PWR",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": false
+            },
+            "analysis_timestamp": "2026-04-23T13:34:32.532770",
+            "semantic_context": [
+              "PWR",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 0,
+            "unique_entities_found": 0,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 613.78,
+              "sma_50": 563.5,
+              "sma_200": 458.32,
+              "price_to_sma200_dist": 33.92,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 68.3,
+              "macd": {
+                "line": 14.382,
+                "signal": 11.396,
+                "histogram": 2.986
+              },
+              "rvol": 0.98,
+              "obv": 32799379.0,
+              "atr_14": 17.34,
+              "std_dev_20": 30.99,
+              "beta_spy": 1.19,
+              "corr_spy_20d": 0.69,
+              "volatility_ratio": 2.83
+            },
+            "avg_confidence": 0.5,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "BKR",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": false
+            },
+            "analysis_timestamp": "2026-04-23T13:34:37.206858",
+            "semantic_context": [
+              "BKR",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 0,
+            "unique_entities_found": 0,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 62.54,
+              "sma_50": 61.09,
+              "sma_200": 50.73,
+              "price_to_sma200_dist": 23.28,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 56.5,
+              "macd": {
+                "line": 0.136,
+                "signal": 0.288,
+                "histogram": -0.151
+              },
+              "rvol": 1.04,
+              "obv": 268593150.0,
+              "atr_14": 1.9,
+              "std_dev_20": 29.02,
+              "beta_spy": 0.5,
+              "corr_spy_20d": 0.15,
+              "volatility_ratio": 3.04
+            },
+            "avg_confidence": 0.5,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "BKLN",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": false
+            },
+            "analysis_timestamp": "2026-04-23T13:34:42.004175",
+            "semantic_context": [
+              "BKLN",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 0,
+            "unique_entities_found": 0,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 20.55,
+              "sma_50": 20.49,
+              "sma_200": 20.82,
+              "price_to_sma200_dist": -1.28,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 52.3,
+              "macd": {
+                "line": 0.021,
+                "signal": 0.012,
+                "histogram": 0.009
+              },
+              "rvol": 0.44,
+              "obv": 171714282.0,
+              "atr_14": 0.08,
+              "std_dev_20": 5.05,
+              "beta_spy": 0.22,
+              "corr_spy_20d": 0.76,
+              "volatility_ratio": 0.41
+            },
+            "avg_confidence": 0.5,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "LQD",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": false
+            },
+            "analysis_timestamp": "2026-04-23T13:34:46.525458",
+            "semantic_context": [
+              "LQD",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 0,
+            "unique_entities_found": 0,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 109.82,
+              "sma_50": 109.88,
+              "sma_200": 110.41,
+              "price_to_sma200_dist": -0.54,
+              "trend": "BEARISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 53.5,
+              "macd": {
+                "line": 0.114,
+                "signal": -0.012,
+                "histogram": 0.126
+              },
+              "rvol": 0.5,
+              "obv": 127644078.0,
+              "atr_14": 0.62,
+              "std_dev_20": 6.31,
+              "beta_spy": 0.2,
+              "corr_spy_20d": 0.64,
+              "volatility_ratio": 0.56
+            },
+            "avg_confidence": 0.5,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "TSM",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": false
+            },
+            "analysis_timestamp": "2026-04-23T13:34:51.051205",
+            "semantic_context": [
+              "TSM",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 0,
+            "unique_entities_found": 0,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 387.44,
+              "sma_50": 356.02,
+              "sma_200": 299.74,
+              "price_to_sma200_dist": 29.26,
+              "trend": "BULLISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 64.8,
+              "macd": {
+                "line": 8.328,
+                "signal": 5.755,
+                "histogram": 2.573
+              },
+              "rvol": 1.2,
+              "obv": 225869434.0,
+              "atr_14": 12.23,
+              "std_dev_20": 48.99,
+              "beta_spy": 2.03,
+              "corr_spy_20d": 0.77,
+              "volatility_ratio": 3.16
+            },
+            "avg_confidence": 0.5,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "BNDX",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": false
+            },
+            "analysis_timestamp": "2026-04-23T13:34:56.471986",
+            "semantic_context": [
+              "BNDX",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 0,
+            "unique_entities_found": 0,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 48.18,
+              "sma_50": 48.37,
+              "sma_200": 49.0,
+              "price_to_sma200_dist": -1.67,
+              "trend": "BEARISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 50.7,
+              "macd": {
+                "line": -0.016,
+                "signal": -0.057,
+                "histogram": 0.041
+              },
+              "rvol": 0.8,
+              "obv": 63954504.0,
+              "atr_14": 0.2,
+              "std_dev_20": 5.84,
+              "beta_spy": 0.17,
+              "corr_spy_20d": 0.76,
+              "volatility_ratio": 0.42
+            },
+            "avg_confidence": 0.5,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "SNPS",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": false
+            },
+            "analysis_timestamp": "2026-04-23T13:35:01.803074",
+            "semantic_context": [
+              "SNPS",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 0,
+            "unique_entities_found": 0,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 477.26,
+              "sma_50": 424.93,
+              "sma_200": 482.11,
+              "price_to_sma200_dist": -1.01,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 71.2,
+              "macd": {
+                "line": 11.174,
+                "signal": 2.021,
+                "histogram": 9.154
+              },
+              "rvol": 0.87,
+              "obv": 1716787.0,
+              "atr_14": 16.12,
+              "std_dev_20": 42.88,
+              "beta_spy": 1.84,
+              "corr_spy_20d": 0.62,
+              "volatility_ratio": 3.38
+            },
+            "avg_confidence": 0.5,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "JNK",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": false
+            },
+            "analysis_timestamp": "2026-04-23T13:35:06.293997",
+            "semantic_context": [
+              "JNK",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 0,
+            "unique_entities_found": 0,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 96.91,
+              "sma_50": 96.41,
+              "sma_200": 97.02,
+              "price_to_sma200_dist": -0.12,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 57.8,
+              "macd": {
+                "line": 0.24,
+                "signal": 0.115,
+                "histogram": 0.124
+              },
+              "rvol": 0.48,
+              "obv": -84948868.0,
+              "atr_14": 0.45,
+              "std_dev_20": 5.87,
+              "beta_spy": 0.28,
+              "corr_spy_20d": 0.86,
+              "volatility_ratio": 0.46
+            },
+            "avg_confidence": 0.5,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "PEG",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": false
+            },
+            "analysis_timestamp": "2026-04-23T13:35:11.266070",
+            "semantic_context": [
+              "PEG",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 0,
+            "unique_entities_found": 0,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 78.51,
+              "sma_50": 82.97,
+              "sma_200": 82.42,
+              "price_to_sma200_dist": -4.74,
+              "trend": "BEARISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 36.9,
+              "macd": {
+                "line": -0.694,
+                "signal": -0.398,
+                "histogram": -0.296
+              },
+              "rvol": 0.92,
+              "obv": 27077617.0,
+              "atr_14": 1.71,
+              "std_dev_20": 19.22,
+              "beta_spy": 0.21,
+              "corr_spy_20d": 0.16,
+              "volatility_ratio": 2.18
+            },
+            "avg_confidence": 0.5,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "WEC",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": false
+            },
+            "analysis_timestamp": "2026-04-23T13:35:15.999781",
+            "semantic_context": [
+              "WEC",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 0,
+            "unique_entities_found": 0,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 113.38,
+              "sma_50": 115.41,
+              "sma_200": 111.01,
+              "price_to_sma200_dist": 2.13,
+              "trend": "BULLISH",
+              "momentum": "NEGATIVE",
+              "rsi_14": 41.5,
+              "macd": {
+                "line": -0.093,
+                "signal": 0.331,
+                "histogram": -0.424
+              },
+              "rvol": 1.37,
+              "obv": 4817790.0,
+              "atr_14": 2.02,
+              "std_dev_20": 14.03,
+              "beta_spy": -0.05,
+              "corr_spy_20d": -0.1,
+              "volatility_ratio": 1.78
+            },
+            "avg_confidence": 0.5,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          },
+          {
+            "success": true,
+            "ticker": "QCOM",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": false
+            },
+            "analysis_timestamp": "2026-04-23T13:35:20.900887",
+            "semantic_context": [
+              "QCOM",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 0,
+            "unique_entities_found": 0,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 136.07,
+              "sma_50": 134.53,
+              "sma_200": 156.73,
+              "price_to_sma200_dist": -13.18,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 58.6,
+              "macd": {
+                "line": 0.522,
+                "signal": -0.915,
+                "histogram": 1.437
+              },
+              "rvol": 0.99,
+              "obv": 20563420.0,
+              "atr_14": 3.27,
+              "std_dev_20": 21.27,
+              "beta_spy": 1.07,
+              "corr_spy_20d": 0.66,
+              "volatility_ratio": 2.4
+            },
+            "avg_confidence": 0.5,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": false
+          },
+          {
+            "success": true,
+            "ticker": "MA",
+            "is_actionable": true,
+            "data_integrity": {
+              "dna_valid": true,
+              "quant_valid": true,
+              "news_valid": false
+            },
+            "analysis_timestamp": "2026-04-23T13:35:25.437273",
+            "semantic_context": [
+              "MA",
+              "Semantic Search via DNA"
+            ],
+            "related_news_count": 0,
+            "unique_entities_found": 0,
+            "top_risks": [],
+            "top_opportunities": [],
+            "quant_stats": {
+              "current_price": 510.16,
+              "sma_50": 509.77,
+              "sma_200": 550.06,
+              "price_to_sma200_dist": -7.25,
+              "trend": "BEARISH",
+              "momentum": "POSITIVE",
+              "rsi_14": 51.0,
+              "macd": {
+                "line": 2.024,
+                "signal": 0.192,
+                "histogram": 1.832
+              },
+              "rvol": 0.7,
+              "obv": 4251148.0,
+              "atr_14": 10.52,
+              "std_dev_20": 21.81,
+              "beta_spy": 0.66,
+              "corr_spy_20d": 0.58,
+              "volatility_ratio": 2.06
+            },
+            "avg_confidence": 0.5,
+            "sentiment_score": 0.0,
+            "negative_ratio": 0.0,
+            "positive_ratio": 0.0,
+            "recommendation": "CAUTIOUS",
+            "rationale": "Ruido de mercado sin choque fundamental significativo (+0.00).",
+            "bull_case": {
+              "arguments": []
+            },
+            "bear_case": {
+              "arguments": []
+            },
+            "is_in_portfolio": true
+          }
+        ],
+        "neutral": [],
+        "avg_confidence": 0.5,
+        "avg_negative_ratio": 0.0,
+        "avg_positive_ratio": 0.0,
+        "total_news_analyzed": 0,
+        "total_insights_found": 0,
+        "overall_sentiment": "NEUTRAL"
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "decision_engine_001",
+      "step_type": "decision_engine",
+      "status": "completed",
+      "start_time": "2026-04-23T13:35:28.287339",
+      "end_time": "2026-04-23T13:35:28.295988",
+      "duration_seconds": 0.008649,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "decisions": [
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 68.3, Tendencia BULLISH). Informaci\u00f3n insuficiente para actuar.",
+            "confidence_in_decision": 0.73,
+            "risk_level": "medium",
+            "technical_context": "RSI: 68.3, ATR: $17.34, Trend: BULLISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "PWR",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T13:34:32.532770",
+            "decision_timestamp": "2026-04-23T13:35:28.289175"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "Posici\u00f3n existente en rango alcista. Manteniendo (sin escalamiento por pol\u00edtica actual).",
+            "confidence_in_decision": 0.8,
+            "risk_level": "low",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "BKR",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T13:34:37.206858",
+            "decision_timestamp": "2026-04-23T13:35:28.289752"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 52.3, Tendencia BEARISH). Informaci\u00f3n insuficiente para actuar.",
+            "confidence_in_decision": 0.58,
+            "risk_level": "medium",
+            "technical_context": "RSI: 52.3, ATR: $0.08, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "BKLN",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T13:34:42.004175",
+            "decision_timestamp": "2026-04-23T13:35:28.290452"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 53.5, Tendencia BEARISH). Informaci\u00f3n insuficiente para actuar.",
+            "confidence_in_decision": 0.6,
+            "risk_level": "medium",
+            "technical_context": "RSI: 53.5, ATR: $0.62, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "LQD",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T13:34:46.525458",
+            "decision_timestamp": "2026-04-23T13:35:28.291166"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 64.8, Tendencia BULLISH). Informaci\u00f3n insuficiente para actuar.",
+            "confidence_in_decision": 0.66,
+            "risk_level": "medium",
+            "technical_context": "RSI: 64.8, ATR: $12.23, Trend: BULLISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "TSM",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T13:34:51.051205",
+            "decision_timestamp": "2026-04-23T13:35:28.291851"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 50.7, Tendencia BEARISH). Informaci\u00f3n insuficiente para actuar.",
+            "confidence_in_decision": 0.58,
+            "risk_level": "medium",
+            "technical_context": "RSI: 50.7, ATR: $0.20, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "BNDX",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T13:34:56.471986",
+            "decision_timestamp": "2026-04-23T13:35:28.292515"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 71.2, Tendencia BEARISH). Informaci\u00f3n insuficiente para actuar.",
+            "confidence_in_decision": 0.55,
+            "risk_level": "medium",
+            "technical_context": "RSI: 71.2, ATR: $16.12, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "SNPS",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T13:35:01.803074",
+            "decision_timestamp": "2026-04-23T13:35:28.293227"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 57.8, Tendencia BEARISH). Informaci\u00f3n insuficiente para actuar.",
+            "confidence_in_decision": 0.58,
+            "risk_level": "medium",
+            "technical_context": "RSI: 57.8, ATR: $0.45, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "JNK",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T13:35:06.293997",
+            "decision_timestamp": "2026-04-23T13:35:28.293974"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 36.9, Tendencia BEARISH). Informaci\u00f3n insuficiente para actuar.",
+            "confidence_in_decision": 0.54,
+            "risk_level": "medium",
+            "technical_context": "RSI: 36.9, ATR: $1.71, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "PEG",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T13:35:11.266070",
+            "decision_timestamp": "2026-04-23T13:35:28.294369"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "Posici\u00f3n existente en rango alcista. Manteniendo (sin escalamiento por pol\u00edtica actual).",
+            "confidence_in_decision": 0.82,
+            "risk_level": "low",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "WEC",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T13:35:15.999781",
+            "decision_timestamp": "2026-04-23T13:35:28.294788"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "NONE",
+            "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 58.6, Tendencia BEARISH). Informaci\u00f3n insuficiente para actuar.",
+            "confidence_in_decision": 0.65,
+            "risk_level": "medium",
+            "technical_context": "RSI: 58.6, ATR: $3.27, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "QCOM",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T13:35:20.900887",
+            "decision_timestamp": "2026-04-23T13:35:28.295183"
+          },
+          {
+            "decision": "FOLLOWED",
+            "action": "HELD",
+            "rationale": "SIN DATOS DE NOTICIAS - T\u00e9cnicos mixtos (RSI 51.0, Tendencia BEARISH). Informaci\u00f3n insuficiente para actuar.",
+            "confidence_in_decision": 0.68,
+            "risk_level": "medium",
+            "technical_context": "RSI: 51.0, ATR: $10.52, Trend: BEARISH",
+            "sentiment_score": 0.0,
+            "ticker_analysis_id": null,
+            "ticker": "MA",
+            "original_recommendation": "CAUTIOUS",
+            "analysis_timestamp": "2026-04-23T13:35:25.437273",
+            "decision_timestamp": "2026-04-23T13:35:28.295676"
+          }
+        ],
+        "autopilot_mode": true
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    },
+    {
+      "step_id": "persistence_001",
+      "step_type": "persistence",
+      "status": "completed",
+      "start_time": "2026-04-23T13:35:28.296295",
+      "end_time": "2026-04-23T13:36:00.741794",
+      "duration_seconds": 32.445499,
+      "input_data": null,
+      "output_data": {
+        "success": true,
+        "desk_run_id": 65,
+        "ticker_analysis_ids": {
+          "PWR": 667,
+          "BKR": 668,
+          "BKLN": 669,
+          "LQD": 670,
+          "TSM": 671,
+          "BNDX": 672,
+          "SNPS": 673,
+          "JNK": 674,
+          "PEG": 675,
+          "WEC": 676,
+          "QCOM": 677,
+          "MA": 678
+        }
+      },
+      "error_message": null,
+      "error_traceback": null,
+      "metadata": {}
+    }
+  ]
+}

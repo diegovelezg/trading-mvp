@@ -130,7 +130,11 @@ El sistema ya no es solo intuitivo; integra un motor estadístico que domina el 
 *   **Control Determinista del PnL**: Cálculo preciso de rentabilidades considerando el precio promedio real de entrada (`avg_entry_price`) para activos vivos que hayan promediado ("scale-in").
 *   **Stop Loss (1.5x) y Take Profit (3x)**: El sistema evalúa estos umbrales como **PASO 0 absoluto**. Si se tocan, el sistema detiene el análisis cualitativo y ejecuta mecánicamente el cierre de posición. Cero fallbacks, cero negociación.
 
-### 4. Sensibilidad y Correlación (Beta/Corr)
+### 4. Gestión Activa de Posiciones (Trimming & Pyramiding)
+*   **Pyramiding (Escalar en Ganadores)**: Si una posición existente tiene ganancias (`PnL > 0`), la señal NLP es de alta convicción (`>= 0.85`) y el activo no está sobrecomprado (`RSI < 65`), el sistema ejecuta un `SCALE_IN` para maximizar el Alpha.
+*   **Trimming (Recortes Defensivos)**: Si una posición acumula más de un 5% de ganancia pero muestra agotamiento técnico (`RSI > 75` o MACD negativo), el sistema ejecuta un recorte del 25% (`TRIM`) para asegurar caja y deja correr el resto.
+
+### 5. Sensibilidad y Correlación (Beta/Corr)
 *   **Market-Neutral Bias**: El sistema mide la correlación rodante de 20 días con el SPY. Se priorizan activos con "vida propia" o baja correlación para generar Alpha real.
 
 

@@ -59,44 +59,94 @@ export const GET = withErrorHandler(async () => {
   const sharpe = stdDev !== 0 ? (avgReturn / stdDev) * Math.sqrt(252) : 0;
 
   // 4. Intelligence Metadata (From Supabase)
-  const [newsRes, runsRes] = await Promise.all([
+  const [newsRes, runsRes, decisionsRes] = await Promise.all([
     supabase.from('news').select('*', { count: 'exact', head: true }),
-    supabase.from('investment_desk_runs').select('*', { count: 'exact', head: true })
+    supabase.from('investment_desk_runs').select('*', { count: 'exact', head: true }),
+    supabase.from('investment_decisions').select('*', { count: 'exact', head: true })
   ]);
 
-  // 5. Fetch ALL decisions from Supabase to compute Win Rate, Profit Factor, and Totals
-  const { data: allDecisions } = await supabase
-    .from('investment_decisions')
-    .select('*');
+  // 5. Fetch closed orders from Alpaca (SSOT) to compute Win Rate and Profit Factor
+  const ordersRes = await fetch(`${BASE_URL}/v2/orders?status=closed&limit=500`, { headers });
+  const orders = await ordersRes.json();
 
   let profitFactor = 0;
   let winRate = 0;
-  let totalDecisions = 0;
 
-  if (allDecisions && allDecisions.length > 0) {
-    totalDecisions = allDecisions.length;
-    
-    // Closed decisions are transactions that have a profit_loss
-    const closedDecisions = allDecisions.filter(d => d.status === 'CLOSED');
-    
-    if (closedDecisions.length > 0) {
-      let grossProfit = 0;
-      let grossLoss = 0;
-      let wins = 0;
+  if (Array.isArray(orders) && orders.length > 0) {
+    // Group orders by symbol and pair buy/sell (FIFO)
+    const tradesBySymbol: { [key: string]: Array<{ side: string; qty: number; price: number; timestamp: number }> } = {};
 
-      closedDecisions.forEach(d => {
-        const pl = parseFloat(d.profit_loss) || 0;
-        if (pl > 0) {
-          grossProfit += pl;
-          wins += 1;
+    orders.forEach((order: any) => {
+      const qty = parseFloat(order.filled_qty) || parseFloat(order.qty);
+      const price = parseFloat(order.filled_avg_price) || parseFloat(order.limit_price);
+
+      // Skip orders with no quantity or no price (not filled)
+      if ((order.side === 'buy' || order.side === 'sell') && qty > 0 && price > 0) {
+        const symbol = order.symbol;
+        if (!tradesBySymbol[symbol]) {
+          tradesBySymbol[symbol] = [];
         }
-        if (pl < 0) {
-          grossLoss += Math.abs(pl);
+        tradesBySymbol[symbol].push({
+          side: order.side,
+          qty: qty,
+          price: price,
+          timestamp: new Date(order.created_at).getTime()
+        });
+      }
+    });
+
+    // Pair buys with sells (FIFO) and calculate P&L
+    let grossProfit = 0;
+    let grossLoss = 0;
+    let wins = 0;
+    let totalCompletedTrades = 0;
+
+    Object.values(tradesBySymbol).forEach((symbolOrders) => {
+      // Sort by timestamp
+      symbolOrders.sort((a, b) => a.timestamp - b.timestamp);
+
+      const buyQueue: Array<{ qty: number; price: number }> = [];
+
+      symbolOrders.forEach((order) => {
+        if (order.side === 'buy') {
+          buyQueue.push({ qty: order.qty, price: order.price });
+        } else if (order.side === 'sell') {
+          let remainingQty = order.qty;
+
+          // Match with FIFO buys
+          while (remainingQty > 0 && buyQueue.length > 0) {
+            const buy = buyQueue[0]!;
+            const matchedQty = Math.min(remainingQty, buy.qty);
+
+            // Calculate P&L for this matched pair
+            const profitLoss = (order.price - buy.price) * matchedQty;
+
+            if (profitLoss > 0) {
+              grossProfit += profitLoss;
+              wins += 1;
+            } else if (profitLoss < 0) {
+              grossLoss += Math.abs(profitLoss);
+            }
+
+            totalCompletedTrades++;
+
+            // Update quantities
+            remainingQty -= matchedQty;
+            buy.qty -= matchedQty;
+
+            // Remove fully matched buy from queue
+            if (buy.qty <= 0) {
+              buyQueue.shift();
+            }
+          }
         }
       });
-      
-      profitFactor = grossLoss === 0 ? (grossProfit > 0 ? 999 : 0) : (grossProfit / grossLoss);
-      winRate = (wins / closedDecisions.length) * 100;
+    });
+
+    // Calculate final metrics
+    if (totalCompletedTrades > 0) {
+      profitFactor = grossLoss === 0 ? (grossProfit > 0 ? 999 : 0) : grossProfit / grossLoss;
+      winRate = (wins / totalCompletedTrades) * 100;
     }
   }
 
@@ -122,7 +172,7 @@ export const GET = withErrorHandler(async () => {
     winRate: round(winRate, 1),
     newsProcessed: newsRes.count || 0,
     deskRuns: runsRes.count || 0,
-    totalDecisions: totalDecisions,
+    totalDecisions: decisionsRes.count || 0,
     equityHistory: equityHistory
   });
 });

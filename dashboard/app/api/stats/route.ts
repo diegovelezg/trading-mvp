@@ -69,6 +69,37 @@ export const GET = withErrorHandler(async () => {
   const ordersRes = await fetch(`${BASE_URL}/v2/orders?status=closed&limit=500`, { headers });
   const orders = await ordersRes.json();
 
+  console.log('📊 ORDENES ALPACA RECIBIDAS:', Array.isArray(orders) ? orders.length : 'ERROR', 'órdenes');
+
+  // Contar TODAS las órdenes individuales (buy + sell)
+  let totalOperations = 0;
+
+  if (Array.isArray(orders) && orders.length > 0) {
+    orders.forEach((order: any) => {
+      const qty = parseFloat(order.filled_qty) || parseFloat(order.qty);
+      const price = parseFloat(order.filled_avg_price) || parseFloat(order.limit_price);
+
+      // Contar cada orden ejecutada
+      if ((order.side === 'buy' || order.side === 'sell') && qty > 0 && price > 0) {
+        totalOperations++;
+      } else {
+        console.log('❌ ORDEN FILTRADA:', {
+          symbol: order.symbol,
+          side: order.side,
+          qty: order.qty,
+          filled_qty: order.filled_qty,
+          price: order.limit_price,
+          filled_price: order.filled_avg_price,
+          qty_parsed: qty,
+          price_parsed: price,
+          status: order.status
+        });
+      }
+    });
+
+    console.log('📊 TOTAL OPERACIONES INDIVIDUALES:', totalOperations, 'de', orders.length, 'órdenes');
+  }
+
   let profitFactor = 0;
   let winRate = 0;
   let totalCompletedTrades = 0;
@@ -95,6 +126,8 @@ export const GET = withErrorHandler(async () => {
         });
       }
     });
+
+    console.log('📊 TRADES POR SYMBOL:', Object.keys(tradesBySymbol).length, 'símbolos');
 
     // Pair buys with sells (FIFO) and calculate P&L
     let grossProfit = 0;
@@ -148,6 +181,8 @@ export const GET = withErrorHandler(async () => {
       profitFactor = grossLoss === 0 ? (grossProfit > 0 ? 999 : 0) : grossProfit / grossLoss;
       winRate = (wins / totalCompletedTrades) * 100;
     }
+
+    console.log('📊 MÉTRICAS CALCULADAS:', { totalCompletedTrades, profitFactor, winRate, grossProfit, grossLoss, wins });
   }
 
   // Format history for charting
@@ -173,7 +208,7 @@ export const GET = withErrorHandler(async () => {
     newsProcessed: newsRes.count || 0,
     deskRuns: runsRes.count || 0,
     totalDecisions: decisionsRes.count || 0,
-    totalOperations: totalCompletedTrades || 0,
+    totalOperations: totalOperations || 0,
     equityHistory: equityHistory
   });
 });

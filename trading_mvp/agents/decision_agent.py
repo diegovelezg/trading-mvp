@@ -556,10 +556,12 @@ class DecisionAgent:
 
         if strong_signal and not technical_rejection:
             # Calculate position size
+            current_price = quant_stats.get('current_price', 0.0)
             position_size, entry_price = self._calculate_position_size(
                 ticker=ticker,
                 confidence=confidence,
-                portfolio_context=portfolio_context
+                portfolio_context=portfolio_context,
+                current_price=current_price
             )
             
             # Apply Sizing
@@ -834,6 +836,8 @@ class DecisionAgent:
             logger.error(f"   ❌ Sell execution failed: {e}")
             decision['execution_status'] = 'FAILED'
             decision['execution_error'] = str(e)
+            decision['action'] = 'HELD'
+            decision['decision'] = 'FOLLOWED'
 
         return decision
 
@@ -918,7 +922,8 @@ class DecisionAgent:
         self,
         ticker: str,
         confidence: float,
-        portfolio_context: Dict
+        portfolio_context: Dict,
+        current_price: float = 0.0
     ) -> Tuple[float, float]:
         """Calculate position size using Risk Management guardrails.
 
@@ -940,11 +945,10 @@ class DecisionAgent:
             self.config.max_position_size
         )
 
-        # 2. Estimate entry price (Fallback for energy stocks MVP)
-        estimated_prices = {
-            'COP': 98.0, 'USO': 75.0, 'XLE': 85.0, 'XOP': 110.0, 'BNO': 25.0, 'CVE': 18.0, 'NXE': 24.5
-        }
-        entry_price = estimated_prices.get(ticker, 50.0)
+        # 2. Validate real market price (NO FALLBACKS)
+        if current_price <= 0.0:
+            raise ValueError(f"Fallo Crítico: Precio de entrada inválido o cero para {ticker}. No se puede calcular tamaño de posición sin datos de mercado.")
+        entry_price = current_price
 
         # 3. Apply HUMAN-DEFINED GUARDRAILS from portfolio_logic
         is_valid, allowed_size, reason = validate_trade_size(ticker, proposed_size)
@@ -1049,6 +1053,8 @@ class DecisionAgent:
                 logger.warning(f"   ⚠️  Position size too small for 1 share ({position_size:.2f} / {entry_price:.2f} = {shares:.2f} shares)")
                 decision['execution_status'] = 'FAILED'
                 decision['execution_error'] = 'Position size too small'
+                decision['action'] = 'NONE'
+                decision['decision'] = 'IGNORED'
                 return decision
 
             logger.info(f"   📊 Submitting order: {shares} shares of {ticker} @ market")
@@ -1080,6 +1086,8 @@ class DecisionAgent:
             logger.error(f"   ❌ Order execution failed: {e}")
             decision['execution_status'] = 'FAILED'
             decision['execution_error'] = str(e)
+            decision['action'] = 'NONE'
+            decision['decision'] = 'IGNORED'
 
         return decision
 

@@ -76,30 +76,36 @@ export default function Dashboard() {
       </div>
 
       {/* PORTFOLIO HEALTH */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KPICard 
-          title="Equity Total" 
-          value={`$${portfolio?.equity?.toLocaleString(undefined, {maximumFractionDigits: 1}) || 0}`} 
-          icon={<Wallet className="text-blue-500" />} 
-          label={`${stats?.returnPct >= 0 ? '+' : ''}${stats?.returnPct || 0}% ($${stats?.totalPL || 0})`} 
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <KPICard
+          title="Equity Total"
+          value={`$${portfolio?.equity?.toLocaleString(undefined, {maximumFractionDigits: 1}) || 0}`}
+          icon={<Wallet className="text-blue-500" />}
+          label={`${stats?.returnPct >= 0 ? '+' : ''}${stats?.returnPct || 0}% ($${stats?.totalPL || 0})`}
         />
-        <KPICard 
-          title="Profit Factor" 
-          value={`${stats?.profitFactor || 0}`} 
-          icon={<Zap className={stats?.profitFactor > 1.5 ? "text-green-500" : "text-yellow-500"} />} 
+        <KPICard
+          title="Profit Factor"
+          value={`${stats?.profitFactor || 0}`}
+          icon={<Zap className={stats?.profitFactor > 1.5 ? "text-green-500" : "text-yellow-500"} />}
           label={`Max Drawdown: -${stats?.maxDrawdown || 0}%`}
         />
-        <KPICard 
-          title="Éxito del Bot" 
-          value={`${stats?.winRate || 0}%`} 
-          icon={<TrendingUp className="text-green-500" />} 
-          label={`Sharpe Ratio: ${stats?.sharpeRatio || 0}`} 
+        <KPICard
+          title="Éxito del Bot"
+          value={`${stats?.winRate || 0}%`}
+          icon={<TrendingUp className="text-green-500" />}
+          label={`Sharpe Ratio: ${stats?.sharpeRatio || 0}`}
         />
-        <KPICard 
-          title="Decisiones Totales" 
-          value={stats?.totalDecisions || 0} 
-          icon={<BrainCircuit className="text-purple-500" />} 
+        <KPICard
+          title="Decisiones Totales"
+          value={stats?.totalDecisions || 0}
+          icon={<BrainCircuit className="text-purple-500" />}
           label={`News Processed: ${stats?.newsProcessed || 0}`}
+        />
+        <KPICard
+          title="Operaciones Totales"
+          value={stats?.totalOperations || 0}
+          icon={<Target className="text-orange-500" />}
+          label="Compras + Ventas históricas"
         />
       </div>
 

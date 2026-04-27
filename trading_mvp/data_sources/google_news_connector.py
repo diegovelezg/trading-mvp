@@ -43,9 +43,9 @@ class GoogleNewsConnector(BaseDataConnector):
         """
         try:
             # Google News RSS URL con filtros de fecha y ordenamiento
-            # when=3d: últimas 72 horas, sort=date: más recientes primero
-            encoded_topic = quote(topic)
-            rss_url = f"https://news.google.com/rss/search?q={encoded_topic}&hl=en-US&gl=US&ceid=US:en&when=3d&sort=date"
+            # when:3d: últimas 72 horas dentro del query 'q'
+            encoded_topic = quote(f"{topic} when:3d")
+            rss_url = f"https://news.google.com/rss/search?q={encoded_topic}&hl=en-US&gl=US&ceid=US:en"
 
             logger.info(f"📰 Fetching Google News RSS for topic: {topic}...")
 

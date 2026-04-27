@@ -71,6 +71,7 @@ export const GET = withErrorHandler(async () => {
 
   let profitFactor = 0;
   let winRate = 0;
+  let totalCompletedTrades = 0;
 
   if (Array.isArray(orders) && orders.length > 0) {
     // Group orders by symbol and pair buy/sell (FIFO)
@@ -99,7 +100,6 @@ export const GET = withErrorHandler(async () => {
     let grossProfit = 0;
     let grossLoss = 0;
     let wins = 0;
-    let totalCompletedTrades = 0;
 
     Object.values(tradesBySymbol).forEach((symbolOrders) => {
       // Sort by timestamp
@@ -173,6 +173,7 @@ export const GET = withErrorHandler(async () => {
     newsProcessed: newsRes.count || 0,
     deskRuns: runsRes.count || 0,
     totalDecisions: decisionsRes.count || 0,
+    totalOperations: totalCompletedTrades || 0,
     equityHistory: equityHistory
   });
 });
